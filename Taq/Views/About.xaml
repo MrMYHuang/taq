@@ -1,0 +1,57 @@
+﻿<Page
+    x:Class="Taq.Views.About"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Taq.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    NavigationCacheMode="Enabled">
+
+    <Page.Resources>
+        <Style x:Key="txtBlkSty1" TargetType="TextBlock">
+            <Setter Property="IsTextSelectionEnabled" Value="True" />
+            <Setter Property="FontSize" Value="16" />
+            <Setter Property="TextWrapping" Value="WrapWholeWords" />            
+        </Style>
+    </Page.Resources>
+
+    <Hub Header="關於" Orientation="Vertical" HorizontalAlignment="Left" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Width="Auto" >
+        <HubSection Header="App資訊" ScrollViewer.VerticalScrollBarVisibility="Auto" Width="Auto">
+            <DataTemplate>
+                <TextBlock Style="{StaticResource txtBlkSty1}" >
+                名稱：Taiwan Air Quality (TAQ)<LineBreak/>
+                版本：<Run Text="{Binding version}" /><LineBreak/>
+                簡介：此app用來查詢、訂閱由<Hyperlink NavigateUri="http://opendata.epa.gov.tw/Data/Details/AQX/">台灣環保署</Hyperlink>所提供之觀測站所測得的每小時之即時PM 2.5濃度。未來會考慮支援其它空汙資訊。<LineBreak/>
+                </TextBlock>
+            </DataTemplate>
+        </HubSection>
+        <HubSection Header="主要特色" ScrollViewer.VerticalScrollBarVisibility="Auto" Width="Auto">
+            <DataTemplate>
+                <TextBlock Style="{StaticResource txtBlkSty1}">                   
+1. 支援動態磚(Live Tile)。可從app中的列表點選、訂閱觀測站，即會在動態磚顯示其PM 2.5值。<LineBreak/>
+2. 支援通知(Notification)。當PM 2.5濃度超過35且數值有更新，就會發出通知。<LineBreak/>
+3. 支援背景更新。即app關閉後，動態磚與通知仍會正常運作。<LineBreak/>
+                </TextBlock>
+            </DataTemplate>
+        </HubSection>
+        <HubSection Header="注意事項" ScrollViewer.VerticalScrollBarVisibility="Auto" Width="Auto">
+            <DataTemplate>
+                <TextBlock Style="{StaticResource txtBlkSty1}">
+1. 此免費app目前介面簡陋，只提供基本重要功能。待作者有空閒時間會作改善，請多包涵。<LineBreak/>
+2. 請在有穩定網路的電腦使用此app，如個人電腦。此app尚未對網路穩定度進行完整測試。<LineBreak/>
+3. PM 2.5的資料來源為環保署。<LineBreak/>
+4. 動態磚每15分鐘試圖更新一次。若懷疑數據不即時，請先至<Hyperlink NavigateUri="http://opendata.epa.gov.tw/Data/Details/AQX/">環保署網頁</Hyperlink>確認。<LineBreak/>
+                </TextBlock>
+            </DataTemplate>
+        </HubSection>
+        <HubSection Header="問題回報" ScrollViewer.VerticalScrollBarVisibility="Auto" Width="Auto">
+            <DataTemplate>
+                <TextBlock Style="{StaticResource txtBlkSty1}">
+            作者信箱：<Hyperlink NavigateUri="{Binding mailUri}">myhDev@live.com</Hyperlink><LineBreak/>
+            作者：Meng-Yuan Huang
+                </TextBlock>
+            </DataTemplate>
+        </HubSection>
+    </Hub>
+</Page>
