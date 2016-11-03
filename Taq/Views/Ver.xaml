@@ -24,7 +24,7 @@
                 </TextBlock>
             </DataTemplate>
         </HubSection>
-        <HubSection Header="Ver. 1.1.19" ScrollViewer.VerticalScrollBarVisibility="Auto" Width="Auto">
+        <HubSection Header="Ver. 1.1.18" ScrollViewer.VerticalScrollBarVisibility="Auto" Width="Auto">
             <DataTemplate>
                 <TextBlock Style="{StaticResource txtBlkSty1}" >
                     1. 新增首頁定時刷新。<LineBreak />
@@ -34,7 +34,7 @@
                 </TextBlock>
             </DataTemplate>
         </HubSection>
-        <HubSection Header="Ver. 1.1.18" ScrollViewer.VerticalScrollBarVisibility="Auto" Width="Auto">
+        <HubSection Header="Ver. 1.1.17" ScrollViewer.VerticalScrollBarVisibility="Auto" Width="Auto">
             <DataTemplate>
                 <TextBlock Style="{StaticResource txtBlkSty1}" >
                     公開下載初版。<LineBreak />
