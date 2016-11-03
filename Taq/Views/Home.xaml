@@ -31,10 +31,9 @@
                 ItemTemplate="{StaticResource SiteListDataTemplate}"
                 IsItemClickEnabled="True"
                 ItemClick="listView_ItemClick"
-                Margin="10,57,10,43">
-        </ListView>
-        <Button x:Name="button"  FontFamily="Segoe MDL2 Assets" Content="&#xE895;"  HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Click="button_Click" Height="32"/>
-        <TextBlock x:Name="statusTextBlock" HorizontalAlignment="Left" Margin="111,12,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Height="32" FontSize="20"/>
-        <TextBlock x:Name="textBlock" HorizontalAlignment="Left" Margin="51,12,0,0" TextWrapping="Wrap" Text="狀態：" VerticalAlignment="Top" FontSize="20"/>
+                Margin="10,10,10,50"/>
+        <Button x:Name="button"  FontFamily="Segoe MDL2 Assets" Content="&#xE895;"  HorizontalAlignment="Left" Margin="16,0,0,7" VerticalAlignment="Bottom" Click="button_Click" Height="32" ToolTipService.ToolTip="更新"/>
+        <TextBlock x:Name="textBlock" HorizontalAlignment="Left" Margin="57,0,0,10" TextWrapping="Wrap" Text="狀態：" FontSize="20" Height="27" VerticalAlignment="Bottom"/>
+        <TextBlock x:Name="statusTextBlock" HorizontalAlignment="Left" Margin="117,0,0,5" TextWrapping="Wrap" Text="訊息" FontSize="20" Height="32" VerticalAlignment="Bottom"/>
     </Grid>
 </Page>

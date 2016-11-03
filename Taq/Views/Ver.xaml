@@ -1,0 +1,45 @@
+﻿<Page
+    x:Class="Taq.Views.Ver"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Taq.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    NavigationCacheMode="Enabled">
+
+    <Page.Resources>
+        <Style x:Key="txtBlkSty1" TargetType="TextBlock">
+            <Setter Property="IsTextSelectionEnabled" Value="True" />
+            <Setter Property="FontSize" Value="16" />
+            <Setter Property="TextWrapping" Value="WrapWholeWords" />
+        </Style>
+    </Page.Resources>
+
+    <Hub Header="版本歷史" Orientation="Vertical" HorizontalAlignment="Left" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Width="Auto" >
+        <HubSection Header="已知問題" ScrollViewer.VerticalScrollBarVisibility="Auto" Width="Auto">
+            <DataTemplate>
+                <TextBlock Style="{StaticResource txtBlkSty1}" >
+                    無。<LineBreak />
+                </TextBlock>
+            </DataTemplate>
+        </HubSection>
+        <HubSection Header="Ver. 1.1.19" ScrollViewer.VerticalScrollBarVisibility="Auto" Width="Auto">
+            <DataTemplate>
+                <TextBlock Style="{StaticResource txtBlkSty1}" >
+                    1. 新增首頁定時刷新。<LineBreak />
+                    2. 左側頁面切換項目改為對齊頁面底部。<LineBreak />
+                    3. 新增"版本歷史"頁面。<LineBreak />
+                    4. 實作例外處理，避免閃退(crash)。<LineBreak />
+                </TextBlock>
+            </DataTemplate>
+        </HubSection>
+        <HubSection Header="Ver. 1.1.18" ScrollViewer.VerticalScrollBarVisibility="Auto" Width="Auto">
+            <DataTemplate>
+                <TextBlock Style="{StaticResource txtBlkSty1}" >
+                    公開下載初版。<LineBreak />
+                </TextBlock>
+            </DataTemplate>
+        </HubSection>
+    </Hub>
+</Page>

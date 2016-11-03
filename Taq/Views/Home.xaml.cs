@@ -22,6 +22,8 @@ using Windows.Storage;
 using System.Collections.ObjectModel;
 using Windows.ApplicationModel.Background;
 using System.Threading.Tasks;
+using Windows.System.Threading;
+using Windows.UI.Core;
 
 namespace Taq.Views
 {
@@ -30,16 +32,57 @@ namespace Taq.Views
     /// </summary>
     public sealed partial class Home : Page
     {
-        public string [] aqHeaders { get { return new[] { "siteName", "Pm2_5" }; } }
+        public string[] aqHeaders { get { return new[] { "siteName", "Pm2_5" }; } }
         private Shared shared = new Shared();
         public ObservableCollection<Site> sites = new ObservableCollection<Site>();
         private IEnumerable<XElement> currData;
+        // For updating UI after TaqBackTask downloads a new XML.
+        ThreadPoolTimer periodicTimer;
 
         public Home()
         {
             this.InitializeComponent();
-            checkAndDownloadDataXml();
+            initAqData();
+            initPeriodicTimer();
             this.DataContext = this;
+        }
+
+        public async void initAqData()
+        {
+            try
+            {
+                await shared.downloadDataXml();
+                await updateListView();
+                shared.updateLiveTile();
+            }
+            catch (Exception ex)
+            {
+                statusTextBlock.Text = "錯誤!初始化失敗。請嘗試手動更新。";
+            }
+        }
+
+        private void initPeriodicTimer()
+        {
+            periodicTimer = ThreadPoolTimer.CreatePeriodicTimer((source) =>
+            {
+                // TODO: Work
+
+                // Update the UI thread by using the UI core dispatcher.
+                Dispatcher.RunAsync(CoreDispatcherPriority.High,
+                    () =>
+                    {
+                        updateListView();
+                    }
+                );
+
+            }, TimeSpan.FromMinutes(1));
+        }
+        public async Task<int> updateListView()
+        {
+            await reloadDataX();
+            await shared.loadCurrSite();
+            changeSelSiteListItem();
+            return 0;
         }
 
         public async Task<int> refreshSites()
@@ -49,9 +92,7 @@ namespace Taq.Views
                 statusTextBlock.Text = "Download start.";
                 await shared.downloadDataXml();
                 statusTextBlock.Text = "Download finish.";
-                reloadDataX();
-                await shared.loadCurrSite();
-                changeSelSiteListItem();
+                await updateListView();
                 shared.updateLiveTile();
                 shared.sendNotify();
             }
@@ -81,17 +122,9 @@ namespace Taq.Views
             shared.updateLiveTile();
         }
 
-        public async void checkAndDownloadDataXml()
+        public async Task<int> reloadDataX()
         {
-            await shared.downloadDataXml();
-            reloadDataX();
-            await shared.loadCurrSite();
-            changeSelSiteListItem();
-            shared.updateLiveTile();
-        }
-
-        public int reloadDataX()
-        {
+            await shared.reloadXd();
             var dataX = from data in shared.xd.Descendants("Data")
                         select data;
 
@@ -142,6 +175,8 @@ namespace Taq.Views
             this.RegisterBackgroundTask();
         }
 
+        private const string taskName = "TaqBackTask";
+        private const string taskEntryPoint = "TaqBackTask.TaqBackTask";
         private async void RegisterBackgroundTask()
         {
             var backgroundAccessStatus = await BackgroundExecutionManager.RequestAccessAsync();
@@ -161,20 +196,8 @@ namespace Taq.Views
                 taskBuilder.TaskEntryPoint = taskEntryPoint;
                 taskBuilder.SetTrigger(new TimeTrigger(15, false));
                 var registration = taskBuilder.Register();
-
-                /*
-                BackgroundTaskBuilder taskBuilder2 = new BackgroundTaskBuilder();
-                taskBuilder2.Name = "TaqBackTask2";
-                taskBuilder2.TaskEntryPoint = taskEntryPoint;
-                taskBuilder2.SetTrigger(at);
-                var registration2 = taskBuilder2.Register();*/
             }
         }
-
-        //private ApplicationTrigger at = new ApplicationTrigger();
-
-        private const string taskName = "TaqBackTask";
-        private const string taskEntryPoint = "TaqBackTask.TaqBackTask";
 
         private async void button_Click(Object sender, RoutedEventArgs e)
         {
