@@ -1,0 +1,9 @@
+**/*.*
+!*.gitignore
+!*.cs
+!*.xaml
+!*.png
+!*.appxmanifest
+!*.json
+!*.sln
+!*.csproj

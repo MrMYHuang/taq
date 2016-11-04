@@ -57,7 +57,7 @@ namespace Taq.Views
             }
             catch (Exception ex)
             {
-                statusTextBlock.Text = "錯誤!初始化失敗。請嘗試手動更新。";
+                statusTextBlock.Text = "初始化失敗。請檢查網路，再嘗試手動更新。";
             }
         }
 
@@ -71,7 +71,14 @@ namespace Taq.Views
                 Dispatcher.RunAsync(CoreDispatcherPriority.High,
                     () =>
                     {
-                        updateListView();
+                        try
+                        {
+                            updateListView();
+                        }
+                        catch (Exception ex)
+                        {
+                            statusTextBlock.Text = "自動更新失敗。請嘗試手動更新。";
+                        }
                     }
                 );
 
@@ -98,7 +105,7 @@ namespace Taq.Views
             }
             catch (Exception ex)
             {
-                //LogException("Download Error", ex);
+                statusTextBlock.Text = "手動更新失敗。";
             }
             return 0;
         }
@@ -113,10 +120,17 @@ namespace Taq.Views
                        select data;
             var currXd = new XDocument();
             currXd.Add(currData.First());
-            var currDataFile = await ApplicationData.Current.LocalFolder.CreateFileAsync(shared.currDataXmlFile, CreationCollisionOption.ReplaceExisting);
-            using (var c = await currDataFile.OpenStreamForWriteAsync())
+            try
             {
-                currXd.Save(c);
+                var currDataFile = await ApplicationData.Current.LocalFolder.CreateFileAsync(shared.currDataXmlFile, CreationCollisionOption.ReplaceExisting);
+                using (var c = await currDataFile.OpenStreamForWriteAsync())
+                {
+                    currXd.Save(c);
+                }
+            }
+            catch (Exception ex)
+            {
+                statusTextBlock.Text = "檔案寫入失敗：" + shared.currDataXmlFile;
             }
 
             shared.updateLiveTile();
