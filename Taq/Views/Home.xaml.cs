@@ -148,11 +148,12 @@ namespace Taq.Views
             }
 
             var i = 0;
-            foreach (var d in dataX)
+            foreach (var d in dataX.OrderBy(x => x.Element("County").Value))
             {
                 sites.Add(new Site { siteName = d.Descendants("SiteName").First().Value, County = d.Descendants("County").First().Value, Pm2_5 = d.Descendants("PM2.5").First().Value });
                 i++;
             }
+
             return 0;
         }
 
