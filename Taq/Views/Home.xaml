@@ -9,16 +9,23 @@
     mc:Ignorable="d"
     NavigationCacheMode="Enabled">
     <Page.Resources>
+        <Style x:Key="txtBlkSty1" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="16" />
+            <Setter Property="TextAlignment" Value="Left" />
+            <Setter Property="Margin" Value="0, 0, 20, 0" />
+        </Style>
         <DataTemplate x:Key="SiteListHeaderTemplate">
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                <TextBlock Text="觀測站" HorizontalAlignment="Left" FontSize="16" Margin="5,0" Foreground="Red" MinWidth="5" TextAlignment="Left" />
-                <TextBlock Text="PM 2.5 (μg/m^3)" HorizontalAlignment="Left" FontSize="16" Margin="5,0" />
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="觀測站" MinWidth="6"  Style="{StaticResource txtBlkSty1}" />
+                <TextBlock Text="縣市" MinWidth="6"  Style="{StaticResource txtBlkSty1}" />
+                <TextBlock Text="PM 2.5 (μg/m^3)" Style="{StaticResource txtBlkSty1}" />
             </StackPanel>
         </DataTemplate>
         <DataTemplate x:Key="SiteListDataTemplate" x:DataType="data:Site">
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                <TextBlock Text="{x:Bind siteName}" HorizontalAlignment="Left" FontSize="16" Margin="5,0" MinWidth="5" TextAlignment="Left"/>
-                <TextBlock Text="{Binding Pm2_5}" HorizontalAlignment="Left" FontSize="16" Margin="5,0" />
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="{x:Bind siteName}" MinWidth="6"  Style="{StaticResource txtBlkSty1}"/>
+                <TextBlock Text="{x:Bind County}" MinWidth="6"   Style="{StaticResource txtBlkSty1}" />
+                <TextBlock Text="{Binding Pm2_5}" Style="{StaticResource txtBlkSty1}" />
             </StackPanel>
         </DataTemplate>
     </Page.Resources>

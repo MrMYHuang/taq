@@ -116,7 +116,7 @@ namespace TaqShared
             // create the square template and attach it to the wide template 
             ITileSquare150x150Block squareContent = TileContentFactory.CreateTileSquare150x150Block();
             squareContent.TextBlock.Text = currSite.Pm2_5;
-            squareContent.TextSubBlock.Text = currSite.siteName;
+            squareContent.TextSubBlock.Text = "PM 2.5\n觀測站：" + currSite.siteName;
             wideContent.Square150x150Content = squareContent;
 
             // Create a new tile notification.

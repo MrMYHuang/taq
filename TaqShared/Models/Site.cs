@@ -12,7 +12,21 @@ namespace TaqShared.Models
     public class Site : INotifyPropertyChanged
     {
         public string siteName;
+        private string county { get; set; }
         private string pm2_5 { get; set; }
+
+        public string County
+        {
+            get
+            {
+                return county;
+            }
+            set
+            {
+                county = value;
+                NotifyPropertyChanged();
+            }
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
