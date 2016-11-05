@@ -14,6 +14,8 @@ namespace TaqShared.Models
         public string siteName;
         private string county { get; set; }
         private string pm2_5 { get; set; }
+        public double twd97Lat;
+        public double twd97Lon;
 
         public string County
         {

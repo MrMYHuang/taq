@@ -30,12 +30,13 @@
         <StackPanel Orientation="Horizontal" Margin="22, 10, 0, 0">
             <TextBlock Text="觀測站" Foreground="Blue" Style="{StaticResource txtBlkSty1}" />
             <TextBlock Text="縣市" Foreground="Blue" Style="{StaticResource txtBlkSty1}" />
-            <TextBlock Text="PM 2.5 (μg/m^3)" Foreground="Blue" Style="{StaticResource txtBlkSty1}" />
+            <TextBlock Text="PM 2.5" Foreground="Blue" Style="{StaticResource txtBlkSty1}" />
         </StackPanel>
         <ListView
-                ItemsSource="{x:Bind sites}"
+                ItemsSource="{x:Bind app.sites}"
                 x:Name="listView"
                 ItemTemplate="{StaticResource SiteListDataTemplate}"
+                SelectionMode="Single"
                 IsItemClickEnabled="True"
                 ItemClick="listView_ItemClick"
                 Margin="10,30,10,50">

@@ -24,6 +24,36 @@
                 </TextBlock>
             </DataTemplate>
         </HubSection>
+        <HubSection Header="Ver. 1.3.1" ScrollViewer.VerticalScrollBarVisibility="Auto" Width="Auto">
+            <DataTemplate>
+                <TextBlock Style="{StaticResource txtBlkSty1}" >
+                    1. 地圖頁面新增PM 2.5即時濃度標示。<LineBreak />
+                </TextBlock>
+            </DataTemplate>
+        </HubSection>
+        <HubSection Header="Ver. 1.3.0" ScrollViewer.VerticalScrollBarVisibility="Auto" Width="Auto">
+            <DataTemplate>
+                <TextBlock Style="{StaticResource txtBlkSty1}" >
+                    1. 新增"地圖"頁面。目前只支援顯示觀測站位置。<LineBreak />
+                </TextBlock>
+            </DataTemplate>
+        </HubSection>
+        <HubSection Header="Ver. 1.2.1" ScrollViewer.VerticalScrollBarVisibility="Auto" Width="Auto">
+            <DataTemplate>
+                <TextBlock Style="{StaticResource txtBlkSty1}" >
+                    1. 修正首頁列表自動更新後，選錯訂閱觀測站bug。<LineBreak />
+                </TextBlock>
+            </DataTemplate>
+        </HubSection>
+        <HubSection Header="Ver. 1.2.0" ScrollViewer.VerticalScrollBarVisibility="Auto" Width="Auto">
+            <DataTemplate>
+                <TextBlock Style="{StaticResource txtBlkSty1}" >
+                    1. 首頁列表新增"縣市"行。<LineBreak />
+                    2. 列表根據"縣市"排序。<LineBreak />
+                    3. 動態磚加入更多資訊。<LineBreak />
+                </TextBlock>
+            </DataTemplate>
+        </HubSection>
         <HubSection Header="Ver. 1.1.19" ScrollViewer.VerticalScrollBarVisibility="Auto" Width="Auto">
             <DataTemplate>
                 <TextBlock Style="{StaticResource txtBlkSty1}" >

@@ -64,5 +64,10 @@ namespace Taq
         {
             frame.Navigate(typeof(Ver));
         }
+
+        private void mapButton_Click(Object sender, TappedRoutedEventArgs e)
+        {
+            frame.Navigate(typeof(AqSiteMap));
+        }
     }
 }

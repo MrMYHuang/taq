@@ -21,6 +21,7 @@ namespace TaqShared
         public string currDataXmlFile = "currData.xml";
         //public XDocument currXd = new XDocument();
         public XDocument xd = new XDocument();
+        public XDocument siteGeoXd = new XDocument();
         public Site oldSite = new Site { siteName = "N/A", Pm2_5 = "0" };
         public Site currSite = new Site { siteName = "N/A", Pm2_5 = "0" };
 
@@ -49,6 +50,21 @@ namespace TaqShared
                 //LogException("Download Error", ex);
             }
             */
+            return 0;
+        }
+
+        public async Task<int> loadSiteGeoXd()
+        {
+            /*
+            var dataXml = await ApplicationData.Current.LocalFolder.GetFileAsync("Assets/SiteGeo.xml");
+            using (var s = await dataXml.OpenStreamForReadAsync())
+            {
+                // Reload to xd.
+                siteGeoXd = XDocument.Load(s);
+            }*/
+            //http://opendata.epa.gov.tw/ws/Data/AQXSite/?format=xml
+            siteGeoXd = XDocument.Load("Assets/SiteGeo.xml");
+
             return 0;
         }
 

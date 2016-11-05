@@ -32,9 +32,7 @@ namespace Taq.Views
     /// </summary>
     public sealed partial class Home : Page
     {
-        public string[] aqHeaders { get { return new[] { "siteName", "Pm2_5" }; } }
-        private Shared shared = new Shared();
-        public ObservableCollection<Site> sites = new ObservableCollection<Site>();
+        public App app;
         private IEnumerable<XElement> currData;
         // For updating UI after TaqBackTask downloads a new XML.
         ThreadPoolTimer periodicTimer;
@@ -42,6 +40,7 @@ namespace Taq.Views
         public Home()
         {
             this.InitializeComponent();
+            app = App.Current as App;
             initAqData();
             initPeriodicTimer();
             this.DataContext = this;
@@ -51,9 +50,9 @@ namespace Taq.Views
         {
             try
             {
-                await shared.downloadDataXml();
+                await app.shared.downloadDataXml();
                 await updateListView();
-                shared.updateLiveTile();
+                app.shared.updateLiveTile();
             }
             catch (Exception ex)
             {
@@ -63,6 +62,12 @@ namespace Taq.Views
 
         private void initPeriodicTimer()
         {
+
+#if DEBUG
+            TimeSpan delay = TimeSpan.FromSeconds(3);
+#else
+            TimeSpan delay = TimeSpan.FromSeconds(60);
+#endif
             periodicTimer = ThreadPoolTimer.CreatePeriodicTimer((source) =>
             {
                 // TODO: Work
@@ -82,12 +87,12 @@ namespace Taq.Views
                     }
                 );
 
-            }, TimeSpan.FromMinutes(1));
+            }, delay);
         }
         public async Task<int> updateListView()
         {
             await reloadDataX();
-            await shared.loadCurrSite();
+            await app.shared.loadCurrSite();
             changeSelSiteListItem();
             return 0;
         }
@@ -97,11 +102,11 @@ namespace Taq.Views
             try
             {
                 statusTextBlock.Text = "Download start.";
-                await shared.downloadDataXml();
+                await app.shared.downloadDataXml();
                 statusTextBlock.Text = "Download finish.";
                 await updateListView();
-                shared.updateLiveTile();
-                shared.sendNotify();
+                app.shared.updateLiveTile();
+                app.shared.sendNotify();
             }
             catch (Exception ex)
             {
@@ -113,16 +118,16 @@ namespace Taq.Views
         private async void listView_ItemClick(object sender, ItemClickEventArgs e)
         {
             var site = (Site)e.ClickedItem;
-            shared.currSite = site;
+            app.shared.currSite = site;
 
-            currData = from data in shared.xd.Descendants("Data")
+            currData = from data in app.shared.xd.Descendants("Data")
                        where data.Descendants("SiteName").First().Value == site.siteName
                        select data;
             var currXd = new XDocument();
             currXd.Add(currData.First());
             try
             {
-                var currDataFile = await ApplicationData.Current.LocalFolder.CreateFileAsync(shared.currDataXmlFile, CreationCollisionOption.ReplaceExisting);
+                var currDataFile = await ApplicationData.Current.LocalFolder.CreateFileAsync(app.shared.currDataXmlFile, CreationCollisionOption.ReplaceExisting);
                 using (var c = await currDataFile.OpenStreamForWriteAsync())
                 {
                     currXd.Save(c);
@@ -130,19 +135,22 @@ namespace Taq.Views
             }
             catch (Exception ex)
             {
-                statusTextBlock.Text = "檔案寫入失敗：" + shared.currDataXmlFile;
+                statusTextBlock.Text = "檔案寫入失敗：" + app.shared.currDataXmlFile;
             }
 
-            shared.updateLiveTile();
+            app.shared.updateLiveTile();
         }
 
         public async Task<int> reloadDataX()
         {
-            await shared.reloadXd();
-            var dataX = from data in shared.xd.Descendants("Data")
+            await app.shared.reloadXd();
+            var dataX = from data in app.shared.xd.Descendants("Data")
+                        select data;
+            await app.shared.loadSiteGeoXd();
+            var geoDataX = from data in app.shared.siteGeoXd.Descendants("Data")
                         select data;
 
-            if (sites.Count != 0)
+            if (app.sites.Count != 0)
             {
                 removeAllSites();
             }
@@ -150,7 +158,18 @@ namespace Taq.Views
             var i = 0;
             foreach (var d in dataX.OrderBy(x => x.Element("County").Value))
             {
-                sites.Add(new Site { siteName = d.Descendants("SiteName").First().Value, County = d.Descendants("County").First().Value, Pm2_5 = d.Descendants("PM2.5").First().Value });
+                var siteName = d.Descendants("SiteName").First().Value;
+                var geoD = from gd in geoDataX
+                           where gd.Descendants("SiteName").First().Value == siteName
+                           select gd;
+                app.sites.Add(new Site
+                {
+                    siteName = siteName,
+                    County = d.Descendants("County").First().Value,
+                    Pm2_5 = d.Descendants("PM2.5").First().Value,
+                    twd97Lat = double.Parse(geoD.Descendants("TWD97Lat").First().Value),
+                    twd97Lon = double.Parse(geoD.Descendants("TWD97Lon").First().Value),
+                });
                 i++;
             }
 
@@ -161,16 +180,20 @@ namespace Taq.Views
         {
             var selSite = 0;
             var i = 0;
-            foreach (var d in shared.xd.Descendants("Data"))
+            var dataX = from data in app.shared.xd.Descendants("Data")
+                        select data;
+            foreach (var d in dataX.OrderBy(x => x.Element("County").Value))
             {
-                if (d.Descendants("SiteName").First().Value == shared.currSite.siteName)
+                if (d.Descendants("SiteName").First().Value == app.shared.currSite.siteName)
                 {
                     selSite = i;
+                    break;
                 }
                 i++;
             }
             // Restore last selected site.
             // Ensure listView is initialized asynchronously.
+            //currXe = from d in xd
             while (listView.Items.Count == 0) ;
             listView.SelectedIndex = selSite;
         }
@@ -179,9 +202,9 @@ namespace Taq.Views
         // could have a different number of Data elements from the old one.
         public void removeAllSites()
         {
-            for (var i = sites.Count() - 1; i >= 0; i--)
+            for (var i = app.sites.Count() - 1; i >= 0; i--)
             {
-                sites.RemoveAt(i);
+                app.sites.RemoveAt(i);
             }
         }
 

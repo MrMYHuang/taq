@@ -38,6 +38,13 @@
                         </StackPanel>
                     </ListViewItem>
 
+                    <ListViewItem Tapped="mapButton_Click">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock x:Name="mapButton" Text="&#xE707;" Style="{StaticResource txtBlkSty1}" />
+                            <TextBlock Text="  地圖" Style="{StaticResource txtBlkSty2}" />
+                        </StackPanel>
+                    </ListViewItem>
+
                     <ListViewItem Tapped="homeButton_Click">
                         <StackPanel Orientation="Horizontal">
                             <TextBlock x:Name="homeButton" Text="&#xE10F;" Style="{StaticResource txtBlkSty1}" />
