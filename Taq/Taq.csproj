@@ -109,6 +109,9 @@
     <Compile Include="Views\AqSiteMap.xaml.cs">
       <DependentUpon>AqSiteMap.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\CircleText.xaml.cs">
+      <DependentUpon>CircleText.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Home.xaml.cs">
       <DependentUpon>Home.xaml</DependentUpon>
     </Compile>
@@ -154,6 +157,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\AqSiteMap.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\CircleText.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

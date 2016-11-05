@@ -12,7 +12,7 @@
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
         <Maps:MapControl x:Name="map"
-            MapServiceToken="YourBingMapToken" Margin="10"/>
+            MapServiceToken="YourBingMapToken"  Language="zh-TW" Margin="10"/>
 
     </Grid>
 </Page>
