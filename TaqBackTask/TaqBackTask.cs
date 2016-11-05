@@ -26,7 +26,7 @@ namespace TaqBackTask
                 BackgroundTaskDeferral deferral = taskInstance.GetDeferral();
 
                 // Download the feed.
-                await shared.downloadDataXml();
+                var res = await shared.downloadDataXml();
                 await shared.reloadXd();
                 await shared.loadCurrSite();
 

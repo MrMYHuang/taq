@@ -10,8 +10,8 @@
     d:DesignWidth="120">
 
     <Grid x:FieldModifier="public" Name="grid">
-        <Ellipse x:FieldModifier="public" Name="circle" Fill="#FF65BB0F" Margin="0" Canvas.ZIndex="0" Width="60" Height="60">
+        <Ellipse x:FieldModifier="public" Name="circle" Fill="#9cff9c" Margin="0" Canvas.ZIndex="0" Width="60" Height="60">
         </Ellipse>
-        <TextBlock x:FieldModifier="public" Name="txtBlk" TextAlignment="Center" FontSize="20" Canvas.ZIndex="1" Foreground="White">平鎮<LineBreak/>30</TextBlock>
+        <TextBlock x:FieldModifier="public" Name="txtBlk" TextAlignment="Center" FontSize="20" Canvas.ZIndex="1">平鎮<LineBreak/>30</TextBlock>
     </Grid>
 </UserControl>

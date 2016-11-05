@@ -54,6 +54,10 @@ namespace Taq.Views
                 await updateListView();
                 app.shared.updateLiveTile();
             }
+            catch (DownloadException ex)
+            {
+                statusTextBlock.Text = "資料庫下載失敗。請檢查網路，再嘗試手動更新。";
+            }
             catch (Exception ex)
             {
                 statusTextBlock.Text = "初始化失敗。請檢查網路，再嘗試手動更新。";
@@ -107,6 +111,10 @@ namespace Taq.Views
                 await updateListView();
                 app.shared.updateLiveTile();
                 app.shared.sendNotify();
+            }
+            catch (DownloadException ex)
+            {
+                statusTextBlock.Text = "資料庫下載失敗。請檢查網路，再嘗試手動更新。";
             }
             catch (Exception ex)
             {
@@ -192,10 +200,12 @@ namespace Taq.Views
                 i++;
             }
             // Restore last selected site.
-            // Ensure listView is initialized asynchronously.
-            //currXe = from d in xd
-            while (listView.Items.Count == 0) ;
-            listView.SelectedIndex = selSite;
+            // listView might not be initialized asynchronously,
+            // so we check it.
+            if (listView.Items.Count != 0)
+            {
+                listView.SelectedIndex = selSite;
+            }
         }
 
         // Removing all items before updating, because the new download data XML file

@@ -64,6 +64,9 @@ namespace Taq.Views
             var gp = new Geopoint(new BasicGeoposition { Latitude = site.twd97Lat, Longitude = site.twd97Lon });
 
             var ellipse1 = new CircleText();
+            Binding myBinding = new Binding();
+            myBinding.Source = site.Color;
+            ellipse1.circle.SetBinding(Ellipse.FillProperty, myBinding);
             ellipse1.txtBlk.Text = site.siteName + "\n" + site.Pm2_5;
             //var ellipse1 = new Ellipse();
 

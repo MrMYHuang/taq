@@ -24,6 +24,28 @@
                 </TextBlock>
             </DataTemplate>
         </HubSection>
+        <HubSection Header="Ver. 1.5.4" ScrollViewer.VerticalScrollBarVisibility="Auto" Width="Auto">
+        <DataTemplate>
+                <TextBlock Style="{StaticResource txtBlkSty1}" >
+                    1. 修正可能無法正常下載資料庫的問題，即使網路正常。<LineBreak />
+                    2. 修正可能造成app卡在啟動畫面的bug。<LineBreak />
+                </TextBlock>
+        </DataTemplate>
+        </HubSection>
+        <HubSection Header="Ver. 1.5.1" ScrollViewer.VerticalScrollBarVisibility="Auto" Width="Auto">
+            <DataTemplate>
+                <TextBlock Style="{StaticResource txtBlkSty1}" >
+                    1. 修正開啟地圖後閃退問題。<LineBreak />
+                </TextBlock>
+            </DataTemplate>
+        </HubSection>
+        <HubSection Header="Ver. 1.5.0" ScrollViewer.VerticalScrollBarVisibility="Auto" Width="Auto">
+            <DataTemplate>
+                <TextBlock Style="{StaticResource txtBlkSty1}" >
+                    1. 地圖PM 2.5標示根據即時濃度上色。<LineBreak />
+                </TextBlock>
+            </DataTemplate>
+        </HubSection>
         <HubSection Header="Ver. 1.4.0" ScrollViewer.VerticalScrollBarVisibility="Auto" Width="Auto">
             <DataTemplate>
                 <TextBlock Style="{StaticResource txtBlkSty1}" >

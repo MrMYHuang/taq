@@ -14,6 +14,11 @@ using Windows.UI.Notifications;
 
 namespace TaqShared
 {
+    public class DownloadException : Exception
+    {
+
+    }
+
     public class Shared
     {
         public Uri source = new Uri("http://YourTaqServerIp/taq/taq.xml");
@@ -33,8 +38,19 @@ namespace TaqShared
 
             BackgroundDownloader downloader = new BackgroundDownloader();
             DownloadOperation download = downloader.CreateDownload(source, dstFile);
-            await download.StartAsync();
-            ResponseInformation response = download.GetResponseInformation();
+
+            var task = Task.Run(async () => await download.StartAsync().AsTask());
+            if (task.Wait(TimeSpan.FromSeconds(5)))
+            {
+                // file is downloaded in time
+            }
+            else
+            {
+                // timeout is reached - how to cancel downloadOperation ?????
+                download.AttachAsync().Cancel();
+                throw new DownloadException();
+            }
+
 
             // Forcly close stream!?
             using (var s = await dstFile.OpenStreamForWriteAsync())

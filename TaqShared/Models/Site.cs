@@ -9,13 +9,35 @@ using System.Threading.Tasks;
 
 namespace TaqShared.Models
 {
-    public class Site : INotifyPropertyChanged
+public class Site : INotifyPropertyChanged
     {
+        static double[] pm2_5_concens = new double[] { 11, 23, 35, 41, 47, 53, 58, 64, 70 };
+        static string[] colors = new string[] { "#9cff9c", "#31ff00", "#31cf00", "#ffff00", "#ffcf00", "#ff9a00", "#ff6464", "#ff0000", "#990000", "#ce30ff" };
+
         public string siteName;
         private string county { get; set; }
         private string pm2_5 { get; set; }
         public double twd97Lat;
         public double twd97Lon;
+
+        public string Color
+        {
+            get
+            {
+                var i = 0;
+                if (Pm2_5 != "")
+                {
+                    for (; i < pm2_5_concens.Length; i++)
+                    {
+                        if (double.Parse(Pm2_5) <= pm2_5_concens[i])
+                        {
+                            return colors[i];
+                        }
+                    }
+                }
+                return colors[i];
+            }
+        }
 
         public string County
         {
