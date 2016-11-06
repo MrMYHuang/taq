@@ -24,6 +24,7 @@ using Windows.ApplicationModel.Background;
 using System.Threading.Tasks;
 using Windows.System.Threading;
 using Windows.UI.Core;
+using Windows.Devices.Geolocation;
 
 namespace Taq.Views
 {
@@ -147,6 +148,9 @@ namespace Taq.Views
             }
 
             app.shared.updateLiveTile();
+#if DEBUG
+            app.shared.sendNotify();
+#endif
         }
 
         public async Task<int> reloadDataX()
@@ -156,7 +160,7 @@ namespace Taq.Views
                         select data;
             await app.shared.loadSiteGeoXd();
             var geoDataX = from data in app.shared.siteGeoXd.Descendants("Data")
-                        select data;
+                           select data;
 
             if (app.sites.Count != 0)
             {

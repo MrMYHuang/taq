@@ -10,6 +10,7 @@ using TaqShared.Models;
 using Windows.Devices.Geolocation;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Maps;
@@ -47,16 +48,45 @@ namespace Taq.Views
 
             });
 
+        GeolocationAccessStatus locAccStat;
+        Geolocator geoLoc;
         private async void initPos(object sender, RoutedEventArgs e)
         {
-
-            foreach(var s in app.sites)
+            // Add PM 2.5 map icons.
+            foreach (var s in app.sites)
             {
                 addMapIcon(s);
             }
 
-            // retrieve map
-            await map.TrySetSceneAsync(MapScene.CreateFromLocationAndRadius(twCenter, 110e3));
+            locAccStat = await Geolocator.RequestAccessAsync();
+            switch (locAccStat)
+            {
+                case GeolocationAccessStatus.Allowed:
+                    // Center map on user location.
+                    geoLoc = new Geolocator { ReportInterval = 2000 };
+                    // Subscribe to the PositionChanged event to get location updates.
+                    //geoLoc.PositionChanged += OnPositionChanged;
+                    var pos = await geoLoc.GetGeopositionAsync();
+                    var p = pos.Coordinate.Point;
+
+                    var userMapIcon = new UserMapIcon();
+                    map.Children.Add(userMapIcon);
+                    MapControl.SetLocation(userMapIcon, p);
+                    MapControl.SetNormalizedAnchorPoint(userMapIcon, new Point(0.5, 0.5));
+                    map.TrySetSceneAsync(MapScene.CreateFromLocationAndRadius(p, 100));
+                    break;
+                default:
+                    // Center map on Taiwan center.
+                    await map.TrySetSceneAsync(MapScene.CreateFromLocationAndRadius(twCenter, 110e3));
+                    break;
+            }
+        }
+
+        private async void OnPositionChanged(Geolocator sender, PositionChangedEventArgs e)
+        {
+            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            {
+            });
         }
 
         private void addMapIcon(Site site)
@@ -72,8 +102,8 @@ namespace Taq.Views
 
             // Add the MapIcon to the map.
             //map.MapElements.Add(mapIcon1);
-            map.Center = gp;
-            map.ZoomLevel = 14;
+            //map.Center = gp;
+            //map.ZoomLevel = 14;
             map.Children.Add(ellipse1);
             MapControl.SetLocation(ellipse1, gp);
             MapControl.SetNormalizedAnchorPoint(ellipse1, new Point(0.5, 0.5));
