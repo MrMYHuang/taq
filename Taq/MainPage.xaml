@@ -38,6 +38,13 @@
                         </StackPanel>
                     </ListViewItem>
 
+                    <ListViewItem Tapped="shareBtn_Click">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock x:Name="shareButton" Text="&#xE72D;" Style="{StaticResource txtBlkSty1}" />
+                            <TextBlock Text="  分享" Style="{StaticResource txtBlkSty2}" />
+                        </StackPanel>
+                    </ListViewItem>
+
                     <ListViewItem Tapped="mapButton_Click">
                         <StackPanel Orientation="Horizontal">
                             <TextBlock x:Name="mapButton" Text="&#xE707;" Style="{StaticResource txtBlkSty1}" />

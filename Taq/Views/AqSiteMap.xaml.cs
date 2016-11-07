@@ -52,6 +52,13 @@ namespace Taq.Views
         Geolocator geoLoc;
         private async void initPos(object sender, RoutedEventArgs e)
         {
+            if(map.Children.Count != 0)
+            {
+                for(var i = map.Children.Count - 1; i >= 0 ; i--)
+                {
+                    map.Children.RemoveAt(i);
+                }
+            }
             // Add PM 2.5 map icons.
             foreach (var s in app.sites)
             {
@@ -73,7 +80,7 @@ namespace Taq.Views
                     map.Children.Add(userMapIcon);
                     MapControl.SetLocation(userMapIcon, p);
                     MapControl.SetNormalizedAnchorPoint(userMapIcon, new Point(0.5, 0.5));
-                    map.TrySetSceneAsync(MapScene.CreateFromLocationAndRadius(p, 100));
+                    map.TrySetSceneAsync(MapScene.CreateFromLocationAndRadius(p, 200));
                     break;
                 default:
                     // Center map on Taiwan center.
@@ -82,21 +89,23 @@ namespace Taq.Views
             }
         }
 
+        /*
         private async void OnPositionChanged(Geolocator sender, PositionChangedEventArgs e)
         {
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
             });
         }
+        */
 
         private void addMapIcon(Site site)
         {
             var gp = new Geopoint(new BasicGeoposition { Latitude = site.twd97Lat, Longitude = site.twd97Lon });
 
             var ellipse1 = new CircleText();
-            Binding myBinding = new Binding();
-            myBinding.Source = site.Color;
-            ellipse1.circle.SetBinding(Ellipse.FillProperty, myBinding);
+            Binding colorBind = new Binding();
+            colorBind.Source = site.Color;
+            ellipse1.circle.SetBinding(Ellipse.FillProperty, colorBind);
             ellipse1.txtBlk.Text = site.siteName + "\n" + site.Pm2_5;
             //var ellipse1 = new Ellipse();
 

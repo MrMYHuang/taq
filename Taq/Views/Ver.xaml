@@ -24,6 +24,20 @@
                 </TextBlock>
             </DataTemplate>
         </HubSection>
+        <HubSection Header="Ver. 1.7.1" ScrollViewer.VerticalScrollBarVisibility="Auto" Width="Auto">
+            <DataTemplate>
+                <TextBlock Style="{StaticResource txtBlkSty1}" >
+                    1. 修正未刪除舊地圖標示的bug。<LineBreak />
+                </TextBlock>
+            </DataTemplate>
+        </HubSection>
+        <HubSection Header="Ver. 1.7.0" ScrollViewer.VerticalScrollBarVisibility="Auto" Width="Auto">
+            <DataTemplate>
+                <TextBlock Style="{StaticResource txtBlkSty1}" >
+                    1. 新增"分享"按鈕，可分享螢幕擷圖。<LineBreak />
+                </TextBlock>
+            </DataTemplate>
+        </HubSection>
         <HubSection Header="Ver. 1.6.8" ScrollViewer.VerticalScrollBarVisibility="Auto" Width="Auto">
             <DataTemplate>
                 <TextBlock Style="{StaticResource txtBlkSty1}" >

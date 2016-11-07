@@ -69,5 +69,10 @@ namespace Taq
         {
             frame.Navigate(typeof(AqSiteMap));
         }
+
+        private void shareBtn_Click(Object sender, TappedRoutedEventArgs e)
+        {
+            Windows.ApplicationModel.DataTransfer.DataTransferManager.ShowShareUI();
+        }
     }
 }
