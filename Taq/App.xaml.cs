@@ -31,9 +31,18 @@ namespace Taq
         /// </summary>
         public Shared shared = new Shared();
         public ObservableCollection<Site> sites = new ObservableCollection<Site>();
+        public Windows.Storage.ApplicationDataContainer localSettings;
 
         public App()
         {
+            localSettings =
+       Windows.Storage.ApplicationData.Current.LocalSettings;
+            if (localSettings.Values["AppTheme"] == null)
+            {
+                localSettings.Values["AppTheme"] = false;
+            }
+            bool appTheme = (bool) localSettings.Values["AppTheme"];
+            this.RequestedTheme = appTheme ? ApplicationTheme.Dark : ApplicationTheme.Light;
             this.InitializeComponent();
             this.Suspending += OnSuspending;
         }
@@ -48,7 +57,7 @@ namespace Taq
 #if DEBUG
             if (System.Diagnostics.Debugger.IsAttached)
             {
-//                this.DebugSettings.EnableFrameRateCounter = true;
+                //                this.DebugSettings.EnableFrameRateCounter = true;
             }
 #endif
             Frame rootFrame = Window.Current.Content as Frame;

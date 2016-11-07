@@ -43,6 +43,7 @@ namespace Taq
         {
             this.InitializeComponent();
             frame.Navigate(typeof(Home));
+
         }
 
         private void HamburgerButton_Click(Object sender, RoutedEventArgs e)
@@ -73,6 +74,11 @@ namespace Taq
         private void shareBtn_Click(Object sender, TappedRoutedEventArgs e)
         {
             Windows.ApplicationModel.DataTransfer.DataTransferManager.ShowShareUI();
+        }
+
+        private void setButton_Click(Object sender, TappedRoutedEventArgs e)
+        {
+            frame.Navigate(typeof(Settings));
         }
     }
 }

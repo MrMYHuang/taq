@@ -38,6 +38,13 @@
                         </StackPanel>
                     </ListViewItem>
 
+                    <ListViewItem Tapped="setButton_Click">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="&#xE713;" Style="{StaticResource txtBlkSty1}" />
+                            <TextBlock Text="  設定" Style="{StaticResource txtBlkSty2}" />
+                        </StackPanel>
+                    </ListViewItem>
+
                     <ListViewItem Tapped="shareBtn_Click">
                         <StackPanel Orientation="Horizontal">
                             <TextBlock x:Name="shareButton" Text="&#xE72D;" Style="{StaticResource txtBlkSty1}" />
