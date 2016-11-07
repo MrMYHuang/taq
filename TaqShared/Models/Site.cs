@@ -6,6 +6,8 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.UI;
+using Windows.UI.Xaml.Media;
 
 namespace TaqShared.Models
 {
@@ -37,7 +39,8 @@ namespace TaqShared.Models
             }
         }
 
-        public string Color
+        // Map icon background color.
+        public string CircleColor
         {
             get
             {
@@ -53,6 +56,22 @@ namespace TaqShared.Models
                     }
                 }
                 return colors[i];
+            }
+        }
+
+        public SolidColorBrush TextColor
+        {
+            get
+            {
+                var i = 0;
+                if (Pm2_5 != "")
+                {
+                    if (double.Parse(Pm2_5) > 47)
+                    {
+                        return new SolidColorBrush(Colors.White);
+                    }
+                }
+                return new SolidColorBrush(Colors.Black);
             }
         }
 

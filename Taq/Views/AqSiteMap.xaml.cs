@@ -104,9 +104,10 @@ namespace Taq.Views
 
             var ellipse1 = new CircleText();
             Binding colorBind = new Binding();
-            colorBind.Source = site.Color;
+            colorBind.Source = site.CircleColor;
             ellipse1.circle.SetBinding(Ellipse.FillProperty, colorBind);
             ellipse1.txtBlk.Text = site.siteName + "\n" + site.Pm2_5;
+            ellipse1.txtBlk.Foreground = site.TextColor;
             //var ellipse1 = new Ellipse();
 
             // Add the MapIcon to the map.

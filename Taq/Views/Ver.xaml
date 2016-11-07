@@ -24,10 +24,11 @@
                 </TextBlock>
             </DataTemplate>
         </HubSection>
-        <HubSection Header="Ver. 1.7.1" ScrollViewer.VerticalScrollBarVisibility="Auto" Width="Auto">
+        <HubSection Header="Ver. 1.7.2" ScrollViewer.VerticalScrollBarVisibility="Auto" Width="Auto">
             <DataTemplate>
                 <TextBlock Style="{StaticResource txtBlkSty1}" >
                     1. 修正未刪除舊地圖標示的bug。<LineBreak />
+                    2. 美化地圖標示的文字顏色。<LineBreak />
                 </TextBlock>
             </DataTemplate>
         </HubSection>
