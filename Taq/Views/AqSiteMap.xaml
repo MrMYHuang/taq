@@ -9,9 +9,13 @@
     mc:Ignorable="d"
     NavigationCacheMode="Enabled">
 
+    <Page.Resources>
+        <local:BoolToMapColorC x:Key="b2mcc"></local:BoolToMapColorC>
+    </Page.Resources>
+
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
         <Maps:MapControl x:Name="map"
-            MapServiceToken="YourBingMapToken"  Language="zh-TW" Margin="0" />
+            MapServiceToken="YourBingMapToken" Margin="0" DataContext="app" ColorScheme="{x:Bind app.MapColor, Converter={StaticResource b2mcc}, Mode=OneWay}"/>
     </Grid>
 </Page>

@@ -5,10 +5,13 @@
     xmlns:local="using:Taq.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d">
+    xmlns:taq="using:Taq"
+    mc:Ignorable="d"
+    NavigationCacheMode="Enabled">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <ToggleSwitch x:Name="themeToggle" Header="夜晚主題 (重新啟動app後生效)" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" IsOn="{x:Bind AppTheme, Mode=TwoWay}" FontSize="20"/>
+        <ToggleSwitch x:Name="mapColorToggle" Header="暗色地圖" HorizontalAlignment="Left" Margin="10,82,0,0" VerticalAlignment="Top" DataContext="app" IsOn="{x:Bind app.MapColor, Mode=TwoWay}" FontSize="20"/>
 
     </Grid>
 </Page>

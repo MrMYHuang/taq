@@ -40,7 +40,7 @@ namespace TaqShared
             DownloadOperation download = downloader.CreateDownload(source, dstFile);
 
             var task = Task.Run(async () => await download.StartAsync().AsTask());
-            if (task.Wait(TimeSpan.FromSeconds(5)))
+            if (task.Wait(TimeSpan.FromSeconds(2)))
             {
                 // file is downloaded in time
             }

@@ -7,6 +7,7 @@ using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls.Maps;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
@@ -22,12 +23,14 @@ namespace Taq.Views
     /// </summary>
     public sealed partial class Settings : Page
     {
+        public App app;
         public Windows.Storage.ApplicationDataContainer localSettings;
         public Settings()
         {
             localSettings =
        Windows.Storage.ApplicationData.Current.LocalSettings;
             this.InitializeComponent();
+            app = App.Current as App;
         }
 
         public bool AppTheme

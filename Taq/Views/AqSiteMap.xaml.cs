@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -10,6 +11,7 @@ using TaqShared.Models;
 using Windows.Devices.Geolocation;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Storage;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -30,12 +32,15 @@ namespace Taq.Views
     /// </summary>
     public sealed partial class AqSiteMap : Page
     {
+        public ApplicationDataContainer localSettings;
         public App app;
+
         public AqSiteMap()
         {
+            localSettings =
+       ApplicationData.Current.LocalSettings;
             this.InitializeComponent();
             app = App.Current as App;
-            map.Language = "zh-TW";
             map.Loaded += initPos;
         }
 
@@ -52,9 +57,9 @@ namespace Taq.Views
         Geolocator geoLoc;
         private async void initPos(object sender, RoutedEventArgs e)
         {
-            if(map.Children.Count != 0)
+            if (map.Children.Count != 0)
             {
-                for(var i = map.Children.Count - 1; i >= 0 ; i--)
+                for (var i = map.Children.Count - 1; i >= 0; i--)
                 {
                     map.Children.RemoveAt(i);
                 }
@@ -80,7 +85,7 @@ namespace Taq.Views
                     map.Children.Add(userMapIcon);
                     MapControl.SetLocation(userMapIcon, p);
                     MapControl.SetNormalizedAnchorPoint(userMapIcon, new Point(0.5, 0.5));
-                    map.TrySetSceneAsync(MapScene.CreateFromLocationAndRadius(p, 200));
+                    map.TrySetSceneAsync(MapScene.CreateFromLocationAndRadius(p, 1000));
                     break;
                 default:
                     // Center map on Taiwan center.
@@ -120,6 +125,19 @@ namespace Taq.Views
 
             // Center the map over the POI.
             //map.Center = gp;
+        }
+    }
+
+    public class BoolToMapColorC : IValueConverter
+    {
+        public Object Convert(object value, Type targetType, object parameter, string lang)
+        {
+            return (bool)value ? MapColorScheme.Dark : MapColorScheme.Light;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, string lang)
+        {
+            return (MapColorScheme) value == MapColorScheme.Dark ? true : false;
         }
     }
 }

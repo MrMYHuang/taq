@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices.WindowsRuntime;
 using TaqShared;
 using TaqShared.Models;
@@ -10,8 +13,10 @@ using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Globalization;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls.Maps;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
@@ -23,7 +28,7 @@ namespace Taq
     /// <summary>
     /// Provides application-specific behavior to supplement the default Application class.
     /// </summary>
-    public sealed partial class App : Application
+    public sealed partial class App : Application, INotifyPropertyChanged
     {
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code
@@ -35,16 +40,48 @@ namespace Taq
 
         public App()
         {
+            initLocalSettings();
+            this.InitializeComponent();
+            this.Suspending += OnSuspending;
+        }
+
+        private void initLocalSettings()
+        {
             localSettings =
        Windows.Storage.ApplicationData.Current.LocalSettings;
             if (localSettings.Values["AppTheme"] == null)
             {
                 localSettings.Values["AppTheme"] = false;
             }
-            bool appTheme = (bool) localSettings.Values["AppTheme"];
-            this.RequestedTheme = appTheme ? ApplicationTheme.Dark : ApplicationTheme.Light;
-            this.InitializeComponent();
-            this.Suspending += OnSuspending;
+            this.RequestedTheme = (bool)localSettings.Values["AppTheme"] ? ApplicationTheme.Dark : ApplicationTheme.Light;
+            if (localSettings.Values["MapColor"] == null)
+            {
+                localSettings.Values["MapColor"] = false;
+            }
+        }
+
+        public bool MapColor
+        {
+            get
+            {
+                return (bool)localSettings.Values["MapColor"];
+            }
+
+            set
+            {
+                localSettings.Values["MapColor"] = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
         }
 
         /// <summary>

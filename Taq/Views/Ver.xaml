@@ -17,14 +17,30 @@
     </Page.Resources>
 
     <Hub Header="版本歷史" Orientation="Vertical" HorizontalAlignment="Left" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Width="Auto" >
-        <HubSection Header="已知問題" ScrollViewer.VerticalScrollBarVisibility="Auto" Width="Auto">
+        <HubSection Header="已知問題" Width="Auto">
             <DataTemplate>
                 <TextBlock Style="{StaticResource txtBlkSty1}" >
-                    無。<LineBreak />
+                    1. 地圖頁面在無網路情況下會造成閃退。<LineBreak />
+                    2. 點選通知中心裡的TAQ通知訊息，會造成app涷結。<LineBreak />
+                    3. 地圖PM 2.5標示不會定時更新。<LineBreak />
                 </TextBlock>
             </DataTemplate>
         </HubSection>
-        <HubSection Header="Ver. 1.8.0" ScrollViewer.VerticalScrollBarVisibility="Auto" Width="Auto">
+        <HubSection Header="Ver. 1.8.3" Width="Auto">
+            <DataTemplate>
+                <TextBlock Style="{StaticResource txtBlkSty1}" >
+                    1. 新增"暗色地圖"設定。<LineBreak />
+                </TextBlock>
+            </DataTemplate>
+        </HubSection>
+        <HubSection Header="Ver. 1.8.2" Width="Auto">
+            <DataTemplate>
+                <TextBlock Style="{StaticResource txtBlkSty1}" >
+                    1. 新增"隱私政策"。<LineBreak />
+                </TextBlock>
+            </DataTemplate>
+        </HubSection>
+        <HubSection Header="Ver. 1.8.0" Width="Auto">
             <DataTemplate>
                 <TextBlock Style="{StaticResource txtBlkSty1}" >
                     1. 新增"設定"頁面。<LineBreak />
@@ -32,7 +48,7 @@
                 </TextBlock>
             </DataTemplate>
         </HubSection>
-        <HubSection Header="Ver. 1.7.2" ScrollViewer.VerticalScrollBarVisibility="Auto" Width="Auto">
+        <HubSection Header="Ver. 1.7.2" Width="Auto">
             <DataTemplate>
                 <TextBlock Style="{StaticResource txtBlkSty1}" >
                     1. 修正未刪除舊地圖標示的bug。<LineBreak />
@@ -40,28 +56,28 @@
                 </TextBlock>
             </DataTemplate>
         </HubSection>
-        <HubSection Header="Ver. 1.7.0" ScrollViewer.VerticalScrollBarVisibility="Auto" Width="Auto">
+        <HubSection Header="Ver. 1.7.0" Width="Auto">
             <DataTemplate>
                 <TextBlock Style="{StaticResource txtBlkSty1}" >
                     1. 新增"分享"按鈕，可分享螢幕擷圖。<LineBreak />
                 </TextBlock>
             </DataTemplate>
         </HubSection>
-        <HubSection Header="Ver. 1.6.8" ScrollViewer.VerticalScrollBarVisibility="Auto" Width="Auto">
+        <HubSection Header="Ver. 1.6.8" Width="Auto">
             <DataTemplate>
                 <TextBlock Style="{StaticResource txtBlkSty1}" >
                     1. 修正地圖雙指放大時，若一指按到PM 2.5標示，會變成平移。<LineBreak />
                 </TextBlock>
             </DataTemplate>
         </HubSection>
-        <HubSection Header="Ver. 1.6.0" ScrollViewer.VerticalScrollBarVisibility="Auto" Width="Auto">
+        <HubSection Header="Ver. 1.6.0" Width="Auto">
             <DataTemplate>
                 <TextBlock Style="{StaticResource txtBlkSty1}" >
                     1. 地圖支援定位。<LineBreak />
                 </TextBlock>
             </DataTemplate>
         </HubSection>
-        <HubSection Header="Ver. 1.5.4" ScrollViewer.VerticalScrollBarVisibility="Auto" Width="Auto">
+        <HubSection Header="Ver. 1.5.4" Width="Auto">
         <DataTemplate>
                 <TextBlock Style="{StaticResource txtBlkSty1}" >
                     1. 修正可能無法正常下載資料庫的問題，即使網路正常。<LineBreak />
@@ -69,49 +85,49 @@
                 </TextBlock>
         </DataTemplate>
         </HubSection>
-        <HubSection Header="Ver. 1.5.1" ScrollViewer.VerticalScrollBarVisibility="Auto" Width="Auto">
+        <HubSection Header="Ver. 1.5.1" Width="Auto">
             <DataTemplate>
                 <TextBlock Style="{StaticResource txtBlkSty1}" >
                     1. 修正開啟地圖後閃退問題。<LineBreak />
                 </TextBlock>
             </DataTemplate>
         </HubSection>
-        <HubSection Header="Ver. 1.5.0" ScrollViewer.VerticalScrollBarVisibility="Auto" Width="Auto">
+        <HubSection Header="Ver. 1.5.0" Width="Auto">
             <DataTemplate>
                 <TextBlock Style="{StaticResource txtBlkSty1}" >
                     1. 地圖PM 2.5標示根據即時濃度上色。<LineBreak />
                 </TextBlock>
             </DataTemplate>
         </HubSection>
-        <HubSection Header="Ver. 1.4.0" ScrollViewer.VerticalScrollBarVisibility="Auto" Width="Auto">
+        <HubSection Header="Ver. 1.4.0" Width="Auto">
             <DataTemplate>
                 <TextBlock Style="{StaticResource txtBlkSty1}" >
                     1. 美化地圖PM 2.5即時濃度標示。<LineBreak />
                 </TextBlock>
             </DataTemplate>
         </HubSection>
-        <HubSection Header="Ver. 1.3.1" ScrollViewer.VerticalScrollBarVisibility="Auto" Width="Auto">
+        <HubSection Header="Ver. 1.3.1" Width="Auto">
             <DataTemplate>
                 <TextBlock Style="{StaticResource txtBlkSty1}" >
                     1. 地圖頁面新增PM 2.5即時濃度標示。<LineBreak />
                 </TextBlock>
             </DataTemplate>
         </HubSection>
-        <HubSection Header="Ver. 1.3.0" ScrollViewer.VerticalScrollBarVisibility="Auto" Width="Auto">
+        <HubSection Header="Ver. 1.3.0" Width="Auto">
             <DataTemplate>
                 <TextBlock Style="{StaticResource txtBlkSty1}" >
                     1. 新增"地圖"頁面。目前只支援顯示觀測站位置。<LineBreak />
                 </TextBlock>
             </DataTemplate>
         </HubSection>
-        <HubSection Header="Ver. 1.2.1" ScrollViewer.VerticalScrollBarVisibility="Auto" Width="Auto">
+        <HubSection Header="Ver. 1.2.1" Width="Auto">
             <DataTemplate>
                 <TextBlock Style="{StaticResource txtBlkSty1}" >
                     1. 修正首頁列表自動更新後，選錯訂閱觀測站bug。<LineBreak />
                 </TextBlock>
             </DataTemplate>
         </HubSection>
-        <HubSection Header="Ver. 1.2.0" ScrollViewer.VerticalScrollBarVisibility="Auto" Width="Auto">
+        <HubSection Header="Ver. 1.2.0" Width="Auto">
             <DataTemplate>
                 <TextBlock Style="{StaticResource txtBlkSty1}" >
                     1. 首頁列表新增"縣市"行。<LineBreak />
@@ -120,7 +136,7 @@
                 </TextBlock>
             </DataTemplate>
         </HubSection>
-        <HubSection Header="Ver. 1.1.19" ScrollViewer.VerticalScrollBarVisibility="Auto" Width="Auto">
+        <HubSection Header="Ver. 1.1.19" Width="Auto">
             <DataTemplate>
                 <TextBlock Style="{StaticResource txtBlkSty1}" >
                     1. 新增首頁定時刷新。<LineBreak />
@@ -130,7 +146,7 @@
                 </TextBlock>
             </DataTemplate>
         </HubSection>
-        <HubSection Header="Ver. 1.1.17" ScrollViewer.VerticalScrollBarVisibility="Auto" Width="Auto">
+        <HubSection Header="Ver. 1.1.17" Width="Auto">
             <DataTemplate>
                 <TextBlock Style="{StaticResource txtBlkSty1}" >
                     公開下載初版。<LineBreak />
