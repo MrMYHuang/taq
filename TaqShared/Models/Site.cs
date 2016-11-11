@@ -11,18 +11,29 @@ using Windows.UI.Xaml.Media;
 
 namespace TaqShared.Models
 {
+    /*public class Pm2_5_Info : INotifyPropertyChanged
+    {
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }*/
+
     public class Site : INotifyPropertyChanged
     {
-        static double[] pm2_5_concens = new double[] { 11, 23, 35, 41, 47, 53, 58, 64, 70 };
-        static string[] colors = new string[] { "#9cff9c", "#31ff00", "#31cf00", "#ffff00", "#ffcf00", "#ff9a00", "#ff6464", "#ff0000", "#990000", "#ce30ff" };
 
         public string siteName;
         private string county { get; set; }
-        private string pm2_5 { get; set; }
+        private int pm2_5 { get; set; }
         public double twd97Lat;
         public double twd97Lon;
 
-        public string Pm2_5
+        public int Pm2_5
         {
             get
             {
@@ -34,28 +45,34 @@ namespace TaqShared.Models
                 if (value != this.pm2_5)
                 {
                     this.pm2_5 = value;
+
+                    var i = 0;
+                    for (; i < Shared.pm2_5_concens.Length; i++)
+                    {
+                        if (pm2_5 <= Shared.pm2_5_concens[i])
+                        {
+                            break;
+                        }
+                    }
+                    CircleColor = Shared.pm2_5_colors[i];
                     NotifyPropertyChanged();
                 }
             }
         }
 
         // Map icon background color.
+
+        public string circleColor;
         public string CircleColor
         {
             get
             {
-                var i = 0;
-                if (Pm2_5 != "")
-                {
-                    for (; i < pm2_5_concens.Length; i++)
-                    {
-                        if (double.Parse(Pm2_5) <= pm2_5_concens[i])
-                        {
-                            return colors[i];
-                        }
-                    }
-                }
-                return colors[i];
+                return circleColor;
+            }
+            set
+            {
+                circleColor = value;
+                NotifyPropertyChanged();
             }
         }
 
@@ -64,12 +81,9 @@ namespace TaqShared.Models
             get
             {
                 var i = 0;
-                if (Pm2_5 != "")
+                if (Pm2_5 > 47)
                 {
-                    if (double.Parse(Pm2_5) > 47)
-                    {
-                        return new SolidColorBrush(Colors.White);
-                    }
+                    return new SolidColorBrush(Colors.White);
                 }
                 return new SolidColorBrush(Colors.Black);
             }

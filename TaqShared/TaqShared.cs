@@ -21,14 +21,23 @@ namespace TaqShared
 
     public class Shared
     {
+        public static double[] pm2_5_concens = new double[] { 11, 23, 35, 41, 47, 53, 58, 64, 70 };
+        public static string[] pm2_5_colors = new string[] { "#9cff9c", "#31ff00", "#31cf00", "#ffff00", "#ffcf00", "#ff9a00", "#ff6464", "#ff0000", "#990000", "#ce30ff" };
+        private Windows.Storage.ApplicationDataContainer localSettings;
         public Uri source = new Uri("http://YourTaqServerIp/taq/taq.xml");
         public string dataXmlFile = "taq.xml";
         public string currDataXmlFile = "currData.xml";
         //public XDocument currXd = new XDocument();
         public XDocument xd = new XDocument();
         public XDocument siteGeoXd = new XDocument();
-        public Site oldSite = new Site { siteName = "N/A", Pm2_5 = "0" };
-        public Site currSite = new Site { siteName = "N/A", Pm2_5 = "0" };
+        public Site oldSite = new Site { siteName = "N/A", Pm2_5 = 0 };
+        public Site currSite = new Site { siteName = "N/A", Pm2_5 = 0 };
+
+        public Shared()
+        {
+            localSettings =
+       Windows.Storage.ApplicationData.Current.LocalSettings;
+        }
 
         public async Task<int> downloadDataXml()
         {
@@ -107,13 +116,13 @@ namespace TaqShared
                 {
                     currXd = XDocument.Load(s);
                 }
-                oldSite = new Site { siteName = currXd.Descendants("SiteName").First().Value, Pm2_5 = currXd.Descendants("PM2.5").First().Value };
+                oldSite = new Site { siteName = currXd.Descendants("SiteName").First().Value, Pm2_5 = int.Parse(currXd.Descendants("PM2.5").First().Value) };
 
                 // Get new site.
                 var newSite = from d in xd.Descendants("Data")
                                 where d.Descendants("SiteName").First().Value == currXd.Descendants("SiteName").First().Value
                                 select d;
-                currSite = new Site { siteName = newSite.Descendants("SiteName").First().Value, Pm2_5 = newSite.Descendants("PM2.5").First().Value };
+                currSite = new Site { siteName = newSite.Descendants("SiteName").First().Value, Pm2_5 = int.Parse(newSite.Descendants("PM2.5").First().Value) };
 
                 // Save new site.
                 var saveCurrXd = new XDocument();
@@ -147,7 +156,7 @@ namespace TaqShared
 
             // create the square template and attach it to the wide template 
             ITileSquare150x150Block squareContent = TileContentFactory.CreateTileSquare150x150Block();
-            squareContent.TextBlock.Text = currSite.Pm2_5;
+            squareContent.TextBlock.Text = currSite.Pm2_5.ToString();
             squareContent.TextSubBlock.Text = "PM 2.5\n觀測站：" + currSite.siteName;
             wideContent.Square150x150Content = squareContent;
 
@@ -157,8 +166,9 @@ namespace TaqShared
 
         public void sendNotify()
         {
+            int pm2_5_WarnIdx = (int) localSettings.Values["Pm2_5_ConcensIdx"];
             var currMin = DateTime.Now.Minute;
-            if (!(oldSite.Pm2_5 != currSite.Pm2_5 && Int32.Parse(currSite.Pm2_5) >= 36))
+            if (!(oldSite.Pm2_5 != currSite.Pm2_5 && pm2_5ConcensToIdx(currSite.Pm2_5) > pm2_5_WarnIdx))
             {
                 return;
             }
@@ -205,6 +215,19 @@ namespace TaqShared
                     }
                 }
             };
+        }
+
+        public int pm2_5ConcensToIdx(int concens)
+        {
+            var i = 0;
+            for (; i < pm2_5_concens.Length; i++)
+            {
+                if (concens <= pm2_5_concens[i])
+                {
+                    break;
+                }
+            }
+            return i + 1;
         }
     }
 }

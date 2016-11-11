@@ -69,7 +69,7 @@ namespace Taq.Views
         {
 
 #if DEBUG
-            TimeSpan delay = TimeSpan.FromSeconds(3);
+            TimeSpan delay = TimeSpan.FromSeconds(3e3);
 #else
             TimeSpan delay = TimeSpan.FromSeconds(60);
 #endif
@@ -178,7 +178,7 @@ namespace Taq.Views
                 {
                     siteName = siteName,
                     County = d.Descendants("County").First().Value,
-                    Pm2_5 = d.Descendants("PM2.5").First().Value,
+                    Pm2_5 = int.Parse(d.Descendants("PM2.5").First().Value),
                     twd97Lat = double.Parse(geoD.Descendants("TWD97Lat").First().Value),
                     twd97Lon = double.Parse(geoD.Descendants("TWD97Lon").First().Value),
                 });

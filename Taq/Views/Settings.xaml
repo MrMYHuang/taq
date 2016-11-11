@@ -9,9 +9,14 @@
     mc:Ignorable="d"
     NavigationCacheMode="Enabled">
 
+    <Page.Resources>
+        <local:Double2Int x:Key="d2ic"></local:Double2Int>
+    </Page.Resources>
+
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <ToggleSwitch x:Name="themeToggle" Header="夜晚主題 (重新啟動app後生效)" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" IsOn="{x:Bind AppTheme, Mode=TwoWay}" FontSize="20"/>
+        <ToggleSwitch x:Name="themeToggle" Header="夜晚主題 (重新啟動app後生效)" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" IsOn="{x:Bind AppTheme, Mode=TwoWay}" FontSize="20" Width="340"/>
         <ToggleSwitch x:Name="mapColorToggle" Header="暗色地圖" HorizontalAlignment="Left" Margin="10,82,0,0" VerticalAlignment="Top" DataContext="app" IsOn="{x:Bind app.MapColor, Mode=TwoWay}" FontSize="20"/>
+        <Slider x:Name="slider" HorizontalAlignment="Left" Margin="10,154,0,0" VerticalAlignment="Top" Width="340" Minimum="1" Maximum="10" SnapsTo="Ticks" TickFrequency="1" FontSize="20" Header="PM 2.5級數上限(超過則發通知)" DataContext="site" Foreground="{x:Bind site.CircleColor, Mode=OneWay}" Background="{x:Bind site.CircleColor, Mode=OneWay}" Value="{x:Bind Pm2_5_ConcensIdx, Converter={StaticResource d2ic}, Mode=TwoWay}"  />
 
     </Grid>
 </Page>
