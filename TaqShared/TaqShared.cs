@@ -93,6 +93,7 @@ namespace TaqShared
             return 0;
         }
 
+        // Reload air quality XML files.
         public async Task<int> reloadXd()
         {
             var dataXml = await ApplicationData.Current.LocalFolder.GetFileAsync(dataXmlFile);
@@ -109,35 +110,15 @@ namespace TaqShared
         {
             try
             {
-                // Load old current site.
-                /*
-                var dataXml = await ApplicationData.Current.LocalFolder.GetFileAsync(currDataXmlFile);
-                XDocument currXd;
-                using (var s = await dataXml.OpenStreamForReadAsync())
-                {
-                    currXd = XDocument.Load(s);
-                }
-                oldSite = new Site { siteName = currXd.Descendants("SiteName").First().Value, Pm2_5 = currXd.Descendants("PM2.5").First().Value };
-                */
+                // Save old site.
                 oldSite = currSite;
                 
-                // Get new site.
+                // Get new site from the setting.
                 var newSiteName = (string)localSettings.Values["subscrSite"];
                 var newSite = from d in xd.Descendants("Data")
                                 where d.Descendants("SiteName").First().Value == newSiteName
                               select d;
                 currSite = new Site { siteName = newSite.Descendants("SiteName").First().Value, Pm2_5 = newSite.Descendants("PM2.5").First().Value };
-
-                /*
-                // Save new site.
-                var saveCurrXd = new XDocument();
-                saveCurrXd.Add(newSite.First());
-                var currDataFile = await ApplicationData.Current.LocalFolder.CreateFileAsync(currDataXmlFile, CreationCollisionOption.ReplaceExisting);
-                using (var c = await currDataFile.OpenStreamForWriteAsync())
-                {
-                    saveCurrXd.Save(c);
-                }
-                */
             }
             catch (Exception ex)
             {
