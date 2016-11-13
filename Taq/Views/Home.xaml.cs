@@ -34,7 +34,6 @@ namespace Taq.Views
     public sealed partial class Home : Page
     {
         public App app;
-        private IEnumerable<XElement> currData;
         // For updating UI after TaqBackTask downloads a new XML.
         ThreadPoolTimer periodicTimer;
 
@@ -98,7 +97,6 @@ namespace Taq.Views
         {
             await reloadDataX();
             await app.shared.loadCurrSite();
-            changeSelSiteListItem();
             return 0;
         }
 
@@ -124,35 +122,6 @@ namespace Taq.Views
             return 0;
         }
 
-        private async void listView_ItemClick(object sender, ItemClickEventArgs e)
-        {
-            var site = (Site)e.ClickedItem;
-            app.shared.currSite = site;
-
-            currData = from data in app.shared.xd.Descendants("Data")
-                       where data.Descendants("SiteName").First().Value == site.siteName
-                       select data;
-            var currXd = new XDocument();
-            currXd.Add(currData.First());
-            try
-            {
-                var currDataFile = await ApplicationData.Current.LocalFolder.CreateFileAsync(app.shared.currDataXmlFile, CreationCollisionOption.ReplaceExisting);
-                using (var c = await currDataFile.OpenStreamForWriteAsync())
-                {
-                    currXd.Save(c);
-                }
-            }
-            catch (Exception ex)
-            {
-                statusTextBlock.Text = "檔案寫入失敗：" + app.shared.currDataXmlFile;
-            }
-
-            app.shared.updateLiveTile();
-#if DEBUG
-            app.shared.sendNotify();
-#endif
-        }
-
         public async Task<int> reloadDataX()
         {
             await app.shared.reloadXd();
@@ -166,8 +135,7 @@ namespace Taq.Views
             {
                 removeAllSites();
             }
-
-            var i = 0;
+            
             foreach (var d in dataX.OrderBy(x => x.Element("County").Value))
             {
                 var siteName = d.Descendants("SiteName").First().Value;
@@ -178,38 +146,13 @@ namespace Taq.Views
                 {
                     siteName = siteName,
                     County = d.Descendants("County").First().Value,
-                    Pm2_5 = int.Parse(d.Descendants("PM2.5").First().Value),
+                    Pm2_5 = d.Descendants("PM2.5").First().Value,
                     twd97Lat = double.Parse(geoD.Descendants("TWD97Lat").First().Value),
                     twd97Lon = double.Parse(geoD.Descendants("TWD97Lon").First().Value),
                 });
-                i++;
             }
 
             return 0;
-        }
-
-        void changeSelSiteListItem()
-        {
-            var selSite = 0;
-            var i = 0;
-            var dataX = from data in app.shared.xd.Descendants("Data")
-                        select data;
-            foreach (var d in dataX.OrderBy(x => x.Element("County").Value))
-            {
-                if (d.Descendants("SiteName").First().Value == app.shared.currSite.siteName)
-                {
-                    selSite = i;
-                    break;
-                }
-                i++;
-            }
-            // Restore last selected site.
-            // listView might not be initialized asynchronously,
-            // so we check it.
-            if (listView.Items.Count != 0)
-            {
-                listView.SelectedIndex = selSite;
-            }
         }
 
         // Removing all items before updating, because the new download data XML file

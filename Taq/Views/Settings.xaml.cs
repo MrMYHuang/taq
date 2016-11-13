@@ -35,11 +35,7 @@ namespace Taq.Views
         {
             localSettings =
        Windows.Storage.ApplicationData.Current.LocalSettings;
-            if (localSettings.Values["Pm2_5_ConcensIdx"] == null)
-            {
-                localSettings.Values["Pm2_5_ConcensIdx"] = 4;
-            }
-            site = new Site { CircleColor = Shared.pm2_5_colors[(int) localSettings.Values["Pm2_5_ConcensIdx"] - 1] };
+            site = new Site { CircleColor = Shared.pm2_5_colors[(int)localSettings.Values["Pm2_5_ConcensIdx"] - 1] };
             this.InitializeComponent();
             app = App.Current as App;
         }
@@ -56,18 +52,18 @@ namespace Taq.Views
                 localSettings.Values["AppTheme"] = value;
             }
         }
-        
+
         public int Pm2_5_ConcensIdx
         {
             get
             {
-                return (int) localSettings.Values["Pm2_5_ConcensIdx"];
+                return (int)localSettings.Values["Pm2_5_ConcensIdx"];
             }
 
             set
             {
-                localSettings.Values["Pm2_5_ConcensIdx"] =  value;
-                site.CircleColor = Shared.pm2_5_colors[value-1];
+                localSettings.Values["Pm2_5_ConcensIdx"] = value;
+                site.CircleColor = Shared.pm2_5_colors[value - 1];
                 NotifyPropertyChanged();
             }
         }
@@ -79,6 +75,30 @@ namespace Taq.Views
             if (PropertyChanged != null)
             {
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+
+        private void comboBox_SelectionChanged(Object sender, SelectionChangedEventArgs e)
+        {
+            var selSite = (Site)((ComboBox)sender).SelectedItem;
+            app.shared.oldSite = app.shared.currSite;
+            app.shared.currSite = selSite;
+            localSettings.Values["subscrSite"] = selSite.siteName;
+            app.shared.updateLiveTile();
+#if DEBUG
+            app.shared.sendNotify();
+#endif
+        }
+
+        public int SubscrSite
+        {
+            get
+            {
+                var subscrSiteName = (string)localSettings.Values["subscrSite"];
+                var subscrSite = from s in app.sites
+                                 where s.siteName == subscrSiteName
+                                 select s;
+                return app.sites.IndexOf(subscrSite.First());
             }
         }
     }
@@ -95,5 +115,5 @@ namespace Taq.Views
             return System.Convert.ToInt32(value);
         }
     }
-    
+
 }

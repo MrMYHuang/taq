@@ -58,6 +58,14 @@ namespace Taq
             {
                 localSettings.Values["MapColor"] = false;
             }
+            if (localSettings.Values["Pm2_5_ConcensIdx"] == null)
+            {
+                localSettings.Values["Pm2_5_ConcensIdx"] = 4;
+            }
+            if (localSettings.Values["subscrSite"] == null)
+            {
+                localSettings.Values["subscrSite"] = "中壢";
+            }
         }
 
         public bool MapColor

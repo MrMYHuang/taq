@@ -12,38 +12,48 @@
         <Style x:Key="txtBlkSty1" TargetType="TextBlock">
             <Setter Property="FontSize" Value="16" />
             <Setter Property="TextAlignment" Value="Left" />
-            <Setter Property="Margin" Value="0, 0, 10, 0" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="Margin" Value="0, 0, 0, 0" />
             <Setter Property="MinWidth" Value="80" />
         </Style>
-        <DataTemplate x:Key="SiteListHeaderTemplate">
-        </DataTemplate>
-        <DataTemplate x:Key="SiteListDataTemplate" x:DataType="data:Site">
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Text="{x:Bind siteName}" Style="{StaticResource txtBlkSty1}"/>
-                <TextBlock Text="{x:Bind County}" Style="{StaticResource txtBlkSty1}" />
-                <TextBlock Text="{Binding Pm2_5}" Style="{StaticResource txtBlkSty1}" />
-            </StackPanel>
-        </DataTemplate>
     </Page.Resources>
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <StackPanel Orientation="Horizontal" Margin="22, 10, 0, 0">
-            <TextBlock Text="觀測站" Style="{StaticResource txtBlkSty1}" FontWeight="Bold"/>
-            <TextBlock Text="縣市" Style="{StaticResource txtBlkSty1}" FontWeight="Bold"/>
-            <TextBlock Text="PM 2.5" Style="{StaticResource txtBlkSty1}" FontWeight="Bold" />
+        <StackPanel Orientation="Horizontal" Margin="10, 10, 0, 0">
+            <TextBlock Text="觀測站" Style="{StaticResource txtBlkSty1}" VerticalAlignment="Top"/>
+            <TextBlock Text="縣市" Style="{StaticResource txtBlkSty1}" VerticalAlignment="Top"/>
+            <TextBlock Text="PM 2.5" Style="{StaticResource txtBlkSty1}" VerticalAlignment="Top"/>
         </StackPanel>
         <ListView
-                ItemsSource="{x:Bind app.sites}"
+                ItemsSource="{x:Bind app.sites, Mode=OneWay}"
                 x:Name="listView"
-                ItemTemplate="{StaticResource SiteListDataTemplate}"
-                SelectionMode="Single"
-                IsItemClickEnabled="True"
-                ItemClick="listView_ItemClick"
-                Margin="10,30,10,79"/>
+                Margin="10,40,10,50">
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="ListViewItem">
+                                <GridViewItemPresenter Content="{TemplateBinding Content}"></GridViewItemPresenter>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </ListView.ItemContainerStyle>
+            <ListView.ItemTemplate>
+                <DataTemplate x:DataType="data:Site">
+                    <Border Background="{x:Bind CircleColor}">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{x:Bind siteName}" Style="{StaticResource txtBlkSty1}" Foreground="{x:Bind TextColor}"/>
+                            <TextBlock Text="{x:Bind County}" Style="{StaticResource txtBlkSty1}" Foreground="{x:Bind TextColor}" />
+                            <TextBlock Text="{Binding Pm2_5}" Style="{StaticResource txtBlkSty1}" Foreground="{x:Bind TextColor}" />
+                    </StackPanel>
+                    </Border>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
 
-        <Button x:Name="button"  FontFamily="Segoe MDL2 Assets" Content="&#xE895;"  HorizontalAlignment="Left" Margin="10,0,0,10" VerticalAlignment="Bottom" Click="button_Click" Height="32" ToolTipService.ToolTip="更新" Width="35"/>
+        <Button x:Name="button"  FontFamily="Segoe MDL2 Assets" Content="&#xE895;"  HorizontalAlignment="Left" Margin="10,0,0,10" VerticalAlignment="Bottom" Click="button_Click" Height="32" ToolTipService.ToolTip="更新" Width="35" />
         <TextBlock x:Name="textBlock" HorizontalAlignment="Left" Margin="50,0,0,10" TextWrapping="Wrap" Text="狀態：" FontSize="20" Height="32" VerticalAlignment="Bottom"/>
         <TextBlock x:Name="statusTextBlock" HorizontalAlignment="Left" Margin="110,0,0,10" TextWrapping="Wrap" Text="訊息" FontSize="20" Height="32" VerticalAlignment="Bottom"/>
-        <TextBlock x:Name="textBlock_Copy" HorizontalAlignment="Left" Margin="10,0,0,47" TextWrapping="Wrap" Text="任選一觀測站作訂閱" FontSize="20" Height="27" VerticalAlignment="Bottom"/>
     </Grid>
 </Page>

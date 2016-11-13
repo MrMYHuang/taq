@@ -6,6 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:taq="using:Taq"
+    xmlns:data="using:TaqShared.Models"
     mc:Ignorable="d"
     NavigationCacheMode="Enabled">
 
@@ -14,9 +15,20 @@
     </Page.Resources>
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
         <ToggleSwitch x:Name="themeToggle" Header="夜晚主題 (重新啟動app後生效)" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" IsOn="{x:Bind AppTheme, Mode=TwoWay}" FontSize="20" Width="340"/>
+
         <ToggleSwitch x:Name="mapColorToggle" Header="暗色地圖" HorizontalAlignment="Left" Margin="10,82,0,0" VerticalAlignment="Top" DataContext="app" IsOn="{x:Bind app.MapColor, Mode=TwoWay}" FontSize="20"/>
-        <Slider x:Name="slider" HorizontalAlignment="Left" Margin="10,154,0,0" VerticalAlignment="Top" Width="340" Minimum="1" Maximum="10" SnapsTo="Ticks" TickFrequency="1" FontSize="20" Header="PM 2.5級數上限(超過則發通知)" DataContext="site" Foreground="{x:Bind site.CircleColor, Mode=OneWay}" Background="{x:Bind site.CircleColor, Mode=OneWay}" Value="{x:Bind Pm2_5_ConcensIdx, Converter={StaticResource d2ic}, Mode=TwoWay}"  />
+
+        <ComboBox x:Name="comboBox" HorizontalAlignment="Left" Margin="10,148,0,0" VerticalAlignment="Top" Width="340" FontSize="20" Header="訂閱觀測站(通知及動態磚)" ItemsSource="{x:Bind app.sites}" IsTapEnabled="True" SelectionChanged="comboBox_SelectionChanged" SelectedIndex="{x:Bind SubscrSite, Mode=OneWay}">
+            <ComboBox.ItemTemplate>
+                <DataTemplate x:DataType="data:Site">
+                    <TextBlock Text="{x:Bind siteName}"></TextBlock>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
+
+        <Slider x:Name="slider" HorizontalAlignment="Left" Margin="10,226,0,0" VerticalAlignment="Top" Width="340" Minimum="1" Maximum="10" SnapsTo="Ticks" TickFrequency="1" FontSize="20" Header="PM 2.5級數上限(超過則發通知)" DataContext="site" Foreground="{x:Bind site.CircleColor, Mode=OneWay}" Background="{x:Bind site.CircleColor, Mode=OneWay}" Value="{x:Bind Pm2_5_ConcensIdx, Converter={StaticResource d2ic}, Mode=TwoWay}"  />
 
     </Grid>
 </Page>
