@@ -29,11 +29,11 @@ namespace TaqShared.Models
 
         public string siteName;
         private string county { get; set; }
-        private int pm2_5 { get; set; }
+        private string pm2_5 { get; set; }
         public double twd97Lat;
         public double twd97Lon;
 
-        public int Pm2_5
+        public string Pm2_5
         {
             get
             {
@@ -44,12 +44,20 @@ namespace TaqShared.Models
             {
                 if (value != this.pm2_5)
                 {
-                    this.pm2_5 = value;
+                    if (value == "")
+                    {
+                        this.pm2_5 = "0";
+                    }
+                    else
+                    {
+                        this.pm2_5 = value;
+
+                    }
 
                     var i = 0;
                     for (; i < Shared.pm2_5_concens.Length; i++)
                     {
-                        if (pm2_5 <= Shared.pm2_5_concens[i])
+                        if (int.Parse(pm2_5) <= Shared.pm2_5_concens[i])
                         {
                             break;
                         }
@@ -81,7 +89,7 @@ namespace TaqShared.Models
             get
             {
                 var i = 0;
-                if (Pm2_5 > 47)
+                if (int.Parse(Pm2_5) > 47)
                 {
                     return new SolidColorBrush(Colors.White);
                 }

@@ -30,8 +30,8 @@ namespace TaqShared
         //public XDocument currXd = new XDocument();
         public XDocument xd = new XDocument();
         public XDocument siteGeoXd = new XDocument();
-        public Site oldSite = new Site { siteName = "N/A", Pm2_5 = 0 };
-        public Site currSite = new Site { siteName = "N/A", Pm2_5 = 0 };
+        public Site oldSite = new Site { siteName = "N/A", Pm2_5 = "0" };
+        public Site currSite = new Site { siteName = "N/A", Pm2_5 = "0" };
 
         public Shared()
         {
@@ -110,20 +110,25 @@ namespace TaqShared
             try
             {
                 // Load old current site.
+                /*
                 var dataXml = await ApplicationData.Current.LocalFolder.GetFileAsync(currDataXmlFile);
                 XDocument currXd;
                 using (var s = await dataXml.OpenStreamForReadAsync())
                 {
                     currXd = XDocument.Load(s);
                 }
-                oldSite = new Site { siteName = currXd.Descendants("SiteName").First().Value, Pm2_5 = int.Parse(currXd.Descendants("PM2.5").First().Value) };
-
+                oldSite = new Site { siteName = currXd.Descendants("SiteName").First().Value, Pm2_5 = currXd.Descendants("PM2.5").First().Value };
+                */
+                oldSite = currSite;
+                
                 // Get new site.
+                var newSiteName = (string)localSettings.Values["subscrSite"];
                 var newSite = from d in xd.Descendants("Data")
-                                where d.Descendants("SiteName").First().Value == currXd.Descendants("SiteName").First().Value
-                                select d;
-                currSite = new Site { siteName = newSite.Descendants("SiteName").First().Value, Pm2_5 = int.Parse(newSite.Descendants("PM2.5").First().Value) };
+                                where d.Descendants("SiteName").First().Value == newSiteName
+                              select d;
+                currSite = new Site { siteName = newSite.Descendants("SiteName").First().Value, Pm2_5 = newSite.Descendants("PM2.5").First().Value };
 
+                /*
                 // Save new site.
                 var saveCurrXd = new XDocument();
                 saveCurrXd.Add(newSite.First());
@@ -132,6 +137,7 @@ namespace TaqShared
                 {
                     saveCurrXd.Save(c);
                 }
+                */
             }
             catch (Exception ex)
             {
@@ -167,8 +173,8 @@ namespace TaqShared
         public void sendNotify()
         {
             int pm2_5_WarnIdx = (int) localSettings.Values["Pm2_5_ConcensIdx"];
-            var currMin = DateTime.Now.Minute;
-            if (!(oldSite.Pm2_5 != currSite.Pm2_5 && pm2_5ConcensToIdx(currSite.Pm2_5) > pm2_5_WarnIdx))
+            //var currMin = DateTime.Now.Minute;
+            if (!(oldSite.Pm2_5 != currSite.Pm2_5 && pm2_5ConcensToIdx(int.Parse(currSite.Pm2_5)) > pm2_5_WarnIdx))
             {
                 return;
             }

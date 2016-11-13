@@ -124,6 +124,7 @@ namespace Taq.Views
             return 0;
         }
 
+        /*
         private async void listView_ItemClick(object sender, ItemClickEventArgs e)
         {
             var site = (Site)e.ClickedItem;
@@ -151,7 +152,7 @@ namespace Taq.Views
 #if DEBUG
             app.shared.sendNotify();
 #endif
-        }
+        }*/
 
         public async Task<int> reloadDataX()
         {
@@ -166,8 +167,7 @@ namespace Taq.Views
             {
                 removeAllSites();
             }
-
-            var i = 0;
+            
             foreach (var d in dataX.OrderBy(x => x.Element("County").Value))
             {
                 var siteName = d.Descendants("SiteName").First().Value;
@@ -178,11 +178,10 @@ namespace Taq.Views
                 {
                     siteName = siteName,
                     County = d.Descendants("County").First().Value,
-                    Pm2_5 = int.Parse(d.Descendants("PM2.5").First().Value),
+                    Pm2_5 = d.Descendants("PM2.5").First().Value,
                     twd97Lat = double.Parse(geoD.Descendants("TWD97Lat").First().Value),
                     twd97Lon = double.Parse(geoD.Descendants("TWD97Lon").First().Value),
                 });
-                i++;
             }
 
             return 0;
