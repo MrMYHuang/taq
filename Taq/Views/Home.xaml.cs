@@ -34,7 +34,6 @@ namespace Taq.Views
     public sealed partial class Home : Page
     {
         public App app;
-        private IEnumerable<XElement> currData;
         // For updating UI after TaqBackTask downloads a new XML.
         ThreadPoolTimer periodicTimer;
 

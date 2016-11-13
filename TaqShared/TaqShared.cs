@@ -155,7 +155,7 @@ namespace TaqShared
         {
             int pm2_5_WarnIdx = (int) localSettings.Values["Pm2_5_ConcensIdx"];
             //var currMin = DateTime.Now.Minute;
-            if (!(oldSite.Pm2_5 != currSite.Pm2_5 && pm2_5ConcensToIdx(int.Parse(currSite.Pm2_5)) > pm2_5_WarnIdx))
+            if (!(oldSite.Pm2_5 != currSite.Pm2_5 && pm2_5ConcensToIdx(currSite.pm2_5_int) > pm2_5_WarnIdx))
             {
                 return;
             }
