@@ -95,7 +95,7 @@ namespace Taq.Views
         }
         public async Task<int> updateListView()
         {
-            await reloadDataX();
+            await app.shared.reloadDataX();
             await app.shared.loadCurrSite();
             return 0;
         }
@@ -120,49 +120,6 @@ namespace Taq.Views
                 statusTextBlock.Text = "手動更新失敗。";
             }
             return 0;
-        }
-
-        public async Task<int> reloadDataX()
-        {
-            await app.shared.reloadXd();
-            var dataX = from data in app.shared.xd.Descendants("Data")
-                        select data;
-            await app.shared.loadSiteGeoXd();
-            var geoDataX = from data in app.shared.siteGeoXd.Descendants("Data")
-                           select data;
-
-            if (app.sites.Count != 0)
-            {
-                removeAllSites();
-            }
-            
-            foreach (var d in dataX.OrderBy(x => x.Element("County").Value))
-            {
-                var siteName = d.Descendants("SiteName").First().Value;
-                var geoD = from gd in geoDataX
-                           where gd.Descendants("SiteName").First().Value == siteName
-                           select gd;
-                app.sites.Add(new Site
-                {
-                    siteName = siteName,
-                    County = d.Descendants("County").First().Value,
-                    Pm2_5 = d.Descendants("PM2.5").First().Value,
-                    twd97Lat = double.Parse(geoD.Descendants("TWD97Lat").First().Value),
-                    twd97Lon = double.Parse(geoD.Descendants("TWD97Lon").First().Value),
-                });
-            }
-
-            return 0;
-        }
-
-        // Removing all items before updating, because the new download data XML file
-        // could have a different number of Data elements from the old one.
-        public void removeAllSites()
-        {
-            for (var i = app.sites.Count() - 1; i >= 0; i--)
-            {
-                app.sites.RemoveAt(i);
-            }
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)

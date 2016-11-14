@@ -35,7 +35,6 @@ namespace Taq
         /// executed, and as such is the logical equivalent of main() or WinMain().
         /// </summary>
         public Shared shared = new Shared();
-        public ObservableCollection<Site> sites = new ObservableCollection<Site>();
         public Windows.Storage.ApplicationDataContainer localSettings;
 
         public App()

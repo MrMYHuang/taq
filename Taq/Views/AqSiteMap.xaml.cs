@@ -65,7 +65,7 @@ namespace Taq.Views
                 }
             }
             // Add PM 2.5 map icons.
-            foreach (var s in app.sites)
+            foreach (var s in app.shared.sites)
             {
                 addMapIcon(s);
             }

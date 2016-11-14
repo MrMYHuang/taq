@@ -2,8 +2,11 @@
 using NotificationsExtensions.TileContent;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
@@ -19,7 +22,7 @@ namespace TaqShared
 
     }
 
-    public class Shared
+    public class Shared : INotifyPropertyChanged
     {
         public static double[] pm2_5_concens = new double[] { 11, 23, 35, 41, 47, 53, 58, 64, 70 };
         public static string[] pm2_5_colors = new string[] { "#9cff9c", "#31ff00", "#31cf00", "#ffff00", "#ffcf00", "#ff9a00", "#ff6464", "#ff0000", "#990000", "#ce30ff" };
@@ -30,6 +33,7 @@ namespace TaqShared
         //public XDocument currXd = new XDocument();
         public XDocument xd = new XDocument();
         public XDocument siteGeoXd = new XDocument();
+        public ObservableCollection<Site> sites = new ObservableCollection<Site>();
         public Site oldSite = new Site { siteName = "N/A", Pm2_5 = "0" };
         public Site currSite = new Site { siteName = "N/A", Pm2_5 = "0" };
 
@@ -106,6 +110,51 @@ namespace TaqShared
             return 0;
         }
 
+        public async Task<int> reloadDataX()
+        {
+            await reloadXd();
+            var dataX = from data in xd.Descendants("Data")
+                        select data;
+            await loadSiteGeoXd();
+            var geoDataX = from data in siteGeoXd.Descendants("Data")
+                           select data;
+
+            if (sites.Count != 0)
+            {
+                removeAllSites();
+            }
+
+            foreach (var d in dataX.OrderBy(x => x.Element("County").Value))
+            {
+                var siteName = d.Descendants("SiteName").First().Value;
+                var geoD = from gd in geoDataX
+                           where gd.Descendants("SiteName").First().Value == siteName
+                           select gd;
+                sites.Add(new Site
+                {
+                    siteName = siteName,
+                    County = d.Descendants("County").First().Value,
+                    Pm2_5 = d.Descendants("PM2.5").First().Value,
+                    twd97Lat = double.Parse(geoD.Descendants("TWD97Lat").First().Value),
+                    twd97Lon = double.Parse(geoD.Descendants("TWD97Lon").First().Value),
+                });
+            }
+
+            reloadSubscrSiteId();
+
+            return 0;
+        }
+
+        // Removing all items before updating, because the new download data XML file
+        // could have a different number of Data elements from the old one.
+        public void removeAllSites()
+        {
+            for (var i = sites.Count() - 1; i >= 0; i--)
+            {
+                sites.RemoveAt(i);
+            }
+        }
+
         public async Task<int> loadCurrSite()
         {
             try
@@ -125,6 +174,29 @@ namespace TaqShared
 
             }
             return 0;
+        }
+
+        private int subscrSiteId;
+        public int SubscrSiteId
+        {
+            get
+            {
+                return subscrSiteId;
+            }
+            set
+            {
+                subscrSiteId = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public void reloadSubscrSiteId()
+        {
+            var subscrSiteName = (string)localSettings.Values["subscrSite"];
+            var subscrSiteElem = from s in sites
+                                 where s.siteName == subscrSiteName
+                                 select s;
+            SubscrSiteId = sites.IndexOf(subscrSiteElem.First());
         }
 
         public void updateLiveTile()
@@ -215,6 +287,16 @@ namespace TaqShared
                 }
             }
             return i + 1;
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
         }
     }
 }

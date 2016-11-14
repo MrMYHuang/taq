@@ -81,6 +81,11 @@ namespace Taq.Views
         private void comboBox_SelectionChanged(Object sender, SelectionChangedEventArgs e)
         {
             var selSite = (Site)((ComboBox)sender).SelectedItem;
+            // sites reloading can trigger this event handler and results in null.
+            if(selSite == null)
+            {
+                return;
+            }
             app.shared.oldSite = app.shared.currSite;
             app.shared.currSite = selSite;
             localSettings.Values["subscrSite"] = selSite.siteName;
@@ -88,18 +93,6 @@ namespace Taq.Views
 #if DEBUG
             app.shared.sendNotify();
 #endif
-        }
-
-        public int SubscrSite
-        {
-            get
-            {
-                var subscrSiteName = (string)localSettings.Values["subscrSite"];
-                var subscrSite = from s in app.sites
-                                 where s.siteName == subscrSiteName
-                                 select s;
-                return app.sites.IndexOf(subscrSite.First());
-            }
         }
     }
 
