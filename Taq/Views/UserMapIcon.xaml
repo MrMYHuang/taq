@@ -6,8 +6,8 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    d:DesignHeight="20"
-    d:DesignWidth="20" IsHitTestVisible="False">
+    d:DesignHeight="30"
+    d:DesignWidth="30" IsHitTestVisible="False">
 
     <Grid>
         <Ellipse Width="22" Height="22" Fill="White" StrokeThickness="3" >
