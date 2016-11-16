@@ -155,5 +155,10 @@ namespace Taq.Views
         {
             await refreshSites();
         }
+
+        private async void Page_Loaded(Object sender, RoutedEventArgs e)
+        {
+            await updateListView();
+        }
     }
 }

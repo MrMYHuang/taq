@@ -20,7 +20,7 @@
 
         <ToggleSwitch x:Name="mapColorToggle" Header="暗色地圖" HorizontalAlignment="Left" Margin="10,82,0,0" VerticalAlignment="Top" DataContext="app" IsOn="{x:Bind app.MapColor, Mode=TwoWay}" FontSize="20"/>
 
-        <ComboBox x:Name="comboBox" HorizontalAlignment="Left" Margin="10,148,0,0" VerticalAlignment="Top" Width="340" FontSize="20" Header="訂閱觀測站(通知及動態磚)" ItemsSource="{x:Bind app.shared.sites}" IsTapEnabled="True" SelectedIndex="{x:Bind app.shared.SubscrSiteId, Mode=OneWay}" SelectionChanged="comboBox_SelectionChanged">
+        <ComboBox x:Name="comboBox" HorizontalAlignment="Left" Margin="10,148,0,0" VerticalAlignment="Top" Width="265" FontSize="20" Header="訂閱觀測站(通知及動態磚)" ItemsSource="{x:Bind app.shared.sites}" IsTapEnabled="True" SelectedIndex="{x:Bind app.shared.SubscrSiteId, Mode=OneWay}" SelectionChanged="comboBox_SelectionChanged">
             <ComboBox.ItemTemplate>
                 <DataTemplate x:DataType="data:Site">
                     <TextBlock Text="{x:Bind siteName}"></TextBlock>
@@ -28,7 +28,7 @@
             </ComboBox.ItemTemplate>
         </ComboBox>
 
-        <Slider x:Name="slider" HorizontalAlignment="Left" Margin="10,226,0,0" VerticalAlignment="Top" Width="340" Minimum="1" Maximum="10" SnapsTo="Ticks" TickFrequency="1" FontSize="20" Header="PM 2.5級數上限(超過則發通知)" DataContext="site" Foreground="{x:Bind site.CircleColor, Mode=OneWay}" Background="{x:Bind site.CircleColor, Mode=OneWay}" Value="{x:Bind Pm2_5_ConcensIdx, Converter={StaticResource d2ic}, Mode=TwoWay}"  />
+        <Slider x:Name="slider" HorizontalAlignment="Left" Margin="10,226,0,0" VerticalAlignment="Top" Width="265" Minimum="1" Maximum="10" SnapsTo="Ticks" TickFrequency="1" FontSize="20" Header="PM 2.5級數上限(超過則發通知)" DataContext="site" Foreground="{x:Bind site.CircleColor, Mode=OneWay}" Background="{x:Bind site.CircleColor, Mode=OneWay}" Value="{x:Bind Pm2_5_ConcensIdx, Converter={StaticResource d2ic}, Mode=TwoWay}"  />
 
     </Grid>
 </Page>
