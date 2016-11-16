@@ -20,9 +20,24 @@
         <HubSection Header="已知問題" Width="Auto">
             <DataTemplate>
                 <TextBlock Style="{StaticResource txtBlkSty1}" >
-                    1. 地圖頁面在無網路情況下會造成閃退。<LineBreak />
-                    2. 點選通知中心裡的TAQ通知訊息，會造成app涷結。<LineBreak />
-                    3. 地圖PM 2.5標示不會定時更新。<LineBreak />
+                    1. 點選通知中心裡的TAQ通知訊息，會造成app涷結。<LineBreak />
+                    2. 地圖PM 2.5標示不會定時更新。<LineBreak />
+                </TextBlock>
+            </DataTemplate>
+        </HubSection>
+        <HubSection Header="Ver. 1.10.4" Width="Auto">
+            <DataTemplate>
+                <TextBlock Style="{StaticResource txtBlkSty1}" >
+                    1. 背景更新任務改成app啟動後只註冊一次。<LineBreak />
+                </TextBlock>
+            </DataTemplate>
+        </HubSection>
+        <HubSection Header="Ver. 1.10.3" Width="Auto">
+            <DataTemplate>
+                <TextBlock Style="{StaticResource txtBlkSty1}" >
+                    1. 修正設定頁在縱向某些解析度下會被截掉。<LineBreak />
+                    2. 部分資料更新優化。<LineBreak />
+                    3. 修正無網路時，開啟設定頁、地圖頁會閃退。<LineBreak />
                 </TextBlock>
             </DataTemplate>
         </HubSection>

@@ -82,13 +82,13 @@ namespace Taq.Views
         {
             var selSite = (Site)((ComboBox)sender).SelectedItem;
             // sites reloading can trigger this event handler and results in null.
-            if(selSite == null)
+            if (selSite == null)
             {
                 return;
             }
-            app.shared.oldSite = app.shared.currSite;
-            app.shared.currSite = selSite;
             localSettings.Values["subscrSite"] = selSite.siteName;
+            app.shared.oldSite = app.shared.currSite;
+            app.shared.currSite = app.shared.sites.Where(s => s.siteName == selSite.siteName).First();
             app.shared.updateLiveTile();
 #if DEBUG
             app.shared.sendNotify();

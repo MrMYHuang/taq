@@ -11,6 +11,7 @@ using TaqShared;
 using TaqShared.Models;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
+using Windows.ApplicationModel.Background;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Globalization;
@@ -40,8 +41,10 @@ namespace Taq
         public App()
         {
             initLocalSettings();
+            shared.loadSiteGeoXd();
             this.InitializeComponent();
             this.Suspending += OnSuspending;
+            this.RegisterBackgroundTask();
         }
 
         private void initLocalSettings()
@@ -59,11 +62,35 @@ namespace Taq
             }
             if (localSettings.Values["Pm2_5_ConcensIdx"] == null)
             {
-                localSettings.Values["Pm2_5_ConcensIdx"] = 4;
+                localSettings.Values["Pm2_5_ConcensIdx"] = 3;
             }
             if (localSettings.Values["subscrSite"] == null)
             {
                 localSettings.Values["subscrSite"] = "中壢";
+            }
+        }
+
+        private const string taskName = "TaqBackTask";
+        private const string taskEntryPoint = "TaqBackTask.TaqBackTask";
+        private async void RegisterBackgroundTask()
+        {
+            var backgroundAccessStatus = await BackgroundExecutionManager.RequestAccessAsync();
+            if (backgroundAccessStatus == BackgroundAccessStatus.AllowedMayUseActiveRealTimeConnectivity ||
+                backgroundAccessStatus == BackgroundAccessStatus.AllowedWithAlwaysOnRealTimeConnectivity)
+            {
+                foreach (var task in BackgroundTaskRegistration.AllTasks)
+                {
+                    if (task.Value.Name == taskName)
+                    {
+                        task.Value.Unregister(true);
+                    }
+                }
+
+                BackgroundTaskBuilder taskBuilder = new BackgroundTaskBuilder();
+                taskBuilder.Name = taskName;
+                taskBuilder.TaskEntryPoint = taskEntryPoint;
+                taskBuilder.SetTrigger(new TimeTrigger(15, false));
+                var registration = taskBuilder.Register();
             }
         }
 

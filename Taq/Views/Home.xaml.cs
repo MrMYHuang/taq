@@ -41,18 +41,18 @@ namespace Taq.Views
         {
             this.InitializeComponent();
             app = App.Current as App;
-            initAqData();
+            downloadAndReload();
             initPeriodicTimer();
             this.DataContext = this;
         }
 
-        public async void initAqData()
+        public async Task<int> downloadAndReload()
         {
             try
             {
+                statusTextBlock.Text = "Download start.";
                 await app.shared.downloadDataXml();
-                await updateListView();
-                app.shared.updateLiveTile();
+                statusTextBlock.Text = "Download finish.";
             }
             catch (DownloadException ex)
             {
@@ -60,8 +60,21 @@ namespace Taq.Views
             }
             catch (Exception ex)
             {
-                statusTextBlock.Text = "初始化失敗。請檢查網路，再嘗試手動更新。";
+                statusTextBlock.Text = "錯誤，請嘗試手動更新。";
             }
+
+            try
+            {
+                await app.shared.reloadXd();
+            }
+            catch (Exception ex)
+            {
+                // Ignore.
+            }
+
+            await updateListView();
+            app.shared.updateLiveTile();
+            return 0;
         }
 
         private void initPeriodicTimer()
@@ -72,93 +85,58 @@ namespace Taq.Views
 #else
             TimeSpan delay = TimeSpan.FromSeconds(60);
 #endif
-            periodicTimer = ThreadPoolTimer.CreatePeriodicTimer((source) =>
+            periodicTimer = ThreadPoolTimer.CreatePeriodicTimer(async (source) =>
             {
                 // TODO: Work
 
                 // Update the UI thread by using the UI core dispatcher.
-                Dispatcher.RunAsync(CoreDispatcherPriority.High,
-                    () =>
-                    {
-                        try
+                await Dispatcher.RunAsync(CoreDispatcherPriority.High,
+                        async () =>
                         {
-                            updateListView();
+                            await ReloadXdAndUpdateList()
                         }
-                        catch (Exception ex)
-                        {
-                            statusTextBlock.Text = "自動更新失敗。請嘗試手動更新。";
-                        }
-                    }
-                );
+                    );
 
             }, delay);
         }
-        public async Task<int> updateListView()
-        {
-            await app.shared.reloadDataX();
-            await app.shared.loadCurrSite();
-            return 0;
-        }
 
-        public async Task<int> refreshSites()
+        public async Task<int> updateListView()
         {
             try
             {
-                statusTextBlock.Text = "Download start.";
-                await app.shared.downloadDataXml();
-                statusTextBlock.Text = "Download finish.";
-                await updateListView();
-                app.shared.updateLiveTile();
-                app.shared.sendNotify();
-            }
-            catch (DownloadException ex)
-            {
-                statusTextBlock.Text = "資料庫下載失敗。請檢查網路，再嘗試手動更新。";
+                await app.shared.reloadDataX();
+                await app.shared.loadCurrSite();
             }
             catch (Exception ex)
             {
-                statusTextBlock.Text = "手動更新失敗。";
+                statusTextBlock.Text = "列表更新失敗，請重試手動更新。";
             }
             return 0;
         }
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        private async Task<int> ReloadXdAndUpdateList()
         {
-            this.RegisterBackgroundTask();
-        }
-
-        private const string taskName = "TaqBackTask";
-        private const string taskEntryPoint = "TaqBackTask.TaqBackTask";
-        private async void RegisterBackgroundTask()
-        {
-            var backgroundAccessStatus = await BackgroundExecutionManager.RequestAccessAsync();
-            if (backgroundAccessStatus == BackgroundAccessStatus.AllowedMayUseActiveRealTimeConnectivity ||
-                backgroundAccessStatus == BackgroundAccessStatus.AllowedWithAlwaysOnRealTimeConnectivity)
+            try
             {
-                foreach (var task in BackgroundTaskRegistration.AllTasks)
-                {
-                    if (task.Value.Name == taskName)
-                    {
-                        task.Value.Unregister(true);
-                    }
-                }
-
-                BackgroundTaskBuilder taskBuilder = new BackgroundTaskBuilder();
-                taskBuilder.Name = taskName;
-                taskBuilder.TaskEntryPoint = taskEntryPoint;
-                taskBuilder.SetTrigger(new TimeTrigger(15, false));
-                var registration = taskBuilder.Register();
+                await app.shared.reloadXd();
+                await updateListView();
             }
+            catch (Exception ex)
+            {
+                statusTextBlock.Text = "自動更新失敗。請嘗試手動更新。";
+            }
+            return 0;
         }
 
         private async void button_Click(Object sender, RoutedEventArgs e)
         {
-            await refreshSites();
+            await downloadAndReload();
+            app.shared.sendNotify();
         }
 
         private async void Page_Loaded(Object sender, RoutedEventArgs e)
         {
-            await updateListView();
+            await ReloadXdAndUpdateList();
         }
     }
 }

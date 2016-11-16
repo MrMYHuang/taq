@@ -49,7 +49,7 @@
             <DataTemplate>
                 <TextBlock Style="{StaticResource txtBlkSty1}">
             作者信箱：<Hyperlink NavigateUri="{Binding mailUri}">myhDev@live.com</Hyperlink><LineBreak/>
-            作者：Meng-Yuan Huang
+            作者：Meng-Yuan Huang<LineBreak/>
                 </TextBlock>
             </DataTemplate>
         </HubSection>

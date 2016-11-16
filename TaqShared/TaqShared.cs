@@ -21,6 +21,10 @@ namespace TaqShared
     {
 
     }
+    public class OldXmlException : Exception
+    {
+
+    }
 
     public class Shared : INotifyPropertyChanged
     {
@@ -53,36 +57,24 @@ namespace TaqShared
             DownloadOperation download = downloader.CreateDownload(source, dstFile);
 
             var task = Task.Run(async () => await download.StartAsync().AsTask());
-            if (task.Wait(TimeSpan.FromSeconds(2)))
-            {
-                // file is downloaded in time
-            }
-            else
-            {
-                // timeout is reached - how to cancel downloadOperation ?????
-                download.AttachAsync().Cancel();
-                throw new DownloadException();
-            }
-
-
+            var downloadSuccess = task.Wait(TimeSpan.FromSeconds(2));
             // Forcly close stream!?
             using (var s = await dstFile.OpenStreamForWriteAsync())
             {
 
             }
 
-            await reloadXd();
-            //}
-            /*
-            catch (Exception ex)
+            // timeout is reached.
+            if (!downloadSuccess)
             {
-                //LogException("Download Error", ex);
+                download.AttachAsync().Cancel();
+                throw new DownloadException();
             }
-            */
+
             return 0;
         }
 
-        public async Task<int> loadSiteGeoXd()
+        public int loadSiteGeoXd()
         {
             /*
             var dataXml = await ApplicationData.Current.LocalFolder.GetFileAsync("Assets/SiteGeo.xml");
@@ -101,10 +93,18 @@ namespace TaqShared
         public async Task<int> reloadXd()
         {
             var dataXml = await ApplicationData.Current.LocalFolder.GetFileAsync(dataXmlFile);
-            using (var s = await dataXml.OpenStreamForReadAsync())
+            try
             {
-                // Reload to xd.
-                xd = XDocument.Load(s);
+                using (var s = await dataXml.OpenStreamForReadAsync())
+                {
+                    // Reload to xd.
+                    xd = XDocument.Load(s);
+                }
+            }
+            catch (Exception ex)
+            {
+                xd = XDocument.Load("Assets/taq.xml");
+                throw new OldXmlException();
             }
 
             return 0;
@@ -112,10 +112,8 @@ namespace TaqShared
 
         public async Task<int> reloadDataX()
         {
-            await reloadXd();
             var dataX = from data in xd.Descendants("Data")
                         select data;
-            await loadSiteGeoXd();
             var geoDataX = from data in siteGeoXd.Descendants("Data")
                            select data;
 
@@ -141,7 +139,6 @@ namespace TaqShared
             }
 
             reloadSubscrSiteId();
-
             return 0;
         }
 
@@ -161,11 +158,11 @@ namespace TaqShared
             {
                 // Save old site.
                 oldSite = currSite;
-                
+
                 // Get new site from the setting.
                 var newSiteName = (string)localSettings.Values["subscrSite"];
                 var newSite = from d in xd.Descendants("Data")
-                                where d.Descendants("SiteName").First().Value == newSiteName
+                              where d.Descendants("SiteName").First().Value == newSiteName
                               select d;
                 currSite = new Site { siteName = newSite.Descendants("SiteName").First().Value, Pm2_5 = newSite.Descendants("PM2.5").First().Value };
             }
@@ -225,7 +222,7 @@ namespace TaqShared
 
         public void sendNotify()
         {
-            int pm2_5_WarnIdx = (int) localSettings.Values["Pm2_5_ConcensIdx"];
+            int pm2_5_WarnIdx = (int)localSettings.Values["Pm2_5_ConcensIdx"];
             //var currMin = DateTime.Now.Minute;
             if (!(oldSite.Pm2_5 != currSite.Pm2_5 && pm2_5ConcensToIdx(currSite.pm2_5_int) > pm2_5_WarnIdx))
             {

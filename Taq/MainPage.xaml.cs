@@ -44,7 +44,6 @@ namespace Taq
         {
             this.InitializeComponent();
             frame.Navigate(typeof(Home));
-
         }
 
         private void HamburgerButton_Click(Object sender, RoutedEventArgs e)
