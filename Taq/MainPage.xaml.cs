@@ -80,5 +80,10 @@ namespace Taq
         {
             frame.Navigate(typeof(Settings));
         }
+
+        private void listButton_Click(Object sender, TappedRoutedEventArgs e)
+        {
+            frame.Navigate(typeof(AqList));
+        }
     }
 }

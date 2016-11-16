@@ -60,10 +60,17 @@
                         </StackPanel>
                     </ListViewItem>
 
+                    <ListViewItem Tapped="listButton_Click">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="&#xEA37;" Style="{StaticResource txtBlkSty1}" />
+                            <TextBlock Text="列表" Style="{StaticResource txtBlkSty2}" />
+                        </StackPanel>
+                    </ListViewItem>
+
                     <ListViewItem Tapped="homeButton_Click">
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock x:Name="homeButton" Text="&#xEA37;" Style="{StaticResource txtBlkSty1}" />
-                            <TextBlock Text="列表" Style="{StaticResource txtBlkSty2}" />
+                            <TextBlock x:Name="homeButton" Text="&#xE80F;" Style="{StaticResource txtBlkSty1}" />
+                            <TextBlock Text="首頁" Style="{StaticResource txtBlkSty2}" />
                         </StackPanel>
                     </ListViewItem>
                     
