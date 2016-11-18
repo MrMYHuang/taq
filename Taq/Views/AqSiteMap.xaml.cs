@@ -1,26 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Globalization;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using System.Threading.Tasks;
-using TaqShared;
 using TaqShared.Models;
 using Windows.Devices.Geolocation;
 using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.Storage;
-using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Maps;
-using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
 using Windows.UI.Xaml.Shapes;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
@@ -57,20 +43,17 @@ namespace Taq.Views
         Geolocator geoLoc;
         private async void initPos(object sender, RoutedEventArgs e)
         {
-            if (map.Children.Count != 0)
+            addMapIcons();
+
+            try
             {
-                for (var i = map.Children.Count - 1; i >= 0; i--)
-                {
-                    map.Children.RemoveAt(i);
-                }
+                locAccStat = await Geolocator.RequestAccessAsync();
             }
-            // Add PM 2.5 map icons.
-            foreach (var s in app.shared.sites)
+            catch (Exception ex)
             {
-                addMapIcon(s);
+                statusTextBlock.Text = "自動定位失敗。";
             }
 
-            locAccStat = await Geolocator.RequestAccessAsync();
             switch (locAccStat)
             {
                 case GeolocationAccessStatus.Allowed:
@@ -102,6 +85,23 @@ namespace Taq.Views
             });
         }
         */
+
+        private void addMapIcons()
+        {
+            // Remove old icons.
+            if (map.Children.Count != 0)
+            {
+                for (var i = map.Children.Count - 1; i >= 0; i--)
+                {
+                    map.Children.RemoveAt(i);
+                }
+            }
+            // Add new PM 2.5 map icons.
+            foreach (var s in app.shared.sites)
+            {
+                addMapIcon(s);
+            }
+        }
 
         private void addMapIcon(Site site)
         {

@@ -1,23 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.IO;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices.WindowsRuntime;
 using TaqShared;
 using TaqShared.Models;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
-using Windows.UI;
-using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Maps;
-using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -78,7 +65,7 @@ namespace Taq.Views
             }
         }
 
-        private void comboBox_SelectionChanged(Object sender, SelectionChangedEventArgs e)
+        private async void comboBox_SelectionChanged(Object sender, SelectionChangedEventArgs e)
         {
             var selSite = (Site)((ComboBox)sender).SelectedItem;
             // sites reloading can trigger this event handler and results in null.
@@ -87,8 +74,8 @@ namespace Taq.Views
                 return;
             }
             localSettings.Values["subscrSite"] = selSite.siteName;
-            app.shared.oldSite = app.shared.currSite;
-            app.shared.currSite = app.shared.sites.Where(s => s.siteName == selSite.siteName).First();
+            //app.shared.currSite = app.shared.sites.Where(s => s.siteName == selSite.siteName).First();
+            await app.shared.loadCurrSite();
             app.shared.Site2Coll();
             app.shared.updateLiveTile();
 #if DEBUG

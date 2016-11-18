@@ -7,7 +7,6 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using TaqShared.Models;
@@ -34,13 +33,14 @@ namespace TaqShared
         public Uri source = new Uri("http://YourTaqServerIp/taq/taq.xml");
         public string dataXmlFile = "taq.xml";
         public string currDataXmlFile = "currData.xml";
-        //public XDocument currXd = new XDocument();
         public XDocument xd = new XDocument();
         public XDocument siteGeoXd = new XDocument();
         public ObservableCollection<Site> sites = new ObservableCollection<Site>();
-        public Site oldSite = new Site { siteName = "N/A", Pm2_5 = "0" };
         public Site currSite = new Site { siteName = "N/A", Pm2_5 = "0" };
         public ObservableCollection<string> currSiteStr = new ObservableCollection<string>();
+
+        public Site oldSite = new Site { siteName = "N/A", Pm2_5 = "0" };
+
 
         public Dictionary<string, string> fieldNames = new Dictionary<string, string>
         {
@@ -178,15 +178,39 @@ namespace TaqShared
         {
             try
             {
-                // Save old site.
-                oldSite = currSite;
+                // Load the old site.
+                XDocument loadOldXd = new XDocument();
+                var loadOldXml = await ApplicationData.Current.LocalFolder.GetFileAsync("OldSite.xml");
+                using (var s = await loadOldXml.OpenStreamForReadAsync())
+                {
+                    loadOldXd = XDocument.Load(s);
+                }
+                var oldSiteX = loadOldXd.Descendants("Data").First();
+                oldSite = new Site { siteName = oldSiteX.Descendants("SiteName").First().Value, Pm2_5 = oldSiteX.Descendants("PM2.5").First().Value };
+            }
+            catch (Exception ex)
+            {
+                // Ignore.
+            }
 
+            try
+            {
                 // Get new site from the setting.
                 var newSiteName = (string)localSettings.Values["subscrSite"];
                 var newSite = from d in xd.Descendants("Data")
                               where d.Descendants("SiteName").First().Value == newSiteName
                               select d;
                 currSite = new Site { siteName = newSite.Descendants("SiteName").First().Value, Pm2_5 = newSite.Descendants("PM2.5").First().Value };
+
+                // Save the current site as old site.
+                XDocument saveOldXd = new XDocument();
+                saveOldXd.Add(newSite);
+                var saveOldXml = await ApplicationData.Current.LocalFolder.CreateFileAsync("OldSite.xml", CreationCollisionOption.ReplaceExisting);
+                using (var s = await saveOldXml.OpenStreamForWriteAsync())
+                {
+                    saveOldXd.Save(s);
+                }
+
                 Site2Coll();
             }
             catch (Exception ex)

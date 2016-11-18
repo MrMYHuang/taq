@@ -1,13 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 using Windows.ApplicationModel.Background;
 using TaqShared;
-using Microsoft.Toolkit.Uwp.Notifications;
-using Windows.UI.Notifications;
 
 namespace TaqBackTask
 {
