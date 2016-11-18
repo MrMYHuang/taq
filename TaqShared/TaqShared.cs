@@ -40,6 +40,28 @@ namespace TaqShared
         public ObservableCollection<Site> sites = new ObservableCollection<Site>();
         public Site oldSite = new Site { siteName = "N/A", Pm2_5 = "0" };
         public Site currSite = new Site { siteName = "N/A", Pm2_5 = "0" };
+        public ObservableCollection<string> currSiteStr = new ObservableCollection<string>();
+
+        public Dictionary<string, string> fieldNames = new Dictionary<string, string>
+        {
+            {"SiteName", "觀測站" },
+            { "County", "縣市"},
+            { "PSI", "PSI"},
+            { "MajorPollutant", "主要汙染"},
+            { "Status", "狀態"},
+            { "SO2", "SO2"},
+            { "CO", "CO"},
+            { "O3", "O3"},
+            { "PM10", "PM 10"},
+            { "PM2.5", "PM 2.5"},
+            { "NO2", "NO2"},
+            { "WindSpeed", "風速"},
+            { "WindDirec", "風向"},
+            { "FPMI", "FPMI"},
+            { "NOx", "NOx"},
+            { "NO", "NO"},
+            { "PublishTime", "發佈時間"}
+        };
 
         public Shared()
         {
@@ -165,12 +187,43 @@ namespace TaqShared
                               where d.Descendants("SiteName").First().Value == newSiteName
                               select d;
                 currSite = new Site { siteName = newSite.Descendants("SiteName").First().Value, Pm2_5 = newSite.Descendants("PM2.5").First().Value };
+                Site2Coll();
             }
             catch (Exception ex)
             {
 
             }
             return 0;
+        }
+
+        public void Site2Coll()
+        {
+            if (currSiteStr.Count() != 0)
+            {
+                // Don't remove all elements by new.
+                // Otherwise, data bindings would be problematic.
+                for (var i = currSiteStr.Count() - 1; i >= 0; i--)
+                {
+                    currSiteStr.RemoveAt(i);
+                }
+            }
+            var currSiteName = currSite.siteName;
+            var currEmuX = from x in xd.Descendants("Data")
+                           where x.Descendants("SiteName").First().Value == currSiteName
+                           select x;
+            var currEle = currEmuX.First().Elements();
+
+            // Reorder important items to the top.
+            currEle = currEle.OrderByDescending(x => x.Name == "PSI"); // Less important
+            currEle = currEle.OrderByDescending(x => x.Name == "PM10");
+            currEle = currEle.OrderByDescending(x => x.Name == "PM2.5");
+            currEle = currEle.OrderByDescending(x => x.Name == "SiteName");
+            currEle = currEle.OrderByDescending(x => x.Name == "PublishTime"); // More important
+
+            foreach (var item in currEle)
+            {
+                currSiteStr.Add(fieldNames[item.Name.ToString()] + "\n" + item.Value);
+            }
         }
 
         private int subscrSiteId;

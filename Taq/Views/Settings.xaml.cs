@@ -89,6 +89,7 @@ namespace Taq.Views
             localSettings.Values["subscrSite"] = selSite.siteName;
             app.shared.oldSite = app.shared.currSite;
             app.shared.currSite = app.shared.sites.Where(s => s.siteName == selSite.siteName).First();
+            app.shared.Site2Coll();
             app.shared.updateLiveTile();
 #if DEBUG
             app.shared.sendNotify();

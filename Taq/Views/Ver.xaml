@@ -22,6 +22,14 @@
                 <TextBlock Style="{StaticResource txtBlkSty1}" >
                     1. 點選通知中心裡的TAQ通知訊息，會造成app涷結。<LineBreak />
                     2. 地圖PM 2.5標示不會定時更新。<LineBreak />
+                    3. 列表頁、地圖頁只支援PM 2.5空汙資訊。<LineBreak />
+                </TextBlock>
+            </DataTemplate>
+        </HubSection>
+        <HubSection Header="Ver. 1.11.0" Width="Auto">
+            <DataTemplate>
+                <TextBlock Style="{StaticResource txtBlkSty1}" >
+                    1. 新增新"首頁"，列出更多訂閱觀測站之空汙資訊。<LineBreak />
                 </TextBlock>
             </DataTemplate>
         </HubSection>
