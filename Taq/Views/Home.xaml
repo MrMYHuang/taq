@@ -25,7 +25,7 @@
             <GridView.ItemTemplate>
                 <DataTemplate>
                     <Border Background="{ThemeResource SystemControlForegroundAccentBrush}" VerticalAlignment="Center" Height="100">
-                        <TextBlock Text="{Binding Mode=OneWay}" FontSize="24" Width="145" TextAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Center"></TextBlock>
+                        <TextBlock Text="{Binding Mode=OneWay}" FontSize="24" Width="145" TextAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Center" Foreground="White"></TextBlock>
                     </Border>
                 </DataTemplate>
             </GridView.ItemTemplate>

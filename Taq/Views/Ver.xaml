@@ -26,6 +26,15 @@
                 </TextBlock>
             </DataTemplate>
         </HubSection>
+        <HubSection Header="Ver. 1.11.2" Width="Auto">
+            <DataTemplate>
+                <TextBlock Style="{StaticResource txtBlkSty1}" >
+                    1. PM 2.5地圖標示背景改為半透明。<LineBreak />
+                    2. 修正首頁文字顏色在亮色主題下不清楚的問題。<LineBreak />
+                    3. 更動設定鈕位置。<LineBreak />
+                </TextBlock>
+            </DataTemplate>
+        </HubSection>
         <HubSection Header="Ver. 1.11.1" Width="Auto">
             <DataTemplate>
                 <TextBlock Style="{StaticResource txtBlkSty1}" >
