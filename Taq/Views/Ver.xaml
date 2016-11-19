@@ -20,16 +20,15 @@
         <HubSection Header="已知問題" Width="Auto">
             <DataTemplate>
                 <TextBlock Style="{StaticResource txtBlkSty1}" >
-                    1. 點選通知中心裡的TAQ通知訊息，會造成app涷結。<LineBreak />
-                    2. 地圖PM 2.5標示不會定時更新。<LineBreak />
-                    3. 列表頁、地圖頁只支援PM 2.5空汙資訊。<LineBreak />
+                    1. 地圖PM 2.5標示不會定時更新。<LineBreak />
+                    2. 列表頁、地圖頁只支援PM 2.5空汙資訊。<LineBreak />
                 </TextBlock>
             </DataTemplate>
         </HubSection>
         <HubSection Header="Ver. 1.11.2" Width="Auto">
             <DataTemplate>
-                <TextBlock Style="{StaticResource txtBlkSty1}" >
-                    1. PM 2.5地圖標示背景改為半透明。<LineBreak />
+                <TextBlock Style="{StaticResource txtBlkSty1}" >                    
+                    1. 修正點選通知中心裡的TAQ訊息會造成app涷結。<LineBreak />
                     2. 修正首頁文字顏色在亮色主題下不清楚的問題。<LineBreak />
                     3. 更動設定鈕位置。<LineBreak />
                 </TextBlock>
