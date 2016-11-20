@@ -11,32 +11,22 @@ namespace Taq.Views
     /// </summary>
     public sealed partial class About : Page
     {
-        public string version
-        {
-            get
-            {
-                return String.Format("{0}.{1}.{2}",
-                    Package.Current.Id.Version.Major,
-                    Package.Current.Id.Version.Minor,
-                    Package.Current.Id.Version.Build);
-            }
 
+        public App app;
+        public About()
+        {
+            app = App.Current as App;
+            this.InitializeComponent();
+            this.DataContext = this;
         }
 
         public string mailUri
         {
             get
             {
-                return "mailto:myhDev@live.com?subject=問題回報&body=TAQ版本：" + version;
+                return "mailto:myhDev@live.com?subject=問題回報&body=TAQ版本：" + app.version;
             }
 
         }
-
-        public About()
-        {
-            this.InitializeComponent();
-            this.DataContext = this;
-        }
-
     }
 }

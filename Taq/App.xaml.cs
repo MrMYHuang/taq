@@ -8,6 +8,8 @@ using Windows.ApplicationModel.Background;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
+using Windows.UI.Popups;
+using Windows.System;
 
 namespace Taq
 {
@@ -29,6 +31,13 @@ namespace Taq
             shared.loadSiteGeoXd();
             this.InitializeComponent();
             this.Suspending += OnSuspending;
+            this.UnhandledException += (sender, e) =>
+            {
+                e.Handled = true;
+                Launcher.LaunchUriAsync(new Uri("mailto:myhDev@live.com?subject=TAQ%20App異常回報&body=版本：" + version + "%0D%0A例外：" + e.Exception.ToString()));
+                //md.ShowAsync();
+                //System.Diagnostics.Debug.WriteLine(e.Exception);
+            };
             this.RegisterBackgroundTask();
         }
 
@@ -79,6 +88,18 @@ namespace Taq
                 taskBuilder.SetTrigger(new TimeTrigger(15, false));
                 var registration = taskBuilder.Register();
             }
+        }
+
+        public string version
+        {
+            get
+            {
+                return String.Format("{0}.{1}.{2}",
+                    Package.Current.Id.Version.Major,
+                    Package.Current.Id.Version.Minor,
+                    Package.Current.Id.Version.Build);
+            }
+
         }
 
         public bool MapColor

@@ -25,8 +25,8 @@ namespace Taq.Views
         {
             localSettings =
        ApplicationData.Current.LocalSettings;
-            this.InitializeComponent();
             app = App.Current as App;
+            this.InitializeComponent();
             map.Loaded += initPos;
         }
 
@@ -137,7 +137,7 @@ namespace Taq.Views
 
         public object ConvertBack(object value, Type targetType, object parameter, string lang)
         {
-            return (MapColorScheme) value == MapColorScheme.Dark ? true : false;
+            return (MapColorScheme)value == MapColorScheme.Dark ? true : false;
         }
     }
 }

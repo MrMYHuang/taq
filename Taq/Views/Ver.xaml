@@ -25,6 +25,13 @@
                 </TextBlock>
             </DataTemplate>
         </HubSection>
+        <HubSection Header="Ver. 1.12.0" Width="Auto">
+            <DataTemplate>
+                <TextBlock Style="{StaticResource txtBlkSty1}" >                    
+                    1. 實作app異常後啟動E-mail回報功能。<LineBreak />
+                </TextBlock>
+            </DataTemplate>
+        </HubSection>
         <HubSection Header="Ver. 1.11.2" Width="Auto">
             <DataTemplate>
                 <TextBlock Style="{StaticResource txtBlkSty1}" >                    
