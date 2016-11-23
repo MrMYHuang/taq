@@ -2,6 +2,7 @@
 !*.gitignore
 !*.cs
 !*.xaml
+!*.xml
 !*.png
 !*.appxmanifest
 !*.json
