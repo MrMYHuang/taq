@@ -45,14 +45,8 @@ namespace Taq.Views
         {
             addMapIcons();
 
-            try
-            {
-                locAccStat = await Geolocator.RequestAccessAsync();
-            }
-            catch (Exception ex)
-            {
-                statusTextBlock.Text = "自動定位失敗。";
-            }
+
+            locAccStat = await Geolocator.RequestAccessAsync();
 
             switch (locAccStat)
             {
@@ -61,14 +55,21 @@ namespace Taq.Views
                     geoLoc = new Geolocator { ReportInterval = 2000 };
                     // Subscribe to the PositionChanged event to get location updates.
                     //geoLoc.PositionChanged += OnPositionChanged;
-                    var pos = await geoLoc.GetGeopositionAsync();
-                    var p = pos.Coordinate.Point;
+                    try
+                    {
+                        var pos = await geoLoc.GetGeopositionAsync();
+                        var p = pos.Coordinate.Point;
 
-                    var userMapIcon = new UserMapIcon();
-                    map.Children.Add(userMapIcon);
-                    MapControl.SetLocation(userMapIcon, p);
-                    MapControl.SetNormalizedAnchorPoint(userMapIcon, new Point(0.5, 0.5));
-                    map.TrySetSceneAsync(MapScene.CreateFromLocationAndRadius(p, 1000));
+                        var userMapIcon = new UserMapIcon();
+                        map.Children.Add(userMapIcon);
+                        MapControl.SetLocation(userMapIcon, p);
+                        MapControl.SetNormalizedAnchorPoint(userMapIcon, new Point(0.5, 0.5));
+                        await map.TrySetSceneAsync(MapScene.CreateFromLocationAndRadius(p, 1000));
+                    }
+                    catch (Exception ex)
+                    {
+                        statusTextBlock.Text = "自動定位失敗。";
+                    }
                     break;
                 default:
                     // Center map on Taiwan center.

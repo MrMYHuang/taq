@@ -9,6 +9,9 @@ using Windows.UI.Xaml.Media.Imaging;
 using Windows.Storage.Streams;
 using Windows.Graphics.Imaging;
 using System.Runtime.InteropServices.WindowsRuntime;
+using Windows.Storage;
+using System.Collections.Generic;
+using Windows.Graphics.Display;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -31,27 +34,30 @@ namespace Taq
         async void MainPage_DataRequested(DataTransferManager sender, DataRequestedEventArgs args)
         {
             DataRequest request = args.Request;
-            args.Request.Data.SetText("TAQ");
-            args.Request.Data.Properties.Title = Windows.ApplicationModel.Package.Current.DisplayName;
             RenderTargetBitmap bitmap = new RenderTargetBitmap();
 
             DataRequestDeferral deferral = request.GetDeferral();
             await bitmap.RenderAsync(mainPage);
             IBuffer pixelBuffer = await bitmap.GetPixelsAsync();
-            byte[] pixels = WindowsRuntimeBufferExtensions.ToArray(pixelBuffer, 0, (int)pixelBuffer.Length);
+            byte[] pixels = WindowsRuntimeBufferExtensions.ToArray(pixelBuffer, 0, (int)pixelBuffer.Length);            
 
-            // 2. Write the pixels to a InMemoryRandomAccessStream
-            var stream = new InMemoryRandomAccessStream();
-            var encoder = await BitmapEncoder.CreateAsync(BitmapEncoder.BmpEncoderId, stream);
-
-            encoder.SetPixelData(BitmapPixelFormat.Bgra8, BitmapAlphaMode.Straight, (uint)bitmap.PixelWidth, (uint)bitmap.PixelHeight, 96, 96,
+            var saveFile = await ApplicationData.Current.LocalFolder.CreateFileAsync("screenshot.png", CreationCollisionOption.ReplaceExisting); ;
+            // Encode the image to the selected file on disk 
+            using (var fileStream = await saveFile.OpenAsync(FileAccessMode.ReadWrite))
+            {
+                var encoder = await BitmapEncoder.CreateAsync(BitmapEncoder.PngEncoderId, fileStream);
+                encoder.SetPixelData(BitmapPixelFormat.Bgra8, BitmapAlphaMode.Straight, (uint)bitmap.PixelWidth, (uint)bitmap.PixelHeight, DisplayInformation.GetForCurrentView().LogicalDpi, DisplayInformation.GetForCurrentView().LogicalDpi,
                 pixels);
+                await encoder.FlushAsync();
+            }
 
-            await encoder.FlushAsync();
-            stream.Seek(0);
-
+            var storageItems = new List<IStorageItem>();
+            storageItems.Add(saveFile);
             // 3. Share it
-            args.Request.Data.SetBitmap(RandomAccessStreamReference.CreateFromStream(stream));
+            //request.Data.SetText("TAQ");
+            request.Data.Properties.Title = Windows.ApplicationModel.Package.Current.DisplayName;
+            // Facebook app supports SetStorageItems, not SetBitmap.
+            request.Data.SetStorageItems(storageItems);
             deferral.Complete();
         }
 

@@ -33,10 +33,9 @@ namespace Taq
             this.Suspending += OnSuspending;
             this.UnhandledException += (sender, e) =>
             {
-                e.Handled = true;
-                Launcher.LaunchUriAsync(new Uri("mailto:myhDev@live.com?subject=TAQ%20App異常回報&body=版本：" + version + "%0D%0A例外：" + e.Exception.ToString()));
-                //md.ShowAsync();
-                //System.Diagnostics.Debug.WriteLine(e.Exception);
+                // Comment the following line for exiting app.
+                //e.Handled = true;
+                Launcher.LaunchUriAsync(new Uri("mailto:myhDev@live.com?subject=TAQ%20App異常回報&body=請寄送以下app異常訊息給開發者，謝謝。%0D%0A版本：" + version + "%0D%0A例外：" + e.Exception.ToString()));
             };
             this.RegisterBackgroundTask();
         }

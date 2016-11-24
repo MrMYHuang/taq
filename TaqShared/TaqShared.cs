@@ -7,9 +7,11 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using TaqShared.Models;
+using Windows.Devices.Geolocation;
 using Windows.Networking.BackgroundTransfer;
 using Windows.Storage;
 using Windows.UI.Notifications;
@@ -71,26 +73,34 @@ namespace TaqShared
 
         public async Task<int> downloadDataXml()
         {
-            //try
-            //{
-            var dstFile = await ApplicationData.Current.LocalFolder.CreateFileAsync(dataXmlFile, CreationCollisionOption.ReplaceExisting);
+            // Download may fail, so we create a temp StorageFile.
+            var dlFile = await ApplicationData.Current.LocalFolder.CreateFileAsync("Temp"+ dataXmlFile, CreationCollisionOption.ReplaceExisting);
 
             BackgroundDownloader downloader = new BackgroundDownloader();
-            DownloadOperation download = downloader.CreateDownload(source, dstFile);
+            DownloadOperation download = downloader.CreateDownload(source, dlFile);
 
-            var task = Task.Run(async () => await download.StartAsync().AsTask());
-            var downloadSuccess = task.Wait(TimeSpan.FromSeconds(2));
-            // Forcly close stream!?
-            using (var s = await dstFile.OpenStreamForWriteAsync())
+            CancellationTokenSource cts = new CancellationTokenSource();
+            CancellationToken token = cts.Token;
+
+            cts.CancelAfter(5000);
+            try
             {
-
+                // Pass the token to the task that listens for cancellation.
+                await download.StartAsync().AsTask(token);
+                // file is downloaded in time
+                // Copy download file to dataXmlFile.
+                var dataXml = await ApplicationData.Current.LocalFolder.CreateFileAsync(dataXmlFile, CreationCollisionOption.ReplaceExisting);
+                await dlFile.CopyAndReplaceAsync(dataXml);
             }
-
-            // timeout is reached.
-            if (!downloadSuccess)
+            catch (Exception ex)
             {
-                download.AttachAsync().Cancel();
+                // timeout is reached, downloadOperation is cancled
                 throw new DownloadException();
+            }
+            finally
+            {
+                // Releases all resources of cts
+                cts.Dispose();
             }
 
             return 0;
@@ -115,15 +125,24 @@ namespace TaqShared
         public async Task<int> reloadXd()
         {
             var dataXml = await ApplicationData.Current.LocalFolder.GetFileAsync(dataXmlFile);
-            try
+
+            if (dataXml.IsAvailable)
             {
-                using (var s = await dataXml.OpenStreamForReadAsync())
+                try
                 {
-                    // Reload to xd.
-                    xd = XDocument.Load(s);
+                    using (var s = await dataXml.OpenStreamForReadAsync())
+                    {
+                        // Reload to xd.
+                        xd = XDocument.Load(s);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    xd = XDocument.Load("Assets/taq.xml");
+                    throw new OldXmlException();
                 }
             }
-            catch (Exception ex)
+            else
             {
                 xd = XDocument.Load("Assets/taq.xml");
                 throw new OldXmlException();

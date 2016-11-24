@@ -28,7 +28,10 @@
         <HubSection Header="Ver. 1.12.0" Width="Auto">
             <DataTemplate>
                 <TextBlock Style="{StaticResource txtBlkSty1}" >                    
-                    1. 實作app異常後啟動E-mail回報功能。<LineBreak />
+                    1. 實作app異常後啟動E-mail回報功能。<LineBreak />              
+                    2. "分享"功能支援分享app擷圖給Facebook app。W10M也支援。<LineBreak />
+                    3. 修正定位失敗後地圖頁會閃退。<LineBreak />
+                    4. 資料下載失敗後會讀取上次成功下載，而非預設範例。<LineBreak />
                 </TextBlock>
             </DataTemplate>
         </HubSection>
