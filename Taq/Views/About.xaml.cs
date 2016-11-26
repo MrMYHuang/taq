@@ -26,7 +26,6 @@ namespace Taq.Views
             {
                 return "mailto:myhDev@live.com?subject=問題回報&body=TAQ版本：" + app.version;
             }
-
         }
     }
 }

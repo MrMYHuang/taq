@@ -25,10 +25,25 @@
                 </TextBlock>
             </DataTemplate>
         </HubSection>
+        <HubSection Header="Ver. 1.12.2" Width="Auto">
+            <DataTemplate>
+                <TextBlock Style="{StaticResource txtBlkSty1}" >
+                    1. 修正"關於"頁面中，版本號消失問題。<LineBreak />
+                    2. 中型、寬型動態磚加入"發佈時間"資訊。<LineBreak />
+                </TextBlock>
+            </DataTemplate>
+        </HubSection>
+        <HubSection Header="Ver. 1.12.1" Width="Auto">
+            <DataTemplate>
+                <TextBlock Style="{StaticResource txtBlkSty1}" >
+                    1. 改善設定頁可能造成的閃退。<LineBreak />
+                </TextBlock>
+            </DataTemplate>
+        </HubSection>
         <HubSection Header="Ver. 1.12.0" Width="Auto">
             <DataTemplate>
-                <TextBlock Style="{StaticResource txtBlkSty1}" >                    
-                    1. 實作app異常後啟動E-mail回報功能。<LineBreak />              
+                <TextBlock Style="{StaticResource txtBlkSty1}" >
+                    1. 實作app異常後啟動E-mail回報功能。<LineBreak />
                     2. "分享"功能支援分享app擷圖給Facebook app。W10M也支援。<LineBreak />
                     3. 修正定位失敗後地圖頁會閃退。<LineBreak />
                     4. 資料下載失敗後會讀取上次成功下載，而非預設範例。<LineBreak />
@@ -37,7 +52,7 @@
         </HubSection>
         <HubSection Header="Ver. 1.11.2" Width="Auto">
             <DataTemplate>
-                <TextBlock Style="{StaticResource txtBlkSty1}" >                    
+                <TextBlock Style="{StaticResource txtBlkSty1}" >
                     1. 修正點選通知中心裡的TAQ訊息會造成app涷結。<LineBreak />
                     2. 修正首頁文字顏色在亮色主題下不清楚的問題。<LineBreak />
                     3. 更動設定鈕位置。<LineBreak />

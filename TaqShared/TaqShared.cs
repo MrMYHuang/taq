@@ -40,6 +40,7 @@ namespace TaqShared
         public ObservableCollection<Site> sites = new ObservableCollection<Site>();
         public Site currSite = new Site { siteName = "N/A", Pm2_5 = "0" };
         public ObservableCollection<string> currSiteStr = new ObservableCollection<string>();
+        public IEnumerable<XElement> currSiteX;
 
         public Site oldSite = new Site { siteName = "N/A", Pm2_5 = "0" };
 
@@ -216,14 +217,14 @@ namespace TaqShared
             {
                 // Get new site from the setting.
                 var newSiteName = (string)localSettings.Values["subscrSite"];
-                var newSite = from d in xd.Descendants("Data")
+                currSiteX = from d in xd.Descendants("Data")
                               where d.Descendants("SiteName").First().Value == newSiteName
                               select d;
-                currSite = new Site { siteName = newSite.Descendants("SiteName").First().Value, Pm2_5 = newSite.Descendants("PM2.5").First().Value };
+                currSite = new Site { siteName = currSiteX.Descendants("SiteName").First().Value, Pm2_5 = currSiteX.Descendants("PM2.5").First().Value };
 
                 // Save the current site as old site.
                 XDocument saveOldXd = new XDocument();
-                saveOldXd.Add(newSite);
+                saveOldXd.Add(currSiteX);
                 var saveOldXml = await ApplicationData.Current.LocalFolder.CreateFileAsync("OldSite.xml", CreationCollisionOption.ReplaceExisting);
                 using (var s = await saveOldXml.OpenStreamForWriteAsync())
                 {
@@ -250,11 +251,13 @@ namespace TaqShared
                     currSiteStr.RemoveAt(i);
                 }
             }
+            /*
             var currSiteName = currSite.siteName;
             var currEmuX = from x in xd.Descendants("Data")
                            where x.Descendants("SiteName").First().Value == currSiteName
                            select x;
-            var currEle = currEmuX.First().Elements();
+            */
+            var currEle = currSiteX.First().Elements();
 
             // Reorder important items to the top.
             currEle = currEle.OrderByDescending(x => x.Name == "PSI"); // Less important
@@ -302,14 +305,18 @@ namespace TaqShared
 
             // get the XML content of one of the predefined tile templates, so that, you can customize it
             // create the wide template
-            ITileWide310x150PeekImageAndText01 wideContent = TileContentFactory.CreateTileWide310x150PeekImageAndText01();
-            wideContent.TextBodyWrap.Text = "觀測站：" + currSite.siteName + "\nPM 2.5：" + currSite.Pm2_5 + "\n";
-            wideContent.Image.Src = "ms-appx:///Assets/Wide310x150Logo.scale-200.png";
+            var timeStr = currSiteX.Descendants("PublishTime").First().Value.Substring(11, 5);
+            var wideContent = TileContentFactory.CreateTileWide310x150BlockAndText01();
+            wideContent.TextBlock.Text = currSite.Pm2_5;
+            wideContent.TextSubBlock.Text = "PM 2.5";
+            wideContent.TextBody1.Text = "觀測站：" + currSite.siteName;
+            wideContent.TextBody2.Text = "發佈時間：" + timeStr;
+            //wideContent.Image.Src = "ms-appx:///Assets/Wide310x150Logo.scale-200.png";
 
             // create the square template and attach it to the wide template 
             ITileSquare150x150Block squareContent = TileContentFactory.CreateTileSquare150x150Block();
             squareContent.TextBlock.Text = currSite.Pm2_5.ToString();
-            squareContent.TextSubBlock.Text = "PM 2.5\n觀測站：" + currSite.siteName;
+            squareContent.TextSubBlock.Text = "PM 2.5\n" + currSite.siteName + "/" + timeStr;
             wideContent.Square150x150Content = squareContent;
 
             // Create a new tile notification.

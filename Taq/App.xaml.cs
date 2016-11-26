@@ -35,7 +35,7 @@ namespace Taq
             {
                 // Comment the following line for exiting app.
                 //e.Handled = true;
-                Launcher.LaunchUriAsync(new Uri("mailto:myhDev@live.com?subject=TAQ%20App異常回報&body=請寄送以下app異常訊息給開發者，謝謝。%0D%0A版本：" + version + "%0D%0A例外：" + e.Exception.ToString()));
+                Launcher.LaunchUriAsync(new Uri("mailto:myhDev@live.com?subject=TAQ%20App異常回報&body=請寄送以下app異常訊息給開發者，謝謝。%0D%0A版本：" + version + "%0D%0A例外：" + e.Exception.ToString() + "%0D%0A若能提供其他造成異常的資訊，可使開發者更快找出問題，謝謝。"));
             };
             this.RegisterBackgroundTask();
         }
@@ -98,7 +98,6 @@ namespace Taq
                     Package.Current.Id.Version.Minor,
                     Package.Current.Id.Version.Build);
             }
-
         }
 
         public bool MapColor
