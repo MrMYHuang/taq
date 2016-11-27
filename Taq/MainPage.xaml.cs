@@ -12,6 +12,7 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Storage;
 using System.Collections.Generic;
 using Windows.Graphics.Display;
+using Windows.System;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -66,29 +67,12 @@ namespace Taq
             MySplitView.IsPaneOpen = !MySplitView.IsPaneOpen;
         }
 
-        private void aboutButton_Click(Object sender, RoutedEventArgs e)
+        private void HamburgerButton_KeyUp(object sender, KeyRoutedEventArgs e)
         {
-            frame.Navigate(typeof(About));
-        }
-
-        private void homeButton_Click(Object sender, RoutedEventArgs e)
-        {
-            frame.Navigate(typeof(Home));
-        }
-
-        private void verButton_Click(Object sender, TappedRoutedEventArgs e)
-        {
-            frame.Navigate(typeof(Ver));
-        }
-
-        private void mapButton_Click(Object sender, TappedRoutedEventArgs e)
-        {
-            frame.Navigate(typeof(AqSiteMap));
-        }
-
-        private void shareBtn_Click(Object sender, TappedRoutedEventArgs e)
-        {
-            Windows.ApplicationModel.DataTransfer.DataTransferManager.ShowShareUI();
+            if (e.Key == VirtualKey.Enter || e.Key == VirtualKey.Space)
+            {
+                MySplitView.IsPaneOpen = !MySplitView.IsPaneOpen;
+            }
         }
 
         private void setButton_Click(Object sender, TappedRoutedEventArgs e)
@@ -96,9 +80,90 @@ namespace Taq
             frame.Navigate(typeof(Settings));
         }
 
+        private void setButton_KeyUp(object sender, KeyRoutedEventArgs e)
+        {
+            if (e.Key == VirtualKey.Enter || e.Key == VirtualKey.Space)
+            {
+                frame.Navigate(typeof(Settings));
+            }
+        }
+
+        private void homeButton_Click(Object sender, RoutedEventArgs e)
+        {
+            frame.Navigate(typeof(Home));
+        }
+
+        private void homeButton_KeyUp(object sender, KeyRoutedEventArgs e)
+        {
+            if (e.Key == VirtualKey.Enter || e.Key == VirtualKey.Space)
+            {
+                frame.Navigate(typeof(Home));
+            }
+        }
+
         private void listButton_Click(Object sender, TappedRoutedEventArgs e)
         {
             frame.Navigate(typeof(AqList));
+        }
+
+        private void listButton_KeyUp(object sender, KeyRoutedEventArgs e)
+        {
+            if (e.Key == VirtualKey.Enter || e.Key == VirtualKey.Space)
+            {
+                frame.Navigate(typeof(AqList));
+            }
+        }
+
+        private void mapButton_Click(Object sender, TappedRoutedEventArgs e)
+        {
+            frame.Navigate(typeof(AqSiteMap));
+        }
+
+        private void mapButton_KeyUp(object sender, KeyRoutedEventArgs e)
+        {
+            if (e.Key == VirtualKey.Enter || e.Key == VirtualKey.Space)
+            {
+                frame.Navigate(typeof(AqSiteMap));
+            }
+        }
+
+        private void shareBtn_Click(Object sender, TappedRoutedEventArgs e)
+        {
+            Windows.ApplicationModel.DataTransfer.DataTransferManager.ShowShareUI();
+        }
+
+        private void shareButton_KeyUp(object sender, KeyRoutedEventArgs e)
+        {
+            if (e.Key == VirtualKey.Enter || e.Key == VirtualKey.Space)
+            {
+                Windows.ApplicationModel.DataTransfer.DataTransferManager.ShowShareUI();
+            }
+        }
+
+        private void verButton_Click(Object sender, TappedRoutedEventArgs e)
+        {
+            frame.Navigate(typeof(Ver));
+        }
+
+        private void verButton_KeyUp(object sender, KeyRoutedEventArgs e)
+        {
+            if (e.Key == VirtualKey.Enter || e.Key == VirtualKey.Space)
+            {
+                frame.Navigate(typeof(Ver));
+            }
+        }
+
+        private void aboutButton_Click(Object sender, RoutedEventArgs e)
+        {
+            frame.Navigate(typeof(About));
+        }
+
+        private void aboutButton_KeyUp(object sender, KeyRoutedEventArgs e)
+        {
+            if(e.Key == VirtualKey.Enter || e.Key == VirtualKey.Space)
+            {
+                frame.Navigate(typeof(About));
+            }
         }
     }
 }

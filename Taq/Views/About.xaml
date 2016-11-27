@@ -30,8 +30,8 @@
         <HubSection Header="主要特色" ScrollViewer.VerticalScrollBarVisibility="Auto" Width="Auto">
             <DataTemplate>
                 <TextBlock Style="{StaticResource txtBlkSty1}">                   
-1. 支援動態磚(Live Tile)。可從app中的列表點選、訂閱觀測站，即會在動態磚顯示其PM 2.5值。<LineBreak/>
-2. 支援通知(Notification)。當PM 2.5濃度超過35且數值有更新，就會發出通知。<LineBreak/>
+1. 支援動態磚(Live Tile)。可從設定頁中的列表點選、訂閱觀測站，即會在動態磚顯示其PM 2.5值。<LineBreak/>
+2. 支援通知(Notification)。當PM 2.5濃度超過設定值且數值有更新，就會發出通知。<LineBreak/>
 3. 支援背景更新。即app關閉後，動態磚與通知仍會正常運作。<LineBreak/>
                 </TextBlock>
             </DataTemplate>
@@ -39,10 +39,10 @@
         <HubSection Header="注意事項" ScrollViewer.VerticalScrollBarVisibility="Auto" Width="Auto">
             <DataTemplate>
                 <TextBlock Style="{StaticResource txtBlkSty1}">
-1. 此免費app目前介面簡陋，只提供基本重要功能。待作者有空閒時間會作改善，請多包涵。<LineBreak/>
-2. 請在有穩定網路的電腦使用此app，如個人電腦。此app尚未對網路穩定度進行完整測試。<LineBreak/>
+1. 此免費app目前只提供基本重要功能。待作者有空閒時間會作改善，請多包涵。<LineBreak/>
+2. 動態磚每15分鐘背景下載空氣品質資料庫一次。<LineBreak/>
 3. PM 2.5的資料來源為環保署。<LineBreak/>
-4. 動態磚每15分鐘試圖更新一次。若懷疑數據不即時，請先至<Hyperlink NavigateUri="http://opendata.epa.gov.tw/Data/Details/AQX/">環保署網頁</Hyperlink>確認。<LineBreak/>
+4. PM 2.5的資料來源為環保署，若懷疑數據不即時，請先至<Hyperlink NavigateUri="http://opendata.epa.gov.tw/Data/Details/AQX/">環保署網頁</Hyperlink>確認。<LineBreak/>
                 </TextBlock>
             </DataTemplate>
         </HubSection>
