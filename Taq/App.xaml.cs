@@ -29,6 +29,9 @@ namespace Taq
         {
             initLocalSettings();
             shared.loadSiteGeoXd();
+            // Fox Xbox One gamepad XY focus navigation. Not tested.
+            //this.RequiresPointerMode =
+                //Windows.UI.Xaml.ApplicationRequiresPointerMode.WhenRequested;
             this.InitializeComponent();
             this.Suspending += OnSuspending;
             this.UnhandledException += (sender, e) =>
@@ -60,6 +63,10 @@ namespace Taq
             if (localSettings.Values["subscrSite"] == null)
             {
                 localSettings.Values["subscrSite"] = "中壢";
+            }
+            if (localSettings.Values["DbDownloadPeriod"] == null)
+            {
+                localSettings.Values["DbDownloadPeriod"] = 30;
             }
         }
 

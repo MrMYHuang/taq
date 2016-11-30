@@ -12,23 +12,40 @@
 
     <Page.Resources>
         <local:Double2Int x:Key="d2ic"></local:Double2Int>
+        <Style x:Key="hubSecSty" TargetType="HubSection">
+            <Setter Property="Width" Value="300"></Setter>
+        </Style>
     </Page.Resources>
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Hub Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Orientation="Vertical" DataContext="{x:Bind}">
+        <HubSection Style="{StaticResource hubSecSty}"  Header="夜晚主題">
+            <DataTemplate x:DataType="local:Settings">
+                <ToggleSwitch x:Name="themeToggle" Header="重新啟動app後生效" HorizontalAlignment="Left" Margin="0" VerticalAlignment="Bottom" IsOn="{x:Bind AppTheme, Mode=TwoWay}" Width="340" Height="67"/>
+            </DataTemplate>
+        </HubSection>
 
-        <ToggleSwitch x:Name="themeToggle" Header="夜晚主題 (重新啟動app後生效)" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" IsOn="{x:Bind AppTheme, Mode=TwoWay}" FontSize="20" Width="340"/>
+        <HubSection Style="{StaticResource hubSecSty}"  Header="暗色地圖">
+            <DataTemplate x:DataType="local:Settings">
+                <ToggleSwitch x:Name="mapColorToggle" HorizontalAlignment="Left" Margin="0" VerticalAlignment="Bottom" IsOn="{x:Bind app.MapColor, Mode=TwoWay}" />
+            </DataTemplate>
+        </HubSection>
 
-        <ToggleSwitch x:Name="mapColorToggle" Header="暗色地圖" HorizontalAlignment="Left" Margin="10,82,0,0" VerticalAlignment="Top" DataContext="app" IsOn="{x:Bind app.MapColor, Mode=TwoWay}" FontSize="20"/>
+        <HubSection Style="{StaticResource hubSecSty}"  Header="訂閱通知及動態磚">
+            <DataTemplate x:DataType="local:Settings">
+                <ComboBox x:Name="comboBox" HorizontalAlignment="Left" Margin="0" VerticalAlignment="Bottom" Width="265" Header="觀測站" ItemsSource="{x:Bind app.shared.sites}" IsTapEnabled="True" SelectedIndex="{x:Bind app.shared.SubscrSiteId, Mode=OneWay}" SelectionChanged="comboBox_SelectionChanged">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate x:DataType="data:Site">
+                            <TextBlock Text="{x:Bind siteName}"></TextBlock>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+            </DataTemplate>
+        </HubSection>
 
-        <ComboBox x:Name="comboBox" HorizontalAlignment="Left" Margin="10,148,0,0" VerticalAlignment="Top" Width="265" FontSize="20" Header="訂閱觀測站(通知及動態磚)" ItemsSource="{x:Bind app.shared.sites}" IsTapEnabled="True" SelectedIndex="{x:Bind app.shared.SubscrSiteId, Mode=OneWay}" SelectionChanged="comboBox_SelectionChanged">
-            <ComboBox.ItemTemplate>
-                <DataTemplate x:DataType="data:Site">
-                    <TextBlock Text="{x:Bind siteName}"></TextBlock>
-                </DataTemplate>
-            </ComboBox.ItemTemplate>
-        </ComboBox>
-
-        <Slider x:Name="slider" HorizontalAlignment="Left" Margin="10,226,0,0" VerticalAlignment="Top" Width="265" Minimum="1" Maximum="10" SnapsTo="Ticks" TickFrequency="1" FontSize="20" Header="PM 2.5級數上限(超過則發通知)" DataContext="site" Foreground="{x:Bind site.CircleColor, Mode=OneWay}" Background="{x:Bind site.CircleColor, Mode=OneWay}" Value="{x:Bind Pm2_5_ConcensIdx, Converter={StaticResource d2ic}, Mode=TwoWay}"  />
-
-    </Grid>
+        <HubSection Style="{StaticResource hubSecSty}"  Header="PM 2.5級數上限">
+            <DataTemplate x:DataType="local:Settings">
+                <Slider x:Name="slider" HorizontalAlignment="Left" Margin="10,0,0,0" Width="265" Minimum="1" Maximum="10" SnapsTo="Ticks" TickFrequency="1" Header="超過則發通知" Foreground="{x:Bind site.CircleColor, Mode=OneWay}" Background="{x:Bind site.CircleColor, Mode=OneWay}" Value="{x:Bind Pm2_5_ConcensIdx, Converter={StaticResource d2ic}, Mode=TwoWay}" Height="97" VerticalAlignment="Bottom"  />
+            </DataTemplate>
+        </HubSection>
+    </Hub>
 </Page>

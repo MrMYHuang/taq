@@ -25,6 +25,14 @@
                 </TextBlock>
             </DataTemplate>
         </HubSection>
+        <HubSection Header="Ver. 1.12.5" Width="Auto">
+            <DataTemplate>
+                <TextBlock Style="{StaticResource txtBlkSty1}" >
+                    1. 修正一個在W10M會閃退的bug。<LineBreak />
+                    2. 改善設定頁的排版。<LineBreak />
+                </TextBlock>
+            </DataTemplate>
+        </HubSection>
         <HubSection Header="Ver. 1.12.3" Width="Auto">
             <DataTemplate>
                 <TextBlock Style="{StaticResource txtBlkSty1}" >
