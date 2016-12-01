@@ -2,6 +2,8 @@
 
 using Windows.ApplicationModel.Background;
 using TaqShared;
+using Windows.Storage;
+using System.IO;
 
 namespace TaqBackTask
 {
@@ -11,6 +13,17 @@ namespace TaqBackTask
 
         public async void Run(IBackgroundTaskInstance taskInstance)
         {
+#if DEBUG
+            var tbtLog = await ApplicationData.Current.LocalFolder.CreateFileAsync("TbtLog.txt", CreationCollisionOption.OpenIfExists);
+            using (var s = await tbtLog.OpenStreamForWriteAsync())
+            {
+                s.Seek(0, SeekOrigin.End);
+                var sw = new StreamWriter(s);
+                var ct = DateTime.Now;
+                sw.WriteLine(ct.ToString());
+                sw.Flush();
+            }
+#endif
             // We assume that this method has a high probability of a successfull run
             // after a failed run with exceptions. It means the success rate of a run is almost independent of the previous runs. So, we just catch exceptions and do nothing, so that this baskgroundtask won't crash and exit.
             try
@@ -18,7 +31,7 @@ namespace TaqBackTask
                 // Get a deferral, to prevent the task from closing prematurely
                 // while asynchronous code is still running.
                 BackgroundTaskDeferral deferral = taskInstance.GetDeferral();
-                
+
                 shared.loadSiteGeoXd();
                 // Download the feed.
                 var res = await shared.downloadDataXml();
