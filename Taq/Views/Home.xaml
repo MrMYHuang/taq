@@ -10,7 +10,7 @@
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <GridView DataContext="app.shared.currSiteStr" ItemsSource="{x:Bind app.shared.currSiteStr, Mode=OneWay}" 
-                Margin="10,40,10,50">
+                Margin="0,10,0,50">
             <GridView.ItemContainerStyle>
                 <Style TargetType="GridViewItem">
                     <Setter Property="Template">
@@ -25,7 +25,7 @@
             <GridView.ItemTemplate>
                 <DataTemplate>
                     <Border Background="{ThemeResource SystemControlForegroundAccentBrush}" VerticalAlignment="Center" Height="100">
-                        <TextBlock Text="{Binding Mode=OneWay}" FontSize="24" Width="145" TextAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Center" Foreground="White"></TextBlock>
+                        <TextBlock Text="{Binding Mode=OneWay}" FontSize="22" Width="145" TextAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Center" Foreground="White"></TextBlock>
                     </Border>
                 </DataTemplate>
             </GridView.ItemTemplate>

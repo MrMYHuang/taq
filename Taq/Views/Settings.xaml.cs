@@ -82,6 +82,12 @@ namespace Taq.Views
             app.shared.sendNotify();
 #endif
         }
+
+        private void bgUpdateComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var selId = ((ComboBox)sender).SelectedIndex;
+            app.BgUpdatePeriodId = selId;
+        }
     }
 
     public class Double2Int : IValueConverter

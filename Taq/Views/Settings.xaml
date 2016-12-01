@@ -17,7 +17,7 @@
         </Style>
     </Page.Resources>
 
-    <Hub Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Orientation="Vertical" DataContext="{x:Bind}">
+    <Hub Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Orientation="Vertical" DataContext="{x:Bind}" HorizontalAlignment="Left">
         <HubSection Style="{StaticResource hubSecSty}"  Header="夜晚主題">
             <DataTemplate x:DataType="local:Settings">
                 <ToggleSwitch x:Name="themeToggle" Header="重新啟動app後生效" HorizontalAlignment="Left" Margin="0" VerticalAlignment="Bottom" IsOn="{x:Bind AppTheme, Mode=TwoWay}" Width="340" Height="67"/>
@@ -27,6 +27,13 @@
         <HubSection Style="{StaticResource hubSecSty}"  Header="暗色地圖">
             <DataTemplate x:DataType="local:Settings">
                 <ToggleSwitch x:Name="mapColorToggle" HorizontalAlignment="Left" Margin="0" VerticalAlignment="Bottom" IsOn="{x:Bind app.MapColor, Mode=TwoWay}" />
+            </DataTemplate>
+        </HubSection>
+
+        <HubSection Style="{StaticResource hubSecSty}"  Header="背景更新">
+            <DataTemplate x:DataType="local:Settings">
+                <ComboBox x:Name="bgUpdateComboBox" HorizontalAlignment="Left" Margin="0" VerticalAlignment="Bottom" Width="265" Header="週期(分鐘)" ItemsSource="{x:Bind app.bgUpdatePeriods}" IsTapEnabled="True" SelectedIndex="{x:Bind app.BgUpdatePeriodId, Mode=OneWay}" SelectionChanged="bgUpdateComboBox_SelectionChanged">
+                </ComboBox>
             </DataTemplate>
         </HubSection>
 

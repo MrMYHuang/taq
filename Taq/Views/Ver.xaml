@@ -25,6 +25,15 @@
                 </TextBlock>
             </DataTemplate>
         </HubSection>
+        <HubSection Header="Ver. 2.0.0" Width="Auto">
+            <DataTemplate>
+                <TextBlock Style="{StaticResource txtBlkSty1}" >
+                    1. 更新資料來源為"空氣品質指標(AQI)"。<LineBreak />
+                    2. 設定頁新增"背景更新"。<LineBreak />
+                    3. 寬動態磚顯示更多訊息。<LineBreak />
+                </TextBlock>
+            </DataTemplate>
+        </HubSection>
         <HubSection Header="Ver. 1.12.5" Width="Auto">
             <DataTemplate>
                 <TextBlock Style="{StaticResource txtBlkSty1}" >

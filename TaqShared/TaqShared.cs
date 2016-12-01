@@ -32,8 +32,8 @@ namespace TaqShared
         public static double[] pm2_5_concens = new double[] { 11, 23, 35, 41, 47, 53, 58, 64, 70 };
         public static string[] pm2_5_colors = new string[] { "#9cff9c", "#31ff00", "#31cf00", "#ffff00", "#ffcf00", "#ff9a00", "#ff6464", "#ff0000", "#990000", "#ce30ff" };
         private Windows.Storage.ApplicationDataContainer localSettings;
-        public Uri source = new Uri("http://YourTaqServerIp/taq/taq.xml");
-        public string dataXmlFile = "taq.xml";
+        public const string dataXmlFile = "taqi.xml";
+        public Uri source = new Uri("http://YourTaqServerIp/taq/" + dataXmlFile);
         public string currDataXmlFile = "currData.xml";
         public XDocument xd = new XDocument();
         public XDocument siteGeoXd = new XDocument();
@@ -49,8 +49,8 @@ namespace TaqShared
         {
             {"SiteName", "觀測站" },
             { "County", "縣市"},
-            { "PSI", "PSI"},
-            { "MajorPollutant", "主要汙染"},
+            { "AQI", "空氣品質指標"},
+            { "Pollutant", "污染指標物"},
             { "Status", "狀態"},
             { "SO2", "SO2"},
             { "CO", "CO"},
@@ -58,12 +58,15 @@ namespace TaqShared
             { "PM10", "PM 10"},
             { "PM2.5", "PM 2.5"},
             { "NO2", "NO2"},
-            { "WindSpeed", "風速"},
-            { "WindDirec", "風向"},
-            { "FPMI", "FPMI"},
             { "NOx", "NOx"},
             { "NO", "NO"},
-            { "PublishTime", "發佈時間"}
+            { "WindSpeed", "風速"},
+            { "WindDirec", "風向"},
+            { "PublishTime", "發佈時間"},
+            { "O3_8hr", "O3_8hr"},
+            { "CO_8hr", "CO_8hr"},
+            { "PM10_AVG", "PM10_AVG"},
+            { "PM2.5_AVG", "PM2.5_AVG"}
         };
 
         public Shared()
@@ -139,13 +142,13 @@ namespace TaqShared
                 }
                 catch (Exception ex)
                 {
-                    xd = XDocument.Load("Assets/taq.xml");
+                    xd = XDocument.Load("Assets/" + dataXmlFile);
                     throw new OldXmlException();
                 }
             }
             else
             {
-                xd = XDocument.Load("Assets/taq.xml");
+                xd = XDocument.Load("Assets/" + dataXmlFile);
                 throw new OldXmlException();
             }
 
@@ -170,6 +173,7 @@ namespace TaqShared
                 var geoD = from gd in geoDataX
                            where gd.Descendants("SiteName").First().Value == siteName
                            select gd;
+                var a = d.Descendants("County").First().Value;
                 sites.Add(new Site
                 {
                     siteName = siteName,
@@ -260,9 +264,9 @@ namespace TaqShared
             var currEle = currSiteX.First().Elements();
 
             // Reorder important items to the top.
-            currEle = currEle.OrderByDescending(x => x.Name == "PSI"); // Less important
-            currEle = currEle.OrderByDescending(x => x.Name == "PM10");
+            currEle = currEle.OrderByDescending(x => x.Name == "PM10"); // Less important
             currEle = currEle.OrderByDescending(x => x.Name == "PM2.5");
+            currEle = currEle.OrderByDescending(x => x.Name == "AQI");
             currEle = currEle.OrderByDescending(x => x.Name == "SiteName");
             currEle = currEle.OrderByDescending(x => x.Name == "PublishTime"); // More important
 
@@ -307,10 +311,12 @@ namespace TaqShared
             // create the wide template
             var timeStr = currSiteX.Descendants("PublishTime").First().Value.Substring(11, 5);
             var wideContent = TileContentFactory.CreateTileWide310x150BlockAndText01();
-            wideContent.TextBlock.Text = currSite.Pm2_5;
-            wideContent.TextSubBlock.Text = "PM 2.5";
+            wideContent.TextBlock.Text = currSiteX.Descendants("AQI").First().Value;
+            wideContent.TextSubBlock.Text = "空氣品質";
             wideContent.TextBody1.Text = "觀測站：" + currSite.siteName;
             wideContent.TextBody2.Text = "發佈時間：" + timeStr;
+            wideContent.TextBody3.Text = fieldNames["Status"] + "：" + currSiteX.Descendants("Status").First().Value;
+            wideContent.TextBody4.Text = "PM 2.5：" + currSite.Pm2_5;
             //wideContent.Image.Src = "ms-appx:///Assets/Wide310x150Logo.scale-200.png";
 
             // create the square template and attach it to the wide template 
@@ -327,10 +333,12 @@ namespace TaqShared
         {
             int pm2_5_WarnIdx = (int)localSettings.Values["Pm2_5_ConcensIdx"];
             //var currMin = DateTime.Now.Minute;
+#if (!DEBUG)
             if (!(oldSite.Pm2_5 != currSite.Pm2_5 && pm2_5ConcensToIdx(currSite.pm2_5_int) > pm2_5_WarnIdx))
             {
                 return;
             }
+#endif
             var title = "PM 2.5濃度: " + currSite.Pm2_5;
             var content = "觀測站: " + currSite.siteName;
             // Now we can construct the final toast content

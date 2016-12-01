@@ -10,6 +10,8 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using Windows.UI.Popups;
 using Windows.System;
+using System.Collections.ObjectModel;
+using System.Collections.Generic;
 
 namespace Taq
 {
@@ -31,7 +33,7 @@ namespace Taq
             shared.loadSiteGeoXd();
             // Fox Xbox One gamepad XY focus navigation. Not tested.
             //this.RequiresPointerMode =
-                //Windows.UI.Xaml.ApplicationRequiresPointerMode.WhenRequested;
+            //Windows.UI.Xaml.ApplicationRequiresPointerMode.WhenRequested;
             this.InitializeComponent();
             this.Suspending += OnSuspending;
             this.UnhandledException += (sender, e) =>
@@ -40,7 +42,7 @@ namespace Taq
                 //e.Handled = true;
                 Launcher.LaunchUriAsync(new Uri("mailto:myhDev@live.com?subject=TAQ%20App異常回報&body=請寄送以下app異常訊息給開發者，謝謝。%0D%0A版本：" + version + "%0D%0A例外：" + e.Exception.ToString() + "%0D%0A若能提供其他造成異常的資訊，可使開發者更快找出問題，謝謝。"));
             };
-            this.RegisterBackgroundTask();
+            //this.RegisterBackgroundTask();
         }
 
         private void initLocalSettings()
@@ -64,11 +66,33 @@ namespace Taq
             {
                 localSettings.Values["subscrSite"] = "中壢";
             }
-            if (localSettings.Values["DbDownloadPeriod"] == null)
+            if (localSettings.Values["BgUpdatePeriod"] == null)
             {
-                localSettings.Values["DbDownloadPeriod"] = 30;
+                BgUpdatePeriodId = 2;
+            }
+            else
+            {
+                BgUpdatePeriodId = bgUpdatePeriods.FindIndex(x => x == (int)localSettings.Values["BgUpdatePeriod"]);
             }
         }
+
+        private int bgUpdatePeriodId;
+        public int BgUpdatePeriodId
+        {
+            get
+            {
+                return bgUpdatePeriodId;
+            }
+            set
+            {
+                bgUpdatePeriodId = value;
+                localSettings.Values["BgUpdatePeriod"] = bgUpdatePeriods[value];
+                RegisterBackgroundTask();
+                NotifyPropertyChanged();
+            }
+        }
+
+        public List<int> bgUpdatePeriods = new List<int> { 15, 20, 30, 60 };
 
         private const string taskName = "TaqBackTask";
         private const string taskEntryPoint = "TaqBackTask.TaqBackTask";
@@ -91,7 +115,7 @@ namespace Taq
                 BackgroundTaskBuilder taskBuilder = new BackgroundTaskBuilder();
                 taskBuilder.Name = taskName;
                 taskBuilder.TaskEntryPoint = taskEntryPoint;
-                taskBuilder.SetTrigger(new TimeTrigger(15, false));
+                taskBuilder.SetTrigger(new TimeTrigger(Convert.ToUInt32(localSettings.Values["BgUpdatePeriod"]), false));
                 var registration = taskBuilder.Register();
             }
         }

@@ -40,7 +40,8 @@ namespace TaqShared.Models
             {
                 if (value != this.pm2_5)
                 {
-                    if (value == "")
+                    int val = 0;
+                    if (!int.TryParse(value, out val))
                     {
                         this.pm2_5 = "N/A";
                         this.pm2_5_int = 0;
@@ -48,7 +49,7 @@ namespace TaqShared.Models
                     else
                     {
                         this.pm2_5 = value;
-                        this.pm2_5_int = int.Parse(value);
+                        this.pm2_5_int = val;
                     }
 
                     var i = 0;
