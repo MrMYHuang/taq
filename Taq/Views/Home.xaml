@@ -9,7 +9,7 @@
     NavigationCacheMode="Enabled" Loaded="Page_Loaded">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <GridView DataContext="app.shared.currSiteStr" ItemsSource="{x:Bind app.shared.currSiteStr, Mode=OneWay}" 
+        <GridView ItemsSource="{x:Bind app.shared.currSiteViews, Mode=OneWay}" 
                 Margin="0,10,0,50">
             <GridView.ItemContainerStyle>
                 <Style TargetType="GridViewItem">
@@ -24,8 +24,8 @@
             </GridView.ItemContainerStyle>
             <GridView.ItemTemplate>
                 <DataTemplate>
-                    <Border Background="{ThemeResource SystemControlForegroundAccentBrush}" VerticalAlignment="Center" Height="100">
-                        <TextBlock Text="{Binding Mode=OneWay}" FontSize="22" Width="145" TextAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Center" Foreground="White"></TextBlock>
+                    <Border Background="{Binding [0], Mode=OneWay}" VerticalAlignment="Center" Height="100">
+                        <TextBlock Text="{Binding [1], Mode=OneWay}" FontSize="22" Width="145" TextAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Center" Foreground="{Binding [2], Mode=OneWay}"></TextBlock>
                     </Border>
                 </DataTemplate>
             </GridView.ItemTemplate>

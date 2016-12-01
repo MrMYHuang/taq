@@ -31,6 +31,10 @@ namespace TaqShared
     {
         public static double[] pm2_5_concens = new double[] { 11, 23, 35, 41, 47, 53, 58, 64, 70 };
         public static string[] pm2_5_colors = new string[] { "#9cff9c", "#31ff00", "#31cf00", "#ffff00", "#ffcf00", "#ff9a00", "#ff6464", "#ff0000", "#990000", "#ce30ff" };
+
+        public static List<int> aqi_limits = new List<int> { 50, 100, 150, 200, 300, 400, 500 };
+        public static List<string> aqiBgColors = new List<string> { "#00ff00", "#ffff00", "#ff7e00", "#ff0000", "#800080", "#633300", "#633300" };
+
         private Windows.Storage.ApplicationDataContainer localSettings;
         public const string dataXmlFile = "taqi.xml";
         public Uri source = new Uri("http://YourTaqServerIp/taq/" + dataXmlFile);
@@ -39,15 +43,14 @@ namespace TaqShared
         public XDocument siteGeoXd = new XDocument();
         public ObservableCollection<Site> sites = new ObservableCollection<Site>();
         public Site currSite = new Site { siteName = "N/A", Pm2_5 = "0" };
-        public ObservableCollection<string> currSiteStr = new ObservableCollection<string>();
+        public ObservableCollection<string[]> currSiteViews = new ObservableCollection<string[]>();
         public IEnumerable<XElement> currSiteX;
 
         public Site oldSite = new Site { siteName = "N/A", Pm2_5 = "0" };
 
-
         public Dictionary<string, string> fieldNames = new Dictionary<string, string>
         {
-            {"SiteName", "觀測站" },
+            { "SiteName", "觀測站" },
             { "County", "縣市"},
             { "AQI", "空氣品質指標"},
             { "Pollutant", "污染指標物"},
@@ -246,13 +249,13 @@ namespace TaqShared
 
         public void Site2Coll()
         {
-            if (currSiteStr.Count() != 0)
+            if (currSiteViews.Count() != 0)
             {
                 // Don't remove all elements by new.
                 // Otherwise, data bindings would be problematic.
-                for (var i = currSiteStr.Count() - 1; i >= 0; i--)
+                for (var i = currSiteViews.Count() - 1; i >= 0; i--)
                 {
-                    currSiteStr.RemoveAt(i);
+                    currSiteViews.RemoveAt(i);
                 }
             }
             /*
@@ -272,8 +275,17 @@ namespace TaqShared
 
             foreach (var item in currEle)
             {
-                currSiteStr.Add(fieldNames[item.Name.ToString()] + "\n" + item.Value);
+                currSiteViews.Add(new string[]
+                {
+                    "#31cf00", // default border background color
+                    fieldNames[item.Name.ToString()] + "\n" + item.Value,
+                    "Black", // default text color
+                });
             }
+            var aqi = int.Parse(currSiteX.Descendants("AQI").First().Value);
+            var aqiLevel = aqi_limits.FindIndex(x => aqi <= x);
+            currSiteViews[2][0] = aqiBgColors[aqiLevel];
+            currSiteViews[2][2] = (aqiLevel <= 3) ? "Black" : "White";
         }
 
         private int subscrSiteId;

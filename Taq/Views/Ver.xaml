@@ -22,6 +22,14 @@
                 <TextBlock Style="{StaticResource txtBlkSty1}" >
                     1. 地圖PM 2.5標示不會定時更新。<LineBreak />
                     2. 列表頁、地圖頁只支援PM 2.5空汙資訊。<LineBreak />
+                    3. 首頁只有部分指標根據數值上色。<LineBreak />
+                </TextBlock>
+            </DataTemplate>
+        </HubSection>
+        <HubSection Header="Ver. 2.1.0" Width="Auto">
+            <DataTemplate>
+                <TextBlock Style="{StaticResource txtBlkSty1}" >
+                    1. 首頁"空氣品質指標"根據數值上色。<LineBreak />
                 </TextBlock>
             </DataTemplate>
         </HubSection>
