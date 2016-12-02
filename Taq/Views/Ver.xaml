@@ -30,6 +30,7 @@
             <DataTemplate>
                 <TextBlock Style="{StaticResource txtBlkSty1}" >
                     1. 首頁"空氣品質指標"根據數值上色。<LineBreak />
+                    2. 設定頁新增AQI指標警報設定。<LineBreak />
                 </TextBlock>
             </DataTemplate>
         </HubSection>

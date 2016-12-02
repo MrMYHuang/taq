@@ -66,6 +66,32 @@ namespace TaqShared.Models
             }
         }
 
+        public int aqi_int;
+        private string aqi;
+        public string Aqi
+        {
+            get
+            {
+                return aqi;
+            }
+
+            set
+            {
+                int val = 0;
+                if (!int.TryParse(value, out val))
+                {
+                    aqi = "N/A";
+                    aqi_int = 0;
+                }
+                else
+                {
+                    aqi = value;
+                    aqi_int = val;
+                }
+                NotifyPropertyChanged();
+            }
+        }
+
         // Map icon background color.
 
         public string circleColor;

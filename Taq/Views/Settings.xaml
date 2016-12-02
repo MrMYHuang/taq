@@ -20,26 +20,26 @@
     <Hub Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Orientation="Vertical" DataContext="{x:Bind}" HorizontalAlignment="Left">
         <HubSection Style="{StaticResource hubSecSty}"  Header="夜晚主題">
             <DataTemplate x:DataType="local:Settings">
-                <ToggleSwitch x:Name="themeToggle" Header="重新啟動app後生效" HorizontalAlignment="Left" Margin="0" VerticalAlignment="Bottom" IsOn="{x:Bind AppTheme, Mode=TwoWay}" Width="340" Height="67"/>
+                <ToggleSwitch x:Name="themeToggle" Header="重新啟動app後生效" HorizontalAlignment="Left" Margin="0" IsOn="{x:Bind AppTheme, Mode=TwoWay}" Width="340" Height="67"/>
             </DataTemplate>
         </HubSection>
 
         <HubSection Style="{StaticResource hubSecSty}"  Header="暗色地圖">
             <DataTemplate x:DataType="local:Settings">
-                <ToggleSwitch x:Name="mapColorToggle" HorizontalAlignment="Left" Margin="0" VerticalAlignment="Bottom" IsOn="{x:Bind app.MapColor, Mode=TwoWay}" />
+                <ToggleSwitch x:Name="mapColorToggle" HorizontalAlignment="Left" Margin="0" IsOn="{x:Bind app.MapColor, Mode=TwoWay}" />
             </DataTemplate>
         </HubSection>
 
         <HubSection Style="{StaticResource hubSecSty}"  Header="背景更新">
             <DataTemplate x:DataType="local:Settings">
-                <ComboBox x:Name="bgUpdateComboBox" HorizontalAlignment="Left" Margin="0" VerticalAlignment="Bottom" Width="265" Header="週期(分鐘)" ItemsSource="{x:Bind app.bgUpdatePeriods}" IsTapEnabled="True" SelectedIndex="{x:Bind app.BgUpdatePeriodId, Mode=OneWay}" SelectionChanged="bgUpdateComboBox_SelectionChanged">
+                <ComboBox x:Name="bgUpdateComboBox" HorizontalAlignment="Left" Width="265" Header="週期(分鐘)" ItemsSource="{x:Bind app.bgUpdatePeriods}" IsTapEnabled="True" SelectedIndex="{x:Bind app.BgUpdatePeriodId, Mode=OneWay}" SelectionChanged="bgUpdateComboBox_SelectionChanged">
                 </ComboBox>
             </DataTemplate>
         </HubSection>
 
         <HubSection Style="{StaticResource hubSecSty}"  Header="訂閱通知及動態磚">
             <DataTemplate x:DataType="local:Settings">
-                <ComboBox x:Name="comboBox" HorizontalAlignment="Left" Margin="0" VerticalAlignment="Bottom" Width="265" Header="觀測站" ItemsSource="{x:Bind app.shared.sites}" IsTapEnabled="True" SelectedIndex="{x:Bind app.shared.SubscrSiteId, Mode=OneWay}" SelectionChanged="comboBox_SelectionChanged">
+                <ComboBox x:Name="comboBox" HorizontalAlignment="Left" Width="265" Header="觀測站" ItemsSource="{x:Bind app.shared.sites}" IsTapEnabled="True" SelectedIndex="{x:Bind app.shared.SubscrSiteId, Mode=OneWay}" SelectionChanged="comboBox_SelectionChanged">
                     <ComboBox.ItemTemplate>
                         <DataTemplate x:DataType="data:Site">
                             <TextBlock Text="{x:Bind siteName}"></TextBlock>
@@ -49,9 +49,13 @@
             </DataTemplate>
         </HubSection>
 
-        <HubSection Style="{StaticResource hubSecSty}"  Header="PM 2.5級數上限">
+        <HubSection Style="{StaticResource hubSecSty}"  Header="指標警報值(超過則發通知)">
             <DataTemplate x:DataType="local:Settings">
-                <Slider x:Name="slider" HorizontalAlignment="Left" Margin="10,0,0,0" Width="265" Minimum="1" Maximum="10" SnapsTo="Ticks" TickFrequency="1" Header="超過則發通知" Foreground="{x:Bind site.CircleColor, Mode=OneWay}" Background="{x:Bind site.CircleColor, Mode=OneWay}" Value="{x:Bind Pm2_5_ConcensIdx, Converter={StaticResource d2ic}, Mode=TwoWay}" Height="97" VerticalAlignment="Bottom"  />
+                <StackPanel Orientation="Vertical">
+                <Slider x:Name="aqiSlider" HorizontalAlignment="Left" Width="265" Minimum="0" Maximum="500" SnapsTo="Ticks" TickFrequency="50" Header="AQI指標" Value="{x:Bind Aqi_LimitId, Converter={StaticResource d2ic}, Mode=TwoWay}" Height="97"/>
+
+                    <Slider x:Name="slider" HorizontalAlignment="Left" Width="265" Minimum="1" Maximum="10" SnapsTo="Ticks" TickFrequency="1" Header="PM 2.5級數" Foreground="{x:Bind site.CircleColor, Mode=OneWay}" Background="{x:Bind site.CircleColor, Mode=OneWay}" Value="{x:Bind Pm2_5_LimitId, Converter={StaticResource d2ic}, Mode=TwoWay}" Height="97"/>
+                </StackPanel>
             </DataTemplate>
         </HubSection>
     </Hub>

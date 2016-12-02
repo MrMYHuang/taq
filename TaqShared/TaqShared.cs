@@ -44,32 +44,35 @@ namespace TaqShared
         public ObservableCollection<Site> sites = new ObservableCollection<Site>();
         public Site currSite = new Site { siteName = "N/A", Pm2_5 = "0" };
         public ObservableCollection<string[]> currSiteViews = new ObservableCollection<string[]>();
-        public IEnumerable<XElement> currSiteX;
+        public Dictionary<string, string> currSiteDict;
 
         public Site oldSite = new Site { siteName = "N/A", Pm2_5 = "0" };
+        public Dictionary<string, string> oldSiteDict;
 
+        // The order of keys is meaningful.
+        // The display order of AQ items in Home.xaml follows this order of keys.
         public Dictionary<string, string> fieldNames = new Dictionary<string, string>
         {
+            { "PublishTime", "發佈時間"},
             { "SiteName", "觀測站" },
             { "County", "縣市"},
             { "AQI", "空氣品質指標"},
-            { "Pollutant", "污染指標物"},
             { "Status", "狀態"},
-            { "SO2", "SO2"},
-            { "CO", "CO"},
-            { "O3", "O3"},
-            { "PM10", "PM 10"},
+            { "Pollutant", "污染指標物"},
             { "PM2.5", "PM 2.5"},
+            { "PM2.5_AVG", "PM2.5_AVG"},
+            { "PM10", "PM 10"},
+            { "PM10_AVG", "PM10_AVG"},
+            { "O3", "O3"},
+            { "O3_8hr", "O3_8hr"},
+            { "CO", "CO"},
+            { "CO_8hr", "CO_8hr"},
+            { "SO2", "SO2"},
             { "NO2", "NO2"},
             { "NOx", "NOx"},
             { "NO", "NO"},
             { "WindSpeed", "風速"},
             { "WindDirec", "風向"},
-            { "PublishTime", "發佈時間"},
-            { "O3_8hr", "O3_8hr"},
-            { "CO_8hr", "CO_8hr"},
-            { "PM10_AVG", "PM10_AVG"},
-            { "PM2.5_AVG", "PM2.5_AVG"}
         };
 
         public Shared()
@@ -81,7 +84,7 @@ namespace TaqShared
         public async Task<int> downloadDataXml()
         {
             // Download may fail, so we create a temp StorageFile.
-            var dlFile = await ApplicationData.Current.LocalFolder.CreateFileAsync("Temp"+ dataXmlFile, CreationCollisionOption.ReplaceExisting);
+            var dlFile = await ApplicationData.Current.LocalFolder.CreateFileAsync("Temp" + dataXmlFile, CreationCollisionOption.ReplaceExisting);
 
             BackgroundDownloader downloader = new BackgroundDownloader();
             DownloadOperation download = downloader.CreateDownload(source, dlFile);
@@ -165,10 +168,9 @@ namespace TaqShared
             var geoDataX = from data in siteGeoXd.Descendants("Data")
                            select data;
 
-            if (sites.Count != 0)
-            {
-                removeAllSites();
-            }
+            // Removing all items before updating, because the new download data XML file
+            // could have a different number of Data elements from the old one.
+            sites.Clear();
 
             foreach (var d in dataX.OrderBy(x => x.Element("County").Value))
             {
@@ -176,11 +178,11 @@ namespace TaqShared
                 var geoD = from gd in geoDataX
                            where gd.Descendants("SiteName").First().Value == siteName
                            select gd;
-                var a = d.Descendants("County").First().Value;
                 sites.Add(new Site
                 {
                     siteName = siteName,
                     County = d.Descendants("County").First().Value,
+                    Aqi = d.Descendants("AQI").First().Value,
                     Pm2_5 = d.Descendants("PM2.5").First().Value,
                     twd97Lat = double.Parse(geoD.Descendants("TWD97Lat").First().Value),
                     twd97Lon = double.Parse(geoD.Descendants("TWD97Lon").First().Value),
@@ -189,16 +191,6 @@ namespace TaqShared
 
             reloadSubscrSiteId();
             return 0;
-        }
-
-        // Removing all items before updating, because the new download data XML file
-        // could have a different number of Data elements from the old one.
-        public void removeAllSites()
-        {
-            for (var i = sites.Count() - 1; i >= 0; i--)
-            {
-                sites.RemoveAt(i);
-            }
         }
 
         public async Task<int> loadCurrSite()
@@ -213,7 +205,13 @@ namespace TaqShared
                     loadOldXd = XDocument.Load(s);
                 }
                 var oldSiteX = loadOldXd.Descendants("Data").First();
-                oldSite = new Site { siteName = oldSiteX.Descendants("SiteName").First().Value, Pm2_5 = oldSiteX.Descendants("PM2.5").First().Value };
+                oldSiteDict = oldSiteX.Elements().ToDictionary(x => x.Name.LocalName, x => x.Value);
+                oldSite = new Site
+                {
+                    siteName = oldSiteX.Descendants("SiteName").First().Value,
+                    Aqi = oldSiteX.Descendants("AQI").First().Value,
+                    Pm2_5 = oldSiteX.Descendants("PM2.5").First().Value,
+                };
             }
             catch (Exception ex)
             {
@@ -224,10 +222,17 @@ namespace TaqShared
             {
                 // Get new site from the setting.
                 var newSiteName = (string)localSettings.Values["subscrSite"];
-                currSiteX = from d in xd.Descendants("Data")
-                              where d.Descendants("SiteName").First().Value == newSiteName
-                              select d;
-                currSite = new Site { siteName = currSiteX.Descendants("SiteName").First().Value, Pm2_5 = currSiteX.Descendants("PM2.5").First().Value };
+                var currSiteX = from d in xd.Descendants("Data")
+                                where d.Descendants("SiteName").First().Value == newSiteName
+                                select d;
+
+                currSiteDict = currSiteX.Elements().ToDictionary(x => x.Name.LocalName, x => x.Value);
+                currSite = new Site
+                {
+                    siteName = currSiteDict["SiteName"],
+                    Aqi = currSiteDict["AQI"],
+                    Pm2_5 = currSiteDict["PM2.5"]
+                };
 
                 // Save the current site as old site.
                 XDocument saveOldXd = new XDocument();
@@ -249,43 +254,21 @@ namespace TaqShared
 
         public void Site2Coll()
         {
-            if (currSiteViews.Count() != 0)
-            {
-                // Don't remove all elements by new.
-                // Otherwise, data bindings would be problematic.
-                for (var i = currSiteViews.Count() - 1; i >= 0; i--)
-                {
-                    currSiteViews.RemoveAt(i);
-                }
-            }
-            /*
-            var currSiteName = currSite.siteName;
-            var currEmuX = from x in xd.Descendants("Data")
-                           where x.Descendants("SiteName").First().Value == currSiteName
-                           select x;
-            */
-            var currEle = currSiteX.First().Elements();
-
-            // Reorder important items to the top.
-            currEle = currEle.OrderByDescending(x => x.Name == "PM10"); // Less important
-            currEle = currEle.OrderByDescending(x => x.Name == "PM2.5");
-            currEle = currEle.OrderByDescending(x => x.Name == "AQI");
-            currEle = currEle.OrderByDescending(x => x.Name == "SiteName");
-            currEle = currEle.OrderByDescending(x => x.Name == "PublishTime"); // More important
-
-            foreach (var item in currEle)
+            // Don't remove all elements by new.
+            // Otherwise, data bindings would be problematic.
+            currSiteViews.Clear();
+            foreach (var k in fieldNames.Keys)
             {
                 currSiteViews.Add(new string[]
                 {
                     "#31cf00", // default border background color
-                    fieldNames[item.Name.ToString()] + "\n" + item.Value,
+                    fieldNames[k] + "\n" + currSiteDict[k],
                     "Black", // default text color
                 });
             }
-            var aqi = int.Parse(currSiteX.Descendants("AQI").First().Value);
-            var aqiLevel = aqi_limits.FindIndex(x => aqi <= x);
-            currSiteViews[2][0] = aqiBgColors[aqiLevel];
-            currSiteViews[2][2] = (aqiLevel <= 3) ? "Black" : "White";
+            var aqiLevel = aqi_limits.FindIndex(x => currSite.aqi_int <= x);
+            currSiteViews[3][0] = aqiBgColors[aqiLevel];
+            currSiteViews[3][2] = (aqiLevel <= 3) ? "Black" : "White";
         }
 
         private int subscrSiteId;
@@ -321,13 +304,13 @@ namespace TaqShared
 
             // get the XML content of one of the predefined tile templates, so that, you can customize it
             // create the wide template
-            var timeStr = currSiteX.Descendants("PublishTime").First().Value.Substring(11, 5);
+            var timeStr = currSiteDict["PublishTime"].Substring(11, 5);
             var wideContent = TileContentFactory.CreateTileWide310x150BlockAndText01();
-            wideContent.TextBlock.Text = currSiteX.Descendants("AQI").First().Value;
+            wideContent.TextBlock.Text = currSiteDict["AQI"];
             wideContent.TextSubBlock.Text = "空氣品質";
             wideContent.TextBody1.Text = "觀測站：" + currSite.siteName;
             wideContent.TextBody2.Text = "發佈時間：" + timeStr;
-            wideContent.TextBody3.Text = fieldNames["Status"] + "：" + currSiteX.Descendants("Status").First().Value;
+            wideContent.TextBody3.Text = fieldNames["Status"] + "：" + currSiteDict["Status"];
             wideContent.TextBody4.Text = "PM 2.5：" + currSite.Pm2_5;
             //wideContent.Image.Src = "ms-appx:///Assets/Wide310x150Logo.scale-200.png";
 
@@ -341,17 +324,28 @@ namespace TaqShared
             updater.Update(new TileNotification(wideContent.GetXml()));
         }
 
-        public void sendNotify()
+        public void sendNotifications()
         {
-            int pm2_5_WarnIdx = (int)localSettings.Values["Pm2_5_ConcensIdx"];
-            //var currMin = DateTime.Now.Minute;
-#if (!DEBUG)
-            if (!(oldSite.Pm2_5 != currSite.Pm2_5 && pm2_5ConcensToIdx(currSite.pm2_5_int) > pm2_5_WarnIdx))
+            int aqi_LimitId = (int)localSettings.Values["Aqi_LimitId"];
+            if (oldSiteDict["AQI"] != currSiteDict["AQI"] && aqi_limits.FindLastIndex(x => currSite.aqi_int <= x) > aqi_LimitId)
             {
-                return;
+                sendNotification("AQI: " + currSiteDict["AQI"], "AQI");
             }
+
+            int pm2_5_LimitId = (int)localSettings.Values["Pm2_5_LimitId"];
+            if (oldSiteDict["PM2.5"] != currSiteDict["PM2.5"] && pm2_5ConcensToId(currSite.pm2_5_int) > pm2_5_LimitId)
+            {
+                sendNotification("PM 2.5濃度: " + currSiteDict["PM2.5"], "PM2.5");
+            }
+
+#if DEBUG
+            sendNotification("AQI: " + currSiteDict["AQI"], "AQI");
+            sendNotification("PM 2.5濃度: " + currSiteDict["PM2.5"], "PM2.5");
 #endif
-            var title = "PM 2.5濃度: " + currSite.Pm2_5;
+        }
+
+        public void sendNotification(string title, string tag)
+        {
             var content = "觀測站: " + currSite.siteName;
             // Now we can construct the final toast content
             ToastContent toastContent = new ToastContent()
@@ -362,7 +356,7 @@ namespace TaqShared
             // And create the toast notification
             var toast = new ToastNotification(toastContent.GetXml());
             toast.ExpirationTime = DateTime.Now.AddHours(1);
-            toast.Tag = "1";
+            toast.Tag = tag;
             toast.Group = "wallPosts";
             ToastNotificationManager.CreateToastNotifier().Show(toast);
         }
@@ -396,7 +390,7 @@ namespace TaqShared
             };
         }
 
-        public int pm2_5ConcensToIdx(int concens)
+        public int pm2_5ConcensToId(int concens)
         {
             var i = 0;
             for (; i < pm2_5_concens.Length; i++)

@@ -22,7 +22,7 @@ namespace Taq.Views
         {
             localSettings =
        Windows.Storage.ApplicationData.Current.LocalSettings;
-            site = new Site { CircleColor = Shared.pm2_5_colors[(int)localSettings.Values["Pm2_5_ConcensIdx"] - 1] };
+            site = new Site { CircleColor = Shared.pm2_5_colors[(int)localSettings.Values["Pm2_5_LimitId"] - 1] };
             this.InitializeComponent();
             app = App.Current as App;
         }
@@ -40,16 +40,30 @@ namespace Taq.Views
             }
         }
 
-        public int Pm2_5_ConcensIdx
+        public int Aqi_LimitId
         {
             get
             {
-                return (int)localSettings.Values["Pm2_5_ConcensIdx"];
+                return (int)localSettings.Values["Aqi_LimitId"];
             }
 
             set
             {
-                localSettings.Values["Pm2_5_ConcensIdx"] = value;
+                localSettings.Values["Aqi_LimitId"] = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public int Pm2_5_LimitId
+        {
+            get
+            {
+                return (int)localSettings.Values["Pm2_5_LimitId"];
+            }
+
+            set
+            {
+                localSettings.Values["Pm2_5_LimitId"] = value;
                 site.CircleColor = Shared.pm2_5_colors[value - 1];
                 NotifyPropertyChanged();
             }
@@ -78,9 +92,6 @@ namespace Taq.Views
             await app.shared.loadCurrSite();
             app.shared.Site2Coll();
             app.shared.updateLiveTile();
-#if DEBUG
-            app.shared.sendNotify();
-#endif
         }
 
         private void bgUpdateComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)

@@ -90,13 +90,7 @@ namespace Taq.Views
         private void addMapIcons()
         {
             // Remove old icons.
-            if (map.Children.Count != 0)
-            {
-                for (var i = map.Children.Count - 1; i >= 0; i--)
-                {
-                    map.Children.RemoveAt(i);
-                }
-            }
+            map.Children.Clear();
             // Add new PM 2.5 map icons.
             foreach (var s in app.shared.sites)
             {

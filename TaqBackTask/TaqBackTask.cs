@@ -41,7 +41,9 @@ namespace TaqBackTask
 
                 // Update the live tile with the feed items.
                 shared.updateLiveTile();
-                shared.sendNotify();
+
+                // Send notifications.
+                shared.sendNotifications();
 
                 // Inform the system that the task is finished.
                 deferral.Complete();

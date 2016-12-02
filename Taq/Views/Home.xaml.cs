@@ -110,10 +110,9 @@ namespace Taq.Views
             return 0;
         }
 
-        private async void button_Click(Object sender, RoutedEventArgs e)
+        private async void refreshButton_Click(Object sender, RoutedEventArgs e)
         {
             await downloadAndReload();
-            app.shared.sendNotify();
         }
 
         private async void Page_Loaded(Object sender, RoutedEventArgs e)
