@@ -20,10 +20,9 @@
         <HubSection Header="已知問題" Width="Auto">
             <DataTemplate>
                 <TextBlock Style="{StaticResource txtBlkSty1}" >
-                    1. 地圖PM 2.5標示不會定時更新。<LineBreak />
-                    2. 列表頁只支援PM 2.5空汙資訊。<LineBreak />
-                    3. 首頁、地圖頁只有AQI與PM 2.5的上色正確。<LineBreak />
-                    4. 列表頁上色有bug。<LineBreak />
+                    1. 列表頁只支援PM 2.5空汙資訊。<LineBreak />
+                    2. 首頁、地圖頁只有AQI與PM 2.5的上色正確。<LineBreak />
+                    3. 列表頁上色有bug。<LineBreak />
                 </TextBlock>
             </DataTemplate>
         </HubSection>

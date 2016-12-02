@@ -46,7 +46,6 @@ namespace Taq.Views
         {
             addMapIcons();
 
-
             locAccStat = await Geolocator.RequestAccessAsync();
 
             switch (locAccStat)
@@ -92,27 +91,29 @@ namespace Taq.Views
             // Remove old icons.
             map.Children.Clear();
             // Add new PM 2.5 map icons.
+            var i = 0;
             foreach (var s in app.shared.sites)
             {
-                addMapIcon(s);
+                addMapIcon(s, i);
+                i++;
             }
         }
 
-        private void addMapIcon(Site site)
+        private void addMapIcon(Site site, int i)
         {
             var gp = new Geopoint(new BasicGeoposition { Latitude = site.twd97Lat, Longitude = site.twd97Lon });
 
             var ellipse1 = new CircleText();
 
             Binding colorBind = new Binding();
-            colorBind.Source = site;
-            colorBind.Path = new PropertyPath("CircleColor");
+            colorBind.Source = app.shared.sites;
+            colorBind.Path = new PropertyPath("[" + i + "].CircleColor");
             colorBind.Mode = BindingMode.OneWay;
             ellipse1.circle.SetBinding(Ellipse.FillProperty, colorBind);
 
             Binding textBind = new Binding();
-            textBind.Source = site;
-            textBind.Path = new PropertyPath("CircleText");
+            textBind.Source = app.shared.sites;
+            textBind.Path = new PropertyPath("[" + i + "].CircleText");
             textBind.Mode = BindingMode.OneWay;
             ellipse1.txtBlk.SetBinding(TextBlock.TextProperty, textBind);
 
@@ -134,7 +135,11 @@ namespace Taq.Views
         private void aqComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var selAq = (string)((ComboBox)sender).SelectedValue;
-            foreach(var site in app.shared.sites)
+            if(selAq == null)
+            {
+                return;
+            }
+            foreach (var site in app.shared.sites)
             {
                 var aqLevel = app.shared.getAqLevel(site, selAq);
                 site.CircleColor = app.shared.aqColors[selAq][aqLevel];
@@ -144,9 +149,16 @@ namespace Taq.Views
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            if(aqComboBox.SelectedIndex == -1)
+            if (aqComboBox.SelectedIndex == -1)
             {
                 aqComboBox.SelectedIndex = 0;
+            }
+            else
+            {
+                // Force trigger an update to map icons through bindings.
+                var origId = aqComboBox.SelectedIndex;
+                aqComboBox.SelectedIndex = -1;
+                aqComboBox.SelectedIndex = origId;
             }
         }
     }

@@ -228,25 +228,35 @@ namespace TaqShared
             // could have a different number of Data elements from the old one.
             sites.Clear();
             sitesDict.Clear();
-
+            var isSiteUninit = sites.Count() == 0;
             foreach (var d in dataX.OrderBy(x => x.Element("County").Value))
             {
                 var siteName = d.Descendants("SiteName").First().Value;
                 var geoD = from gd in geoDataX
                            where gd.Descendants("SiteName").First().Value == siteName
                            select gd;
-                sites.Add(new Site
-                {
-                    siteName = siteName,
-                    County = d.Descendants("County").First().Value,
-                    Aqi = d.Descendants("AQI").First().Value,
-                    Pm2_5 = d.Descendants("PM2.5").First().Value,
-                    twd97Lat = double.Parse(geoD.Descendants("TWD97Lat").First().Value),
-                    twd97Lon = double.Parse(geoD.Descendants("TWD97Lon").First().Value),
-                });
 
                 var siteDict = d.Elements().ToDictionary(x => x.Name.LocalName, x => x.Value);
                 sitesDict.Add(siteName, siteDict);
+
+                if (true)
+                {
+                    sites.Add(new Site
+                    {
+                        siteName = siteName,
+                        County = siteDict["County"],
+                        Aqi = siteDict["AQI"],
+                        Pm2_5 = siteDict["PM2.5"],
+                        twd97Lat = double.Parse(geoD.Descendants("TWD97Lat").First().Value),
+                        twd97Lon = double.Parse(geoD.Descendants("TWD97Lon").First().Value),
+                    });
+                }
+                else
+                {
+                    var site = sites.Where(s => s.siteName == siteName).First();
+                    site.Aqi = siteDict["AQI"];
+                    site.Pm2_5 = siteDict["PM2.5"];
+                }
             }
 
             reloadSubscrSiteId();
