@@ -27,7 +27,8 @@ namespace Taq.Views
        ApplicationData.Current.LocalSettings;
             app = App.Current as App;
             this.InitializeComponent();
-            map.Loaded += initPos;
+            initPos();
+            //map.Loaded += initPos;
         }
 
         // center on Taiwan     
@@ -41,7 +42,7 @@ namespace Taq.Views
 
         GeolocationAccessStatus locAccStat;
         Geolocator geoLoc;
-        private async void initPos(object sender, RoutedEventArgs e)
+        private async void initPos()
         {
             addMapIcons();
 
@@ -143,7 +144,10 @@ namespace Taq.Views
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            aqComboBox.SelectedIndex = 0;
+            if(aqComboBox.SelectedIndex == -1)
+            {
+                aqComboBox.SelectedIndex = 0;
+            }
         }
     }
 
