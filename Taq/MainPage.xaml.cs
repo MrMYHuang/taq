@@ -13,6 +13,10 @@ using Windows.Storage;
 using System.Collections.Generic;
 using Windows.Graphics.Display;
 using Windows.System;
+using System.Threading.Tasks;
+using Windows.System.Threading;
+using TaqShared;
+using Windows.UI.Core;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -25,11 +29,33 @@ namespace Taq
 
     public sealed partial class MainPage : Page
     {
+        public App app;
+        ThreadPoolTimer periodicTimer;
+
         public MainPage()
         {
+            app = App.Current as App;
             this.InitializeComponent();
+            downloadAndReload();
+            initPeriodicTimer();
             Windows.ApplicationModel.DataTransfer.DataTransferManager.GetForCurrentView().DataRequested += MainPage_DataRequested;
             frame.Navigate(typeof(Home));
+        }
+
+        private async void Page_Loaded(Object sender, RoutedEventArgs e)
+        {
+            await ReloadXdAndUpdateList();
+            if (aqComboBox.SelectedIndex == -1)
+            {
+                aqComboBox.SelectedIndex = 0;
+            }
+            else
+            {
+                // Force trigger an update to map icons through bindings.
+                var origId = aqComboBox.SelectedIndex;
+                aqComboBox.SelectedIndex = -1;
+                aqComboBox.SelectedIndex = origId;
+            }
         }
 
         async void MainPage_DataRequested(DataTransferManager sender, DataRequestedEventArgs args)
@@ -164,6 +190,105 @@ namespace Taq
             {
                 frame.Navigate(typeof(About));
             }
+        }
+
+        public async Task<int> downloadAndReload()
+        {
+            try
+            {
+                statusTextBlock.Text = "Download start.";
+                await app.shared.downloadDataXml();
+                statusTextBlock.Text = "Download finish.";
+            }
+            catch (DownloadException ex)
+            {
+                statusTextBlock.Text = "資料庫下載失敗。請檢查網路，再嘗試手動更新。";
+            }
+            catch (Exception ex)
+            {
+                statusTextBlock.Text = "錯誤，請嘗試手動更新。";
+            }
+
+            try
+            {
+                await app.shared.reloadXd();
+            }
+            catch (Exception ex)
+            {
+                // Ignore.
+            }
+
+            await updateListView();
+            app.shared.updateLiveTile();
+            // Because reloadXd default loads Site.Circle* to "AQI..."
+            aqComboBox.SelectedIndex = 0;
+            return 0;
+        }
+
+        private void initPeriodicTimer()
+        {
+
+#if DEBUG
+            TimeSpan delay = TimeSpan.FromSeconds(3e3);
+#else
+            TimeSpan delay = TimeSpan.FromSeconds(60);
+#endif
+            periodicTimer = ThreadPoolTimer.CreatePeriodicTimer(async (source) =>
+            {
+                // TODO: Work
+
+                // Update the UI thread by using the UI core dispatcher.
+                await Dispatcher.RunAsync(CoreDispatcherPriority.High,
+                        async () =>
+                        {
+                            await ReloadXdAndUpdateList();
+                        }
+                    );
+
+            }, delay);
+        }
+
+        public async Task<int> updateListView()
+        {
+            try
+            {
+                await app.shared.reloadDataX();
+                await app.shared.loadCurrSite();
+            }
+            catch (Exception ex)
+            {
+                statusTextBlock.Text = "列表更新失敗，請重試手動更新。";
+            }
+            return 0;
+        }
+
+        private async Task<int> ReloadXdAndUpdateList()
+        {
+            try
+            {
+                await app.shared.reloadXd();
+                await updateListView();
+            }
+            catch (Exception ex)
+            {
+                statusTextBlock.Text = "自動更新失敗。請嘗試手動更新。";
+            }
+            return 0;
+        }
+
+        private void aqComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var selAq = (string)((ComboBox)sender).SelectedValue;
+            if (selAq == null)
+            {
+                return;
+            }
+            app.shared.updateMapIconsAndList(selAq);
+        }
+
+        private async void refreshButton_Click(Object sender, RoutedEventArgs e)
+        {
+            await downloadAndReload();
         }
     }
 }

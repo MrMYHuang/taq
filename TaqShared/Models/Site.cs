@@ -122,6 +122,20 @@ namespace TaqShared.Models
             }
         }
 
+        public string listText;
+        public string ListText
+        {
+            get
+            {
+                return listText;
+            }
+            set
+            {
+                listText = value;
+                NotifyPropertyChanged();
+            }
+        }
+
         public SolidColorBrush TextColor
         {
             get

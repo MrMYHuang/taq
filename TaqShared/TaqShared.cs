@@ -226,7 +226,7 @@ namespace TaqShared
 
             // Removing all items before updating, because the new download data XML file
             // could have a different number of Data elements from the old one.
-            sites.Clear();
+            //sites.Clear();
             sitesDict.Clear();
             var isSiteUninit = sites.Count() == 0;
             foreach (var d in dataX.OrderBy(x => x.Element("County").Value))
@@ -239,7 +239,8 @@ namespace TaqShared
                 var siteDict = d.Elements().ToDictionary(x => x.Name.LocalName, x => x.Value);
                 sitesDict.Add(siteName, siteDict);
 
-                if (true)
+                // Add mode.
+                if (isSiteUninit)
                 {
                     sites.Add(new Site
                     {
@@ -251,6 +252,7 @@ namespace TaqShared
                         twd97Lon = double.Parse(geoD.Descendants("TWD97Lon").First().Value),
                     });
                 }
+                // Update mode.
                 else
                 {
                     var site = sites.Where(s => s.siteName == siteName).First();
@@ -258,9 +260,21 @@ namespace TaqShared
                     site.Pm2_5 = siteDict["PM2.5"];
                 }
             }
+            updateMapIconsAndList("AQI");
 
             reloadSubscrSiteId();
             return 0;
+        }
+
+        public void updateMapIconsAndList(string aqName)
+        {
+            foreach (var site in sites)
+            {
+                var aqLevel = getAqLevel(site, aqName);
+                site.CircleColor = aqColors[aqName][aqLevel];
+                site.CircleText = site.siteName + "\n" + sitesDict[site.siteName][aqName];
+                site.ListText = sitesDict[site.siteName][aqName];
+            }
         }
 
         public async Task<int> loadCurrSite()

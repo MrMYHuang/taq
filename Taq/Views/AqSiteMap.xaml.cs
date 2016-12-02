@@ -131,36 +131,6 @@ namespace Taq.Views
             // Center the map over the POI.
             //map.Center = gp;
         }
-
-        private void aqComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            var selAq = (string)((ComboBox)sender).SelectedValue;
-            if(selAq == null)
-            {
-                return;
-            }
-            foreach (var site in app.shared.sites)
-            {
-                var aqLevel = app.shared.getAqLevel(site, selAq);
-                site.CircleColor = app.shared.aqColors[selAq][aqLevel];
-                site.CircleText = site.siteName + "\n" + app.shared.sitesDict[site.siteName][selAq];
-            }
-        }
-
-        private void Page_Loaded(object sender, RoutedEventArgs e)
-        {
-            if (aqComboBox.SelectedIndex == -1)
-            {
-                aqComboBox.SelectedIndex = 0;
-            }
-            else
-            {
-                // Force trigger an update to map icons through bindings.
-                var origId = aqComboBox.SelectedIndex;
-                aqComboBox.SelectedIndex = -1;
-                aqComboBox.SelectedIndex = origId;
-            }
-        }
     }
 
     public class BoolToMapColorC : IValueConverter

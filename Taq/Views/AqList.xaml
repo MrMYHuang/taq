@@ -22,7 +22,7 @@
         <StackPanel Orientation="Horizontal" Margin="10, 10, 0, 0">
             <TextBlock Text="觀測站" Style="{StaticResource txtBlkSty1}" VerticalAlignment="Top"/>
             <TextBlock Text="縣市" Style="{StaticResource txtBlkSty1}" VerticalAlignment="Top"/>
-            <TextBlock Text="PM 2.5" Style="{StaticResource txtBlkSty1}" VerticalAlignment="Top"/>
+            <TextBlock Text="數值" Style="{StaticResource txtBlkSty1}" VerticalAlignment="Top"/>
         </StackPanel>
         <ListView
                 ItemsSource="{x:Bind app.shared.sites, Mode=OneWay}"
@@ -41,11 +41,11 @@
             </ListView.ItemContainerStyle>
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="data:Site">
-                    <Border Background="{x:Bind CircleColor}">
+                    <Border Background="{x:Bind CircleColor, Mode=OneWay}">
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="{x:Bind siteName}" Style="{StaticResource txtBlkSty1}" Foreground="{x:Bind TextColor}"/>
-                            <TextBlock Text="{x:Bind County}" Style="{StaticResource txtBlkSty1}" Foreground="{x:Bind TextColor}" />
-                            <TextBlock Text="{Binding Pm2_5}" Style="{StaticResource txtBlkSty1}" Foreground="{x:Bind TextColor}" />
+                            <TextBlock Text="{x:Bind siteName}" Style="{StaticResource txtBlkSty1}" Foreground="{x:Bind TextColor, Mode=OneWay}"/>
+                            <TextBlock Text="{x:Bind County}" Style="{StaticResource txtBlkSty1}" Foreground="{x:Bind TextColor, Mode=OneWay}" />
+                            <TextBlock Text="{x:Bind ListText, Mode=OneWay}" Style="{StaticResource txtBlkSty1}" Foreground="{x:Bind TextColor, Mode=OneWay}" />
                         </StackPanel>
                     </Border>
                 </DataTemplate>

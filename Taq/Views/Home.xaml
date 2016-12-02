@@ -6,7 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    NavigationCacheMode="Enabled" Loaded="Page_Loaded">
+    NavigationCacheMode="Enabled">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <GridView ItemsSource="{x:Bind app.shared.currSiteViews, Mode=OneWay}" 
@@ -30,9 +30,5 @@
                 </DataTemplate>
             </GridView.ItemTemplate>
         </GridView>
-
-        <Button x:Name="refreshButton"  FontFamily="Segoe MDL2 Assets" Content="&#xE895;"  HorizontalAlignment="Left" Margin="10,0,0,10" VerticalAlignment="Bottom" Click="refreshButton_Click" Height="32" ToolTipService.ToolTip="更新" Width="35" />
-        <TextBlock x:Name="textBlock" HorizontalAlignment="Left" Margin="50,0,0,10" TextWrapping="Wrap" Text="狀態：" FontSize="20" Height="32" VerticalAlignment="Bottom"/>
-        <TextBlock x:Name="statusTextBlock" HorizontalAlignment="Left" Margin="110,0,0,10" TextWrapping="Wrap" Text="訊息" FontSize="20" Height="32" VerticalAlignment="Bottom"/>
     </Grid>
 </Page>

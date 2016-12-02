@@ -7,7 +7,7 @@
     xmlns:Maps="using:Windows.UI.Xaml.Controls.Maps"
     x:Class="Taq.Views.AqSiteMap"
     mc:Ignorable="d"
-    NavigationCacheMode="Enabled" Loaded="Page_Loaded">
+    NavigationCacheMode="Enabled">
 
     <Page.Resources>
         <local:BoolToMapColorC x:Key="b2mcc"></local:BoolToMapColorC>
@@ -17,7 +17,5 @@
 
         <Maps:MapControl x:Name="map"
             MapServiceToken="YourBingMapToken" Margin="0" DataContext="app" ColorScheme="{x:Bind app.MapColor, Converter={StaticResource b2mcc}, Mode=OneWay}"/>
-        <ComboBox x:Name="aqComboBox" ItemsSource="{x:Bind app.shared.aqList}" HorizontalAlignment="Left" Margin="10,0,0,10" VerticalAlignment="Bottom" SelectionChanged="aqComboBox_SelectionChanged" Width="200" Height="30">
-        </ComboBox>
     </Grid>
 </Page>

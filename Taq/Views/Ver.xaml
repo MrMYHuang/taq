@@ -20,18 +20,16 @@
         <HubSection Header="已知問題" Width="Auto">
             <DataTemplate>
                 <TextBlock Style="{StaticResource txtBlkSty1}" >
-                    1. 列表頁只支援PM 2.5空汙資訊。<LineBreak />
-                    2. 首頁、地圖頁只有AQI與PM 2.5的上色正確。<LineBreak />
-                    3. 列表頁上色有bug。<LineBreak />
+                    1. 首頁、列表頁、地圖頁只有AQI與PM 2.5的背景上色正確。文字上色有bug。<LineBreak />
                 </TextBlock>
             </DataTemplate>
         </HubSection>
         <HubSection Header="Ver. 2.1.0" Width="Auto">
             <DataTemplate>
                 <TextBlock Style="{StaticResource txtBlkSty1}" >
-                    1. 地圖頁支援多種空汙資訊切換。<LineBreak />
-                    2. 首頁"空氣品質指標"根據數值上色。<LineBreak />
-                    3. 設定頁新增AQI指標警報設定。<LineBreak />
+                    1. 列表頁、地圖頁支援多種空汙資訊切換。<LineBreak />
+                    2. "空氣品質指標(AQI)"與PM 2.5根據數值作背景上色。<LineBreak />
+                    3. 設定頁新增"空氣品質指標(AQI)"警報設定。<LineBreak />
                 </TextBlock>
             </DataTemplate>
         </HubSection>
