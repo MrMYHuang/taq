@@ -29,12 +29,6 @@ namespace TaqShared
 
     public class Shared : INotifyPropertyChanged
     {
-        public static double[] pm2_5_concens = new double[] { 11, 23, 35, 41, 47, 53, 58, 64, 70 };
-        public static string[] pm2_5_colors = new string[] { "#9cff9c", "#31ff00", "#31cf00", "#ffff00", "#ffcf00", "#ff9a00", "#ff6464", "#ff0000", "#990000", "#ce30ff" };
-
-        public static List<int> aqi_limits = new List<int> { 50, 100, 150, 200, 300, 400, 500 };
-        public static List<string> aqiBgColors = new List<string> { "#00ff00", "#ffff00", "#ff7e00", "#ff0000", "#800080", "#633300", "#633300" };
-
         private Windows.Storage.ApplicationDataContainer localSettings;
         public const string dataXmlFile = "taqi.xml";
         public Uri source = new Uri("http://YourTaqServerIp/taq/" + dataXmlFile);
@@ -42,6 +36,7 @@ namespace TaqShared
         public XDocument xd = new XDocument();
         public XDocument siteGeoXd = new XDocument();
         public ObservableCollection<Site> sites = new ObservableCollection<Site>();
+        public Dictionary<string, Dictionary<string, string>> sitesDict = new Dictionary<string, Dictionary<string, string>>();
         public Site currSite = new Site { siteName = "N/A", Pm2_5 = "0" };
         public ObservableCollection<string[]> currSiteViews = new ObservableCollection<string[]>();
         public Dictionary<string, string> currSiteDict;
@@ -74,6 +69,67 @@ namespace TaqShared
             { "WindSpeed", "風速"},
             { "WindDirec", "風向"},
         };
+
+        // Notice: a color list has one more element than a limit list!
+        public static List<int> defaultLimits = new List<int> { 0 };
+        public static List<string> defaultColors = new List<string> { "#31cf00", "#31cf00" };
+
+        public static List<int> pm2_5_concens = new List<int> { 11, 23, 35, 41, 47, 53, 58, 64, 70 };
+        public static List<string> pm2_5_colors = new List<string> { "#9cff9c", "#31ff00", "#31cf00", "#ffff00", "#ffcf00", "#ff9a00", "#ff6464", "#ff0000", "#990000", "#ce30ff" };
+
+        public static List<int> aqiLimits = new List<int> { 50, 100, 150, 200, 300, 400, 500 };
+        public static List<string> aqiBgColors = new List<string> { "#00ff00", "#ffff00", "#ff7e00", "#ff0000", "#800080", "#633300", "#633300", "#633300" };
+
+        public Dictionary<string, List<string>> aqColors = new Dictionary<string, List<string>>
+        {
+            { "PublishTime", defaultColors},
+            { "SiteName", defaultColors },
+            { "County", defaultColors},
+            { "Pollutant", defaultColors},
+            { "AQI", aqiBgColors},
+            { "Status", defaultColors},
+            { "PM2.5", pm2_5_colors},
+            { "PM2.5_AVG", pm2_5_colors},
+            { "PM10", defaultColors},
+            { "PM10_AVG", defaultColors},
+            { "O3", defaultColors},
+            { "O3_8hr", defaultColors},
+            { "CO", defaultColors},
+            { "CO_8hr", defaultColors},
+            { "SO2", defaultColors},
+            { "NO2", defaultColors},
+            { "NOx", defaultColors},
+            { "NO", defaultColors},
+            { "WindSpeed", defaultColors},
+            { "WindDirec", defaultColors},
+        };
+
+        public Dictionary<string, List<int>> aqLimits = new Dictionary<string, List<int>>
+        {
+            { "PublishTime", defaultLimits},
+            { "SiteName", defaultLimits },
+            { "County", defaultLimits},
+            { "Pollutant", defaultLimits},
+            { "AQI", aqiLimits},
+            { "Status", defaultLimits},
+            { "PM2.5", pm2_5_concens},
+            { "PM2.5_AVG", pm2_5_concens},
+            { "PM10", defaultLimits},
+            { "PM10_AVG", defaultLimits},
+            { "O3", defaultLimits},
+            { "O3_8hr", defaultLimits},
+            { "CO", defaultLimits},
+            { "CO_8hr", defaultLimits},
+            { "SO2", defaultLimits},
+            { "NO2", defaultLimits},
+            { "NOx", defaultLimits},
+            { "NO", defaultLimits},
+            { "WindSpeed", defaultLimits},
+            { "WindDirec", defaultLimits},
+        };
+
+        public List<string> aqList = new List<string>
+        {"AQI", "Status", "PM2.5", "PM2.5_AVG", "PM10", "PM10_AVG", "O3", "O3_8hr", "CO", "CO_8hr", "SO2", "NO2", "NOx", "NO", "WindSpeed", "WindDirec"};
 
         public Shared()
         {
@@ -171,6 +227,7 @@ namespace TaqShared
             // Removing all items before updating, because the new download data XML file
             // could have a different number of Data elements from the old one.
             sites.Clear();
+            sitesDict.Clear();
 
             foreach (var d in dataX.OrderBy(x => x.Element("County").Value))
             {
@@ -187,6 +244,9 @@ namespace TaqShared
                     twd97Lat = double.Parse(geoD.Descendants("TWD97Lat").First().Value),
                     twd97Lon = double.Parse(geoD.Descendants("TWD97Lon").First().Value),
                 });
+
+                var siteDict = d.Elements().ToDictionary(x => x.Name.LocalName, x => x.Value);
+                sitesDict.Add(siteName, siteDict);
             }
 
             reloadSubscrSiteId();
@@ -259,16 +319,14 @@ namespace TaqShared
             currSiteViews.Clear();
             foreach (var k in fieldNames.Keys)
             {
+                var aqLevel = getAqLevel(currSite, k);
                 currSiteViews.Add(new string[]
                 {
-                    "#31cf00", // default border background color
+                    aqColors[k][aqLevel], // default border background color
                     fieldNames[k] + "\n" + currSiteDict[k],
                     "Black", // default text color
                 });
             }
-            var aqiLevel = aqi_limits.FindIndex(x => currSite.aqi_int <= x);
-            currSiteViews[3][0] = aqiBgColors[aqiLevel];
-            currSiteViews[3][2] = (aqiLevel <= 3) ? "Black" : "White";
         }
 
         private int subscrSiteId;
@@ -327,7 +385,7 @@ namespace TaqShared
         public void sendNotifications()
         {
             int aqi_LimitId = (int)localSettings.Values["Aqi_LimitId"];
-            if (oldSiteDict["AQI"] != currSiteDict["AQI"] && aqi_limits.FindLastIndex(x => currSite.aqi_int <= x) > aqi_LimitId)
+            if (oldSiteDict["AQI"] != currSiteDict["AQI"] && aqiLimits.FindLastIndex(x => currSite.aqi_int <= x) > aqi_LimitId)
             {
                 sendNotification("AQI: " + currSiteDict["AQI"], "AQI");
             }
@@ -390,10 +448,22 @@ namespace TaqShared
             };
         }
 
+        public int getAqLevel(Site site, string aqName)
+        {
+            var val = 0;
+            int.TryParse(sitesDict[site.siteName][aqName], out val);
+            var aqLevel = aqLimits[aqName].FindIndex(x => val <= x);
+            if (aqLevel == -1)
+            {
+                aqLevel = aqLimits[aqName].Count;
+            }
+            return aqLevel;
+        }
+
         public int pm2_5ConcensToId(int concens)
         {
             var i = 0;
-            for (; i < pm2_5_concens.Length; i++)
+            for (; i < pm2_5_concens.Count; i++)
             {
                 if (concens <= pm2_5_concens[i])
                 {

@@ -68,7 +68,6 @@ namespace Taq.Views
                     }
                     catch (Exception ex)
                     {
-                        statusTextBlock.Text = "自動定位失敗。";
                     }
                     break;
                 default:
@@ -103,10 +102,19 @@ namespace Taq.Views
             var gp = new Geopoint(new BasicGeoposition { Latitude = site.twd97Lat, Longitude = site.twd97Lon });
 
             var ellipse1 = new CircleText();
+
             Binding colorBind = new Binding();
-            colorBind.Source = site.CircleColor;
+            colorBind.Source = site;
+            colorBind.Path = new PropertyPath("CircleColor");
+            colorBind.Mode = BindingMode.OneWay;
             ellipse1.circle.SetBinding(Ellipse.FillProperty, colorBind);
-            ellipse1.txtBlk.Text = site.siteName + "\n" + site.Pm2_5;
+
+            Binding textBind = new Binding();
+            textBind.Source = site;
+            textBind.Path = new PropertyPath("CircleText");
+            textBind.Mode = BindingMode.OneWay;
+            ellipse1.txtBlk.SetBinding(TextBlock.TextProperty, textBind);
+
             ellipse1.txtBlk.Foreground = site.TextColor;
             //var ellipse1 = new Ellipse();
 
@@ -120,6 +128,22 @@ namespace Taq.Views
 
             // Center the map over the POI.
             //map.Center = gp;
+        }
+
+        private void aqComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var selAq = (string)((ComboBox)sender).SelectedValue;
+            foreach(var site in app.shared.sites)
+            {
+                var aqLevel = app.shared.getAqLevel(site, selAq);
+                site.CircleColor = app.shared.aqColors[selAq][aqLevel];
+                site.CircleText = site.siteName + "\n" + app.shared.sitesDict[site.siteName][selAq];
+            }
+        }
+
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            aqComboBox.SelectedIndex = 0;
         }
     }
 

@@ -53,7 +53,7 @@ namespace TaqShared.Models
                     }
 
                     var i = 0;
-                    for (; i < Shared.pm2_5_concens.Length; i++)
+                    for (; i < Shared.pm2_5_concens.Count; i++)
                     {
                         if (pm2_5_int <= Shared.pm2_5_concens[i])
                         {
@@ -104,6 +104,20 @@ namespace TaqShared.Models
             set
             {
                 circleColor = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public string circleText;
+        public string CircleText
+        {
+            get
+            {
+                return circleText;
+            }
+            set
+            {
+                circleText = value;
                 NotifyPropertyChanged();
             }
         }
