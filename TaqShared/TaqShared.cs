@@ -14,7 +14,6 @@ using TaqShared.Models;
 using Windows.Devices.Geolocation;
 using Windows.Networking.BackgroundTransfer;
 using Windows.Storage;
-using Windows.System.Threading;
 using Windows.UI;
 using Windows.UI.Notifications;
 using Windows.UI.Xaml.Media;
@@ -38,15 +37,17 @@ namespace TaqShared
         public string currDataXmlFile = "currData.xml";
         public XDocument xd = new XDocument();
         public XDocument siteGeoXd = new XDocument();
+        // Site maybe replaced with AqView in the furture.
+        // Until that time, sites coexists with sitesStrDict.
         public ObservableCollection<Site> sites = new ObservableCollection<Site>();
-        public Dictionary<string, Dictionary<string, string>> sitesDict = new Dictionary<string, Dictionary<string, string>>();
+        public Dictionary<string, Dictionary<string, string>> sitesStrDict = new Dictionary<string, Dictionary<string, string>>();
         public Site currSite = new Site { siteName = "N/A", Pm2_5 = "0" };
         public ObservableCollection<AqView> currSiteViews = new ObservableCollection<AqView>();
         public ObservableCollection<SolidColorBrush> currSiteTextColor = new ObservableCollection<SolidColorBrush>();
-        public Dictionary<string, string> currSiteDict;
+        public Dictionary<string, string> currSiteStrDict;
 
         public Site oldSite = new Site { siteName = "N/A", Pm2_5 = "0" };
-        public Dictionary<string, string> oldSiteDict;
+        public Dictionary<string, string> oldSiteStrDict;
 
         // The order of keys is meaningful.
         // The display order of AQ items in Home.xaml follows this order of keys.
@@ -226,7 +227,7 @@ namespace TaqShared
             var geoDataX = from data in siteGeoXd.Descendants("Data")
                            select data;
 
-            sitesDict.Clear();
+            sitesStrDict.Clear();
             var isSiteUninit = sites.Count() == 0;
             foreach (var d in dataX.OrderBy(x => x.Element("County").Value))
             {
@@ -236,7 +237,7 @@ namespace TaqShared
                            select gd;
 
                 var siteDict = d.Elements().ToDictionary(x => x.Name.LocalName, x => x.Value);
-                sitesDict.Add(siteName, siteDict);
+                sitesStrDict.Add(siteName, siteDict);
 
                 // Add mode.
                 if (isSiteUninit)
@@ -271,8 +272,8 @@ namespace TaqShared
             {
                 var aqLevel = getAqLevel(site, aqName);
                 site.CircleColor = aqColors[aqName][aqLevel];
-                site.CircleText = site.siteName + "\n" + sitesDict[site.siteName][aqName];
-                site.ListText = sitesDict[site.siteName][aqName];
+                site.CircleText = site.siteName + "\n" + sitesStrDict[site.siteName][aqName];
+                site.ListText = sitesStrDict[site.siteName][aqName];
                 site.TextColor = aqLevel > 3 ? new SolidColorBrush(Colors.White) : new SolidColorBrush(Colors.Black);
             }
         }
@@ -289,7 +290,7 @@ namespace TaqShared
                     loadOldXd = XDocument.Load(s);
                 }
                 var oldSiteX = loadOldXd.Descendants("Data").First();
-                oldSiteDict = oldSiteX.Elements().ToDictionary(x => x.Name.LocalName, x => x.Value);
+                oldSiteStrDict = oldSiteX.Elements().ToDictionary(x => x.Name.LocalName, x => x.Value);
                 oldSite = new Site
                 {
                     siteName = oldSiteX.Descendants("SiteName").First().Value,
@@ -297,7 +298,7 @@ namespace TaqShared
                     Pm2_5 = oldSiteX.Descendants("PM2.5").First().Value,
                 };
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 // Ignore.
             }
@@ -308,12 +309,12 @@ namespace TaqShared
                             where d.Descendants("SiteName").First().Value == newSiteName
                             select d;
 
-            currSiteDict = currSiteX.Elements().ToDictionary(x => x.Name.LocalName, x => x.Value);
+            currSiteStrDict = currSiteX.Elements().ToDictionary(x => x.Name.LocalName, x => x.Value);
             currSite = new Site
             {
-                siteName = currSiteDict["SiteName"],
-                Aqi = currSiteDict["AQI"],
-                Pm2_5 = currSiteDict["PM2.5"]
+                siteName = currSiteStrDict["SiteName"],
+                Aqi = currSiteStrDict["AQI"],
+                Pm2_5 = currSiteStrDict["PM2.5"]
             };
 
             // Save the current site as old site.
@@ -349,7 +350,7 @@ namespace TaqShared
                 currSiteViews.Add(new AqView
                 {
                     CircleColor = aqColors[k][aqLevel], // default border background color
-                    CircleText = fieldNames[k] + "\n" + currSiteDict[k],
+                    CircleText = fieldNames[k] + "\n" + currSiteStrDict[k],
                     TextColor = textColor
                 });
                 currSiteTextColor.Add(textColor);
@@ -389,12 +390,12 @@ namespace TaqShared
 
             var pm2_5_Str = "PM 2.5：" + currSite.Pm2_5;
             var siteStr = "觀測站：" + currSite.siteName;
-            var timeStr = currSiteDict["PublishTime"].Substring(11, 5);
+            var timeStr = currSiteStrDict["PublishTime"].Substring(11, 5);
             // get the XML content of one of the predefined tile templates, so that, you can customize it
             // create the wide template
             var wideContent = TileContentFactory.CreateTileWide310x150Text01();
-            wideContent.TextHeading.Text = "空氣品質：" + currSiteDict["AQI"];
-            wideContent.TextBody1.Text = fieldNames["Status"] + "：" + currSiteDict["Status"];
+            wideContent.TextHeading.Text = "空氣品質：" + currSiteStrDict["AQI"];
+            wideContent.TextBody1.Text = fieldNames["Status"] + "：" + currSiteStrDict["Status"];
             wideContent.TextBody2.Text = pm2_5_Str;
             wideContent.TextBody3.Text = siteStr;
             wideContent.TextBody4.Text = "發佈時間：" + timeStr;
@@ -402,7 +403,7 @@ namespace TaqShared
 
             // create the square template and attach it to the wide template 
             var squareContent = TileContentFactory.CreateTileSquare150x150Text01();
-            squareContent.TextHeading.Text = "AQI：" + currSiteDict["AQI"]; ;
+            squareContent.TextHeading.Text = "AQI：" + currSiteStrDict["AQI"]; ;
             squareContent.TextBody1.Text = pm2_5_Str;
             squareContent.TextBody2.Text = siteStr;
             squareContent.TextBody3.Text = "時間：" + timeStr;
@@ -415,20 +416,20 @@ namespace TaqShared
         public void sendNotifications()
         {
             int aqi_Limit = (int)localSettings.Values["Aqi_Limit"];
-            if (oldSiteDict["AQI"] != currSiteDict["AQI"] && getAqVal(currSite, "AQI") > aqi_Limit)
+            if (oldSiteStrDict["AQI"] != currSiteStrDict["AQI"] && getAqVal(currSite, "AQI") > aqi_Limit)
             {
-                sendNotification("AQI: " + currSiteDict["AQI"], "AQI");
+                sendNotification("AQI: " + currSiteStrDict["AQI"], "AQI");
             }
 
             int pm2_5_Limit = (int)localSettings.Values["Pm2_5_Limit"];
-            if (oldSiteDict["PM2.5"] != currSiteDict["PM2.5"] && getAqVal(currSite, "PM2.5") > pm2_5_Limit)
+            if (oldSiteStrDict["PM2.5"] != currSiteStrDict["PM2.5"] && getAqVal(currSite, "PM2.5") > pm2_5_Limit)
             {
-                sendNotification("PM 2.5濃度: " + currSiteDict["PM2.5"], "PM2.5");
+                sendNotification("PM 2.5濃度: " + currSiteStrDict["PM2.5"], "PM2.5");
             }
 
 #if DEBUG
-            sendNotification("AQI: " + currSiteDict["AQI"], "AQI");
-            sendNotification("PM 2.5濃度: " + currSiteDict["PM2.5"], "PM2.5");
+            sendNotification("AQI: " + currSiteStrDict["AQI"], "AQI");
+            sendNotification("PM 2.5濃度: " + currSiteStrDict["PM2.5"], "PM2.5");
 #endif
         }
 
@@ -448,8 +449,7 @@ namespace TaqShared
             toast.Group = "wallPosts";
             ToastNotificationManager.CreateToastNotifier().Show(toast);
         }
-
-        string logo = "Assets/StoreLogo.png";
+        
         private ToastVisual getNotifyVisual(string title, string content)
         {
             // Construct the visuals of the toast
@@ -471,8 +471,8 @@ namespace TaqShared
                     },
                     AppLogoOverride = new ToastGenericAppLogo()
                     {
-                        Source = logo,
-                        HintCrop = ToastGenericAppLogoCrop.Circle
+                        Source = "Assets/logos/PackageLogo.png",
+                        HintCrop = ToastGenericAppLogoCrop.None
                     }
                 }
             };
@@ -481,7 +481,7 @@ namespace TaqShared
         public double getAqVal(Site site, string aqName)
         {
             double val = 0;
-            double.TryParse(sitesDict[site.siteName][aqName], out val);
+            double.TryParse(sitesStrDict[site.siteName][aqName], out val);
             return val;
         }
 
