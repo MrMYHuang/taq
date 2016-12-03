@@ -58,13 +58,13 @@ namespace Taq
             {
                 localSettings.Values["MapColor"] = false;
             }
-            if (localSettings.Values["Aqi_LimitId"] == null)
+            if (localSettings.Values["Aqi_Limit"] == null)
             {
-                localSettings.Values["Aqi_LimitId"] = 50;
+                localSettings.Values["Aqi_Limit"] = 50;
             }
-            if (localSettings.Values["Pm2_5_LimitId"] == null)
+            if (localSettings.Values["Pm2_5_Limit"] == null)
             {
-                localSettings.Values["Pm2_5_LimitId"] = 3;
+                localSettings.Values["Pm2_5_Limit"] = 50;
             }
             if (localSettings.Values["subscrSite"] == null)
             {

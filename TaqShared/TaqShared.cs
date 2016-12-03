@@ -14,6 +14,7 @@ using TaqShared.Models;
 using Windows.Devices.Geolocation;
 using Windows.Networking.BackgroundTransfer;
 using Windows.Storage;
+using Windows.System.Threading;
 using Windows.UI;
 using Windows.UI.Notifications;
 using Windows.UI.Xaml.Media;
@@ -27,75 +28,6 @@ namespace TaqShared
     public class OldXmlException : Exception
     {
 
-    }
-
-    public class AqView : INotifyPropertyChanged
-    {        // Map icon background color.
-        public string circleColor;
-        public string CircleColor
-        {
-            get
-            {
-                return circleColor;
-            }
-            set
-            {
-                circleColor = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        public string circleText;
-        public string CircleText
-        {
-            get
-            {
-                return circleText;
-            }
-            set
-            {
-                circleText = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        private string listText;
-        public string ListText
-        {
-            get
-            {
-                return listText;
-            }
-            set
-            {
-                listText = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        private SolidColorBrush textColor;
-        public SolidColorBrush TextColor
-        {
-            get
-            {
-                return textColor;
-            }
-            set
-            {
-                textColor = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
-        {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
     }
 
     public class Shared : INotifyPropertyChanged
@@ -145,7 +77,7 @@ namespace TaqShared
         // Notice: a color list has one more element than a limit list!
         public static List<int> defaultLimits = new List<int> { 0 };
         public static List<string> defaultColors = new List<string> { "#31cf00", "#31cf00" };
-        
+
         public static List<string> dirtyColors = new List<string> { "#808080", "#808080" };
 
         //public static List<int> pm2_5_concens = new List<int> { 11, 23, 35, 41, 47, 53, 58, 64, 70 };
@@ -216,13 +148,13 @@ namespace TaqShared
         public Shared()
         {
             localSettings =
-       Windows.Storage.ApplicationData.Current.LocalSettings;
+       ApplicationData.Current.LocalSettings;
         }
 
-        public async Task<int> downloadDataXml()
+        public async Task<int> downloadDataXml(bool confAwait = true)
         {
             // Download may fail, so we create a temp StorageFile.
-            var dlFile = await ApplicationData.Current.LocalFolder.CreateFileAsync("Temp" + dataXmlFile, CreationCollisionOption.ReplaceExisting);
+            var dlFile = await ApplicationData.Current.LocalFolder.CreateFileAsync("Temp" + dataXmlFile, CreationCollisionOption.ReplaceExisting).AsTask().ConfigureAwait(confAwait);
 
             BackgroundDownloader downloader = new BackgroundDownloader();
             DownloadOperation download = downloader.CreateDownload(source, dlFile);
@@ -234,11 +166,11 @@ namespace TaqShared
             try
             {
                 // Pass the token to the task that listens for cancellation.
-                await download.StartAsync().AsTask(token);
+                await download.StartAsync().AsTask(token).ConfigureAwait(confAwait);
                 // file is downloaded in time
                 // Copy download file to dataXmlFile.
                 var dataXml = await ApplicationData.Current.LocalFolder.CreateFileAsync(dataXmlFile, CreationCollisionOption.ReplaceExisting);
-                await dlFile.CopyAndReplaceAsync(dataXml);
+                await dlFile.CopyAndReplaceAsync(dataXml).AsTask().ConfigureAwait(confAwait);
             }
             catch (Exception ex)
             {
@@ -250,7 +182,6 @@ namespace TaqShared
                 // Releases all resources of cts
                 cts.Dispose();
             }
-
             return 0;
         }
 
@@ -270,27 +201,18 @@ namespace TaqShared
         }
 
         // Reload air quality XML files.
-        public async Task<int> reloadXd()
+        public async Task<int> reloadXd(bool confAwait = true)
         {
-            var dataXml = await ApplicationData.Current.LocalFolder.GetFileAsync(dataXmlFile);
-
-            if (dataXml.IsAvailable)
+            try
             {
-                try
+                var dataXml = await ApplicationData.Current.LocalFolder.GetFileAsync(dataXmlFile).AsTask().ConfigureAwait(confAwait);
+                using (var s = await dataXml.OpenStreamForReadAsync().ConfigureAwait(confAwait))
                 {
-                    using (var s = await dataXml.OpenStreamForReadAsync())
-                    {
-                        // Reload to xd.
-                        xd = XDocument.Load(s);
-                    }
-                }
-                catch (Exception ex)
-                {
-                    xd = XDocument.Load("Assets/" + dataXmlFile);
-                    throw new OldXmlException();
+                    // Reload to xd.
+                    xd = XDocument.Load(s);
                 }
             }
-            else
+            catch (Exception ex)
             {
                 xd = XDocument.Load("Assets/" + dataXmlFile);
                 throw new OldXmlException();
@@ -299,13 +221,13 @@ namespace TaqShared
             return 0;
         }
 
-        public async Task<int> reloadDataX()
+        public int reloadDataX()
         {
             var dataX = from data in xd.Descendants("Data")
                         select data;
             var geoDataX = from data in siteGeoXd.Descendants("Data")
                            select data;
-            
+
             sitesDict.Clear();
             var isSiteUninit = sites.Count() == 0;
             foreach (var d in dataX.OrderBy(x => x.Element("County").Value))
@@ -339,7 +261,6 @@ namespace TaqShared
                     site.Pm2_5 = siteDict["PM2.5"];
                 }
             }
-            updateMapIconsAndList("AQI");
 
             reloadSubscrSiteId();
             return 0;
@@ -357,14 +278,14 @@ namespace TaqShared
             }
         }
 
-        public async Task<int> loadCurrSite()
+        public async Task<int> loadCurrSite(bool confAwait = true)
         {
+            // Load the old site.
+            XDocument loadOldXd = new XDocument();
             try
             {
-                // Load the old site.
-                XDocument loadOldXd = new XDocument();
-                var loadOldXml = await ApplicationData.Current.LocalFolder.GetFileAsync("OldSite.xml");
-                using (var s = await loadOldXml.OpenStreamForReadAsync())
+                var loadOldXml = await ApplicationData.Current.LocalFolder.GetFileAsync("OldSite.xml").AsTask().ConfigureAwait(confAwait);
+                using (var s = await loadOldXml.OpenStreamForReadAsync().ConfigureAwait(confAwait))
                 {
                     loadOldXd = XDocument.Load(s);
                 }
@@ -377,42 +298,41 @@ namespace TaqShared
                     Pm2_5 = oldSiteX.Descendants("PM2.5").First().Value,
                 };
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 // Ignore.
             }
 
+            // Get new site from the setting.
+            var newSiteName = (string)localSettings.Values["subscrSite"];
+            var currSiteX = from d in xd.Descendants("Data")
+                            where d.Descendants("SiteName").First().Value == newSiteName
+                            select d;
+
+            currSiteDict = currSiteX.Elements().ToDictionary(x => x.Name.LocalName, x => x.Value);
+            currSite = new Site
+            {
+                siteName = currSiteDict["SiteName"],
+                Aqi = currSiteDict["AQI"],
+                Pm2_5 = currSiteDict["PM2.5"]
+            };
+
+            // Save the current site as old site.
+            XDocument saveOldXd = new XDocument();
+            saveOldXd.Add(currSiteX);
             try
             {
-                // Get new site from the setting.
-                var newSiteName = (string)localSettings.Values["subscrSite"];
-                var currSiteX = from d in xd.Descendants("Data")
-                                where d.Descendants("SiteName").First().Value == newSiteName
-                                select d;
-
-                currSiteDict = currSiteX.Elements().ToDictionary(x => x.Name.LocalName, x => x.Value);
-                currSite = new Site
-                {
-                    siteName = currSiteDict["SiteName"],
-                    Aqi = currSiteDict["AQI"],
-                    Pm2_5 = currSiteDict["PM2.5"]
-                };
-
-                // Save the current site as old site.
-                XDocument saveOldXd = new XDocument();
-                saveOldXd.Add(currSiteX);
-                var saveOldXml = await ApplicationData.Current.LocalFolder.CreateFileAsync("OldSite.xml", CreationCollisionOption.ReplaceExisting);
-                using (var s = await saveOldXml.OpenStreamForWriteAsync())
+                var saveOldXml = await ApplicationData.Current.LocalFolder.CreateFileAsync("OldSite.xml", CreationCollisionOption.ReplaceExisting).AsTask().ConfigureAwait(confAwait);
+                using (var s = await saveOldXml.OpenStreamForWriteAsync().ConfigureAwait(confAwait))
                 {
                     saveOldXd.Save(s);
                 }
-
-                Site2Coll();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-
+                // Ignore.
             }
+
             return 0;
         }
 
@@ -466,7 +386,7 @@ namespace TaqShared
             // enables the tile to queue up to five notifications 
             updater.EnableNotificationQueue(true);
             updater.Clear();
-            
+
             var pm2_5_Str = "PM 2.5：" + currSite.Pm2_5;
             var siteStr = "觀測站：" + currSite.siteName;
             var timeStr = currSiteDict["PublishTime"].Substring(11, 5);
@@ -494,14 +414,14 @@ namespace TaqShared
 
         public void sendNotifications()
         {
-            int aqi_LimitId = (int)localSettings.Values["Aqi_LimitId"];
-            if (oldSiteDict["AQI"] != currSiteDict["AQI"] && getAqLevel(currSite, "AQI") > aqi_LimitId)
+            int aqi_Limit = (int)localSettings.Values["Aqi_Limit"];
+            if (oldSiteDict["AQI"] != currSiteDict["AQI"] && getAqVal(currSite, "AQI") > aqi_Limit)
             {
                 sendNotification("AQI: " + currSiteDict["AQI"], "AQI");
             }
 
-            int pm2_5_LimitId = (int)localSettings.Values["Pm2_5_LimitId"];
-            if (oldSiteDict["PM2.5"] != currSiteDict["PM2.5"] && getAqLevel(currSite, "PM2.5") > pm2_5_LimitId)
+            int pm2_5_Limit = (int)localSettings.Values["Pm2_5_Limit"];
+            if (oldSiteDict["PM2.5"] != currSiteDict["PM2.5"] && getAqVal(currSite, "PM2.5") > pm2_5_Limit)
             {
                 sendNotification("PM 2.5濃度: " + currSiteDict["PM2.5"], "PM2.5");
             }
@@ -558,10 +478,16 @@ namespace TaqShared
             };
         }
 
-        public int getAqLevel(Site site, string aqName)
+        public int getAqVal(Site site, string aqName)
         {
             var val = 0;
             int.TryParse(sitesDict[site.siteName][aqName], out val);
+            return val;
+        }
+
+        public int getAqLevel(Site site, string aqName)
+        {
+            var val = getAqVal(site, aqName);
             var aqLevel = aqLimits[aqName].FindIndex(x => val <= x);
             if (aqLevel == -1)
             {

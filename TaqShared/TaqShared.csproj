@@ -107,6 +107,7 @@
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AqView.cs" />
     <Compile Include="Models\Site.cs" />
     <Compile Include="TaqShared.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

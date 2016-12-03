@@ -38,29 +38,40 @@ namespace Taq
         {
             app = App.Current as App;
             localSettings =
-       ApplicationData.Current.LocalSettings;
+       ApplicationData.Current.LocalSettings;            
+            try
+            {
+                initAux().Wait();
+            }
+            catch(Exception)
+            {
+                // Ignore.
+            }
+            app.shared.updateMapIconsAndList("AQI");
+            app.shared.Site2Coll();
             this.InitializeComponent();
-            downloadAndReload();
+            //app.shared.updateLiveTile();
+            frame.Navigate(typeof(Home));
             initPeriodicTimer();
             Windows.ApplicationModel.DataTransfer.DataTransferManager.GetForCurrentView().DataRequested += MainPage_DataRequested;
-            frame.Navigate(typeof(Home));
         }
 
-        private async void Page_Loaded(Object sender, RoutedEventArgs e)
+        // This auxiliary method is used to wait for app.shared ready,
+        // before InitializeComponent.
+        async Task<int> initAux()
         {
-            await ReloadXdAndUpdateList();
-            if (aqComboBox.SelectedIndex == -1)
+            try
             {
-                aqComboBox.SelectedIndex = 0;
+                await app.shared.downloadDataXml(false).ConfigureAwait(false);
+                await app.shared.reloadXd(false).ConfigureAwait(false);
+                app.shared.reloadDataX();
+                await app.shared.loadCurrSite(false).ConfigureAwait(false);
             }
-            else
+            catch (Exception ex)
             {
-                // Force trigger an update to map icons through bindings.
-                var origId = aqComboBox.SelectedIndex;
-                aqComboBox.SelectedIndex = -1;
-                aqComboBox.SelectedIndex = origId;
+                // Ignore.
             }
-            subscrComboBox.SelectedIndex = app.shared.SubscrSiteId;
+            return 0;
         }
 
         async void MainPage_DataRequested(DataTransferManager sender, DataRequestedEventArgs args)
@@ -257,12 +268,14 @@ namespace Taq
         {
             try
             {
-                await app.shared.reloadDataX();
+                app.shared.reloadDataX();
+                app.shared.updateMapIconsAndList("AQI");
                 await app.shared.loadCurrSite();
+                app.shared.Site2Coll();
             }
             catch (Exception ex)
             {
-                statusTextBlock.Text = "列表更新失敗，請重試手動更新。";
+                statusTextBlock.Text = "更新失敗，請試手動更新。";
             }
             return 0;
         }
@@ -290,9 +303,8 @@ namespace Taq
                 return;
             }
             localSettings.Values["subscrSite"] = selSite.siteName;
-            //app.shared.currSite = app.shared.sites.Where(s => s.siteName == selSite.siteName).First();
             app.shared.reloadSubscrSiteId();
-            await app.shared.loadCurrSite();
+            await app.shared.loadCurrSite(true);
             app.shared.Site2Coll();
             app.shared.updateLiveTile();
         }
@@ -305,6 +317,23 @@ namespace Taq
                 return;
             }
             app.shared.updateMapIconsAndList(selAq);
+        }
+
+        private async void Page_Loaded(Object sender, RoutedEventArgs e)
+        {
+            await ReloadXdAndUpdateList();
+            if (aqComboBox.SelectedIndex == -1)
+            {
+                aqComboBox.SelectedIndex = 0;
+            }
+            else
+            {
+                // Force trigger an update to map icons through bindings.
+                var origId = aqComboBox.SelectedIndex;
+                aqComboBox.SelectedIndex = -1;
+                aqComboBox.SelectedIndex = origId;
+            }
+            subscrComboBox.SelectedIndex = app.shared.SubscrSiteId;
         }
 
         private async void refreshButton_Click(Object sender, RoutedEventArgs e)

@@ -36,7 +36,7 @@ namespace TaqBackTask
                 // Download the feed.
                 var res = await shared.downloadDataXml();
                 await shared.reloadXd();
-                await shared.reloadDataX();
+                shared.reloadDataX();
                 await shared.loadCurrSite();
 
                 // Update the live tile with the feed items.

@@ -85,9 +85,8 @@
         </SplitView.Pane>
 
         <SplitView.Content>
-            <Grid>
-                <Frame x:Name="frame" Margin="0,0,0,117">
-                </Frame>
+            <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+                <Frame x:Name="frame" Margin="0,0,0,117"/>
 
                 <ComboBox x:Name="subscrComboBox" HorizontalAlignment="Left" Margin="10,0,0,47" Width="110" Height="65" Header="訂閱觀測站" ItemsSource="{x:Bind app.shared.sites}" IsTapEnabled="True" SelectionChanged="subscrComboBox_SelectionChanged" VerticalAlignment="Bottom">
                     <ComboBox.ItemTemplate>

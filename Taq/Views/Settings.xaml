@@ -40,9 +40,9 @@
         <HubSection Style="{StaticResource hubSecSty}"  Header="指標警報值(超過則發通知)">
             <DataTemplate x:DataType="local:Settings">
                 <StackPanel Orientation="Vertical">
-                <Slider x:Name="aqiSlider" HorizontalAlignment="Left" Width="265" Minimum="0" Maximum="500" SnapsTo="Ticks" TickFrequency="50" Header="AQI指標" Value="{x:Bind Aqi_LimitId, Converter={StaticResource d2ic}, Mode=TwoWay}" Height="97"/>
+                <Slider x:Name="aqiSlider" HorizontalAlignment="Left" Width="265" Minimum="0" Maximum="500" SnapsTo="Ticks" TickFrequency="50" Header="AQI指標" Value="{x:Bind Aqi_Limit, Converter={StaticResource d2ic}, Mode=TwoWay}" Height="97"/>
 
-                    <Slider x:Name="slider" HorizontalAlignment="Left" Width="265" Minimum="1" Maximum="10" SnapsTo="Ticks" TickFrequency="1" Header="PM 2.5級數" Foreground="{x:Bind site.CircleColor, Mode=OneWay}" Background="{x:Bind site.CircleColor, Mode=OneWay}" Value="{x:Bind Pm2_5_LimitId, Converter={StaticResource d2ic}, Mode=TwoWay}" Height="97"/>
+                    <Slider x:Name="slider" HorizontalAlignment="Left" Width="265" Minimum="0" Maximum="500" SnapsTo="Ticks" TickFrequency="1" Header="PM 2.5澧度" Value="{x:Bind Pm2_5_Limit, Converter={StaticResource d2ic}, Mode=TwoWay}" Height="97"/>
                 </StackPanel>
             </DataTemplate>
         </HubSection>

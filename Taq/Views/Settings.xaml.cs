@@ -18,12 +18,10 @@ namespace Taq.Views
     {
         public App app;
         public ApplicationDataContainer localSettings;
-        public Site site;
         public Settings()
         {
             localSettings =
        ApplicationData.Current.LocalSettings;
-            site = new Site { CircleColor = Shared.aqiBgColors[(int)localSettings.Values["Pm2_5_LimitId"] - 1] };
             this.InitializeComponent();
             app = App.Current as App;
         }
@@ -41,31 +39,30 @@ namespace Taq.Views
             }
         }
 
-        public int Aqi_LimitId
+        public int Aqi_Limit
         {
             get
             {
-                return (int)localSettings.Values["Aqi_LimitId"];
+                return (int)localSettings.Values["Aqi_Limit"];
             }
 
             set
             {
-                localSettings.Values["Aqi_LimitId"] = value;
+                localSettings.Values["Aqi_Limit"] = value;
                 NotifyPropertyChanged();
             }
         }
 
-        public int Pm2_5_LimitId
+        public int Pm2_5_Limit
         {
             get
             {
-                return (int)localSettings.Values["Pm2_5_LimitId"];
+                return (int)localSettings.Values["Pm2_5_Limit"];
             }
 
             set
             {
-                localSettings.Values["Pm2_5_LimitId"] = value;
-                site.CircleColor = Shared.aqiBgColors[value - 1];
+                localSettings.Values["Pm2_5_Limit"] = value;
                 NotifyPropertyChanged();
             }
         }
