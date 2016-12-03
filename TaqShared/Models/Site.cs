@@ -92,6 +92,7 @@ namespace TaqShared.Models
             }
         }
 
+        // Please remove CircleColor, ..., out of Site in the future!!!
         // Map icon background color.
         public string circleColor;
         public string CircleColor

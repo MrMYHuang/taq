@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using TaqShared;
 using TaqShared.Models;
+using Windows.Storage;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Data;
 
@@ -16,12 +17,12 @@ namespace Taq.Views
     public sealed partial class Settings : Page, INotifyPropertyChanged
     {
         public App app;
-        public Windows.Storage.ApplicationDataContainer localSettings;
+        public ApplicationDataContainer localSettings;
         public Site site;
         public Settings()
         {
             localSettings =
-       Windows.Storage.ApplicationData.Current.LocalSettings;
+       ApplicationData.Current.LocalSettings;
             site = new Site { CircleColor = Shared.aqiBgColors[(int)localSettings.Values["Pm2_5_LimitId"] - 1] };
             this.InitializeComponent();
             app = App.Current as App;
@@ -77,22 +78,6 @@ namespace Taq.Views
             {
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
             }
-        }
-
-        private async void comboBox_SelectionChanged(Object sender, SelectionChangedEventArgs e)
-        {
-            var selSite = (Site)((ComboBox)sender).SelectedItem;
-            // sites reloading can trigger this event handler and results in null.
-            if (selSite == null || app.shared.sites.Count == 0)
-            {
-                return;
-            }
-            localSettings.Values["subscrSite"] = selSite.siteName;
-            //app.shared.currSite = app.shared.sites.Where(s => s.siteName == selSite.siteName).First();
-            app.shared.reloadSubscrSiteId();
-            await app.shared.loadCurrSite();
-            app.shared.Site2Coll();
-            app.shared.updateLiveTile();
         }
 
         private void bgUpdateComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)

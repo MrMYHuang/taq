@@ -37,18 +37,6 @@
             </DataTemplate>
         </HubSection>
 
-        <HubSection Style="{StaticResource hubSecSty}"  Header="訂閱通知及動態磚">
-            <DataTemplate x:DataType="local:Settings">
-                <ComboBox x:Name="comboBox" HorizontalAlignment="Left" Width="265" Header="觀測站" ItemsSource="{x:Bind app.shared.sites}" IsTapEnabled="True" SelectedIndex="{x:Bind app.shared.SubscrSiteId, Mode=OneWay}" SelectionChanged="comboBox_SelectionChanged">
-                    <ComboBox.ItemTemplate>
-                        <DataTemplate x:DataType="data:Site">
-                            <TextBlock Text="{x:Bind siteName}"></TextBlock>
-                        </DataTemplate>
-                    </ComboBox.ItemTemplate>
-                </ComboBox>
-            </DataTemplate>
-        </HubSection>
-
         <HubSection Style="{StaticResource hubSecSty}"  Header="指標警報值(超過則發通知)">
             <DataTemplate x:DataType="local:Settings">
                 <StackPanel Orientation="Vertical">

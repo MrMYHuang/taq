@@ -31,8 +31,9 @@
                     2. 大部分指標支援根據數值作背景、文字上色。<LineBreak />
                     3. 設定頁新增"空氣品質指標(AQI)"警報設定。<LineBreak />
                     4. 更新TAQ logo。<LineBreak />
-                    5. 修正異常回報bug。
-                    6. 修正訂閱站台設定切換站台後，來回切換頁面後，選擇之站台不正確的bug。
+                    5. 修正異常回報bug。<LineBreak />
+                    6. 修正訂閱站台設定切換站台後，來回切換頁面後，選擇之站台不正確的bug。<LineBreak />
+                    7. 訂閱站台設定移至框架頁<LineBreak />
                 </TextBlock>
             </DataTemplate>
         </HubSection>

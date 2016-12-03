@@ -17,6 +17,7 @@ using System.Threading.Tasks;
 using Windows.System.Threading;
 using TaqShared;
 using Windows.UI.Core;
+using TaqShared.Models;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -31,10 +32,13 @@ namespace Taq
     {
         public App app;
         ThreadPoolTimer periodicTimer;
+        public ApplicationDataContainer localSettings;
 
         public MainPage()
         {
             app = App.Current as App;
+            localSettings =
+       ApplicationData.Current.LocalSettings;
             this.InitializeComponent();
             downloadAndReload();
             initPeriodicTimer();
@@ -56,6 +60,7 @@ namespace Taq
                 aqComboBox.SelectedIndex = -1;
                 aqComboBox.SelectedIndex = origId;
             }
+            subscrComboBox.SelectedIndex = app.shared.SubscrSiteId;
         }
 
         async void MainPage_DataRequested(DataTransferManager sender, DataRequestedEventArgs args)
@@ -274,6 +279,22 @@ namespace Taq
                 statusTextBlock.Text = "自動更新失敗。請嘗試手動更新。";
             }
             return 0;
+        }
+
+        private async void subscrComboBox_SelectionChanged(Object sender, SelectionChangedEventArgs e)
+        {
+            var selSite = (Site)((ComboBox)sender).SelectedItem;
+            // sites reloading can trigger this event handler and results in null.
+            if (selSite == null || app.shared.sites.Count == 0)
+            {
+                return;
+            }
+            localSettings.Values["subscrSite"] = selSite.siteName;
+            //app.shared.currSite = app.shared.sites.Where(s => s.siteName == selSite.siteName).First();
+            app.shared.reloadSubscrSiteId();
+            await app.shared.loadCurrSite();
+            app.shared.Site2Coll();
+            app.shared.updateLiveTile();
         }
 
         private void aqComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
