@@ -75,24 +75,22 @@ namespace TaqShared
         };
 
         // Notice: a color list has one more element than a limit list!
-        public static List<int> defaultLimits = new List<int> { 0 };
+        public static List<double> defaultLimits = new List<double> { 0 };
         public static List<string> defaultColors = new List<string> { "#31cf00", "#31cf00" };
 
         public static List<string> dirtyColors = new List<string> { "#808080", "#808080" };
 
-        //public static List<int> pm2_5_concens = new List<int> { 11, 23, 35, 41, 47, 53, 58, 64, 70 };
-        //public static List<string> pm2_5_colors = new List<string> { "#9cff9c", "#31ff00", "#31cf00", "#ffff00", "#ffcf00", "#ff9a00", "#ff6464", "#ff0000", "#990000", "#ce30ff" };
-
-        public static List<int> aqiLimits = new List<int> { 50, 100, 150, 200, 300, 400, 500 };
+        public static List<double> aqiLimits = new List<double> { 50, 100, 150, 200, 300, 400, 500 };
         public static List<string> aqiBgColors = new List<string> { "#00ff00", "#ffff00", "#ff7e00", "#ff0000", "#800080", "#633300", "#633300", "#633300" };
 
-        public static List<int> pm10Limits = new List<int> { 54, 125, 254, 354, 424, 504, 604 };
-        public static List<int> o3Limits = new List<int> { 60, 125, 164, 204, 404, 504, 604 };
+        public static List<double> pm2_5Limits = new List<double> { 50.4, 100.4, 150.4, 200.4, 300.4, 400.4, 500.4 };
+        public static List<double> pm10Limits = new List<double> { 54, 125, 254, 354, 424, 504, 604 };
+        public static List<double> o3Limits = new List<double> { 60, 125, 164, 204, 404, 504, 604 };
         // 201, 202, ...
-        public static List<int> o3_8hrLimits = new List<int> { 54, 70, 85, 105, 200, 201, 202 };
-        public static List<int> coLimits = new List<int> { 4, 9, 12, 15, 30, 40, 50 };
-        public static List<int> so2Limits = new List<int> { 35, 75, 185, 304, 604, 804, 1004 };
-        public static List<int> no2Limits = new List<int> { 53, 100, 360, 649, 1249, 1649, 2049 };
+        public static List<double> o3_8hrLimits = new List<double> { 54, 70, 85, 105, 200, 201, 202 };
+        public static List<double> coLimits = new List<double> { 4.4, 9.4, 12.4, 15.4, 30.4, 40.4, 50.4 };
+        public static List<double> so2Limits = new List<double> { 35, 75, 185, 304, 604, 804, 1004 };
+        public static List<double> no2Limits = new List<double> { 53, 100, 360, 649, 1249, 1649, 2049 };
 
         public Dictionary<string, List<string>> aqColors = new Dictionary<string, List<string>>
         {
@@ -118,7 +116,7 @@ namespace TaqShared
             { "WindDirec", defaultColors},
         };
 
-        public Dictionary<string, List<int>> aqLimits = new Dictionary<string, List<int>>
+        public Dictionary<string, List<double>> aqLimits = new Dictionary<string, List<double>>
         {
             { "PublishTime", defaultLimits},
             { "SiteName", defaultLimits },
@@ -126,8 +124,8 @@ namespace TaqShared
             { "Pollutant", defaultLimits},
             { "AQI", aqiLimits},
             { "Status", defaultLimits},
-            { "PM2.5", aqiLimits},
-            { "PM2.5_AVG", aqiLimits},
+            { "PM2.5", pm2_5Limits},
+            { "PM2.5_AVG", pm2_5Limits},
             { "PM10", pm10Limits},
             { "PM10_AVG", pm10Limits},
             { "O3", o3Limits},
@@ -266,6 +264,7 @@ namespace TaqShared
             return 0;
         }
 
+        // Run by UI context.
         public void updateMapIconsAndList(string aqName)
         {
             foreach (var site in sites)
@@ -336,6 +335,7 @@ namespace TaqShared
             return 0;
         }
 
+        // Run by UI context.
         public void Site2Coll()
         {
             // Don't remove all elements by new.
@@ -478,10 +478,10 @@ namespace TaqShared
             };
         }
 
-        public int getAqVal(Site site, string aqName)
+        public double getAqVal(Site site, string aqName)
         {
-            var val = 0;
-            int.TryParse(sitesDict[site.siteName][aqName], out val);
+            double val = 0;
+            double.TryParse(sitesDict[site.siteName][aqName], out val);
             return val;
         }
 

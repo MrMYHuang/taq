@@ -57,7 +57,8 @@ namespace Taq
         }
 
         // This auxiliary method is used to wait for app.shared ready,
-        // before InitializeComponent.
+        // before InitializeComponent. Otherwise, some UIs may throw exceptions with partial
+        // initialized app.shared.
         async Task<int> initAux()
         {
             try

@@ -20,7 +20,7 @@
         <HubSection Header="已知問題" Width="Auto">
             <DataTemplate>
                 <TextBlock Style="{StaticResource txtBlkSty1}" >
-                    1. CO, SO2, CO_8hr上色不正確。<LineBreak />
+                    1. 無。<LineBreak />
                 </TextBlock>
             </DataTemplate>
         </HubSection>
