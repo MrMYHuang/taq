@@ -409,7 +409,7 @@ namespace TaqShared
         public void sendNotifications()
         {
             int aqi_LimitId = (int)localSettings.Values["Aqi_LimitId"];
-            if (oldSiteDict["AQI"] != currSiteDict["AQI"] && aqiLimits.FindLastIndex(x => currSite.aqi_int <= x) > aqi_LimitId)
+            if (oldSiteDict["AQI"] != currSiteDict["AQI"] && getAqLevel(currSite, "AQI") > aqi_LimitId)
             {
                 sendNotification("AQI: " + currSiteDict["AQI"], "AQI");
             }
