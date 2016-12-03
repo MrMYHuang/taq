@@ -39,6 +39,7 @@
                     1. 更新資料來源為"空氣品質指標(AQI)"。<LineBreak />
                     2. 設定頁新增"背景更新"。<LineBreak />
                     3. 寬動態磚顯示更多訊息。<LineBreak />
+                    4. 更新TAQ logo。<LineBreak />
                 </TextBlock>
             </DataTemplate>
         </HubSection>

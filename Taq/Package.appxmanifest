@@ -5,7 +5,7 @@
   <Properties>
     <DisplayName>Taiwan Air Quality</DisplayName>
     <PublisherDisplayName>Meng-Yuan Huang</PublisherDisplayName>
-    <Logo>Assets\StoreLogo.png</Logo>
+    <Logo>Assets\logos\PackageLogo.png</Logo>
   </Properties>
   <Dependencies>
     <TargetDeviceFamily Name="Windows.Universal" MinVersion="10.0.0.0" MaxVersionTested="10.0.0.0" />
@@ -15,11 +15,15 @@
   </Resources>
   <Applications>
     <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="Taq.App">
-      <uap:VisualElements DisplayName="Taiwan Air Quality" Square150x150Logo="Assets\Square150x150Logo.png" Square44x44Logo="Assets\Square44x44Logo.png" Description="Taq" BackgroundColor="transparent">
-        <uap:LockScreen Notification="badgeAndTileText" BadgeLogo="Assets/Square24x24Logo.png" />
-        <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png">
+      <uap:VisualElements DisplayName="Taiwan Air Quality" Square150x150Logo="Assets\logos\MediumTile.png" Square44x44Logo="Assets\logos\AppIcon.png" Description="Taq" BackgroundColor="transparent">
+        <uap:LockScreen Notification="badgeAndTileText" BadgeLogo="Assets\logos\BadgeLogo.png" />
+        <uap:DefaultTile Wide310x150Logo="Assets\logos\WideTile.png" Square310x310Logo="Assets\logos\LargeTile.png" Square71x71Logo="Assets\logos\SmallTile.png">
+          <uap:ShowNameOnTiles>
+            <uap:ShowOn Tile="square150x150Logo" />
+            <uap:ShowOn Tile="wide310x150Logo" />
+          </uap:ShowNameOnTiles>
         </uap:DefaultTile>
-        <uap:SplashScreen Image="Assets\SplashScreen.png" />
+        <uap:SplashScreen Image="Assets\logos\SplashScreen.png" />
       </uap:VisualElements>
       <Extensions>
         <Extension Category="windows.backgroundTasks" EntryPoint="TaqBackTask.TaqBackTask">
