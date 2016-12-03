@@ -53,14 +53,14 @@ namespace TaqShared.Models
                     }
 
                     var i = 0;
-                    for (; i < Shared.pm2_5_concens.Count; i++)
+                    for (; i < Shared.aqiLimits.Count; i++)
                     {
-                        if (pm2_5_int <= Shared.pm2_5_concens[i])
+                        if (pm2_5_int <= Shared.aqiLimits[i])
                         {
                             break;
                         }
                     }
-                    CircleColor = Shared.pm2_5_colors[i];
+                    CircleColor = Shared.aqiBgColors[i];
                     NotifyPropertyChanged();
                 }
             }
@@ -93,7 +93,6 @@ namespace TaqShared.Models
         }
 
         // Map icon background color.
-
         public string circleColor;
         public string CircleColor
         {
@@ -122,7 +121,7 @@ namespace TaqShared.Models
             }
         }
 
-        public string listText;
+        private string listText;
         public string ListText
         {
             get
@@ -136,15 +135,17 @@ namespace TaqShared.Models
             }
         }
 
+        private SolidColorBrush textColor;
         public SolidColorBrush TextColor
         {
             get
             {
-                if (pm2_5_int > 47)
-                {
-                    return new SolidColorBrush(Colors.White);
-                }
-                return new SolidColorBrush(Colors.Black);
+                return textColor;
+            }
+            set
+            {
+                textColor = value;
+                NotifyPropertyChanged();
             }
         }
 

@@ -115,7 +115,11 @@ namespace Taq.Views
             textBind.Mode = BindingMode.OneWay;
             ellipse1.txtBlk.SetBinding(TextBlock.TextProperty, textBind);
 
-            ellipse1.txtBlk.Foreground = site.TextColor;
+            Binding textColorBind = new Binding();
+            textColorBind.Source = app.shared.sites;
+            textColorBind.Path = new PropertyPath("[" + i + "].TextColor");
+            textColorBind.Mode = BindingMode.OneWay;
+            ellipse1.txtBlk.SetBinding(TextBlock.ForegroundProperty, textColorBind);
             //var ellipse1 = new Ellipse();
 
             // Add the MapIcon to the map.

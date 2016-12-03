@@ -22,7 +22,7 @@ namespace Taq.Views
         {
             localSettings =
        Windows.Storage.ApplicationData.Current.LocalSettings;
-            site = new Site { CircleColor = Shared.pm2_5_colors[(int)localSettings.Values["Pm2_5_LimitId"] - 1] };
+            site = new Site { CircleColor = Shared.aqiBgColors[(int)localSettings.Values["Pm2_5_LimitId"] - 1] };
             this.InitializeComponent();
             app = App.Current as App;
         }
@@ -64,7 +64,7 @@ namespace Taq.Views
             set
             {
                 localSettings.Values["Pm2_5_LimitId"] = value;
-                site.CircleColor = Shared.pm2_5_colors[value - 1];
+                site.CircleColor = Shared.aqiBgColors[value - 1];
                 NotifyPropertyChanged();
             }
         }
@@ -89,6 +89,7 @@ namespace Taq.Views
             }
             localSettings.Values["subscrSite"] = selSite.siteName;
             //app.shared.currSite = app.shared.sites.Where(s => s.siteName == selSite.siteName).First();
+            app.shared.reloadSubscrSiteId();
             await app.shared.loadCurrSite();
             app.shared.Site2Coll();
             app.shared.updateLiveTile();

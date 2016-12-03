@@ -3,6 +3,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:Taq.Views"
+    xmlns:ts="using:TaqShared"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
@@ -23,9 +24,9 @@
                 </Style>
             </GridView.ItemContainerStyle>
             <GridView.ItemTemplate>
-                <DataTemplate>
-                    <Border Background="{Binding [0], Mode=OneWay}" VerticalAlignment="Center" Height="100">
-                        <TextBlock Text="{Binding [1], Mode=OneWay}" FontSize="22" Width="145" TextAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Center" Foreground="{Binding [2], Mode=OneWay}"></TextBlock>
+                <DataTemplate x:DataType="ts:AqView">
+                    <Border Background="{x:Bind CircleColor, Mode=OneWay}" VerticalAlignment="Center" Height="100">
+                        <TextBlock Text="{x:Bind CircleText, Mode=OneWay}" FontSize="22" Width="145" TextAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Center" Foreground="{x:Bind TextColor, Mode=OneWay}"></TextBlock>
                     </Border>
                 </DataTemplate>
             </GridView.ItemTemplate>

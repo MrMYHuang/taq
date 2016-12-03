@@ -14,7 +14,9 @@ using TaqShared.Models;
 using Windows.Devices.Geolocation;
 using Windows.Networking.BackgroundTransfer;
 using Windows.Storage;
+using Windows.UI;
 using Windows.UI.Notifications;
+using Windows.UI.Xaml.Media;
 
 namespace TaqShared
 {
@@ -25,6 +27,75 @@ namespace TaqShared
     public class OldXmlException : Exception
     {
 
+    }
+
+    public class AqView : INotifyPropertyChanged
+    {        // Map icon background color.
+        public string circleColor;
+        public string CircleColor
+        {
+            get
+            {
+                return circleColor;
+            }
+            set
+            {
+                circleColor = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public string circleText;
+        public string CircleText
+        {
+            get
+            {
+                return circleText;
+            }
+            set
+            {
+                circleText = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private string listText;
+        public string ListText
+        {
+            get
+            {
+                return listText;
+            }
+            set
+            {
+                listText = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private SolidColorBrush textColor;
+        public SolidColorBrush TextColor
+        {
+            get
+            {
+                return textColor;
+            }
+            set
+            {
+                textColor = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
     }
 
     public class Shared : INotifyPropertyChanged
@@ -38,7 +109,8 @@ namespace TaqShared
         public ObservableCollection<Site> sites = new ObservableCollection<Site>();
         public Dictionary<string, Dictionary<string, string>> sitesDict = new Dictionary<string, Dictionary<string, string>>();
         public Site currSite = new Site { siteName = "N/A", Pm2_5 = "0" };
-        public ObservableCollection<string[]> currSiteViews = new ObservableCollection<string[]>();
+        public ObservableCollection<AqView> currSiteViews = new ObservableCollection<AqView>();
+        public ObservableCollection<SolidColorBrush> currSiteTextColor = new ObservableCollection<SolidColorBrush>();
         public Dictionary<string, string> currSiteDict;
 
         public Site oldSite = new Site { siteName = "N/A", Pm2_5 = "0" };
@@ -73,33 +145,43 @@ namespace TaqShared
         // Notice: a color list has one more element than a limit list!
         public static List<int> defaultLimits = new List<int> { 0 };
         public static List<string> defaultColors = new List<string> { "#31cf00", "#31cf00" };
+        
+        public static List<string> dirtyColors = new List<string> { "#808080", "#808080" };
 
-        public static List<int> pm2_5_concens = new List<int> { 11, 23, 35, 41, 47, 53, 58, 64, 70 };
-        public static List<string> pm2_5_colors = new List<string> { "#9cff9c", "#31ff00", "#31cf00", "#ffff00", "#ffcf00", "#ff9a00", "#ff6464", "#ff0000", "#990000", "#ce30ff" };
+        //public static List<int> pm2_5_concens = new List<int> { 11, 23, 35, 41, 47, 53, 58, 64, 70 };
+        //public static List<string> pm2_5_colors = new List<string> { "#9cff9c", "#31ff00", "#31cf00", "#ffff00", "#ffcf00", "#ff9a00", "#ff6464", "#ff0000", "#990000", "#ce30ff" };
 
         public static List<int> aqiLimits = new List<int> { 50, 100, 150, 200, 300, 400, 500 };
         public static List<string> aqiBgColors = new List<string> { "#00ff00", "#ffff00", "#ff7e00", "#ff0000", "#800080", "#633300", "#633300", "#633300" };
+
+        public static List<int> pm10Limits = new List<int> { 54, 125, 254, 354, 424, 504, 604 };
+        public static List<int> o3Limits = new List<int> { 60, 125, 164, 204, 404, 504, 604 };
+        // 201, 202, ...
+        public static List<int> o3_8hrLimits = new List<int> { 54, 70, 85, 105, 200, 201, 202 };
+        public static List<int> coLimits = new List<int> { 4, 9, 12, 15, 30, 40, 50 };
+        public static List<int> so2Limits = new List<int> { 35, 75, 185, 304, 604, 804, 1004 };
+        public static List<int> no2Limits = new List<int> { 53, 100, 360, 649, 1249, 1649, 2049 };
 
         public Dictionary<string, List<string>> aqColors = new Dictionary<string, List<string>>
         {
             { "PublishTime", defaultColors},
             { "SiteName", defaultColors },
             { "County", defaultColors},
-            { "Pollutant", defaultColors},
+            { "Pollutant", dirtyColors},
             { "AQI", aqiBgColors},
             { "Status", defaultColors},
-            { "PM2.5", pm2_5_colors},
-            { "PM2.5_AVG", pm2_5_colors},
-            { "PM10", defaultColors},
-            { "PM10_AVG", defaultColors},
-            { "O3", defaultColors},
-            { "O3_8hr", defaultColors},
-            { "CO", defaultColors},
-            { "CO_8hr", defaultColors},
-            { "SO2", defaultColors},
-            { "NO2", defaultColors},
-            { "NOx", defaultColors},
-            { "NO", defaultColors},
+            { "PM2.5", aqiBgColors},
+            { "PM2.5_AVG", aqiBgColors},
+            { "PM10", aqiBgColors},
+            { "PM10_AVG", aqiBgColors},
+            { "O3", aqiBgColors},
+            { "O3_8hr", aqiBgColors},
+            { "CO", aqiBgColors},
+            { "CO_8hr", aqiBgColors},
+            { "SO2", aqiBgColors},
+            { "NO2", aqiBgColors},
+            { "NOx", dirtyColors},
+            { "NO", dirtyColors},
             { "WindSpeed", defaultColors},
             { "WindDirec", defaultColors},
         };
@@ -112,16 +194,16 @@ namespace TaqShared
             { "Pollutant", defaultLimits},
             { "AQI", aqiLimits},
             { "Status", defaultLimits},
-            { "PM2.5", pm2_5_concens},
-            { "PM2.5_AVG", pm2_5_concens},
-            { "PM10", defaultLimits},
-            { "PM10_AVG", defaultLimits},
-            { "O3", defaultLimits},
-            { "O3_8hr", defaultLimits},
-            { "CO", defaultLimits},
-            { "CO_8hr", defaultLimits},
-            { "SO2", defaultLimits},
-            { "NO2", defaultLimits},
+            { "PM2.5", aqiLimits},
+            { "PM2.5_AVG", aqiLimits},
+            { "PM10", pm10Limits},
+            { "PM10_AVG", pm10Limits},
+            { "O3", o3Limits},
+            { "O3_8hr", o3_8hrLimits},
+            { "CO", coLimits},
+            { "CO_8hr", coLimits},
+            { "SO2", so2Limits},
+            { "NO2", no2Limits},
             { "NOx", defaultLimits},
             { "NO", defaultLimits},
             { "WindSpeed", defaultLimits},
@@ -271,6 +353,7 @@ namespace TaqShared
                 site.CircleColor = aqColors[aqName][aqLevel];
                 site.CircleText = site.siteName + "\n" + sitesDict[site.siteName][aqName];
                 site.ListText = sitesDict[site.siteName][aqName];
+                site.TextColor = aqLevel > 3 ? new SolidColorBrush(Colors.White) : new SolidColorBrush(Colors.Black);
             }
         }
 
@@ -338,15 +421,18 @@ namespace TaqShared
             // Don't remove all elements by new.
             // Otherwise, data bindings would be problematic.
             currSiteViews.Clear();
+            currSiteTextColor.Clear();
             foreach (var k in fieldNames.Keys)
             {
                 var aqLevel = getAqLevel(currSite, k);
-                currSiteViews.Add(new string[]
+                var textColor = aqLevel > 3 ? new SolidColorBrush(Colors.White) : new SolidColorBrush(Colors.Black);
+                currSiteViews.Add(new AqView
                 {
-                    aqColors[k][aqLevel], // default border background color
-                    fieldNames[k] + "\n" + currSiteDict[k],
-                    "Black", // default text color
+                    CircleColor = aqColors[k][aqLevel], // default border background color
+                    CircleText = fieldNames[k] + "\n" + currSiteDict[k],
+                    TextColor = textColor
                 });
+                currSiteTextColor.Add(textColor);
             }
         }
 
@@ -415,7 +501,7 @@ namespace TaqShared
             }
 
             int pm2_5_LimitId = (int)localSettings.Values["Pm2_5_LimitId"];
-            if (oldSiteDict["PM2.5"] != currSiteDict["PM2.5"] && pm2_5ConcensToId(currSite.pm2_5_int) > pm2_5_LimitId)
+            if (oldSiteDict["PM2.5"] != currSiteDict["PM2.5"] && getAqLevel(currSite, "PM2.5") > pm2_5_LimitId)
             {
                 sendNotification("PM 2.5濃度: " + currSiteDict["PM2.5"], "PM2.5");
             }
@@ -487,9 +573,9 @@ namespace TaqShared
         public int pm2_5ConcensToId(int concens)
         {
             var i = 0;
-            for (; i < pm2_5_concens.Count; i++)
+            for (; i < aqiLimits.Count; i++)
             {
-                if (concens <= pm2_5_concens[i])
+                if (concens <= aqiLimits[i])
                 {
                     break;
                 }

@@ -20,7 +20,7 @@
         <HubSection Header="已知問題" Width="Auto">
             <DataTemplate>
                 <TextBlock Style="{StaticResource txtBlkSty1}" >
-                    1. 首頁、列表頁、地圖頁只有AQI與PM 2.5的背景上色正確。文字上色有bug。<LineBreak />
+                    1. CO, SO2, CO_8hr上色不正確。<LineBreak />
                 </TextBlock>
             </DataTemplate>
         </HubSection>
@@ -28,10 +28,11 @@
             <DataTemplate>
                 <TextBlock Style="{StaticResource txtBlkSty1}" >
                     1. 列表頁、地圖頁支援多種空汙資訊切換。<LineBreak />
-                    2. "空氣品質指標(AQI)"與PM 2.5根據數值作背景上色。<LineBreak />
+                    2. 大部分指標支援根據數值作背景、文字上色。<LineBreak />
                     3. 設定頁新增"空氣品質指標(AQI)"警報設定。<LineBreak />
                     4. 更新TAQ logo。<LineBreak />
                     5. 修正異常回報bug。
+                    6. 修正訂閱站台設定切換站台後，來回切換頁面後，選擇之站台不正確的bug。
                 </TextBlock>
             </DataTemplate>
         </HubSection>
