@@ -88,8 +88,6 @@ namespace Taq.Views
 
         private void addMapIcons()
         {
-            // Remove old icons.
-            map.Children.Clear();
             // Add new PM 2.5 map icons.
             var i = 0;
             foreach (var s in app.shared.sites)

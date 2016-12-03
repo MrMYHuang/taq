@@ -223,10 +223,7 @@ namespace TaqShared
                         select data;
             var geoDataX = from data in siteGeoXd.Descendants("Data")
                            select data;
-
-            // Removing all items before updating, because the new download data XML file
-            // could have a different number of Data elements from the old one.
-            //sites.Clear();
+            
             sitesDict.Clear();
             var isSiteUninit = sites.Count() == 0;
             foreach (var d in dataX.OrderBy(x => x.Element("County").Value))
@@ -383,23 +380,26 @@ namespace TaqShared
             // enables the tile to queue up to five notifications 
             updater.EnableNotificationQueue(true);
             updater.Clear();
-
+            
+            var pm2_5_Str = "PM 2.5：" + currSite.Pm2_5;
+            var siteStr = "觀測站：" + currSite.siteName;
+            var timeStr = currSiteDict["PublishTime"].Substring(11, 5);
             // get the XML content of one of the predefined tile templates, so that, you can customize it
             // create the wide template
-            var timeStr = currSiteDict["PublishTime"].Substring(11, 5);
-            var wideContent = TileContentFactory.CreateTileWide310x150BlockAndText01();
-            wideContent.TextBlock.Text = currSiteDict["AQI"];
-            wideContent.TextSubBlock.Text = "空氣品質";
-            wideContent.TextBody1.Text = "觀測站：" + currSite.siteName;
-            wideContent.TextBody2.Text = "發佈時間：" + timeStr;
-            wideContent.TextBody3.Text = fieldNames["Status"] + "：" + currSiteDict["Status"];
-            wideContent.TextBody4.Text = "PM 2.5：" + currSite.Pm2_5;
+            var wideContent = TileContentFactory.CreateTileWide310x150Text01();
+            wideContent.TextHeading.Text = "空氣品質：" + currSiteDict["AQI"];
+            wideContent.TextBody1.Text = fieldNames["Status"] + "：" + currSiteDict["Status"];
+            wideContent.TextBody2.Text = pm2_5_Str;
+            wideContent.TextBody3.Text = siteStr;
+            wideContent.TextBody4.Text = "發佈時間：" + timeStr;
             //wideContent.Image.Src = "ms-appx:///Assets/Wide310x150Logo.scale-200.png";
 
             // create the square template and attach it to the wide template 
-            ITileSquare150x150Block squareContent = TileContentFactory.CreateTileSquare150x150Block();
-            squareContent.TextBlock.Text = currSite.Pm2_5.ToString();
-            squareContent.TextSubBlock.Text = "PM 2.5\n" + currSite.siteName + "/" + timeStr;
+            var squareContent = TileContentFactory.CreateTileSquare150x150Text01();
+            squareContent.TextHeading.Text = "AQI：" + currSiteDict["AQI"]; ;
+            squareContent.TextBody1.Text = pm2_5_Str;
+            squareContent.TextBody2.Text = siteStr;
+            squareContent.TextBody3.Text = "時間：" + timeStr;
             wideContent.Square150x150Content = squareContent;
 
             // Create a new tile notification.
