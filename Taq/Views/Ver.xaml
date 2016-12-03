@@ -30,6 +30,8 @@
                     1. 列表頁、地圖頁支援多種空汙資訊切換。<LineBreak />
                     2. "空氣品質指標(AQI)"與PM 2.5根據數值作背景上色。<LineBreak />
                     3. 設定頁新增"空氣品質指標(AQI)"警報設定。<LineBreak />
+                    4. 更新TAQ logo。<LineBreak />
+                    5. 修正異常回報bug。
                 </TextBlock>
             </DataTemplate>
         </HubSection>
@@ -39,7 +41,6 @@
                     1. 更新資料來源為"空氣品質指標(AQI)"。<LineBreak />
                     2. 設定頁新增"背景更新"。<LineBreak />
                     3. 寬動態磚顯示更多訊息。<LineBreak />
-                    4. 更新TAQ logo。<LineBreak />
                 </TextBlock>
             </DataTemplate>
         </HubSection>
