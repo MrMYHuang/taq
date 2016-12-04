@@ -1,12 +1,12 @@
-﻿using System;
+﻿using Microsoft.Practices.Prism.Mvvm;
+using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using Windows.UI;
 using Windows.UI.Xaml.Media;
 
-namespace TaqShared.Models
+namespace Taq
 {
-    public class AqView : INotifyPropertyChanged
+    public class AqViewModel : BindableBase
     {
         // Map icon background color.
         public string circleColor;
@@ -18,8 +18,7 @@ namespace TaqShared.Models
             }
             set
             {
-                circleColor = value;
-                NotifyPropertyChanged();
+                SetProperty(ref circleColor, value);
             }
         }
 
@@ -32,8 +31,7 @@ namespace TaqShared.Models
             }
             set
             {
-                circleText = value;
-                NotifyPropertyChanged();
+                SetProperty(ref circleText, value);
             }
         }
 
@@ -46,8 +44,7 @@ namespace TaqShared.Models
             }
             set
             {
-                listText = value;
-                NotifyPropertyChanged();
+                SetProperty(ref listText, value);
             }
         }
 
@@ -60,27 +57,8 @@ namespace TaqShared.Models
             }
             set
             {
-                textColor = value;
-                NotifyPropertyChanged();
+                SetProperty(ref textColor, value);
             }
         }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        public void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
-        {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
-    }
-
-    public class Site : AqView, INotifyPropertyChanged
-    {
-        public string siteName;
-        public string county;
-        public double twd97Lat;
-        public double twd97Lon;
     }
 }

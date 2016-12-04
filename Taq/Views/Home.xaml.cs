@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading.Tasks;
-using TaqShared;
 using Windows.System.Threading;
 using Windows.UI.Core;
 using Windows.UI.Xaml;

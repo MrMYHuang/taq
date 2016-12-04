@@ -10,7 +10,6 @@ using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Xml.Linq;
-using TaqShared.Models;
 using Windows.Devices.Geolocation;
 using Windows.Networking.BackgroundTransfer;
 using Windows.Storage;
@@ -18,7 +17,7 @@ using Windows.UI;
 using Windows.UI.Notifications;
 using Windows.UI.Xaml.Media;
 
-namespace TaqShared
+namespace Taq
 {
     public class DownloadException : Exception
     {
@@ -30,9 +29,9 @@ namespace TaqShared
 
     }
 
-    public class Shared : INotifyPropertyChanged
+    public class TaqModel
     {
-        private ApplicationDataContainer localSettings;
+        public ApplicationDataContainer localSettings;
         // The AQ data XML filename.
         public const string dataXmlFile = "taqi.xml";
         public Uri source = new Uri("http://YourTaqServerIp/taq/" + dataXmlFile);
@@ -40,12 +39,8 @@ namespace TaqShared
         public XDocument siteGeoXd = new XDocument();
         // Full sites AQ information in Dictionary. Converted from XML.
         public Dictionary<string, Dictionary<string, string>> sitesStrDict = new Dictionary<string, Dictionary<string, string>>();
-        // Partial sites AQ information. Contain properties for data bindings (from AqView).
-        public ObservableCollection<Site> sites = new ObservableCollection<Site>();
         // Current (subscribed) site information in Dictionary.
         public Dictionary<string, string> currSiteStrDict;
-        // Current site info converted to for data bindings through AqView.
-        public ObservableCollection<AqView> currSiteViews = new ObservableCollection<AqView>();
         // The previous currSiteStrDict from previous download dataXmlFile.
         public Dictionary<string, string> oldSiteStrDict;
 
@@ -150,7 +145,7 @@ namespace TaqShared
         public List<string> aqList = new List<string>
         {"AQI", "Status", "PM2.5", "PM2.5_AVG", "PM10", "PM10_AVG", "O3", "O3_8hr", "CO", "CO_8hr", "SO2", "NO2", "NOx", "NO", "WindSpeed", "WindDirec"};
 
-        public Shared()
+        public TaqModel()
         {
             localSettings =
        ApplicationData.Current.LocalSettings;
@@ -245,36 +240,6 @@ namespace TaqShared
             return 0;
         }
 
-        // Has to be run by UI context!
-        public void loadDict2Sites(string aqName)
-        {
-            var isSiteUninit = sites.Count() == 0;
-            if (isSiteUninit)
-            {
-                foreach (var s in sitesStrDict)
-                {
-                    var siteDict = s.Value;
-                    sites.Add(new Site
-                    {
-                        siteName = s.Key,
-                        county = s.Value["County"],
-                        twd97Lat = double.Parse(siteDict["TWD97Lat"]),
-                        twd97Lon = double.Parse(siteDict["TWD97Lon"]),
-                    });
-                }
-            }
-
-            foreach (var site in sites)
-            {
-                var aqLevel = getAqLevel(site.siteName, aqName);
-                site.CircleColor = aqColors[aqName][aqLevel];
-                site.CircleText = site.siteName + "\n" + sitesStrDict[site.siteName][aqName];
-                site.ListText = sitesStrDict[site.siteName][aqName];
-                site.TextColor = aqLevel > 3 ? new SolidColorBrush(Colors.White) : new SolidColorBrush(Colors.Black);
-            }
-            loadSubscrSiteId();
-        }
-
         public async Task<int> loadCurrSite(bool confAwait = true)
         {
             // Load the old site.
@@ -321,48 +286,6 @@ namespace TaqShared
             return 0;
         }
 
-        // Has to be run by UI context!
-        public void currSite2AqView()
-        {
-            // Don't remove all elements by new.
-            // Otherwise, data bindings would be problematic.
-            currSiteViews.Clear();
-            foreach (var k in fieldNames.Keys)
-            {
-                var aqLevel = getAqLevel(currSiteStrDict["SiteName"], k);
-                var textColor = aqLevel > 3 ? new SolidColorBrush(Colors.White) : new SolidColorBrush(Colors.Black);
-                currSiteViews.Add(new AqView
-                {
-                    CircleColor = aqColors[k][aqLevel], // default border background color
-                    CircleText = fieldNames[k] + "\n" + currSiteStrDict[k],
-                    TextColor = textColor
-                });
-            }
-        }
-
-        private int subscrSiteId;
-        public int SubscrSiteId
-        {
-            get
-            {
-                return subscrSiteId;
-            }
-            set
-            {
-                subscrSiteId = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        public void loadSubscrSiteId()
-        {
-            var subscrSiteName = (string)localSettings.Values["subscrSite"];
-            var subscrSiteElem = from s in sites
-                                 where s.siteName == subscrSiteName
-                                 select s;
-            SubscrSiteId = sites.IndexOf(subscrSiteElem.First());
-        }
-
         public void updateLiveTile()
         {
             // create the instance of Tile Updater, which enables you to change the appearance of the calling app's tile
@@ -398,13 +321,13 @@ namespace TaqShared
 
         public void sendNotifications()
         {
-            int aqi_Limit = (int)localSettings.Values["Aqi_Limit"];
+            var aqi_Limit = (double)localSettings.Values["Aqi_Limit"];
             if (oldSiteStrDict["AQI"] != currSiteStrDict["AQI"] && getAqVal(currSiteStrDict["SiteName"], "AQI") > aqi_Limit)
             {
                 sendNotification("AQI: " + currSiteStrDict["AQI"], "AQI");
             }
 
-            int pm2_5_Limit = (int)localSettings.Values["Pm2_5_Limit"];
+            var pm2_5_Limit = (double)localSettings.Values["Pm2_5_Limit"];
             if (oldSiteStrDict["PM2.5"] != currSiteStrDict["PM2.5"] && getAqVal(currSiteStrDict["SiteName"], "PM2.5") > pm2_5_Limit)
             {
                 sendNotification("PM 2.5濃度: " + currSiteStrDict["PM2.5"], "PM2.5");

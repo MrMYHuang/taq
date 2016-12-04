@@ -1,0 +1,96 @@
+﻿using Microsoft.Practices.Prism.Mvvm;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Windows.UI;
+using Windows.UI.Xaml.Media;
+
+namespace Taq
+{
+    public class TaqViewModel : BindableBase
+    {
+        public TaqModel m = new TaqModel();
+        // Partial sites AQ information. Contain properties for data bindings (from AqView).
+        public ObservableCollection<SiteViewModel> sites = new ObservableCollection<SiteViewModel>();
+        // Current site info converted to for data bindings through AqView.
+        public ObservableCollection<AqViewModel> currSiteViews = new ObservableCollection<AqViewModel>();
+
+        public TaqViewModel()
+        {
+
+        }
+
+        // Has to be run by UI context!
+        public void loadDict2Sites(string aqName)
+        {
+            var isSiteUninit = sites.Count() == 0;
+            if (isSiteUninit)
+            {
+                foreach (var s in m.sitesStrDict)
+                {
+                    var siteDict = s.Value;
+                    sites.Add(new SiteViewModel
+                    {
+                        siteName = s.Key,
+                        county = s.Value["County"],
+                        twd97Lat = double.Parse(siteDict["TWD97Lat"]),
+                        twd97Lon = double.Parse(siteDict["TWD97Lon"]),
+                    });
+                }
+            }
+
+            foreach (var site in sites)
+            {
+                var aqLevel = m.getAqLevel(site.siteName, aqName);
+                site.CircleColor = m.aqColors[aqName][aqLevel];
+                site.CircleText = site.siteName + "\n" + m.sitesStrDict[site.siteName][aqName];
+                site.ListText = m.sitesStrDict[site.siteName][aqName];
+                site.TextColor = aqLevel > 3 ? new SolidColorBrush(Colors.White) : new SolidColorBrush(Colors.Black);
+            }
+            loadSubscrSiteId();
+        }
+        // Has to be run by UI context!
+        public void currSite2AqView()
+        {
+            // Don't remove all elements by new.
+            // Otherwise, data bindings would be problematic.
+            currSiteViews.Clear();
+            foreach (var k in m.fieldNames.Keys)
+            {
+                var aqLevel = m.getAqLevel(m.currSiteStrDict["SiteName"], k);
+                var textColor = aqLevel > 3 ? new SolidColorBrush(Colors.White) : new SolidColorBrush(Colors.Black);
+                currSiteViews.Add(new AqViewModel
+                {
+                    CircleColor = m.aqColors[k][aqLevel], // default border background color
+                    CircleText = m.fieldNames[k] + "\n" + m.currSiteStrDict[k],
+                    TextColor = textColor
+                });
+            }
+        }
+
+        private int subscrSiteId;
+        public int SubscrSiteId
+        {
+            get
+            {
+                return subscrSiteId;
+            }
+            set
+            {
+                SetProperty(ref subscrSiteId, value);
+            }
+        }
+
+        public void loadSubscrSiteId()
+        {
+            var subscrSiteName = (string)m.localSettings.Values["subscrSite"];
+            var subscrSiteElem = from s in sites
+                                 where s.siteName == subscrSiteName
+                                 select s;
+            SubscrSiteId = sites.IndexOf(subscrSiteElem.First());
+        }
+    }
+}

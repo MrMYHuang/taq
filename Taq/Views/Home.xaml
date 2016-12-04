@@ -3,14 +3,14 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:Taq.Views"
-    xmlns:ts="using:TaqShared.Models"
+    xmlns:taq="using:Taq"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     NavigationCacheMode="Enabled">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <GridView ItemsSource="{x:Bind app.shared.currSiteViews, Mode=OneWay}" 
+        <GridView ItemsSource="{x:Bind app.vm.currSiteViews, Mode=OneWay}" 
                 Margin="0,10,0,0">
             <GridView.ItemContainerStyle>
                 <Style TargetType="GridViewItem">
@@ -24,7 +24,7 @@
                 </Style>
             </GridView.ItemContainerStyle>
             <GridView.ItemTemplate>
-                <DataTemplate x:DataType="ts:AqView">
+                <DataTemplate x:DataType="taq:AqViewModel">
                     <Border Background="{x:Bind CircleColor, Mode=OneWay}" VerticalAlignment="Center" Height="100">
                         <TextBlock Text="{x:Bind CircleText, Mode=OneWay}" FontSize="22" Width="145" TextAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Center" Foreground="{x:Bind TextColor, Mode=OneWay}"></TextBlock>
                     </Border>

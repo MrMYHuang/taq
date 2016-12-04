@@ -15,9 +15,7 @@ using Windows.Graphics.Display;
 using Windows.System;
 using System.Threading.Tasks;
 using Windows.System.Threading;
-using TaqShared;
 using Windows.UI.Core;
-using TaqShared.Models;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -47,23 +45,23 @@ namespace Taq
             {
                 // Ignore.
             }
-            app.shared.loadDict2Sites("AQI");
-            app.shared.currSite2AqView();
+            app.vm.loadDict2Sites("AQI");
+            app.vm.currSite2AqView();
             this.InitializeComponent();
-            //app.shared.updateLiveTile();
+            //app.vm.updateLiveTile();
             frame.Navigate(typeof(Home));
             initPeriodicTimer();
             Windows.ApplicationModel.DataTransfer.DataTransferManager.GetForCurrentView().DataRequested += MainPage_DataRequested;
         }
 
-        // This auxiliary method is used to wait for app.shared ready,
+        // This auxiliary method is used to wait for app.vm ready,
         // before InitializeComponent. Otherwise, some UIs may throw exceptions with partial
-        // initialized app.shared.
+        // initialized app.vm.
         async Task<int> initAux()
         {
             try
             {
-                await app.shared.downloadDataXml(false).ConfigureAwait(false);
+                await app.vm.m.downloadDataXml(false).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
@@ -71,14 +69,14 @@ namespace Taq
             }
             try
             {
-                await app.shared.loadAqXml(false).ConfigureAwait(false);
+                await app.vm.m.loadAqXml(false).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
                 // Ignore.
             }
-            app.shared.convertXDoc2Dict();
-            await app.shared.loadCurrSite(false).ConfigureAwait(false);
+            app.vm.m.convertXDoc2Dict();
+            await app.vm.m.loadCurrSite(false).ConfigureAwait(false);
             return 0;
         }
 
@@ -221,7 +219,7 @@ namespace Taq
             try
             {
                 statusTextBlock.Text = "Download start.";
-                await app.shared.downloadDataXml();
+                await app.vm.m.downloadDataXml();
                 statusTextBlock.Text = "Download finish.";
             }
             catch (DownloadException ex)
@@ -235,7 +233,7 @@ namespace Taq
 
             try
             {
-                await app.shared.loadAqXml();
+                await app.vm.m.loadAqXml();
             }
             catch (Exception ex)
             {
@@ -243,7 +241,7 @@ namespace Taq
             }
 
             await updateListView();
-            app.shared.updateLiveTile();
+            app.vm.m.updateLiveTile();
             // Because loadAqXml default loads Site.Circle* to "AQI..."
             aqComboBox.SelectedIndex = 0;
             return 0;
@@ -276,10 +274,10 @@ namespace Taq
         {
             try
             {
-                app.shared.convertXDoc2Dict();
-                app.shared.loadDict2Sites("AQI");
-                await app.shared.loadCurrSite();
-                app.shared.currSite2AqView();
+                app.vm.m.convertXDoc2Dict();
+                app.vm.loadDict2Sites("AQI");
+                await app.vm.m.loadCurrSite();
+                app.vm.currSite2AqView();
             }
             catch (Exception ex)
             {
@@ -292,7 +290,7 @@ namespace Taq
         {
             try
             {
-                await app.shared.loadAqXml();
+                await app.vm.m.loadAqXml();
                 await updateListView();
             }
             catch (Exception ex)
@@ -304,17 +302,17 @@ namespace Taq
 
         private async void subscrComboBox_SelectionChanged(Object sender, SelectionChangedEventArgs e)
         {
-            var selSite = (Site)((ComboBox)sender).SelectedItem;
+            var selSite = (SiteViewModel)((ComboBox)sender).SelectedItem;
             // sites reloading can trigger this event handler and results in null.
             if (selSite == null)
             {
                 return;
             }
             localSettings.Values["subscrSite"] = selSite.siteName;
-            app.shared.loadSubscrSiteId();
-            await app.shared.loadCurrSite(true);
-            app.shared.currSite2AqView();
-            app.shared.updateLiveTile();
+            app.vm.loadSubscrSiteId();
+            await app.vm.m.loadCurrSite(true);
+            app.vm.currSite2AqView();
+            app.vm.m.updateLiveTile();
         }
 
         private void aqComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -324,7 +322,7 @@ namespace Taq
             {
                 return;
             }
-            app.shared.loadDict2Sites(selAq);
+            app.vm.loadDict2Sites(selAq);
         }
 
         private async void Page_Loaded(Object sender, RoutedEventArgs e)
@@ -341,7 +339,7 @@ namespace Taq
                 aqComboBox.SelectedIndex = -1;
                 aqComboBox.SelectedIndex = origId;
             }
-            subscrComboBox.SelectedIndex = app.shared.SubscrSiteId;
+            subscrComboBox.SelectedIndex = app.vm.SubscrSiteId;
         }
 
         private async void refreshButton_Click(Object sender, RoutedEventArgs e)

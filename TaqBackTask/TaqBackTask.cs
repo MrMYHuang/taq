@@ -1,7 +1,6 @@
 ﻿using System;
-
+using Taq;
 using Windows.ApplicationModel.Background;
-using TaqShared;
 using Windows.Storage;
 using System.IO;
 
@@ -9,7 +8,7 @@ namespace TaqBackTask
 {
     public sealed class TaqBackTask : IBackgroundTask
     {
-        private static Shared shared = new Shared();
+        private static TaqModel m = new TaqModel();
 
         public async void Run(IBackgroundTaskInstance taskInstance)
         {
@@ -35,16 +34,16 @@ namespace TaqBackTask
                 BackgroundTaskDeferral deferral = taskInstance.GetDeferral();
                 
                 // Download the feed.
-                var res = await shared.downloadDataXml();
-                await shared.loadAqXml();
-                shared.convertXDoc2Dict();
-                await shared.loadCurrSite();
+                var res = await m.downloadDataXml();
+                await m.loadAqXml();
+                m.convertXDoc2Dict();
+                await m.loadCurrSite();
 
                 // Update the live tile with the feed items.
-                shared.updateLiveTile();
+                m.updateLiveTile();
 
                 // Send notifications.
-                shared.sendNotifications();
+                m.sendNotifications();
 
                 // Inform the system that the task is finished.
                 deferral.Complete();

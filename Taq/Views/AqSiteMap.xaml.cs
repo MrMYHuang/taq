@@ -1,5 +1,4 @@
 ﻿using System;
-using TaqShared.Models;
 using Windows.Devices.Geolocation;
 using Windows.Foundation;
 using Windows.Storage;
@@ -90,33 +89,33 @@ namespace Taq.Views
         {
             // Add new PM 2.5 map icons.
             var i = 0;
-            foreach (var s in app.shared.sites)
+            foreach (var s in app.vm.sites)
             {
                 addMapIcon(s, i);
                 i++;
             }
         }
 
-        private void addMapIcon(Site site, int i)
+        private void addMapIcon(SiteViewModel site, int i)
         {
             var gp = new Geopoint(new BasicGeoposition { Latitude = site.twd97Lat, Longitude = site.twd97Lon });
 
             var ellipse1 = new CircleText();
 
             Binding colorBind = new Binding();
-            colorBind.Source = app.shared.sites;
+            colorBind.Source = app.vm.sites;
             colorBind.Path = new PropertyPath("[" + i + "].CircleColor");
             colorBind.Mode = BindingMode.OneWay;
             ellipse1.circle.SetBinding(Ellipse.FillProperty, colorBind);
 
             Binding textBind = new Binding();
-            textBind.Source = app.shared.sites;
+            textBind.Source = app.vm.sites;
             textBind.Path = new PropertyPath("[" + i + "].CircleText");
             textBind.Mode = BindingMode.OneWay;
             ellipse1.txtBlk.SetBinding(TextBlock.TextProperty, textBind);
 
             Binding textColorBind = new Binding();
-            textColorBind.Source = app.shared.sites;
+            textColorBind.Source = app.vm.sites;
             textColorBind.Path = new PropertyPath("[" + i + "].TextColor");
             textColorBind.Mode = BindingMode.OneWay;
             ellipse1.txtBlk.SetBinding(TextBlock.ForegroundProperty, textColorBind);

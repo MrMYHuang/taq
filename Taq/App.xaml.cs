@@ -1,7 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using TaqShared;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.ApplicationModel.Background;
@@ -24,7 +23,7 @@ namespace Taq
         /// Initializes the singleton application object.  This is the first line of authored code
         /// executed, and as such is the logical equivalent of main() or WinMain().
         /// </summary>
-        public Shared shared = new Shared();
+        public TaqViewModel vm = new TaqViewModel();
         // Some app settings are stored in LocalSettings.
         public ApplicationDataContainer localSettings;
 
