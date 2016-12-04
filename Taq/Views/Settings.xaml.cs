@@ -39,11 +39,11 @@ namespace Taq.Views
             }
         }
 
-        public int Aqi_Limit
+        public double Aqi_Limit
         {
             get
             {
-                return (int)localSettings.Values["Aqi_Limit"];
+                return (double)localSettings.Values["Aqi_Limit"];
             }
 
             set
@@ -53,11 +53,11 @@ namespace Taq.Views
             }
         }
 
-        public int Pm2_5_Limit
+        public double Pm2_5_Limit
         {
             get
             {
-                return (int)localSettings.Values["Pm2_5_Limit"];
+                return (double)localSettings.Values["Pm2_5_Limit"];
             }
 
             set
@@ -83,18 +83,4 @@ namespace Taq.Views
             app.BgUpdatePeriodId = selId;
         }
     }
-
-    public class Double2Int : IValueConverter
-    {
-        public Object Convert(object value, Type targetType, object parameter, string lang)
-        {
-            return System.Convert.ToDouble(value);
-        }
-
-        public object ConvertBack(object value, Type targetType, object parameter, string lang)
-        {
-            return System.Convert.ToInt32(value);
-        }
-    }
-
 }

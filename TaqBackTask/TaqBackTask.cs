@@ -13,6 +13,8 @@ namespace TaqBackTask
 
         public async void Run(IBackgroundTaskInstance taskInstance)
         {
+            taskInstance.Canceled += new BackgroundTaskCanceledEventHandler(OnCanceled);
+
 #if DEBUG
             var tbtLog = await ApplicationData.Current.LocalFolder.CreateFileAsync("TbtLog.txt", CreationCollisionOption.OpenIfExists);
             using (var s = await tbtLog.OpenStreamForWriteAsync())
@@ -51,6 +53,15 @@ namespace TaqBackTask
             {
                 // Do nothing.
             }
+        }
+
+        volatile bool _cancelRequested = false;
+        private void OnCanceled(IBackgroundTaskInstance sender, BackgroundTaskCancellationReason reason)
+        {
+            //
+            // Indicate that the background task is canceled.
+            //
+            _cancelRequested = true;
         }
     }
 }

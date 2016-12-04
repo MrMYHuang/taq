@@ -8,7 +8,6 @@ using Windows.ApplicationModel.Background;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
-using Windows.UI.Popups;
 using Windows.System;
 using System.Collections.ObjectModel;
 using System.Collections.Generic;
@@ -63,11 +62,11 @@ namespace Taq
             }
             if (localSettings.Values["Aqi_Limit"] == null)
             {
-                localSettings.Values["Aqi_Limit"] = 50;
+                localSettings.Values["Aqi_Limit"] = 50.0;
             }
             if (localSettings.Values["Pm2_5_Limit"] == null)
             {
-                localSettings.Values["Pm2_5_Limit"] = 50;
+                localSettings.Values["Pm2_5_Limit"] = 50.0;
             }
             if (localSettings.Values["subscrSite"] == null)
             {
