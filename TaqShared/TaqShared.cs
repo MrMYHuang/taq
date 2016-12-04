@@ -33,21 +33,24 @@ namespace TaqShared
     public class Shared : INotifyPropertyChanged
     {
         private ApplicationDataContainer localSettings;
+        // The AQ data XML filename.
         public const string dataXmlFile = "taqi.xml";
         public Uri source = new Uri("http://YourTaqServerIp/taq/" + dataXmlFile);
-        public string currDataXmlFile = "currData.xml";
         public XDocument xd = new XDocument();
         public XDocument siteGeoXd = new XDocument();
-        public ObservableCollection<Site> sites = new ObservableCollection<Site>();
+        // Full sites AQ information in Dictionary. Converted from XML.
         public Dictionary<string, Dictionary<string, string>> sitesStrDict = new Dictionary<string, Dictionary<string, string>>();
-        //public ObservableCollection<SolidColorBrush> currSiteTextColor = new ObservableCollection<SolidColorBrush>();
+        // Partial sites AQ information. Contain properties for data bindings (from AqView).
+        public ObservableCollection<Site> sites = new ObservableCollection<Site>();
+        // Current (subscribed) site information in Dictionary.
         public Dictionary<string, string> currSiteStrDict;
+        // Current site info converted to for data bindings through AqView.
         public ObservableCollection<AqView> currSiteViews = new ObservableCollection<AqView>();
-
-
+        // The previous currSiteStrDict from previous download dataXmlFile.
         public Dictionary<string, string> oldSiteStrDict;
 
-        // The order of keys is meaningful.
+        // XML AQ names to ordinary AQ names.
+        // The order of keys is meaningful!
         // The display order of AQ items in Home.xaml follows this order of keys.
         public Dictionary<string, string> fieldNames = new Dictionary<string, string>
         {
@@ -73,6 +76,7 @@ namespace TaqShared
             { "WindDirec", "風向"},
         };
 
+        // AQ level limits and corresponding colors lists.
         // Notice: a color list has one more element than a limit list!
         public static List<double> defaultLimits = new List<double> { 0 };
         public static List<string> defaultColors = new List<string> { "#31cf00", "#31cf00" };
@@ -91,6 +95,7 @@ namespace TaqShared
         public static List<double> so2Limits = new List<double> { 35, 75, 185, 304, 604, 804, 1004 };
         public static List<double> no2Limits = new List<double> { 53, 100, 360, 649, 1249, 1649, 2049 };
 
+        // Combine color lists into Dictinoary.
         public Dictionary<string, List<string>> aqColors = new Dictionary<string, List<string>>
         {
             { "PublishTime", defaultColors},
@@ -115,6 +120,7 @@ namespace TaqShared
             { "WindDirec", defaultColors},
         };
 
+        // Combine limit lists into Dictinoary.
         public Dictionary<string, List<double>> aqLimits = new Dictionary<string, List<double>>
         {
             { "PublishTime", defaultLimits},
@@ -139,6 +145,8 @@ namespace TaqShared
             { "WindDirec", defaultLimits},
         };
 
+        // AQ name list for MainPage aqComboBox.
+        // Don't replace it by aqLimits.Keys! Not all names are used in aqComboBox.
         public List<string> aqList = new List<string>
         {"AQI", "Status", "PM2.5", "PM2.5_AVG", "PM10", "PM10_AVG", "O3", "O3_8hr", "CO", "CO_8hr", "SO2", "NO2", "NOx", "NO", "WindSpeed", "WindDirec"};
 
