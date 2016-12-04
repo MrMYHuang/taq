@@ -37,16 +37,13 @@ namespace TaqShared
         public string currDataXmlFile = "currData.xml";
         public XDocument xd = new XDocument();
         public XDocument siteGeoXd = new XDocument();
-        // Site maybe replaced with AqView in the furture.
-        // Until that time, sites coexists with sitesStrDict.
         public ObservableCollection<Site> sites = new ObservableCollection<Site>();
         public Dictionary<string, Dictionary<string, string>> sitesStrDict = new Dictionary<string, Dictionary<string, string>>();
-        public Site currSite = new Site { siteName = "N/A", Pm2_5 = "0" };
-        public ObservableCollection<AqView> currSiteViews = new ObservableCollection<AqView>();
-        public ObservableCollection<SolidColorBrush> currSiteTextColor = new ObservableCollection<SolidColorBrush>();
+        //public ObservableCollection<SolidColorBrush> currSiteTextColor = new ObservableCollection<SolidColorBrush>();
         public Dictionary<string, string> currSiteStrDict;
+        public ObservableCollection<AqView> currSiteViews = new ObservableCollection<AqView>();
 
-        public Site oldSite = new Site { siteName = "N/A", Pm2_5 = "0" };
+
         public Dictionary<string, string> oldSiteStrDict;
 
         // The order of keys is meaningful.
@@ -228,7 +225,6 @@ namespace TaqShared
                            select data;
 
             sitesStrDict.Clear();
-            var isSiteUninit = sites.Count() == 0;
             foreach (var d in dataX.OrderBy(x => x.Element("County").Value))
             {
                 var siteName = d.Descendants("SiteName").First().Value;
@@ -237,45 +233,43 @@ namespace TaqShared
                            select gd;
 
                 var siteDict = d.Elements().ToDictionary(x => x.Name.LocalName, x => x.Value);
+                var geoDict = geoD.Elements().ToDictionary(x => x.Name.LocalName, x => x.Value);
+                siteDict.Add("TWD97Lat", geoDict["TWD97Lat"]);
+                siteDict.Add("TWD97Lon", geoDict["TWD97Lon"]);
                 sitesStrDict.Add(siteName, siteDict);
-
-                // Add mode.
-                if (isSiteUninit)
-                {
-                    sites.Add(new Site
-                    {
-                        siteName = siteName,
-                        County = siteDict["County"],
-                        Aqi = siteDict["AQI"],
-                        Pm2_5 = siteDict["PM2.5"],
-                        twd97Lat = double.Parse(geoD.Descendants("TWD97Lat").First().Value),
-                        twd97Lon = double.Parse(geoD.Descendants("TWD97Lon").First().Value),
-                    });
-                }
-                // Update mode.
-                else
-                {
-                    var site = sites.Where(s => s.siteName == siteName).First();
-                    site.Aqi = siteDict["AQI"];
-                    site.Pm2_5 = siteDict["PM2.5"];
-                }
             }
 
-            reloadSubscrSiteId();
             return 0;
         }
 
-        // Run by UI context.
+        // Has to be run by UI context!
         public void updateMapIconsAndList(string aqName)
         {
+            var isSiteUninit = sites.Count() == 0;
+            if (isSiteUninit)
+            {
+                foreach(var s in sitesStrDict)
+                {
+                    var siteDict = s.Value;
+                    sites.Add(new Site
+                    {
+                        siteName = s.Key,
+                        county = s.Value["County"],
+                        twd97Lat = double.Parse(siteDict["TWD97Lat"]),
+                        twd97Lon = double.Parse(siteDict["TWD97Lon"]),
+                    });
+                }
+            }
+
             foreach (var site in sites)
             {
-                var aqLevel = getAqLevel(site, aqName);
+                var aqLevel = getAqLevel(site.siteName, aqName);
                 site.CircleColor = aqColors[aqName][aqLevel];
                 site.CircleText = site.siteName + "\n" + sitesStrDict[site.siteName][aqName];
                 site.ListText = sitesStrDict[site.siteName][aqName];
                 site.TextColor = aqLevel > 3 ? new SolidColorBrush(Colors.White) : new SolidColorBrush(Colors.Black);
             }
+            reloadSubscrSiteId();
         }
 
         public async Task<int> loadCurrSite(bool confAwait = true)
@@ -291,12 +285,6 @@ namespace TaqShared
                 }
                 var oldSiteX = loadOldXd.Descendants("Data").First();
                 oldSiteStrDict = oldSiteX.Elements().ToDictionary(x => x.Name.LocalName, x => x.Value);
-                oldSite = new Site
-                {
-                    siteName = oldSiteX.Descendants("SiteName").First().Value,
-                    Aqi = oldSiteX.Descendants("AQI").First().Value,
-                    Pm2_5 = oldSiteX.Descendants("PM2.5").First().Value,
-                };
             }
             catch (Exception ex)
             {
@@ -310,12 +298,6 @@ namespace TaqShared
                             select d;
 
             currSiteStrDict = currSiteX.Elements().ToDictionary(x => x.Name.LocalName, x => x.Value);
-            currSite = new Site
-            {
-                siteName = currSiteStrDict["SiteName"],
-                Aqi = currSiteStrDict["AQI"],
-                Pm2_5 = currSiteStrDict["PM2.5"]
-            };
 
             // Save the current site as old site.
             XDocument saveOldXd = new XDocument();
@@ -336,16 +318,15 @@ namespace TaqShared
             return 0;
         }
 
-        // Run by UI context.
+        // Has to be run by UI context!
         public void Site2Coll()
         {
             // Don't remove all elements by new.
             // Otherwise, data bindings would be problematic.
             currSiteViews.Clear();
-            currSiteTextColor.Clear();
             foreach (var k in fieldNames.Keys)
             {
-                var aqLevel = getAqLevel(currSite, k);
+                var aqLevel = getAqLevel(currSiteStrDict["SiteName"], k);
                 var textColor = aqLevel > 3 ? new SolidColorBrush(Colors.White) : new SolidColorBrush(Colors.Black);
                 currSiteViews.Add(new AqView
                 {
@@ -353,7 +334,6 @@ namespace TaqShared
                     CircleText = fieldNames[k] + "\n" + currSiteStrDict[k],
                     TextColor = textColor
                 });
-                currSiteTextColor.Add(textColor);
             }
         }
 
@@ -388,8 +368,8 @@ namespace TaqShared
             updater.EnableNotificationQueue(true);
             updater.Clear();
 
-            var pm2_5_Str = "PM 2.5：" + currSite.Pm2_5;
-            var siteStr = "觀測站：" + currSite.siteName;
+            var pm2_5_Str = "PM 2.5：" + currSiteStrDict["PM2.5"];
+            var siteStr = "觀測站：" + currSiteStrDict["SiteName"];
             var timeStr = currSiteStrDict["PublishTime"].Substring(11, 5);
             // get the XML content of one of the predefined tile templates, so that, you can customize it
             // create the wide template
@@ -416,13 +396,13 @@ namespace TaqShared
         public void sendNotifications()
         {
             int aqi_Limit = (int)localSettings.Values["Aqi_Limit"];
-            if (oldSiteStrDict["AQI"] != currSiteStrDict["AQI"] && getAqVal(currSite, "AQI") > aqi_Limit)
+            if (oldSiteStrDict["AQI"] != currSiteStrDict["AQI"] && getAqVal(currSiteStrDict["SiteName"], "AQI") > aqi_Limit)
             {
                 sendNotification("AQI: " + currSiteStrDict["AQI"], "AQI");
             }
 
             int pm2_5_Limit = (int)localSettings.Values["Pm2_5_Limit"];
-            if (oldSiteStrDict["PM2.5"] != currSiteStrDict["PM2.5"] && getAqVal(currSite, "PM2.5") > pm2_5_Limit)
+            if (oldSiteStrDict["PM2.5"] != currSiteStrDict["PM2.5"] && getAqVal(currSiteStrDict["SiteName"], "PM2.5") > pm2_5_Limit)
             {
                 sendNotification("PM 2.5濃度: " + currSiteStrDict["PM2.5"], "PM2.5");
             }
@@ -435,7 +415,7 @@ namespace TaqShared
 
         public void sendNotification(string title, string tag)
         {
-            var content = "觀測站: " + currSite.siteName;
+            var content = "觀測站: " + currSiteStrDict["SiteName"];
             // Now we can construct the final toast content
             ToastContent toastContent = new ToastContent()
             {
@@ -478,16 +458,16 @@ namespace TaqShared
             };
         }
 
-        public double getAqVal(Site site, string aqName)
+        public double getAqVal(string siteName, string aqName)
         {
             double val = 0;
-            double.TryParse(sitesStrDict[site.siteName][aqName], out val);
+            double.TryParse(sitesStrDict[siteName][aqName], out val);
             return val;
         }
 
-        public int getAqLevel(Site site, string aqName)
+        public int getAqLevel(string siteName, string aqName)
         {
-            var val = getAqVal(site, aqName);
+            var val = getAqVal(siteName, aqName);
             var aqLevel = aqLimits[aqName].FindIndex(x => val <= x);
             if (aqLevel == -1)
             {

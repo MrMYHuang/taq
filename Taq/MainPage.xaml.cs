@@ -299,7 +299,7 @@ namespace Taq
         {
             var selSite = (Site)((ComboBox)sender).SelectedItem;
             // sites reloading can trigger this event handler and results in null.
-            if (selSite == null || app.shared.sites.Count == 0)
+            if (selSite == null)
             {
                 return;
             }

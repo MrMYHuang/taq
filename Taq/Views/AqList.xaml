@@ -44,7 +44,7 @@
                     <Border Background="{x:Bind CircleColor, Mode=OneWay}">
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="{x:Bind siteName}" Style="{StaticResource txtBlkSty1}" Foreground="{x:Bind TextColor, Mode=OneWay}"/>
-                            <TextBlock Text="{x:Bind County}" Style="{StaticResource txtBlkSty1}" Foreground="{x:Bind TextColor, Mode=OneWay}" />
+                            <TextBlock Text="{x:Bind county}" Style="{StaticResource txtBlkSty1}" Foreground="{x:Bind TextColor, Mode=OneWay}" />
                             <TextBlock Text="{x:Bind ListText, Mode=OneWay}" Style="{StaticResource txtBlkSty1}" Foreground="{x:Bind TextColor, Mode=OneWay}" />
                         </StackPanel>
                     </Border>
