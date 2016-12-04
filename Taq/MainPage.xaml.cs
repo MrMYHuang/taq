@@ -47,8 +47,8 @@ namespace Taq
             {
                 // Ignore.
             }
-            app.shared.updateMapIconsAndList("AQI");
-            app.shared.Site2Coll();
+            app.shared.loadDict2Sites("AQI");
+            app.shared.currSite2AqView();
             this.InitializeComponent();
             //app.shared.updateLiveTile();
             frame.Navigate(typeof(Home));
@@ -64,8 +64,8 @@ namespace Taq
             try
             {
                 await app.shared.downloadDataXml(false).ConfigureAwait(false);
-                await app.shared.reloadXd(false).ConfigureAwait(false);
-                app.shared.reloadDataX();
+                await app.shared.loadAqXml(false).ConfigureAwait(false);
+                app.shared.convertXDoc2Dict();
                 await app.shared.loadCurrSite(false).ConfigureAwait(false);
             }
             catch (Exception ex)
@@ -228,7 +228,7 @@ namespace Taq
 
             try
             {
-                await app.shared.reloadXd();
+                await app.shared.loadAqXml();
             }
             catch (Exception ex)
             {
@@ -237,7 +237,7 @@ namespace Taq
 
             await updateListView();
             app.shared.updateLiveTile();
-            // Because reloadXd default loads Site.Circle* to "AQI..."
+            // Because loadAqXml default loads Site.Circle* to "AQI..."
             aqComboBox.SelectedIndex = 0;
             return 0;
         }
@@ -269,10 +269,10 @@ namespace Taq
         {
             try
             {
-                app.shared.reloadDataX();
-                app.shared.updateMapIconsAndList("AQI");
+                app.shared.convertXDoc2Dict();
+                app.shared.loadDict2Sites("AQI");
                 await app.shared.loadCurrSite();
-                app.shared.Site2Coll();
+                app.shared.currSite2AqView();
             }
             catch (Exception ex)
             {
@@ -285,7 +285,7 @@ namespace Taq
         {
             try
             {
-                await app.shared.reloadXd();
+                await app.shared.loadAqXml();
                 await updateListView();
             }
             catch (Exception ex)
@@ -304,9 +304,9 @@ namespace Taq
                 return;
             }
             localSettings.Values["subscrSite"] = selSite.siteName;
-            app.shared.reloadSubscrSiteId();
+            app.shared.loadSubscrSiteId();
             await app.shared.loadCurrSite(true);
-            app.shared.Site2Coll();
+            app.shared.currSite2AqView();
             app.shared.updateLiveTile();
         }
 
@@ -317,7 +317,7 @@ namespace Taq
             {
                 return;
             }
-            app.shared.updateMapIconsAndList(selAq);
+            app.shared.loadDict2Sites(selAq);
         }
 
         private async void Page_Loaded(Object sender, RoutedEventArgs e)

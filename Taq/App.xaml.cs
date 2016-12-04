@@ -12,6 +12,7 @@ using Windows.UI.Popups;
 using Windows.System;
 using System.Collections.ObjectModel;
 using System.Collections.Generic;
+using Windows.Storage;
 
 namespace Taq
 {
@@ -25,17 +26,19 @@ namespace Taq
         /// executed, and as such is the logical equivalent of main() or WinMain().
         /// </summary>
         public Shared shared = new Shared();
-        public Windows.Storage.ApplicationDataContainer localSettings;
+        // Some app settings are stored in LocalSettings.
+        public ApplicationDataContainer localSettings;
 
         public App()
         {
             initLocalSettings();
-            shared.loadSiteGeoXd();
             // Fox Xbox One gamepad XY focus navigation. Not tested.
             //this.RequiresPointerMode =
             //Windows.UI.Xaml.ApplicationRequiresPointerMode.WhenRequested;
             this.InitializeComponent();
             this.Suspending += OnSuspending;
+
+            // Crash feedback mail report mechanism.
             this.UnhandledException += async (sender, e) =>
             {
                 // Comment the following line for exiting app.
@@ -48,7 +51,7 @@ namespace Taq
         private void initLocalSettings()
         {
             localSettings =
-       Windows.Storage.ApplicationData.Current.LocalSettings;
+       ApplicationData.Current.LocalSettings;
             if (localSettings.Values["AppTheme"] == null)
             {
                 localSettings.Values["AppTheme"] = false;

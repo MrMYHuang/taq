@@ -24,6 +24,7 @@ namespace TaqShared
     {
 
     }
+
     public class OldXmlException : Exception
     {
 
@@ -31,7 +32,7 @@ namespace TaqShared
 
     public class Shared : INotifyPropertyChanged
     {
-        private Windows.Storage.ApplicationDataContainer localSettings;
+        private ApplicationDataContainer localSettings;
         public const string dataXmlFile = "taqi.xml";
         public Uri source = new Uri("http://YourTaqServerIp/taq/" + dataXmlFile);
         public string currDataXmlFile = "currData.xml";
@@ -145,6 +146,7 @@ namespace TaqShared
         {
             localSettings =
        ApplicationData.Current.LocalSettings;
+            loadSiteGeoXml();
         }
 
         public async Task<int> downloadDataXml(bool confAwait = true)
@@ -181,15 +183,8 @@ namespace TaqShared
             return 0;
         }
 
-        public int loadSiteGeoXd()
+        private int loadSiteGeoXml()
         {
-            /*
-            var dataXml = await ApplicationData.Current.LocalFolder.GetFileAsync("Assets/SiteGeo.xml");
-            using (var s = await dataXml.OpenStreamForReadAsync())
-            {
-                // Reload to xd.
-                siteGeoXd = XDocument.Load(s);
-            }*/
             //http://opendata.epa.gov.tw/ws/Data/AQXSite/?format=xml
             siteGeoXd = XDocument.Load("Assets/SiteGeo.xml");
 
@@ -197,7 +192,7 @@ namespace TaqShared
         }
 
         // Reload air quality XML files.
-        public async Task<int> reloadXd(bool confAwait = true)
+        public async Task<int> loadAqXml(bool confAwait = true)
         {
             try
             {
@@ -217,7 +212,7 @@ namespace TaqShared
             return 0;
         }
 
-        public int reloadDataX()
+        public int convertXDoc2Dict()
         {
             var dataX = from data in xd.Descendants("Data")
                         select data;
@@ -243,12 +238,12 @@ namespace TaqShared
         }
 
         // Has to be run by UI context!
-        public void updateMapIconsAndList(string aqName)
+        public void loadDict2Sites(string aqName)
         {
             var isSiteUninit = sites.Count() == 0;
             if (isSiteUninit)
             {
-                foreach(var s in sitesStrDict)
+                foreach (var s in sitesStrDict)
                 {
                     var siteDict = s.Value;
                     sites.Add(new Site
@@ -269,7 +264,7 @@ namespace TaqShared
                 site.ListText = sitesStrDict[site.siteName][aqName];
                 site.TextColor = aqLevel > 3 ? new SolidColorBrush(Colors.White) : new SolidColorBrush(Colors.Black);
             }
-            reloadSubscrSiteId();
+            loadSubscrSiteId();
         }
 
         public async Task<int> loadCurrSite(bool confAwait = true)
@@ -319,7 +314,7 @@ namespace TaqShared
         }
 
         // Has to be run by UI context!
-        public void Site2Coll()
+        public void currSite2AqView()
         {
             // Don't remove all elements by new.
             // Otherwise, data bindings would be problematic.
@@ -351,7 +346,7 @@ namespace TaqShared
             }
         }
 
-        public void reloadSubscrSiteId()
+        public void loadSubscrSiteId()
         {
             var subscrSiteName = (string)localSettings.Values["subscrSite"];
             var subscrSiteElem = from s in sites
@@ -429,7 +424,7 @@ namespace TaqShared
             toast.Group = "wallPosts";
             ToastNotificationManager.CreateToastNotifier().Show(toast);
         }
-        
+
         private ToastVisual getNotifyVisual(string title, string content)
         {
             // Construct the visuals of the toast
@@ -474,19 +469,6 @@ namespace TaqShared
                 aqLevel = aqLimits[aqName].Count;
             }
             return aqLevel;
-        }
-
-        public int pm2_5ConcensToId(int concens)
-        {
-            var i = 0;
-            for (; i < aqiLimits.Count; i++)
-            {
-                if (concens <= aqiLimits[i])
-                {
-                    break;
-                }
-            }
-            return i + 1;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

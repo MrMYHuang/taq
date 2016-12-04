@@ -31,12 +31,11 @@ namespace TaqBackTask
                 // Get a deferral, to prevent the task from closing prematurely
                 // while asynchronous code is still running.
                 BackgroundTaskDeferral deferral = taskInstance.GetDeferral();
-
-                shared.loadSiteGeoXd();
+                
                 // Download the feed.
                 var res = await shared.downloadDataXml();
-                await shared.reloadXd();
-                shared.reloadDataX();
+                await shared.loadAqXml();
+                shared.convertXDoc2Dict();
                 await shared.loadCurrSite();
 
                 // Update the live tile with the feed items.
