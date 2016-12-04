@@ -64,14 +64,21 @@ namespace Taq
             try
             {
                 await app.shared.downloadDataXml(false).ConfigureAwait(false);
-                await app.shared.loadAqXml(false).ConfigureAwait(false);
-                app.shared.convertXDoc2Dict();
-                await app.shared.loadCurrSite(false).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
                 // Ignore.
             }
+            try
+            {
+                await app.shared.loadAqXml(false).ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                // Ignore.
+            }
+            app.shared.convertXDoc2Dict();
+            await app.shared.loadCurrSite(false).ConfigureAwait(false);
             return 0;
         }
 
