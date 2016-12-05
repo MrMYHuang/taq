@@ -52,8 +52,8 @@ namespace Taq
             { "PublishTime", "發佈時間"},
             { "SiteName", "觀測站" },
             { "County", "縣市"},
-            { "AQI", "空氣品質指標"},
             { "Status", "狀態"},
+            { "AQI", "空氣品質指標"},
             { "Pollutant", "污染指標物"},
             { "PM2.5", "PM 2.5"},
             { "PM2.5_AVG", "PM2.5_AVG"},
@@ -81,7 +81,7 @@ namespace Taq
         public static List<double> aqiLimits = new List<double> { 50, 100, 150, 200, 300, 400, 500 };
         public static List<string> aqiBgColors = new List<string> { "#00ff00", "#ffff00", "#ff7e00", "#ff0000", "#800080", "#633300", "#633300", "#633300" };
 
-        public static List<double> pm2_5Limits = new List<double> { 50.4, 100.4, 150.4, 200.4, 300.4, 400.4, 500.4 };
+        public static List<double> pm2_5Limits = new List<double> { 15.4, 35.4, 54.4, 150.4, 250.4, 350.4, 500.4 };
         public static List<double> pm10Limits = new List<double> { 54, 125, 254, 354, 424, 504, 604 };
         public static List<double> o3Limits = new List<double> { 60, 125, 164, 204, 404, 504, 604 };
         // 201, 202, ...

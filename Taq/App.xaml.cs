@@ -65,7 +65,7 @@ namespace Taq
             }
             if (localSettings.Values["Pm2_5_Limit"] == null)
             {
-                localSettings.Values["Pm2_5_Limit"] = 50.0;
+                localSettings.Values["Pm2_5_Limit"] = 15.4;
             }
             if (localSettings.Values["subscrSite"] == null)
             {
