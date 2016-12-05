@@ -24,7 +24,16 @@
                 </TextBlock>
             </DataTemplate>
         </HubSection>
-        <HubSection Header="Ver. 2.1.0" Width="Auto">
+        <HubSection Header="Ver. 2.1.4" Width="Auto">
+            <DataTemplate>
+                <TextBlock Style="{StaticResource txtBlkSty1}" >
+                    1. 支援大型動態磚(W10M除外)。<LineBreak />
+                    2. 修正"狀態"上色問題。與"AQI"同色。<LineBreak />
+                    3. 更動地圖與列表按鈕順序。<LineBreak />
+                </TextBlock>
+            </DataTemplate>
+        </HubSection>
+        <HubSection Header="Ver. 2.1.3" Width="Auto">
             <DataTemplate>
                 <TextBlock Style="{StaticResource txtBlkSty1}" >
                     1. 列表頁、地圖頁支援多種空汙資訊切換。<LineBreak />

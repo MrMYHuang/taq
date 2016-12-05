@@ -48,17 +48,17 @@
                         </StackPanel>
                     </ListViewItem>
 
-                    <ListViewItem Tapped="mapButton_Click" KeyUp="mapButton_KeyUp">
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock x:Name="mapButton" Text="&#xE707;" Style="{StaticResource txtBlkSty1}" />
-                            <TextBlock Text="地圖" Style="{StaticResource txtBlkSty2}" />
-                        </StackPanel>
-                    </ListViewItem>
-
                     <ListViewItem Tapped="listButton_Click" KeyUp="listButton_KeyUp">
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="&#xEA37;" Style="{StaticResource txtBlkSty1}" />
                             <TextBlock Text="列表" Style="{StaticResource txtBlkSty2}" />
+                        </StackPanel>
+                    </ListViewItem>
+
+                    <ListViewItem Tapped="mapButton_Click" KeyUp="mapButton_KeyUp">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock x:Name="mapButton" Text="&#xE707;" Style="{StaticResource txtBlkSty1}" />
+                            <TextBlock Text="地圖" Style="{StaticResource txtBlkSty2}" />
                         </StackPanel>
                     </ListViewItem>
 
