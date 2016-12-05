@@ -78,7 +78,7 @@ namespace Taq.Views
         private void bgUpdateComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var selId = ((ComboBox)sender).SelectedIndex;
-            app.BgUpdatePeriodId = selId;
+            app.vm.BgUpdatePeriodId = selId;
         }
     }
 }

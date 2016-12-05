@@ -16,6 +16,6 @@
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
         <Maps:MapControl x:Name="map"
-            MapServiceToken="YourBingMapToken" Margin="0" DataContext="app" ColorScheme="{x:Bind app.MapColor, Converter={StaticResource b2mcc}, Mode=OneWay}"/>
+            MapServiceToken="YourBingMapToken" Margin="0" DataContext="app" ColorScheme="{x:Bind app.vm.MapColor, Converter={StaticResource b2mcc}, Mode=OneWay}"/>
     </Grid>
 </Page>

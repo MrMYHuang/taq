@@ -24,7 +24,7 @@ namespace Taq.Views
         {
             get
             {
-                return "mailto:myhDev@live.com?subject=問題回報&body=TAQ版本：" + app.version;
+                return "mailto:myhDev@live.com?subject=問題回報&body=TAQ版本：" + app.vm.Version;
             }
         }
     }

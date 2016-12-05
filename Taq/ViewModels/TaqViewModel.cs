@@ -5,6 +5,8 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.ApplicationModel;
+using Windows.ApplicationModel.Background;
 using Windows.UI;
 using Windows.UI.Xaml.Media;
 
@@ -91,6 +93,73 @@ namespace Taq
                                  where s.siteName == subscrSiteName
                                  select s;
             SubscrSiteId = sites.IndexOf(subscrSiteElem.First());
+        }
+
+        public List<int> bgUpdatePeriods = new List<int> { 15, 20, 30, 60 };
+        private int bgUpdatePeriodId;
+        public int BgUpdatePeriodId
+        {
+            get
+            {
+                return bgUpdatePeriodId;
+            }
+            set
+            {
+                SetProperty(ref bgUpdatePeriodId, value);
+                m.localSettings.Values["BgUpdatePeriod"] = bgUpdatePeriods[value];
+                RegisterBackgroundTask();
+            }
+        }
+
+        private const string taskName = "TaqBackTask";
+        private const string taskEntryPoint = "TaqBackTask.TaqBackTask";
+        private async void RegisterBackgroundTask()
+        {
+            var backgroundAccessStatus = await BackgroundExecutionManager.RequestAccessAsync();
+            if (backgroundAccessStatus == BackgroundAccessStatus.AllowedMayUseActiveRealTimeConnectivity ||
+                backgroundAccessStatus == BackgroundAccessStatus.AllowedWithAlwaysOnRealTimeConnectivity ||
+                backgroundAccessStatus == BackgroundAccessStatus.AllowedSubjectToSystemPolicy ||
+                backgroundAccessStatus == BackgroundAccessStatus.AlwaysAllowed)
+            {
+                foreach (var task in BackgroundTaskRegistration.AllTasks)
+                {
+                    if (task.Value.Name == taskName)
+                    {
+                        task.Value.Unregister(true);
+                    }
+                }
+
+                BackgroundTaskBuilder taskBuilder = new BackgroundTaskBuilder();
+                taskBuilder.Name = taskName;
+                taskBuilder.TaskEntryPoint = taskEntryPoint;
+                taskBuilder.SetTrigger(new TimeTrigger(Convert.ToUInt32(m.localSettings.Values["BgUpdatePeriod"]), false));
+                var registration = taskBuilder.Register();
+            }
+        }
+
+        public string Version
+        {
+            get
+            {
+                return String.Format("{0}.{1}.{2}",
+                    Package.Current.Id.Version.Major,
+                    Package.Current.Id.Version.Minor,
+                    Package.Current.Id.Version.Build);
+            }
+        }
+
+        public bool MapColor
+        {
+            get
+            {
+                return (bool)m.localSettings.Values["MapColor"];
+            }
+
+            set
+            {
+                m.localSettings.Values["MapColor"] = value;
+                OnPropertyChanged("MapColor");
+            }
         }
     }
 }

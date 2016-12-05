@@ -22,7 +22,7 @@
             <DataTemplate x:DataType="local:About">
                 <TextBlock Style="{StaticResource txtBlkSty1}" >
                 名稱：<Hyperlink NavigateUri="ms-windows-store://pdp/?productid=9nblggh43pdr">Taiwan Air Quality (TAQ)</Hyperlink><LineBreak/>
-                版本：<Run Text="{x:Bind app.version}" /><LineBreak/>
+                版本：<Run Text="{x:Bind app.vm.Version}" /><LineBreak/>
                 簡介：此app用來查詢、訂閱由<Hyperlink NavigateUri="http://opendata.epa.gov.tw/Data/Details/AQI/">台灣環保署</Hyperlink>所提供之觀測站所測得的每小時之即時PM 2.5濃度。<LineBreak/>
                 </TextBlock>
             </DataTemplate>

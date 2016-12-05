@@ -25,13 +25,13 @@
 
         <HubSection Style="{StaticResource hubSecSty}"  Header="暗色地圖">
             <DataTemplate x:DataType="local:Settings">
-                <ToggleSwitch x:Name="mapColorToggle" HorizontalAlignment="Left" Margin="0" IsOn="{x:Bind app.MapColor, Mode=TwoWay}" />
+                <ToggleSwitch x:Name="mapColorToggle" HorizontalAlignment="Left" Margin="0" IsOn="{x:Bind app.vm.MapColor, Mode=TwoWay}" />
             </DataTemplate>
         </HubSection>
 
         <HubSection Style="{StaticResource hubSecSty}"  Header="背景更新">
             <DataTemplate x:DataType="local:Settings">
-                <ComboBox x:Name="bgUpdateComboBox" HorizontalAlignment="Left" Width="265" Header="週期(分鐘)" ItemsSource="{x:Bind app.bgUpdatePeriods}" IsTapEnabled="True" SelectedIndex="{x:Bind app.BgUpdatePeriodId, Mode=OneWay}" SelectionChanged="bgUpdateComboBox_SelectionChanged">
+                <ComboBox x:Name="bgUpdateComboBox" HorizontalAlignment="Left" Width="265" Header="週期(分鐘)" ItemsSource="{x:Bind app.vm.bgUpdatePeriods}" IsTapEnabled="True" SelectedIndex="{x:Bind app.vm.BgUpdatePeriodId, Mode=OneWay}" SelectionChanged="bgUpdateComboBox_SelectionChanged">
                 </ComboBox>
             </DataTemplate>
         </HubSection>

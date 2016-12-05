@@ -17,7 +17,7 @@ namespace Taq
     /// <summary>
     /// Provides application-specific behavior to supplement the default Application class.
     /// </summary>
-    public sealed partial class App : Application, INotifyPropertyChanged
+    public sealed partial class App : Application
     {
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code
@@ -41,7 +41,7 @@ namespace Taq
             {
                 // Comment the following line for exiting app.
                 //e.Handled = true;
-                await Launcher.LaunchUriAsync(new Uri("mailto:myhDev@live.com?subject=TAQ%20App異常回報&body=請寄送以下app異常訊息給開發者，謝謝。%0D%0A版本：" + version + "%0D%0A例外：" + e.Exception.ToString().Replace("\r\n", "%0D%0A") + "%0D%0A若能提供其他造成異常的資訊，可使開發者更快找出問題，謝謝。"));
+                await Launcher.LaunchUriAsync(new Uri("mailto:myhDev@live.com?subject=TAQ%20App異常回報&body=請寄送以下app異常訊息給開發者，謝謝。%0D%0A版本：" + vm.Version + "%0D%0A例外：" + e.Exception.ToString().Replace("\r\n", "%0D%0A") + "%0D%0A若能提供其他造成異常的資訊，可使開發者更快找出問題，謝謝。"));
             };
             //this.RegisterBackgroundTask();
         }
@@ -73,90 +73,11 @@ namespace Taq
             }
             if (localSettings.Values["BgUpdatePeriod"] == null)
             {
-                BgUpdatePeriodId = 2;
+                vm.BgUpdatePeriodId = 2;
             }
             else
             {
-                BgUpdatePeriodId = bgUpdatePeriods.FindIndex(x => x == (int)localSettings.Values["BgUpdatePeriod"]);
-            }
-        }
-
-        private int bgUpdatePeriodId;
-        public int BgUpdatePeriodId
-        {
-            get
-            {
-                return bgUpdatePeriodId;
-            }
-            set
-            {
-                bgUpdatePeriodId = value;
-                localSettings.Values["BgUpdatePeriod"] = bgUpdatePeriods[value];
-                RegisterBackgroundTask();
-                NotifyPropertyChanged();
-            }
-        }
-
-        public List<int> bgUpdatePeriods = new List<int> { 15, 20, 30, 60 };
-
-        private const string taskName = "TaqBackTask";
-        private const string taskEntryPoint = "TaqBackTask.TaqBackTask";
-        private async void RegisterBackgroundTask()
-        {
-            var backgroundAccessStatus = await BackgroundExecutionManager.RequestAccessAsync();
-            if (backgroundAccessStatus == BackgroundAccessStatus.AllowedMayUseActiveRealTimeConnectivity ||
-                backgroundAccessStatus == BackgroundAccessStatus.AllowedWithAlwaysOnRealTimeConnectivity ||
-                backgroundAccessStatus == BackgroundAccessStatus.AllowedSubjectToSystemPolicy ||
-                backgroundAccessStatus == BackgroundAccessStatus.AlwaysAllowed)
-            {
-                foreach (var task in BackgroundTaskRegistration.AllTasks)
-                {
-                    if (task.Value.Name == taskName)
-                    {
-                        task.Value.Unregister(true);
-                    }
-                }
-
-                BackgroundTaskBuilder taskBuilder = new BackgroundTaskBuilder();
-                taskBuilder.Name = taskName;
-                taskBuilder.TaskEntryPoint = taskEntryPoint;
-                taskBuilder.SetTrigger(new TimeTrigger(Convert.ToUInt32(localSettings.Values["BgUpdatePeriod"]), false));
-                var registration = taskBuilder.Register();
-            }
-        }
-
-        public string version
-        {
-            get
-            {
-                return String.Format("{0}.{1}.{2}",
-                    Package.Current.Id.Version.Major,
-                    Package.Current.Id.Version.Minor,
-                    Package.Current.Id.Version.Build);
-            }
-        }
-
-        public bool MapColor
-        {
-            get
-            {
-                return (bool)localSettings.Values["MapColor"];
-            }
-
-            set
-            {
-                localSettings.Values["MapColor"] = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
-        {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+                vm.BgUpdatePeriodId = vm.bgUpdatePeriods.FindIndex(x => x == (int)localSettings.Values["BgUpdatePeriod"]);
             }
         }
 
