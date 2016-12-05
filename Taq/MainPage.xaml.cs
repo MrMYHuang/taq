@@ -45,13 +45,17 @@ namespace Taq
             {
                 // Ignore.
             }
-            app.vm.loadDict2Sites("AQI");
+
+            // Notice: these lines must be executed before InitializeComponent.
+            // Otherwise, some UI controls are not loaded completely after InitializeComponent.
+            // Don't put these lines into initAux, because these lines must be executed by UI context. Putting them in initAux may result in deadlock!
+            app.vm.SelAqId = 1;
             app.vm.currSite2AqView();
+
             this.InitializeComponent();
-            //app.vm.updateLiveTile();
             frame.Navigate(typeof(Home));
             initPeriodicTimer();
-            Windows.ApplicationModel.DataTransfer.DataTransferManager.GetForCurrentView().DataRequested += MainPage_DataRequested;
+            DataTransferManager.GetForCurrentView().DataRequested += MainPage_DataRequested;
         }
 
         // This auxiliary method is used to wait for app.vm ready,
@@ -275,7 +279,8 @@ namespace Taq
             try
             {
                 app.vm.m.convertXDoc2Dict();
-                app.vm.loadDict2Sites("AQI");
+                var selAqId = aqComboBox.SelectedIndex;
+                app.vm.SelAqId = selAqId;
                 await app.vm.m.loadCurrSite();
                 app.vm.currSite2AqView();
             }
@@ -317,28 +322,17 @@ namespace Taq
 
         private void aqComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var selAq = (string)((ComboBox)sender).SelectedValue;
-            if (selAq == null)
+            var selAqId = ((ComboBox)sender).SelectedIndex;
+            if (selAqId == -1)
             {
                 return;
             }
-            app.vm.loadDict2Sites(selAq);
+            app.vm.SelAqId = selAqId;
         }
 
         private async void Page_Loaded(Object sender, RoutedEventArgs e)
         {
             await ReloadXdAndUpdateList();
-            if (aqComboBox.SelectedIndex == -1)
-            {
-                aqComboBox.SelectedIndex = 0;
-            }
-            else
-            {
-                // Force trigger an update to map icons through bindings.
-                var origId = aqComboBox.SelectedIndex;
-                aqComboBox.SelectedIndex = -1;
-                aqComboBox.SelectedIndex = origId;
-            }
             subscrComboBox.SelectedIndex = app.vm.SubscrSiteId;
         }
 

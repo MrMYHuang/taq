@@ -6,7 +6,6 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:taq="using:Taq"
-    xmlns:data="using:TaqShared.Models"
     mc:Ignorable="d"
     NavigationCacheMode="Enabled">
 

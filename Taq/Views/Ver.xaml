@@ -30,6 +30,9 @@
                     1. 支援大型動態磚(W10M除外)。<LineBreak />
                     2. 修正"狀態"上色問題。與"AQI"同色。<LineBreak />
                     3. 更動地圖與列表按鈕順序。<LineBreak />
+                    4. 修正預設PM 2.5警戒值。<LineBreak />
+                    5. 修正PM 2.5上色錯誤bug。<LineBreak />
+                    6. 修正地圖、列表每分鐘會自動切回AQI數值的bug。<LineBreak />
                 </TextBlock>
             </DataTemplate>
         </HubSection>

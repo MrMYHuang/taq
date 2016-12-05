@@ -76,7 +76,7 @@ namespace Taq
         public static List<double> defaultLimits = new List<double> { 0 };
         public static List<string> defaultColors = new List<string> { "#31cf00", "#31cf00" };
 
-        public static List<string> dirtyColors = new List<string> { "#808080", "#808080" };
+        public static List<string> dirtyColors = new List<string> { "#C0C0C0", "#C0C0C0" };
 
         public static List<double> aqiLimits = new List<double> { 50, 100, 150, 200, 300, 400, 500 };
         public static List<string> aqiBgColors = new List<string> { "#00ff00", "#ffff00", "#ff7e00", "#ff0000", "#800080", "#633300", "#633300", "#633300" };
@@ -345,10 +345,12 @@ namespace Taq
                 sendNotification("PM 2.5濃度: " + currSiteStrDict["PM2.5"], "PM2.5");
             }
 
+/*
 #if DEBUG
             sendNotification("AQI: " + currSiteStrDict["AQI"], "AQI");
             sendNotification("PM 2.5濃度: " + currSiteStrDict["PM2.5"], "PM2.5");
 #endif
+*/
         }
 
         public void sendNotification(string title, string tag)

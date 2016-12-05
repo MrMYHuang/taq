@@ -54,6 +54,22 @@ namespace Taq
             }
             loadSubscrSiteId();
         }
+
+        private int selAqId;
+        public int SelAqId
+        {
+            get
+            {
+                return selAqId;
+            }
+
+            set
+            {
+                loadDict2Sites(m.aqList[value]);
+                SetProperty(ref selAqId, selAqId);
+            }
+        }
+
         // Has to be run by UI context!
         public void currSite2AqView()
         {
