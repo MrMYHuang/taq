@@ -71,6 +71,13 @@ namespace Taq
             { "WindDirec", "風向"},
         };
 
+        public Dictionary<string, string> shortStatusDict = new Dictionary<string, string>
+        {
+            { "對敏感族群不良", "敏感"},
+            { "對所有族群不良", "所有"},
+            { "非常不良", "非常"},
+        };
+
         // AQ level limits and corresponding colors lists.
         // Notice: a color list has one more element than a limit list!
         public static List<double> defaultLimits = new List<double> { 0 };
@@ -234,6 +241,12 @@ namespace Taq
                 var geoDict = geoD.Elements().ToDictionary(x => x.Name.LocalName, x => x.Value);
                 siteDict.Add("TWD97Lat", geoDict["TWD97Lat"]);
                 siteDict.Add("TWD97Lon", geoDict["TWD97Lon"]);
+                var statusStr = siteDict["Status"];
+                // Shorten long status strings for map icons.
+                if(statusStr.Length > 2)
+                {
+                    siteDict["Status"] = shortStatusDict[statusStr];
+                }
                 sitesStrDict.Add(siteName, siteDict);
             }
 
@@ -307,6 +320,7 @@ namespace Taq
             largeContent.TextHeading2.Text = "發佈時間：" + timeStr;
             largeContent.TextBody1.Text = aqiStr;
             largeContent.TextBody2.Text = pm2_5_Str;
+            largeContent.Branding = NotificationsExtensions.TileContent.TileBranding.None;
 
             // create the wide template
             var wideContent = TileContentFactory.CreateTileWide310x150Text01();
@@ -315,7 +329,7 @@ namespace Taq
             wideContent.TextBody2.Text = "發佈時間：" + timeStr;
             wideContent.TextBody3.Text = aqiStr;
             wideContent.TextBody4.Text = pm2_5_Str;
-            //wideContent.Image.Src = "ms-appx:///Assets/Wide310x150Logo.scale-200.png";
+            wideContent.Branding = NotificationsExtensions.TileContent.TileBranding.None;
 
             // create the square template and attach it to the wide template 
             var squareContent = TileContentFactory.CreateTileSquare150x150Text01();
@@ -323,12 +337,20 @@ namespace Taq
             squareContent.TextBody1.Text = pm2_5_Str;
             squareContent.TextBody2.Text = siteStr;
             squareContent.TextBody3.Text = "時間：" + timeStr;
+            squareContent.Branding = NotificationsExtensions.TileContent.TileBranding.None;
+
+            // Smaill tile.
+            var smallContent = TileContentFactory.CreateTileSquare71x71Image();
+            smallContent.Image.Src = "Assets/aqi71x71/" + Math.Min(getAqLevel(currSiteStrDict["SiteName"], "AQI"), 5) + ".png";
+            smallContent.Branding = NotificationsExtensions.TileContent.TileBranding.None;
 
             largeContent.Wide310x150Content = wideContent;
             wideContent.Square150x150Content = squareContent;
+            squareContent.Square71x71Content = smallContent;
 
             // Create a new tile notification.
             updater.Update(new TileNotification(largeContent.GetXml()));
+            //BadgeUpdateManager.CreateBadgeUpdaterForApplication().Update(new BadgeNotification(badge.GetXml()));
         }
 
         public void sendNotifications()
@@ -342,15 +364,8 @@ namespace Taq
             var pm2_5_Limit = (double)localSettings.Values["Pm2_5_Limit"];
             if (oldSiteStrDict["PM2.5"] != currSiteStrDict["PM2.5"] && getAqVal(currSiteStrDict["SiteName"], "PM2.5") > pm2_5_Limit)
             {
-                sendNotification("PM 2.5濃度: " + currSiteStrDict["PM2.5"], "PM2.5");
+                sendNotification("即時PM 2.5濃度: " + currSiteStrDict["PM2.5"], "PM2.5");
             }
-
-/*
-#if DEBUG
-            sendNotification("AQI: " + currSiteStrDict["AQI"], "AQI");
-            sendNotification("PM 2.5濃度: " + currSiteStrDict["PM2.5"], "PM2.5");
-#endif
-*/
         }
 
         public void sendNotification(string title, string tag)

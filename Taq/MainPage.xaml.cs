@@ -245,7 +245,12 @@ namespace Taq
             }
 
             await updateListView();
+#if DEBUG
+            app.vm.m.sendNotification("AQI: " + app.vm.m.currSiteStrDict["AQI"], "AQI");
+            app.vm.m.sendNotification("PM 2.5即時濃度: " + app.vm.m.currSiteStrDict["PM2.5"], "PM2.5");
+#else
             app.vm.m.sendNotifications();
+#endif
             app.vm.m.updateLiveTile();
             return 0;
         }

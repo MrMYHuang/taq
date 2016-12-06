@@ -20,279 +20,287 @@
         <HubSection Header="已知問題" Width="Auto">
             <DataTemplate>
                 <TextBlock Style="{StaticResource txtBlkSty1}" >
-                    1. 無。<LineBreak />
+                    * 無。<LineBreak />
+                </TextBlock>
+            </DataTemplate>
+        </HubSection>
+        <HubSection Header="Ver. 2.1.5" Width="Auto">
+            <DataTemplate>
+                <TextBlock Style="{StaticResource txtBlkSty1}" >
+                    * 支援小型動態磚，顯示短AQI狀態。<LineBreak />
+                    * 縮短地圖圖示顯示的"AQI狀態"。"對敏感族群不良"簡化為"敏感"、"對所有族群不良"簡化為"所有"、"非常不良"簡化為"非常"。<LineBreak />
                 </TextBlock>
             </DataTemplate>
         </HubSection>
         <HubSection Header="Ver. 2.1.4" Width="Auto">
             <DataTemplate>
                 <TextBlock Style="{StaticResource txtBlkSty1}" >
-                    1. 支援大型動態磚(W10M除外)。<LineBreak />
-                    2. 修正"狀態"上色問題。與"AQI"同色。<LineBreak />
-                    3. 更動地圖與列表按鈕順序。<LineBreak />
-                    4. 修正預設PM 2.5警戒值。<LineBreak />
-                    5. 修正PM 2.5上色錯誤bug。<LineBreak />
-                    6. 修正地圖、列表每分鐘會自動切回AQI數值的bug。<LineBreak />
+                    * 支援大型動態磚(W10M除外)。<LineBreak />
+                    * 修正"狀態"上色問題。與"AQI"同色。<LineBreak />
+                    * 更動地圖與列表按鈕順序。<LineBreak />
+                    * 修正預設PM 2.5警戒值。<LineBreak />
+                    * 修正PM 2.5上色錯誤bug。<LineBreak />
+                    * 修正地圖、列表每分鐘會自動切回AQI數值的bug。<LineBreak />
                 </TextBlock>
             </DataTemplate>
         </HubSection>
         <HubSection Header="Ver. 2.1.3" Width="Auto">
             <DataTemplate>
                 <TextBlock Style="{StaticResource txtBlkSty1}" >
-                    1. 列表頁、地圖頁支援多種空汙資訊切換。<LineBreak />
-                    2. 大部分指標支援根據數值作背景、文字上色。<LineBreak />
-                    3. 設定頁新增"空氣品質指標(AQI)"警報設定。<LineBreak />
-                    4. 更新TAQ logo。<LineBreak />
-                    5. 修正異常回報bug。<LineBreak />
-                    6. 修正訂閱站台設定切換站台後，來回切換頁面後，選擇之站台不正確的bug。<LineBreak />
-                    7. 訂閱站台設定移至框架頁<LineBreak />
+                    * 列表頁、地圖頁支援多種空汙資訊切換。<LineBreak />
+                    * 大部分指標支援根據數值作背景、文字上色。<LineBreak />
+                    * 設定頁新增"空氣品質指標(AQI)"警報設定。<LineBreak />
+                    * 更新TAQ logo。<LineBreak />
+                    * 修正異常回報bug。<LineBreak />
+                    * 修正訂閱站台設定切換站台後，來回切換頁面後，選擇之站台不正確的bug。<LineBreak />
+                    * 訂閱站台設定移至框架頁<LineBreak />
                 </TextBlock>
             </DataTemplate>
         </HubSection>
         <HubSection Header="Ver. 2.0.0" Width="Auto">
             <DataTemplate>
                 <TextBlock Style="{StaticResource txtBlkSty1}" >
-                    1. 更新資料來源為"空氣品質指標(AQI)"。<LineBreak />
-                    2. 設定頁新增"背景更新"。<LineBreak />
-                    3. 寬動態磚顯示更多訊息。<LineBreak />
+                    * 更新資料來源為"空氣品質指標(AQI)"。<LineBreak />
+                    * 設定頁新增"背景更新"。<LineBreak />
+                    * 寬動態磚顯示更多訊息。<LineBreak />
                 </TextBlock>
             </DataTemplate>
         </HubSection>
         <HubSection Header="Ver. 1.12.5" Width="Auto">
             <DataTemplate>
                 <TextBlock Style="{StaticResource txtBlkSty1}" >
-                    1. 修正一個在W10M會閃退的bug。<LineBreak />
-                    2. 改善設定頁的排版。<LineBreak />
+                    * 修正一個在W10M會閃退的bug。<LineBreak />
+                    * 改善設定頁的排版。<LineBreak />
                 </TextBlock>
             </DataTemplate>
         </HubSection>
         <HubSection Header="Ver. 1.12.3" Width="Auto">
             <DataTemplate>
                 <TextBlock Style="{StaticResource txtBlkSty1}" >
-                    1. 改善對鍵盤操作的支援。<LineBreak />
+                    * 改善對鍵盤操作的支援。<LineBreak />
                 </TextBlock>
             </DataTemplate>
         </HubSection>
         <HubSection Header="Ver. 1.12.2" Width="Auto">
             <DataTemplate>
                 <TextBlock Style="{StaticResource txtBlkSty1}" >
-                    1. 修正"關於"頁面中，版本號消失問題。<LineBreak />
-                    2. 中型、寬型動態磚加入"發佈時間"資訊。<LineBreak />
+                    * 修正"關於"頁面中，版本號消失問題。<LineBreak />
+                    * 中型、寬型動態磚加入"發佈時間"資訊。<LineBreak />
                 </TextBlock>
             </DataTemplate>
         </HubSection>
         <HubSection Header="Ver. 1.12.1" Width="Auto">
             <DataTemplate>
                 <TextBlock Style="{StaticResource txtBlkSty1}" >
-                    1. 改善設定頁可能造成的閃退。<LineBreak />
+                    * 改善設定頁可能造成的閃退。<LineBreak />
                 </TextBlock>
             </DataTemplate>
         </HubSection>
         <HubSection Header="Ver. 1.12.0" Width="Auto">
             <DataTemplate>
                 <TextBlock Style="{StaticResource txtBlkSty1}" >
-                    1. 實作app異常後啟動E-mail回報功能。<LineBreak />
-                    2. "分享"功能支援分享app擷圖給Facebook app。W10M也支援。<LineBreak />
-                    3. 修正定位失敗後地圖頁會閃退。<LineBreak />
-                    4. 資料下載失敗後會讀取上次成功下載，而非預設範例。<LineBreak />
+                    * 實作app異常後啟動E-mail回報功能。<LineBreak />
+                    * "分享"功能支援分享app擷圖給Facebook app。W10M也支援。<LineBreak />
+                    * 修正定位失敗後地圖頁會閃退。<LineBreak />
+                    * 資料下載失敗後會讀取上次成功下載，而非預設範例。<LineBreak />
                 </TextBlock>
             </DataTemplate>
         </HubSection>
         <HubSection Header="Ver. 1.11.2" Width="Auto">
             <DataTemplate>
                 <TextBlock Style="{StaticResource txtBlkSty1}" >
-                    1. 修正點選通知中心裡的TAQ訊息會造成app涷結。<LineBreak />
-                    2. 修正首頁文字顏色在亮色主題下不清楚的問題。<LineBreak />
-                    3. 更動設定鈕位置。<LineBreak />
+                    * 修正點選通知中心裡的TAQ訊息會造成app涷結。<LineBreak />
+                    * 修正首頁文字顏色在亮色主題下不清楚的問題。<LineBreak />
+                    * 更動設定鈕位置。<LineBreak />
                 </TextBlock>
             </DataTemplate>
         </HubSection>
         <HubSection Header="Ver. 1.11.1" Width="Auto">
             <DataTemplate>
                 <TextBlock Style="{StaticResource txtBlkSty1}" >
-                    1. 修正無網路時，開啟地圖頁會造成閃退。<LineBreak />
-                    2. 修正通知訊息重複推送。<LineBreak />
+                    * 修正無網路時，開啟地圖頁會造成閃退。<LineBreak />
+                    * 修正通知訊息重複推送。<LineBreak />
                 </TextBlock>
             </DataTemplate>
         </HubSection>
         <HubSection Header="Ver. 1.11.0" Width="Auto">
             <DataTemplate>
                 <TextBlock Style="{StaticResource txtBlkSty1}" >
-                    1. 新增新"首頁"，列出更多訂閱觀測站之空汙資訊。<LineBreak />
+                    * 新增新"首頁"，列出更多訂閱觀測站之空汙資訊。<LineBreak />
                 </TextBlock>
             </DataTemplate>
         </HubSection>
         <HubSection Header="Ver. 1.10.4" Width="Auto">
             <DataTemplate>
                 <TextBlock Style="{StaticResource txtBlkSty1}" >
-                    1. 背景更新任務改成app啟動後只註冊一次。<LineBreak />
+                    * 背景更新任務改成app啟動後只註冊一次。<LineBreak />
                 </TextBlock>
             </DataTemplate>
         </HubSection>
         <HubSection Header="Ver. 1.10.3" Width="Auto">
             <DataTemplate>
                 <TextBlock Style="{StaticResource txtBlkSty1}" >
-                    1. 修正設定頁在縱向某些解析度下會被截掉。<LineBreak />
-                    2. 部分資料更新優化。<LineBreak />
-                    3. 修正無網路時，開啟設定頁、地圖頁會閃退。<LineBreak />
+                    * 修正設定頁在縱向某些解析度下會被截掉。<LineBreak />
+                    * 部分資料更新優化。<LineBreak />
+                    * 修正無網路時，開啟設定頁、地圖頁會閃退。<LineBreak />
                 </TextBlock>
             </DataTemplate>
         </HubSection>
         <HubSection Header="Ver. 1.10.2" Width="Auto">
             <DataTemplate>
                 <TextBlock Style="{StaticResource txtBlkSty1}" >
-                    1. 修正按下"列表"之更新鈕後，"設定"之"訂閱觀測站ComboBox列表異常。<LineBreak />
+                    * 修正按下"列表"之更新鈕後，"設定"之"訂閱觀測站ComboBox列表異常。<LineBreak />
                 </TextBlock>
             </DataTemplate>
         </HubSection>
         <HubSection Header="Ver. 1.10.1" Width="Auto">
             <DataTemplate>
                 <TextBlock Style="{StaticResource txtBlkSty1}" >
-                    1. 若XML檔PM 2.5為空字串則顯示改為"N/A"。<LineBreak />
+                    * 若XML檔PM 2.5為空字串則顯示改為"N/A"。<LineBreak />
                 </TextBlock>
             </DataTemplate>
         </HubSection>
         <HubSection Header="Ver. 1.10.0" Width="Auto">
             <DataTemplate>
                 <TextBlock Style="{StaticResource txtBlkSty1}" >
-                    1. 訂閱觀測站改成在設定頁面設定。<LineBreak />
-                    2. "首頁"改名"列表"。<LineBreak />
-                    3. 觀測站改列表依PM 2.5級數上色。<LineBreak />
+                    * 訂閱觀測站改成在設定頁面設定。<LineBreak />
+                    * "首頁"改名"列表"。<LineBreak />
+                    * 觀測站改列表依PM 2.5級數上色。<LineBreak />
                 </TextBlock>
             </DataTemplate>
         </HubSection>
         <HubSection Header="Ver. 1.9.1" Width="Auto">
             <DataTemplate>
                 <TextBlock Style="{StaticResource txtBlkSty1}" >
-                    1. 修正XML檔PM 2.5為空字串之問題。<LineBreak />
-                    2. 修正部分設定預設值未正確設定之問題。<LineBreak />
+                    * 修正XML檔PM 2.5為空字串之問題。<LineBreak />
+                    * 修正部分設定預設值未正確設定之問題。<LineBreak />
                 </TextBlock>
             </DataTemplate>
         </HubSection>
         <HubSection Header="Ver. 1.9.0" Width="Auto">
             <DataTemplate>
                 <TextBlock Style="{StaticResource txtBlkSty1}" >
-                    1. 新增"PM 2.5級數上限"設定。<LineBreak />
+                    * 新增"PM 2.5級數上限"設定。<LineBreak />
                 </TextBlock>
             </DataTemplate>
         </HubSection>
         <HubSection Header="Ver. 1.8.3" Width="Auto">
             <DataTemplate>
                 <TextBlock Style="{StaticResource txtBlkSty1}" >
-                    1. 新增"暗色地圖"設定。<LineBreak />
+                    * 新增"暗色地圖"設定。<LineBreak />
                 </TextBlock>
             </DataTemplate>
         </HubSection>
         <HubSection Header="Ver. 1.8.2" Width="Auto">
             <DataTemplate>
                 <TextBlock Style="{StaticResource txtBlkSty1}" >
-                    1. 新增"隱私政策"。<LineBreak />
+                    * 新增"隱私政策"。<LineBreak />
                 </TextBlock>
             </DataTemplate>
         </HubSection>
         <HubSection Header="Ver. 1.8.0" Width="Auto">
             <DataTemplate>
                 <TextBlock Style="{StaticResource txtBlkSty1}" >
-                    1. 新增"設定"頁面。<LineBreak />
-                    2. 新增"夜晚主題"開關。<LineBreak />
+                    * 新增"設定"頁面。<LineBreak />
+                    * 新增"夜晚主題"開關。<LineBreak />
                 </TextBlock>
             </DataTemplate>
         </HubSection>
         <HubSection Header="Ver. 1.7.2" Width="Auto">
             <DataTemplate>
                 <TextBlock Style="{StaticResource txtBlkSty1}" >
-                    1. 修正未刪除舊地圖標示的bug。<LineBreak />
-                    2. 美化地圖標示的文字顏色。<LineBreak />
+                    * 修正未刪除舊地圖標示的bug。<LineBreak />
+                    * 美化地圖標示的文字顏色。<LineBreak />
                 </TextBlock>
             </DataTemplate>
         </HubSection>
         <HubSection Header="Ver. 1.7.0" Width="Auto">
             <DataTemplate>
                 <TextBlock Style="{StaticResource txtBlkSty1}" >
-                    1. 新增"分享"按鈕，可分享螢幕擷圖。<LineBreak />
+                    * 新增"分享"按鈕，可分享螢幕擷圖。<LineBreak />
                 </TextBlock>
             </DataTemplate>
         </HubSection>
         <HubSection Header="Ver. 1.6.8" Width="Auto">
             <DataTemplate>
                 <TextBlock Style="{StaticResource txtBlkSty1}" >
-                    1. 修正地圖雙指放大時，若一指按到PM 2.5標示，會變成平移。<LineBreak />
+                    * 修正地圖雙指放大時，若一指按到PM 2.5標示，會變成平移。<LineBreak />
                 </TextBlock>
             </DataTemplate>
         </HubSection>
         <HubSection Header="Ver. 1.6.0" Width="Auto">
             <DataTemplate>
                 <TextBlock Style="{StaticResource txtBlkSty1}" >
-                    1. 地圖支援定位。<LineBreak />
+                    * 地圖支援定位。<LineBreak />
                 </TextBlock>
             </DataTemplate>
         </HubSection>
         <HubSection Header="Ver. 1.5.4" Width="Auto">
         <DataTemplate>
                 <TextBlock Style="{StaticResource txtBlkSty1}" >
-                    1. 修正可能無法正常下載資料庫的問題，即使網路正常。<LineBreak />
-                    2. 修正可能造成app卡在啟動畫面的bug。<LineBreak />
+                    * 修正可能無法正常下載資料庫的問題，即使網路正常。<LineBreak />
+                    * 修正可能造成app卡在啟動畫面的bug。<LineBreak />
                 </TextBlock>
         </DataTemplate>
         </HubSection>
         <HubSection Header="Ver. 1.5.1" Width="Auto">
             <DataTemplate>
                 <TextBlock Style="{StaticResource txtBlkSty1}" >
-                    1. 修正開啟地圖後閃退問題。<LineBreak />
+                    * 修正開啟地圖後閃退問題。<LineBreak />
                 </TextBlock>
             </DataTemplate>
         </HubSection>
         <HubSection Header="Ver. 1.5.0" Width="Auto">
             <DataTemplate>
                 <TextBlock Style="{StaticResource txtBlkSty1}" >
-                    1. 地圖PM 2.5標示根據即時濃度上色。<LineBreak />
+                    * 地圖PM 2.5標示根據即時濃度上色。<LineBreak />
                 </TextBlock>
             </DataTemplate>
         </HubSection>
         <HubSection Header="Ver. 1.4.0" Width="Auto">
             <DataTemplate>
                 <TextBlock Style="{StaticResource txtBlkSty1}" >
-                    1. 美化地圖PM 2.5即時濃度標示。<LineBreak />
+                    * 美化地圖PM 2.5即時濃度標示。<LineBreak />
                 </TextBlock>
             </DataTemplate>
         </HubSection>
         <HubSection Header="Ver. 1.3.1" Width="Auto">
             <DataTemplate>
                 <TextBlock Style="{StaticResource txtBlkSty1}" >
-                    1. 地圖頁面新增PM 2.5即時濃度標示。<LineBreak />
+                    * 地圖頁面新增PM 2.5即時濃度標示。<LineBreak />
                 </TextBlock>
             </DataTemplate>
         </HubSection>
         <HubSection Header="Ver. 1.3.0" Width="Auto">
             <DataTemplate>
                 <TextBlock Style="{StaticResource txtBlkSty1}" >
-                    1. 新增"地圖"頁面。目前只支援顯示觀測站位置。<LineBreak />
+                    * 新增"地圖"頁面。目前只支援顯示觀測站位置。<LineBreak />
                 </TextBlock>
             </DataTemplate>
         </HubSection>
         <HubSection Header="Ver. 1.2.1" Width="Auto">
             <DataTemplate>
                 <TextBlock Style="{StaticResource txtBlkSty1}" >
-                    1. 修正首頁列表自動更新後，選錯訂閱觀測站bug。<LineBreak />
+                    * 修正首頁列表自動更新後，選錯訂閱觀測站bug。<LineBreak />
                 </TextBlock>
             </DataTemplate>
         </HubSection>
         <HubSection Header="Ver. 1.2.0" Width="Auto">
             <DataTemplate>
                 <TextBlock Style="{StaticResource txtBlkSty1}" >
-                    1. 首頁列表新增"縣市"行。<LineBreak />
-                    2. 列表根據"縣市"排序。<LineBreak />
-                    3. 動態磚加入更多資訊。<LineBreak />
+                    * 首頁列表新增"縣市"行。<LineBreak />
+                    * 列表根據"縣市"排序。<LineBreak />
+                    * 動態磚加入更多資訊。<LineBreak />
                 </TextBlock>
             </DataTemplate>
         </HubSection>
         <HubSection Header="Ver. 1.1.19" Width="Auto">
             <DataTemplate>
                 <TextBlock Style="{StaticResource txtBlkSty1}" >
-                    1. 新增首頁定時刷新。<LineBreak />
-                    2. 左側頁面切換項目改為對齊頁面底部。<LineBreak />
-                    3. 新增"版本歷史"頁面。<LineBreak />
-                    4. 實作例外處理，避免閃退(crash)。<LineBreak />
+                    * 新增首頁定時刷新。<LineBreak />
+                    * 左側頁面切換項目改為對齊頁面底部。<LineBreak />
+                    * 新增"版本歷史"頁面。<LineBreak />
+                    * 實作例外處理，避免閃退(crash)。<LineBreak />
                 </TextBlock>
             </DataTemplate>
         </HubSection>
