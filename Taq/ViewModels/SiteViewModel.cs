@@ -6,7 +6,7 @@ using Windows.UI.Xaml.Media;
 
 namespace Taq
 {
-    public class SiteViewModel : AqViewModel, INotifyPropertyChanged
+    public class SiteViewModel : AqViewModel
     {
         public string siteName;
         public string county;

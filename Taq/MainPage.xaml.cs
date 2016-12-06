@@ -245,9 +245,8 @@ namespace Taq
             }
 
             await updateListView();
+            app.vm.m.sendNotifications();
             app.vm.m.updateLiveTile();
-            // Because loadAqXml default loads Site.Circle* to "AQI..."
-            aqComboBox.SelectedIndex = 0;
             return 0;
         }
 
