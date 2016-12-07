@@ -5,8 +5,10 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Taq.Views;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Background;
+using Windows.Devices.Geolocation;
 using Windows.UI;
 using Windows.UI.Xaml.Media;
 
@@ -66,7 +68,7 @@ namespace Taq
             set
             {
                 loadDict2Sites(m.aqList[value]);
-                SetProperty(ref selAqId, selAqId);
+                SetProperty(ref selAqId, value);
             }
         }
 
@@ -175,6 +177,41 @@ namespace Taq
             {
                 m.localSettings.Values["MapColor"] = value;
                 OnPropertyChanged("MapColor");
+            }
+        }
+
+        public GeolocationAccessStatus locAccStat;
+        public Geolocator geoLoc;
+        public bool MapAutoPos
+        {
+            get
+            {
+                return (bool)m.localSettings.Values["MapAutoPos"];
+            }
+
+            set
+            {
+                if (value == true)
+                {
+                    switch (locAccStat)
+                    {
+                        case GeolocationAccessStatus.Allowed:
+                            // Subscribe to the PositionChanged event to get location updates.
+                            //geoLoc.PositionChanged += OnPositionChanged;
+                            m.localSettings.Values["MapAutoPos"] = true;
+                            break;
+                        default:
+                            var md = new Windows.UI.Popups.MessageDialog("您曾拒絕TAQ存取您的位置資訊。必須去系統設定修改准許TAQ存取，然後重啟TAQ。若找不到該設定，可以嘗試重新安裝TAQ解決。", "啟動定位失敗！");
+                            md.ShowAsync();
+                            m.localSettings.Values["MapAutoPos"] = false;
+                            break;
+                    }
+                }
+                else
+                {
+                    m.localSettings.Values["MapAutoPos"] = value;
+                }
+                OnPropertyChanged("MapAutoPos");
             }
         }
     }

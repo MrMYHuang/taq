@@ -16,6 +16,7 @@ using Windows.System;
 using System.Threading.Tasks;
 using Windows.System.Threading;
 using Windows.UI.Core;
+using Windows.Devices.Geolocation;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -56,6 +57,7 @@ namespace Taq
             frame.Navigate(typeof(Home));
             initPeriodicTimer();
             DataTransferManager.GetForCurrentView().DataRequested += MainPage_DataRequested;
+            initPos();
         }
 
         // This auxiliary method is used to wait for app.vm ready,
@@ -84,6 +86,19 @@ namespace Taq
             return 0;
         }
 
+        async void initPos()
+        {
+            app.vm.locAccStat = await Geolocator.RequestAccessAsync();
+            if (app.vm.locAccStat == GeolocationAccessStatus.Allowed)
+            {
+                app.vm.MapAutoPos = true;
+            }
+            else
+            {
+                app.vm.MapAutoPos = false;
+            }
+        }
+
         async void MainPage_DataRequested(DataTransferManager sender, DataRequestedEventArgs args)
         {
             DataRequest request = args.Request;
@@ -94,7 +109,7 @@ namespace Taq
             IBuffer pixelBuffer = await bitmap.GetPixelsAsync();
             byte[] pixels = WindowsRuntimeBufferExtensions.ToArray(pixelBuffer, 0, (int)pixelBuffer.Length);            
 
-            var saveFile = await ApplicationData.Current.LocalFolder.CreateFileAsync("screenshot.png", CreationCollisionOption.ReplaceExisting); ;
+            var saveFile = await ApplicationData.Current.LocalFolder.CreateFileAsync("screenshot.png", CreationCollisionOption.ReplaceExisting);
             // Encode the image to the selected file on disk 
             using (var fileStream = await saveFile.OpenAsync(FileAccessMode.ReadWrite))
             {

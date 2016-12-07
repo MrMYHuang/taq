@@ -9,38 +9,36 @@
     mc:Ignorable="d"
     NavigationCacheMode="Enabled">
 
-    <Page.Resources>
-        <Style x:Key="hubSecSty" TargetType="HubSection">
-            <Setter Property="Width" Value="300"></Setter>
-        </Style>
-    </Page.Resources>
-
     <Hub Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Orientation="Vertical" DataContext="{x:Bind}" HorizontalAlignment="Left">
-        <HubSection Style="{StaticResource hubSecSty}"  Header="夜晚主題">
+        <HubSection Style="{StaticResource hubSecHeadSty}" Header="夜晚主題">
             <DataTemplate x:DataType="local:Settings">
                 <ToggleSwitch x:Name="themeToggle" Header="重新啟動app後生效" HorizontalAlignment="Left" Margin="0" IsOn="{x:Bind AppTheme, Mode=TwoWay}" Width="340" Height="67"/>
             </DataTemplate>
         </HubSection>
 
-        <HubSection Style="{StaticResource hubSecSty}"  Header="暗色地圖">
+        <HubSection Style="{StaticResource hubSecHeadSty}" Header="地圖">
             <DataTemplate x:DataType="local:Settings">
-                <ToggleSwitch x:Name="mapColorToggle" HorizontalAlignment="Left" Margin="0" IsOn="{x:Bind app.vm.MapColor, Mode=TwoWay}" />
+                <StackPanel Orientation="Vertical">
+                    <ToggleSwitch Header="暗色" x:Name="mapColorToggle" HorizontalAlignment="Left" Margin="0" IsOn="{x:Bind app.vm.MapColor, Mode=TwoWay}" />
+                    <ToggleSwitch Header="自動定位" x:Name="autoPosToggle" HorizontalAlignment="Left" Margin="0" IsOn="{x:Bind app.vm.MapAutoPos, Mode=TwoWay}" />
+                </StackPanel>
             </DataTemplate>
         </HubSection>
 
-        <HubSection Style="{StaticResource hubSecSty}"  Header="背景更新">
+        <HubSection Style="{StaticResource hubSecHeadSty}" Header="背景更新">
             <DataTemplate x:DataType="local:Settings">
                 <ComboBox x:Name="bgUpdateComboBox" HorizontalAlignment="Left" Width="265" Header="週期(分鐘)" ItemsSource="{x:Bind app.vm.bgUpdatePeriods}" IsTapEnabled="True" SelectedIndex="{x:Bind app.vm.BgUpdatePeriodId, Mode=OneWay}" SelectionChanged="bgUpdateComboBox_SelectionChanged">
                 </ComboBox>
             </DataTemplate>
         </HubSection>
 
-        <HubSection Style="{StaticResource hubSecSty}"  Header="指標警報值(超過則發通知)">
+        <HubSection Style="{StaticResource hubSecHeadSty}" Header="指標警報值">
             <DataTemplate x:DataType="local:Settings">
                 <StackPanel Orientation="Vertical">
-                <Slider x:Name="aqiSlider" HorizontalAlignment="Left" Width="265" Minimum="0" Maximum="500" TickFrequency="50" Header="AQI指標" Value="{x:Bind Aqi_Limit, Mode=TwoWay}" Height="97"/>
+                    <TextBlock Style="{StaticResource normTxtSty}">超過警報值則發通知。</TextBlock>
+                    <Slider x:Name="aqiSlider" HorizontalAlignment="Left" Width="265" Minimum="0" Maximum="500" TickFrequency="50" Header="AQI指標 (預設50)" Value="{x:Bind Aqi_Limit, Mode=TwoWay}" Height="97"/>
 
-                    <Slider x:Name="slider" HorizontalAlignment="Left" Width="265" Minimum="0" Maximum="500" TickFrequency="50" Header="PM 2.5澧度" Value="{x:Bind Pm2_5_Limit, Mode=TwoWay}" Height="97"/>
+                    <Slider x:Name="slider" HorizontalAlignment="Left" Width="265" Minimum="0" Maximum="500" TickFrequency="50" Header="PM 2.5澧度 (預設15)" Value="{x:Bind Pm2_5_Limit, Mode=TwoWay}" Height="97"/>
                 </StackPanel>
             </DataTemplate>
         </HubSection>

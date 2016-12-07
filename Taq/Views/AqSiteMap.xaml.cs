@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Windows.Devices.Geolocation;
 using Windows.Foundation;
 using Windows.Storage;
@@ -30,50 +31,58 @@ namespace Taq.Views
             //map.Loaded += initPos;
         }
 
-        // center on Taiwan     
+        // (near) center on Taiwan     
         Geopoint twCenter =
             new Geopoint(new BasicGeoposition()
             {
-                Latitude = 23.973875,
+                Latitude = 23.6,
                 Longitude = 120.982024
 
             });
 
-        GeolocationAccessStatus locAccStat;
-        Geolocator geoLoc;
         private async void initPos()
         {
             addMapIcons();
 
-            locAccStat = await Geolocator.RequestAccessAsync();
-
-            switch (locAccStat)
+            if (app.vm.MapAutoPos)
             {
-                case GeolocationAccessStatus.Allowed:
-                    // Center map on user location.
-                    geoLoc = new Geolocator { ReportInterval = 2000 };
-                    // Subscribe to the PositionChanged event to get location updates.
-                    //geoLoc.PositionChanged += OnPositionChanged;
-                    try
-                    {
-                        var pos = await geoLoc.GetGeopositionAsync();
-                        var p = pos.Coordinate.Point;
-
-                        var userMapIcon = new UserMapIcon();
-                        map.Children.Add(userMapIcon);
-                        MapControl.SetLocation(userMapIcon, p);
-                        MapControl.SetNormalizedAnchorPoint(userMapIcon, new Point(0.5, 0.5));
-                        await map.TrySetSceneAsync(MapScene.CreateFromLocationAndRadius(p, 1000));
-                    }
-                    catch (Exception ex)
-                    {
-                    }
-                    break;
-                default:
-                    // Center map on Taiwan center.
-                    await map.TrySetSceneAsync(MapScene.CreateFromLocationAndRadius(twCenter, 110e3));
-                    break;
+                await mapAutoPos();
             }
+            else
+            {
+                mapCenterOnTw();
+            }
+        }
+
+        private async Task<int> mapAutoPos()
+        {
+            // Subscribe to the PositionChanged event to get location updates.
+            //geoLoc.PositionChanged += OnPositionChanged;
+            try
+            {
+                // Center map on user location.
+                app.vm.geoLoc = new Geolocator { ReportInterval = 2000 };
+                var pos = await app.vm.geoLoc.GetGeopositionAsync();
+                var p = pos.Coordinate.Point;
+
+                var userMapIcon = new UserMapIcon();
+                map.Children.Add(userMapIcon);
+                MapControl.SetLocation(userMapIcon, p);
+                MapControl.SetNormalizedAnchorPoint(userMapIcon, new Point(0.5, 0.5));
+                await map.TrySetSceneAsync(MapScene.CreateFromLocationAndRadius(p, 1000));
+            }
+            catch (Exception ex)
+            {
+            }
+
+            return 0;
+        }
+
+        private void mapCenterOnTw()
+        {
+            // Center map on Taiwan center.
+            map.Scene = MapScene.CreateFromLocation(twCenter);
+            map.ZoomLevel = 7.5;
         }
 
         /*

@@ -59,6 +59,12 @@ namespace Taq
             {
                 localSettings.Values["MapColor"] = false;
             }
+            /*
+            if (localSettings.Values["MapAutoPos"] == null)
+            {
+                vm.MapAutoPos = true;
+            }
+            */
             if (localSettings.Values["Aqi_Limit"] == null)
             {
                 localSettings.Values["Aqi_Limit"] = 50.0;
