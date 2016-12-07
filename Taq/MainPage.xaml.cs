@@ -17,6 +17,7 @@ using System.Threading.Tasks;
 using Windows.System.Threading;
 using Windows.UI.Core;
 using Windows.Devices.Geolocation;
+using TaqShared;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -102,9 +103,9 @@ namespace Taq
         async void MainPage_DataRequested(DataTransferManager sender, DataRequestedEventArgs args)
         {
             DataRequest request = args.Request;
-            RenderTargetBitmap bitmap = new RenderTargetBitmap();
 
             DataRequestDeferral deferral = request.GetDeferral();
+            RenderTargetBitmap bitmap = new RenderTargetBitmap();
             await bitmap.RenderAsync(mainPage);
             IBuffer pixelBuffer = await bitmap.GetPixelsAsync();
             byte[] pixels = WindowsRuntimeBufferExtensions.ToArray(pixelBuffer, 0, (int)pixelBuffer.Length);            
@@ -266,7 +267,7 @@ namespace Taq
 #else
             app.vm.m.sendNotifications();
 #endif
-            app.vm.m.updateLiveTile();
+            await updateLiveTile();
             return 0;
         }
 
@@ -335,8 +336,18 @@ namespace Taq
             localSettings.Values["subscrSite"] = selSite.siteName;
             app.vm.loadSubscrSiteId();
             await app.vm.m.loadCurrSite(true);
+            await updateLiveTile();
             app.vm.currSite2AqView();
-            app.vm.m.updateLiveTile();
+        }
+
+        private async Task<int> updateLiveTile()
+        {
+            var medTile = new MedTile();
+            this.contentGrid.Children.Add(medTile);
+            await app.vm.m.getMedTile(medTile);
+            this.contentGrid.Children.Remove(medTile);
+            await app.vm.m.updateLiveTile();
+            return 0;
         }
 
         private void aqComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)

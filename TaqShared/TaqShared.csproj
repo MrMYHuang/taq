@@ -107,11 +107,19 @@
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MedTile.xaml.cs">
+      <DependentUpon>MedTile.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Models\TaqModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\TaqShared.rd.xml" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Page Include="MedTile.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

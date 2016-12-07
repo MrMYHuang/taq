@@ -1,0 +1,19 @@
+﻿<UserControl
+    x:Class="TaqShared.MedTile"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:TaqShared"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    d:DesignHeight="150"
+    d:DesignWidth="150" Width="150" Height="150">
+
+    <Border x:FieldModifier="public" x:Name="border" Width="150" Height="150" VerticalAlignment="Center" Background="Green">
+        <StackPanel Orientation="Vertical">
+        <TextBlock x:FieldModifier="public" x:Name="topTxt" VerticalAlignment="Top" FontSize="32">Top</TextBlock>
+            <TextBlock x:FieldModifier="public" x:Name="medTxt" TextAlignment="Center" FontSize="48">12345</TextBlock>
+            <TextBlock x:FieldModifier="public" x:Name="downTxt" VerticalAlignment="Bottom" TextAlignment="Right" FontSize="32">Down</TextBlock>
+        </StackPanel>
+    </Border>
+</UserControl>

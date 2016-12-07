@@ -20,7 +20,14 @@
         <HubSection Header="已知問題" Width="Auto">
             <DataTemplate>
                 <TextBlock Style="{StaticResource txtBlkSty1}" >
-                    * 無。<LineBreak />
+                    * 主視窗在更新動態磚時會一閃動態磚圖片。<LineBreak />
+                </TextBlock>
+            </DataTemplate>
+        </HubSection>
+        <HubSection Header="Ver. 2.3.0" Width="Auto">
+            <DataTemplate>
+                <TextBlock Style="{StaticResource txtBlkSty1}" >
+                    * 中型動態磚使用自定樣版產生，顯示AQI訊息，大字型、依指標上色。<LineBreak />
                 </TextBlock>
             </DataTemplate>
         </HubSection>

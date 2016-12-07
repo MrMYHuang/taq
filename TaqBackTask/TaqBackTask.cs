@@ -3,17 +3,29 @@ using Taq;
 using Windows.ApplicationModel.Background;
 using Windows.Storage;
 using System.IO;
+using TaqShared;
+using Windows.UI.Core;
+using Windows.ApplicationModel.Core;
+using Windows.UI.Xaml.Media.Imaging;
+using Windows.Storage.Streams;
+using Windows.UI.Xaml;
+using System.Runtime.InteropServices.WindowsRuntime;
+using Windows.Graphics.Imaging;
+using Windows.Graphics.Display;
+using System.Threading.Tasks;
+using Windows.UI.Xaml.Media;
+using Windows.UI;
+using System.Collections.Generic;
+using Windows.UI.Xaml.Controls;
 
 namespace TaqBackTask
 {
-    public sealed class TaqBackTask : IBackgroundTask
+    public sealed class TaqBackTask : XamlRenderingBackgroundTask
     {
         private static TaqModel m = new TaqModel();
 
-        public async void Run(IBackgroundTaskInstance taskInstance)
+        protected async override void OnRun(IBackgroundTaskInstance taskInstance)
         {
-            taskInstance.Canceled += new BackgroundTaskCanceledEventHandler(OnCanceled);
-
 #if DEBUG
             var tbtLog = await ApplicationData.Current.LocalFolder.CreateFileAsync("TbtLog.txt", CreationCollisionOption.OpenIfExists);
             using (var s = await tbtLog.OpenStreamForWriteAsync())
@@ -32,15 +44,17 @@ namespace TaqBackTask
                 // Get a deferral, to prevent the task from closing prematurely
                 // while asynchronous code is still running.
                 BackgroundTaskDeferral deferral = taskInstance.GetDeferral();
-                
+
                 // Download the feed.
                 var res = await m.downloadDataXml();
                 await m.loadAqXml();
                 m.convertXDoc2Dict();
                 await m.loadCurrSite();
 
+                var medTile = new MedTile();
+                await m.getMedTile(medTile);
                 // Update the live tile with the feed items.
-                m.updateLiveTile();
+                await m.updateLiveTile();
 
                 // Send notifications.
                 m.sendNotifications();

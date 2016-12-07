@@ -7,15 +7,23 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using TaqShared;
 using Windows.Devices.Geolocation;
+using Windows.Graphics.Display;
+using Windows.Graphics.Imaging;
 using Windows.Networking.BackgroundTransfer;
 using Windows.Storage;
+using Windows.Storage.Streams;
 using Windows.UI;
 using Windows.UI.Notifications;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Imaging;
 
 namespace Taq
 {
@@ -299,7 +307,7 @@ namespace Taq
             return 0;
         }
 
-        public void updateLiveTile()
+        public async Task<int> updateLiveTile()
         {
             // create the instance of Tile Updater, which enables you to change the appearance of the calling app's tile
             var updater = TileUpdateManager.CreateTileUpdaterForApplication();
@@ -332,12 +340,15 @@ namespace Taq
             wideContent.Branding = NotificationsExtensions.TileContent.TileBranding.None;
 
             // create the square template and attach it to the wide template 
-            var squareContent = TileContentFactory.CreateTileSquare150x150Text01();
+            var squareContent = TileContentFactory.CreateTileSquare150x150Image();
+            /*
             squareContent.TextHeading.Text = "AQI：" + currSiteStrDict["AQI"]; ;
             squareContent.TextBody1.Text = pm2_5_Str;
             squareContent.TextBody2.Text = siteStr;
             squareContent.TextBody3.Text = "時間：" + timeStr;
+            */
             squareContent.Branding = NotificationsExtensions.TileContent.TileBranding.None;
+            squareContent.Image.Src = " ms-appdata:///local/MedTile.png";
 
             // Smaill tile.
             var smallContent = TileContentFactory.CreateTileSquare71x71Image();
@@ -351,6 +362,50 @@ namespace Taq
             // Create a new tile notification.
             updater.Update(new TileNotification(largeContent.GetXml()));
             //BadgeUpdateManager.CreateBadgeUpdaterForApplication().Update(new BadgeNotification(badge.GetXml()));
+            return 0;
+        }
+
+        public async Task<int> getMedTile(MedTile medTile)
+        {
+            var siteName = currSiteStrDict["SiteName"];
+            var aqName = "AQI";
+            var aqLevel = getAqLevel(siteName, aqName);
+            //var medTile = new MedTile();
+            medTile.topTxt.Text = currSiteStrDict["SiteName"] + aqName;
+            medTile.medTxt.Text = currSiteStrDict[aqName];
+            medTile.downTxt.Text = currSiteStrDict["PublishTime"].Substring(11, 5);
+            var textColor = aqLevel > 3 ? new SolidColorBrush(Colors.White) : new SolidColorBrush(Colors.Black);
+            // Remove '#'.
+            var rectColorStr = aqColors[aqName][aqLevel].Substring(1);
+            var r = (byte)Convert.ToUInt32(rectColorStr.Substring(0, 2), 16);
+            var g = (byte)Convert.ToUInt32(rectColorStr.Substring(2, 2), 16);
+            var b = (byte)Convert.ToUInt32(rectColorStr.Substring(4, 2), 16);
+            medTile.border.Background = new SolidColorBrush(Color.FromArgb(0xFF, r, g, b));
+            foreach (var t in new List<TextBlock> { medTile.topTxt, medTile.medTxt, medTile.downTxt })
+            {
+                t.Foreground = textColor;
+            }
+            await saveTilePng("MedTile.png", medTile);
+            return 0;
+        }
+
+        public async Task<int> saveTilePng(string fileName, UIElement ui)
+        {
+            RenderTargetBitmap bitmap = new RenderTargetBitmap();
+            await bitmap.RenderAsync(ui);
+            IBuffer pixelBuffer = await bitmap.GetPixelsAsync();
+            byte[] pixels = WindowsRuntimeBufferExtensions.ToArray(pixelBuffer, 0, (int)pixelBuffer.Length);
+
+            var saveFile = await ApplicationData.Current.LocalFolder.CreateFileAsync(fileName, CreationCollisionOption.ReplaceExisting);
+            // Encode the image to the selected file on disk 
+            using (var fileStream = await saveFile.OpenAsync(FileAccessMode.ReadWrite))
+            {
+                var encoder = await BitmapEncoder.CreateAsync(BitmapEncoder.PngEncoderId, fileStream);
+                encoder.SetPixelData(BitmapPixelFormat.Bgra8, BitmapAlphaMode.Straight, (uint)bitmap.PixelWidth, (uint)bitmap.PixelHeight, DisplayInformation.GetForCurrentView().LogicalDpi, DisplayInformation.GetForCurrentView().LogicalDpi,
+                pixels);
+                await encoder.FlushAsync();
+            }
+            return 0;
         }
 
         public void sendNotifications()
