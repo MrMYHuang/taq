@@ -90,7 +90,8 @@ namespace Taq
         async void initPos()
         {
             app.vm.locAccStat = await Geolocator.RequestAccessAsync();
-            if (app.vm.locAccStat == GeolocationAccessStatus.Allowed)
+            // The first time to set Values["MapAutoPos"] on a device.
+            if (app.vm.m.localSettings.Values["MapAutoPos"] == null && app.vm.locAccStat == GeolocationAccessStatus.Allowed)
             {
                 app.vm.MapAutoPos = true;
             }
