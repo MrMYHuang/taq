@@ -24,10 +24,17 @@
                 </TextBlock>
             </DataTemplate>
         </HubSection>
+        <HubSection Header="Ver. 2.3.2" Width="Auto">
+            <DataTemplate>
+                <TextBlock Style="{StaticResource txtBlkSty1}" >
+                    * 修正OS若有設定字型縮放，可能會導致動態磚文字排版出界的問題。<LineBreak />
+                </TextBlock>
+            </DataTemplate>
+        </HubSection>
         <HubSection Header="Ver. 2.3.1" Width="Auto">
             <DataTemplate>
                 <TextBlock Style="{StaticResource txtBlkSty1}" >
-                    * 修正自動定位設定無法記憶開關狀態，。<LineBreak />
+                    * 修正自動定位設定無法記憶開關狀態。<LineBreak />
                 </TextBlock>
             </DataTemplate>
         </HubSection>

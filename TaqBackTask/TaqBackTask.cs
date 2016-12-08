@@ -4,19 +4,7 @@ using Windows.ApplicationModel.Background;
 using Windows.Storage;
 using System.IO;
 using TaqShared;
-using Windows.UI.Core;
-using Windows.ApplicationModel.Core;
 using Windows.UI.Xaml.Media.Imaging;
-using Windows.Storage.Streams;
-using Windows.UI.Xaml;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Graphics.Imaging;
-using Windows.Graphics.Display;
-using System.Threading.Tasks;
-using Windows.UI.Xaml.Media;
-using Windows.UI;
-using System.Collections.Generic;
-using Windows.UI.Xaml.Controls;
 
 namespace TaqBackTask
 {
