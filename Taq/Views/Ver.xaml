@@ -21,6 +21,14 @@
             <DataTemplate>
                 <TextBlock Style="{StaticResource txtBlkSty1}" >
                     * 主視窗在更新動態磚時會一閃動態磚圖片。<LineBreak />
+                    * 部分尺寸動態磚未實作：詳細小磚、簡潔寬磚、簡潔大磚<LineBreak />
+                </TextBlock>
+            </DataTemplate>
+        </HubSection>
+        <HubSection Header="Ver. 2.4.0" Width="Auto">
+            <DataTemplate>
+                <TextBlock Style="{StaticResource txtBlkSty1}" >
+                    * 新增動態磚簡潔樣式開關。<LineBreak />
                 </TextBlock>
             </DataTemplate>
         </HubSection>

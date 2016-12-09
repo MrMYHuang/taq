@@ -166,6 +166,20 @@ namespace Taq
             }
         }
 
+        public bool TileClearSty
+        {
+            get
+            {
+                return (bool)m.localSettings.Values["TileClearSty"];
+            }
+
+            set
+            {
+                m.localSettings.Values["TileClearSty"] = value;
+                OnPropertyChanged("TileClearSty");
+            }
+        }
+
         public bool MapColor
         {
             get

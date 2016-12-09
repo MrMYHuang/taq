@@ -251,7 +251,7 @@ namespace Taq
                 siteDict.Add("TWD97Lon", geoDict["TWD97Lon"]);
                 var statusStr = siteDict["Status"];
                 // Shorten long status strings for map icons.
-                if(statusStr.Length > 2)
+                if (statusStr.Length > 2)
                 {
                     siteDict["Status"] = shortStatusDict[statusStr];
                 }
@@ -315,6 +315,51 @@ namespace Taq
             updater.EnableNotificationQueue(true);
             updater.Clear();
 
+            
+            if ((bool)localSettings.Values["TileClearSty"])
+            {
+                ITileSquare310x310Image largeContent = clearLiveTiles();
+                // Create a new tile notification.
+                updater.Update(new TileNotification(largeContent.GetXml()));
+            }
+            else
+            {
+                ITileSquare310x310Text09 largeContent = detailedLiveTiles();
+                // Create a new tile notification.
+                updater.Update(new TileNotification(largeContent.GetXml()));
+            }
+
+            return 0;
+        }
+        
+        public ITileSquare310x310Image clearLiveTiles()
+        {
+            // not implemented.
+            var largeContent = TileContentFactory.CreateTileSquare310x310Image();
+            largeContent.Branding = NotificationsExtensions.TileContent.TileBranding.None;
+
+            // not implemented.
+            var wideContent = TileContentFactory.CreateTileWide310x150Image();
+            wideContent.Branding = NotificationsExtensions.TileContent.TileBranding.None;
+
+            // Square tile.
+            var squareContent = TileContentFactory.CreateTileSquare150x150Image();
+            squareContent.Image.Src = " ms-appdata:///local/MedTile.png";
+            squareContent.Branding = NotificationsExtensions.TileContent.TileBranding.None;
+
+            // Smaill tile.
+            var smallContent = TileContentFactory.CreateTileSquare71x71Image();
+            smallContent.Image.Src = "Assets/aqi71x71/" + Math.Min(getAqLevel(currSiteStrDict["SiteName"], "AQI"), 5) + ".png";
+            smallContent.Branding = NotificationsExtensions.TileContent.TileBranding.None;
+
+            largeContent.Wide310x150Content = wideContent;
+            wideContent.Square150x150Content = squareContent;
+            squareContent.Square71x71Content = smallContent;
+            return largeContent;
+        }
+
+        public ITileSquare310x310Text09 detailedLiveTiles()
+        {
             var aqiStr = "AQI：" + currSiteStrDict["AQI"];
             var pm2_5_Str = "PM 2.5：" + currSiteStrDict["PM2.5"];
             var siteStr = "觀測站：" + currSiteStrDict["SiteName"];
@@ -339,30 +384,20 @@ namespace Taq
             wideContent.TextBody4.Text = pm2_5_Str;
             wideContent.Branding = NotificationsExtensions.TileContent.TileBranding.None;
 
-            // create the square template and attach it to the wide template 
-            var squareContent = TileContentFactory.CreateTileSquare150x150Image();
-            /*
-            squareContent.TextHeading.Text = "AQI：" + currSiteStrDict["AQI"]; ;
+            // create the square template and attach it to the wide template
+            var squareContent = TileContentFactory.CreateTileSquare150x150Text01();
+            squareContent.TextHeading.Text = "AQI：" + currSiteStrDict["AQI"];
             squareContent.TextBody1.Text = pm2_5_Str;
             squareContent.TextBody2.Text = siteStr;
             squareContent.TextBody3.Text = "時間：" + timeStr;
-            */
             squareContent.Branding = NotificationsExtensions.TileContent.TileBranding.None;
-            squareContent.Image.Src = " ms-appdata:///local/MedTile.png";
 
-            // Smaill tile.
-            var smallContent = TileContentFactory.CreateTileSquare71x71Image();
-            smallContent.Image.Src = "Assets/aqi71x71/" + Math.Min(getAqLevel(currSiteStrDict["SiteName"], "AQI"), 5) + ".png";
-            smallContent.Branding = NotificationsExtensions.TileContent.TileBranding.None;
+            // Small tile is not implemented.
 
             largeContent.Wide310x150Content = wideContent;
             wideContent.Square150x150Content = squareContent;
-            squareContent.Square71x71Content = smallContent;
 
-            // Create a new tile notification.
-            updater.Update(new TileNotification(largeContent.GetXml()));
-            //BadgeUpdateManager.CreateBadgeUpdaterForApplication().Update(new BadgeNotification(badge.GetXml()));
-            return 0;
+            return largeContent;
         }
 
         public async Task<int> getMedTile(MedTile medTile)
@@ -471,7 +506,7 @@ namespace Taq
         public double getAqVal(string siteName, string aqName)
         {
             double val = 0;
-            if(aqName == "Status")
+            if (aqName == "Status")
             {
                 aqName = "AQI";
             }

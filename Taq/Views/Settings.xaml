@@ -25,6 +25,12 @@
             </DataTemplate>
         </HubSection>
 
+        <HubSection Style="{StaticResource hubSecHeadSty}" Header="動態磚">
+            <DataTemplate x:DataType="local:Settings">
+                <ToggleSwitch x:Name="tileClearStyToggle" Header="簡潔樣式" HorizontalAlignment="Left" Margin="0" IsOn="{x:Bind app.vm.TileClearSty, Mode=TwoWay}" Width="340" Height="67"/>
+            </DataTemplate>
+        </HubSection>
+
         <HubSection Style="{StaticResource hubSecHeadSty}" Header="背景更新">
             <DataTemplate x:DataType="local:Settings">
                 <ComboBox x:Name="bgUpdateComboBox" HorizontalAlignment="Left" Width="265" Header="週期(分鐘)" ItemsSource="{x:Bind app.vm.bgUpdatePeriods}" IsTapEnabled="True" SelectedIndex="{x:Bind app.vm.BgUpdatePeriodId, Mode=OneWay}" SelectionChanged="bgUpdateComboBox_SelectionChanged">

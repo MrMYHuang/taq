@@ -55,6 +55,11 @@ namespace Taq
                 localSettings.Values["AppTheme"] = false;
             }
             this.RequestedTheme = (bool)localSettings.Values["AppTheme"] ? ApplicationTheme.Dark : ApplicationTheme.Light;
+
+            if (localSettings.Values["TileClearSty"] == null)
+            {
+                localSettings.Values["TileClearSty"] = true;
+            }
             if (localSettings.Values["MapColor"] == null)
             {
                 localSettings.Values["MapColor"] = false;
