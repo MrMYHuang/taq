@@ -1,0 +1,29 @@
+﻿<UserControl
+    x:Class="TaqShared.WideTile"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:TaqShared"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    d:DesignHeight="150"
+    d:DesignWidth="310">
+
+    <Border x:FieldModifier="public" x:Name="border" VerticalAlignment="Center" Background="Green" Height="150" Width="310">
+        <StackPanel Orientation="Vertical">
+            <!-- Please set IsTextScaleFactorEnabled to False, if you want to take screenshot on foreground window. Otherwise, text scaling of OS may destroy the text layout. -->
+            <TextBlock x:FieldModifier="public" x:Name="topTxt" VerticalAlignment="Top" FontSize="32" IsTextScaleFactorEnabled="False">Top</TextBlock>
+            <StackPanel Orientation="Horizontal" Margin="0, 6, 0, 6">
+                <StackPanel Orientation="Horizontal" Width="115" Margin="18, 0, 0, 9">
+                    <TextBlock x:FieldModifier="public" x:Name="medTxt1" TextAlignment="Center" FontSize="32" IsTextScaleFactorEnabled="False">AQI:</TextBlock>
+                    <TextBlock x:FieldModifier="public" x:Name="medVal1" TextAlignment="Center" FontSize="32" IsTextScaleFactorEnabled="False">123</TextBlock>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Width="140" Margin="9, 0, 18, 0">
+                    <TextBlock x:FieldModifier="public" x:Name="medTxt2" TextAlignment="Center" FontSize="32" IsTextScaleFactorEnabled="False">PM<Run Typography.Variants="Subscript">2.5</Run>:</TextBlock>
+                    <TextBlock x:FieldModifier="public" x:Name="medVal2" TextAlignment="Center" FontSize="32" IsTextScaleFactorEnabled="False">123</TextBlock>
+                </StackPanel>
+            </StackPanel>
+            <TextBlock x:FieldModifier="public" x:Name="downTxt" VerticalAlignment="Bottom" TextAlignment="Right" FontSize="32" IsTextScaleFactorEnabled="False">Down</TextBlock>
+        </StackPanel>
+    </Border>
+</UserControl>

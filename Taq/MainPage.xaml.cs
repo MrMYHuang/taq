@@ -344,9 +344,12 @@ namespace Taq
         private async Task<int> updateLiveTile()
         {
             var medTile = new MedTile();
+            var wideTile = new WideTile();
             this.contentGrid.Children.Add(medTile);
-            await app.vm.m.getMedTile(medTile);
+            this.contentGrid.Children.Add(wideTile);
+            await app.vm.m.getMedTile(medTile, wideTile);
             this.contentGrid.Children.Remove(medTile);
+            this.contentGrid.Children.Remove(wideTile);
             await app.vm.m.updateLiveTile();
             return 0;
         }

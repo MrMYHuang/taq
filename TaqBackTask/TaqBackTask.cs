@@ -40,7 +40,8 @@ namespace TaqBackTask
                 await m.loadCurrSite();
 
                 var medTile = new MedTile();
-                await m.getMedTile(medTile);
+                var wideTile = new WideTile();
+                await m.getMedTile(medTile, wideTile);
                 // Update the live tile with the feed items.
                 await m.updateLiveTile();
 

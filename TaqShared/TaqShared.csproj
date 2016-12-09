@@ -107,6 +107,9 @@
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="WideTile.xaml.cs">
+      <DependentUpon>WideTile.xaml</DependentUpon>
+    </Compile>
     <Compile Include="MedTile.xaml.cs">
       <DependentUpon>MedTile.xaml</DependentUpon>
     </Compile>
@@ -115,6 +118,10 @@
     <EmbeddedResource Include="Properties\TaqShared.rd.xml" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="WideTile.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="MedTile.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

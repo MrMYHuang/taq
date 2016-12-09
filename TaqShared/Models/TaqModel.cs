@@ -340,6 +340,7 @@ namespace Taq
 
             // not implemented.
             var wideContent = TileContentFactory.CreateTileWide310x150Image();
+            wideContent.Image.Src = " ms-appdata:///local/WideTile.png";
             wideContent.Branding = NotificationsExtensions.TileContent.TileBranding.None;
 
             // Square tile.
@@ -400,27 +401,40 @@ namespace Taq
             return largeContent;
         }
 
-        public async Task<int> getMedTile(MedTile medTile)
+        public async Task<int> getMedTile(MedTile medTile, WideTile wideTile)
         {
             var siteName = currSiteStrDict["SiteName"];
             var aqName = "AQI";
             var aqLevel = getAqLevel(siteName, aqName);
             //var medTile = new MedTile();
-            medTile.topTxt.Text = currSiteStrDict["SiteName"] + aqName;
-            medTile.medTxt.Text = currSiteStrDict[aqName];
-            medTile.downTxt.Text = currSiteStrDict["PublishTime"].Substring(11, 5);
-            var textColor = aqLevel > 3 ? new SolidColorBrush(Colors.White) : new SolidColorBrush(Colors.Black);
             // Remove '#'.
             var rectColorStr = aqColors[aqName][aqLevel].Substring(1);
             var r = (byte)Convert.ToUInt32(rectColorStr.Substring(0, 2), 16);
             var g = (byte)Convert.ToUInt32(rectColorStr.Substring(2, 2), 16);
             var b = (byte)Convert.ToUInt32(rectColorStr.Substring(4, 2), 16);
-            medTile.border.Background = new SolidColorBrush(Color.FromArgb(0xFF, r, g, b));
-            foreach (var t in new List<TextBlock> { medTile.topTxt, medTile.medTxt, medTile.downTxt })
+            var bgColor = new SolidColorBrush(Color.FromArgb(0xFF, r, g, b));
+
+            // Med tile
+            wideTile.topTxt.Text = currSiteStrDict["SiteName"];
+            wideTile.medVal1.Text = currSiteStrDict["AQI"];
+            wideTile.medVal2.Text = currSiteStrDict["PM2.5"];
+            wideTile.downTxt.Text = currSiteStrDict["PublishTime"];
+            wideTile.border.Background = bgColor;
+
+            // Wide tile
+            medTile.topTxt.Text = currSiteStrDict["SiteName"] + aqName;
+            medTile.medTxt.Text = currSiteStrDict[aqName];
+            medTile.downTxt.Text = currSiteStrDict["PublishTime"].Substring(11, 5);
+            medTile.border.Background = bgColor;
+
+            // Set text color.
+            var textColor = aqLevel > 3 ? new SolidColorBrush(Colors.White) : new SolidColorBrush(Colors.Black);
+            foreach (var t in new List<TextBlock> { medTile.topTxt, medTile.medTxt, medTile.downTxt, wideTile.topTxt, wideTile.medTxt1, wideTile.medVal1, wideTile.medTxt2, wideTile.medVal2, wideTile.downTxt })
             {
                 t.Foreground = textColor;
             }
             await saveTilePng("MedTile.png", medTile);
+            await saveTilePng("WideTile.png", wideTile);
             return 0;
         }
 
