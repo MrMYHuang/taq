@@ -1,9 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.25928.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Taq", "Taq\Taq.csproj", "{8327966A-F896-48A1-8C79-C1EA1184ED00}"
+	ProjectSection(ProjectDependencies) = postProject
+		{8FB7A433-0882-4D35-BFB3-CA92E4C3CF45} = {8FB7A433-0882-4D35-BFB3-CA92E4C3CF45}
+		{FCBC23AD-DCFB-49A7-882C-88330E21456B} = {FCBC23AD-DCFB-49A7-882C-88330E21456B}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaqBackTask", "TaqBackTask\TaqBackTask.csproj", "{8FB7A433-0882-4D35-BFB3-CA92E4C3CF45}"
 EndProject

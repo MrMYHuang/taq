@@ -40,12 +40,12 @@ namespace Taq.Views
         {
             get
             {
-                return (double)localSettings.Values["Aqi_Limit"];
+                return (double)localSettings.Values["AQI_Limit"];
             }
 
             set
             {
-                localSettings.Values["Aqi_Limit"] = value;
+                localSettings.Values["AQI_Limit"] = value;
                 NotifyPropertyChanged();
             }
         }
@@ -54,12 +54,12 @@ namespace Taq.Views
         {
             get
             {
-                return (double)localSettings.Values["Pm2_5_Limit"];
+                return (double)localSettings.Values["PM2.5_Limit"];
             }
 
             set
             {
-                localSettings.Values["Pm2_5_Limit"] = value;
+                localSettings.Values["PM2.5_Limit"] = value;
                 NotifyPropertyChanged();
             }
         }

@@ -117,9 +117,13 @@ namespace Taq
         {
             try
             {
+#if DEBUG
+                // Do nothing.
+#else
                 statusTextBlock.Text = "Download start.";
                 await app.vm.m.downloadDataXml();
                 statusTextBlock.Text = "Download finish.";
+#endif
             }
             catch (DownloadException ex)
             {
@@ -140,12 +144,12 @@ namespace Taq
             }
 
             await updateListView();
-#if DEBUG
+/*#if DEBUG
             app.vm.m.sendNotification("AQI: " + app.vm.m.currSiteStrDict["AQI"], "AQI");
             app.vm.m.sendNotification("PM 2.5即時濃度: " + app.vm.m.currSiteStrDict["PM2.5"], "PM2.5");
-#else
+#else*/
             app.vm.m.sendNotifications();
-#endif
+//#endif
             await backTaskUpdateTiles();
             return 0;
         }
@@ -208,6 +212,7 @@ namespace Taq
         {
             var selSite = (SiteViewModel)((ComboBox)sender).SelectedItem;
             // sites reloading can trigger this event handler and results in null.
+            // Unused???
             if (selSite == null)
             {
                 return;

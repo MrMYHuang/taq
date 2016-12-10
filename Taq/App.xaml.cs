@@ -64,13 +64,17 @@ namespace Taq
                 vm.MapAutoPos = true;
             }
             */
-            if (localSettings.Values["Aqi_Limit"] == null)
+            if (localSettings.Values["WarnStateChangeMode"] == null)
             {
-                localSettings.Values["Aqi_Limit"] = 50.0;
+                localSettings.Values["WarnStateChangeMode"] = true;
             }
-            if (localSettings.Values["Pm2_5_Limit"] == null)
+            if (localSettings.Values["AQI_Limit"] == null)
             {
-                localSettings.Values["Pm2_5_Limit"] = 15.4;
+                localSettings.Values["AQI_Limit"] = 50.0;
+            }
+            if (localSettings.Values["PM2.5_Limit"] == null)
+            {
+                localSettings.Values["PM2.5_Limit"] = 15.4;
             }
             if (localSettings.Values["subscrSite"] == null)
             {

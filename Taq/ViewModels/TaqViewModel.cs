@@ -163,6 +163,7 @@ namespace Taq
             }
         }
 
+        // Settings related properites.
         public bool TileClearSty
         {
             get
@@ -174,6 +175,20 @@ namespace Taq
             {
                 m.localSettings.Values["TileClearSty"] = value;
                 OnPropertyChanged("TileClearSty");
+            }
+        }
+
+        public bool WarnStateChangeMode
+        {
+            get
+            {
+                return (bool)m.localSettings.Values["WarnStateChangeMode"];
+            }
+
+            set
+            {
+                m.localSettings.Values["WarnStateChangeMode"] = value;
+                OnPropertyChanged("WarnStateChangeMode");
             }
         }
 

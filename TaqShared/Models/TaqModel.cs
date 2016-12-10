@@ -458,16 +458,22 @@ namespace Taq
 
         public void sendNotifications()
         {
-            var aqi_Limit = (double)localSettings.Values["Aqi_Limit"];
-            if (oldSiteStrDict["AQI"] != currSiteStrDict["AQI"] && getAqVal(currSiteStrDict["SiteName"], "AQI") > aqi_Limit)
+            var warnStateChangeMode = (bool)localSettings.Values["WarnStateChangeMode"];
+            foreach(var aqName in new List<string> { "AQI", "PM2.5" })
             {
-                sendNotification("AQI: " + currSiteStrDict["AQI"], "AQI");
-            }
+                var aqi_Limit = (double)localSettings.Values[aqName + "_Limit"];
+                var currAqi = getValidAqVal(currSiteStrDict[aqName]);
+                var oldAqi = getValidAqVal(oldSiteStrDict[aqName]);
 
-            var pm2_5_Limit = (double)localSettings.Values["Pm2_5_Limit"];
-            if (oldSiteStrDict["PM2.5"] != currSiteStrDict["PM2.5"] && getAqVal(currSiteStrDict["SiteName"], "PM2.5") > pm2_5_Limit)
-            {
-                sendNotification("即時PM 2.5濃度: " + currSiteStrDict["PM2.5"], "PM2.5");
+                var isAqiOverWarnLevel = (oldAqi != currAqi && currAqi > aqi_Limit);
+
+                var isWarnStateChanged = (oldAqi <= aqi_Limit && aqi_Limit < currAqi) ||
+                    (oldAqi > aqi_Limit && aqi_Limit >= currAqi);
+
+                if ((!warnStateChangeMode && isAqiOverWarnLevel) || (warnStateChangeMode && isWarnStateChanged))
+                {
+                    sendNotification(aqName + ": " + currSiteStrDict[aqName], aqName);
+                }
             }
         }
 
@@ -516,15 +522,20 @@ namespace Taq
             };
         }
 
-        public double getAqVal(string siteName, string aqName)
+        public double getValidAqVal(string aqValStr)
         {
             double val = 0;
+            double.TryParse(aqValStr, out val);
+            return val;
+        }
+
+        public double getAqVal(string siteName, string aqName)
+        {
             if (aqName == "Status")
             {
                 aqName = "AQI";
             }
-            double.TryParse(sitesStrDict[siteName][aqName], out val);
-            return val;
+            return getValidAqVal(sitesStrDict[siteName][aqName]);
         }
 
         public int getAqLevel(string siteName, string aqName)

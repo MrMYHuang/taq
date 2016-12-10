@@ -25,16 +25,28 @@
             </DataTemplate>
         </HubSection>
 
+        <HubSection Style="{StaticResource hubSecHeadSty}" Header="背景更新">
+            <DataTemplate x:DataType="local:Settings">
+                <ComboBox x:Name="bgUpdateComboBox" HorizontalAlignment="Left" Width="265" Header="週期(分鐘)" ItemsSource="{x:Bind app.vm.bgUpdatePeriods}" IsTapEnabled="True" SelectedIndex="{x:Bind app.vm.BgUpdatePeriodId, Mode=OneWay}" SelectionChanged="bgUpdateComboBox_SelectionChanged">
+                </ComboBox>
+            </DataTemplate>
+        </HubSection>
+
         <HubSection Style="{StaticResource hubSecHeadSty}" Header="動態磚">
             <DataTemplate x:DataType="local:Settings">
                 <ToggleSwitch x:Name="tileClearStyToggle" Header="簡潔樣式" HorizontalAlignment="Left" Margin="0" IsOn="{x:Bind app.vm.TileClearSty, Mode=TwoWay}" Width="340" Height="67"/>
             </DataTemplate>
         </HubSection>
 
-        <HubSection Style="{StaticResource hubSecHeadSty}" Header="背景更新">
+        <HubSection Style="{StaticResource hubSecHeadSty}" Header="警報轉態通知模式">
             <DataTemplate x:DataType="local:Settings">
-                <ComboBox x:Name="bgUpdateComboBox" HorizontalAlignment="Left" Width="265" Header="週期(分鐘)" ItemsSource="{x:Bind app.vm.bgUpdatePeriods}" IsTapEnabled="True" SelectedIndex="{x:Bind app.vm.BgUpdatePeriodId, Mode=OneWay}" SelectionChanged="bgUpdateComboBox_SelectionChanged">
-                </ComboBox>
+                <ToggleSwitch x:Name="tileClearStyToggle" HorizontalAlignment="Left" Margin="0" IsOn="{x:Bind app.vm.WarnStateChangeMode, Mode=TwoWay}" Width="340">
+                    <ToggleSwitch.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock TextWrapping="Wrap">減少一段時間內空汙超標的通知，只有在警報狀態有改變才發通知。例如，一波超標空汙在某地區停留8小時，舊的警報通知會發出8則。若啟用新的轉態通知模式，則只會在空汙一開始來臨超標時與結束未超標時各發1則通知。</TextBlock>
+                        </DataTemplate>
+                    </ToggleSwitch.HeaderTemplate>
+                </ToggleSwitch>
             </DataTemplate>
         </HubSection>
 
