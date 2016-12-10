@@ -108,6 +108,7 @@
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BackTaskUpdateTiles.cs" />
     <Compile Include="TaqBackTask.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

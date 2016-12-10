@@ -5,19 +5,14 @@ using Windows.UI.Xaml.Input;
 
 using Taq.Views;
 using Windows.ApplicationModel.DataTransfer;
-using Windows.UI.Xaml.Media.Imaging;
-using Windows.Storage.Streams;
-using Windows.Graphics.Imaging;
-using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Storage;
 using System.Collections.Generic;
-using Windows.Graphics.Display;
 using Windows.System;
 using System.Threading.Tasks;
 using Windows.System.Threading;
 using Windows.UI.Core;
 using Windows.Devices.Geolocation;
-using TaqShared;
+using Windows.ApplicationModel.Background;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -106,20 +101,7 @@ namespace Taq
             DataRequest request = args.Request;
 
             DataRequestDeferral deferral = request.GetDeferral();
-            RenderTargetBitmap bitmap = new RenderTargetBitmap();
-            await bitmap.RenderAsync(mainPage);
-            IBuffer pixelBuffer = await bitmap.GetPixelsAsync();
-            byte[] pixels = WindowsRuntimeBufferExtensions.ToArray(pixelBuffer, 0, (int)pixelBuffer.Length);            
-
-            var saveFile = await ApplicationData.Current.LocalFolder.CreateFileAsync("screenshot.png", CreationCollisionOption.ReplaceExisting);
-            // Encode the image to the selected file on disk 
-            using (var fileStream = await saveFile.OpenAsync(FileAccessMode.ReadWrite))
-            {
-                var encoder = await BitmapEncoder.CreateAsync(BitmapEncoder.PngEncoderId, fileStream);
-                encoder.SetPixelData(BitmapPixelFormat.Bgra8, BitmapAlphaMode.Straight, (uint)bitmap.PixelWidth, (uint)bitmap.PixelHeight, DisplayInformation.GetForCurrentView().LogicalDpi, DisplayInformation.GetForCurrentView().LogicalDpi,
-                pixels);
-                await encoder.FlushAsync();
-            }
+            var saveFile = await app.vm.m.saveUi2Png("screenshot.png", mainPage);
 
             var storageItems = new List<IStorageItem>();
             storageItems.Add(saveFile);
@@ -129,6 +111,144 @@ namespace Taq
             // Facebook app supports SetStorageItems, not SetBitmap.
             request.Data.SetStorageItems(storageItems);
             deferral.Complete();
+        }
+
+        public async Task<int> downloadAndReload()
+        {
+            try
+            {
+                statusTextBlock.Text = "Download start.";
+                await app.vm.m.downloadDataXml();
+                statusTextBlock.Text = "Download finish.";
+            }
+            catch (DownloadException ex)
+            {
+                statusTextBlock.Text = "資料庫下載失敗。請檢查網路，再嘗試手動更新。";
+            }
+            catch (Exception ex)
+            {
+                statusTextBlock.Text = "錯誤，請嘗試手動更新。";
+            }
+
+            try
+            {
+                await app.vm.m.loadAqXml();
+            }
+            catch (Exception ex)
+            {
+                // Ignore.
+            }
+
+            await updateListView();
+#if DEBUG
+            app.vm.m.sendNotification("AQI: " + app.vm.m.currSiteStrDict["AQI"], "AQI");
+            app.vm.m.sendNotification("PM 2.5即時濃度: " + app.vm.m.currSiteStrDict["PM2.5"], "PM2.5");
+#else
+            app.vm.m.sendNotifications();
+#endif
+            await backTaskUpdateTiles();
+            return 0;
+        }
+
+        private void initPeriodicTimer()
+        {
+
+#if DEBUG
+            TimeSpan delay = TimeSpan.FromSeconds(3e3);
+#else
+            TimeSpan delay = TimeSpan.FromSeconds(60);
+#endif
+            periodicTimer = ThreadPoolTimer.CreatePeriodicTimer(async (source) =>
+            {
+                // TODO: Work
+
+                // Update the UI thread by using the UI core dispatcher.
+                await Dispatcher.RunAsync(CoreDispatcherPriority.High,
+                        async () =>
+                        {
+                            await ReloadXdAndUpdateList();
+                        }
+                    );
+
+            }, delay);
+        }
+
+        public async Task<int> updateListView()
+        {
+            try
+            {
+                app.vm.m.convertXDoc2Dict();
+                var selAqId = aqComboBox.SelectedIndex;
+                app.vm.SelAqId = selAqId;
+                await app.vm.m.loadCurrSite();
+                app.vm.currSite2AqView();
+            }
+            catch (Exception ex)
+            {
+                statusTextBlock.Text = "更新失敗，請試手動更新。";
+            }
+            return 0;
+        }
+
+        private async Task<int> ReloadXdAndUpdateList()
+        {
+            try
+            {
+                await app.vm.m.loadAqXml();
+                await updateListView();
+            }
+            catch (Exception ex)
+            {
+                statusTextBlock.Text = "自動更新失敗。請嘗試手動更新。";
+            }
+            return 0;
+        }
+
+        private async void subscrComboBox_SelectionChanged(Object sender, SelectionChangedEventArgs e)
+        {
+            var selSite = (SiteViewModel)((ComboBox)sender).SelectedItem;
+            // sites reloading can trigger this event handler and results in null.
+            if (selSite == null)
+            {
+                return;
+            }
+            localSettings.Values["subscrSite"] = selSite.siteName;
+            app.vm.loadSubscrSiteId();
+            await app.vm.m.loadCurrSite(true);
+            await backTaskUpdateTiles();
+            app.vm.currSite2AqView();
+        }
+
+        // Update live tiles by a background task.
+        // Don't directly call app.vm.m.updateLiveTile,
+        // which might fail to draw tile images with UI context.
+        private async Task<int> backTaskUpdateTiles()
+        {
+            ApplicationTrigger trigger = new ApplicationTrigger();
+            await app.vm.RegisterBackgroundTask("BackTaskUpdateTiles", "TaqBackTask.BackTaskUpdateTiles", trigger);
+            var result = await trigger.RequestAsync();
+            return 0;
+        }
+
+        private void aqComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var selAqId = ((ComboBox)sender).SelectedIndex;
+            if (selAqId == -1)
+            {
+                return;
+            }
+            app.vm.SelAqId = selAqId;
+        }
+
+        private async void Page_Loaded(Object sender, RoutedEventArgs e)
+        {
+            await ReloadXdAndUpdateList();
+            subscrComboBox.SelectedIndex = app.vm.SubscrSiteId;
+        }
+
+        private async void refreshButton_Click(Object sender, RoutedEventArgs e)
+        {
+            await downloadAndReload();
         }
 
         private void HamburgerButton_Click(Object sender, RoutedEventArgs e)
@@ -229,150 +349,10 @@ namespace Taq
 
         private void aboutButton_KeyUp(object sender, KeyRoutedEventArgs e)
         {
-            if(e.Key == VirtualKey.Enter || e.Key == VirtualKey.Space)
+            if (e.Key == VirtualKey.Enter || e.Key == VirtualKey.Space)
             {
                 frame.Navigate(typeof(About));
             }
-        }
-
-        public async Task<int> downloadAndReload()
-        {
-            try
-            {
-                statusTextBlock.Text = "Download start.";
-                await app.vm.m.downloadDataXml();
-                statusTextBlock.Text = "Download finish.";
-            }
-            catch (DownloadException ex)
-            {
-                statusTextBlock.Text = "資料庫下載失敗。請檢查網路，再嘗試手動更新。";
-            }
-            catch (Exception ex)
-            {
-                statusTextBlock.Text = "錯誤，請嘗試手動更新。";
-            }
-
-            try
-            {
-                await app.vm.m.loadAqXml();
-            }
-            catch (Exception ex)
-            {
-                // Ignore.
-            }
-
-            await updateListView();
-#if DEBUG
-            app.vm.m.sendNotification("AQI: " + app.vm.m.currSiteStrDict["AQI"], "AQI");
-            app.vm.m.sendNotification("PM 2.5即時濃度: " + app.vm.m.currSiteStrDict["PM2.5"], "PM2.5");
-#else
-            app.vm.m.sendNotifications();
-#endif
-            await updateLiveTile();
-            return 0;
-        }
-
-        private void initPeriodicTimer()
-        {
-
-#if DEBUG
-            TimeSpan delay = TimeSpan.FromSeconds(3e3);
-#else
-            TimeSpan delay = TimeSpan.FromSeconds(60);
-#endif
-            periodicTimer = ThreadPoolTimer.CreatePeriodicTimer(async (source) =>
-            {
-                // TODO: Work
-
-                // Update the UI thread by using the UI core dispatcher.
-                await Dispatcher.RunAsync(CoreDispatcherPriority.High,
-                        async () =>
-                        {
-                            await ReloadXdAndUpdateList();
-                        }
-                    );
-
-            }, delay);
-        }
-
-        public async Task<int> updateListView()
-        {
-            try
-            {
-                app.vm.m.convertXDoc2Dict();
-                var selAqId = aqComboBox.SelectedIndex;
-                app.vm.SelAqId = selAqId;
-                await app.vm.m.loadCurrSite();
-                app.vm.currSite2AqView();
-            }
-            catch (Exception ex)
-            {
-                statusTextBlock.Text = "更新失敗，請試手動更新。";
-            }
-            return 0;
-        }
-
-        private async Task<int> ReloadXdAndUpdateList()
-        {
-            try
-            {
-                await app.vm.m.loadAqXml();
-                await updateListView();
-            }
-            catch (Exception ex)
-            {
-                statusTextBlock.Text = "自動更新失敗。請嘗試手動更新。";
-            }
-            return 0;
-        }
-
-        private async void subscrComboBox_SelectionChanged(Object sender, SelectionChangedEventArgs e)
-        {
-            var selSite = (SiteViewModel)((ComboBox)sender).SelectedItem;
-            // sites reloading can trigger this event handler and results in null.
-            if (selSite == null)
-            {
-                return;
-            }
-            localSettings.Values["subscrSite"] = selSite.siteName;
-            app.vm.loadSubscrSiteId();
-            await app.vm.m.loadCurrSite(true);
-            await updateLiveTile();
-            app.vm.currSite2AqView();
-        }
-
-        private async Task<int> updateLiveTile()
-        {
-            var medTile = new MedTile();
-            var wideTile = new WideTile();
-            this.contentGrid.Children.Add(medTile);
-            this.contentGrid.Children.Add(wideTile);
-            await app.vm.m.getMedTile(medTile, wideTile);
-            this.contentGrid.Children.Remove(medTile);
-            this.contentGrid.Children.Remove(wideTile);
-            await app.vm.m.updateLiveTile();
-            return 0;
-        }
-
-        private void aqComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            var selAqId = ((ComboBox)sender).SelectedIndex;
-            if (selAqId == -1)
-            {
-                return;
-            }
-            app.vm.SelAqId = selAqId;
-        }
-
-        private async void Page_Loaded(Object sender, RoutedEventArgs e)
-        {
-            await ReloadXdAndUpdateList();
-            subscrComboBox.SelectedIndex = app.vm.SubscrSiteId;
-        }
-
-        private async void refreshButton_Click(Object sender, RoutedEventArgs e)
-        {
-            await downloadAndReload();
         }
     }
 }

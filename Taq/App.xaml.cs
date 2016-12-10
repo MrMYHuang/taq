@@ -1,15 +1,10 @@
 ﻿using System;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
-using Windows.ApplicationModel.Background;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using Windows.System;
-using System.Collections.ObjectModel;
-using System.Collections.Generic;
 using Windows.Storage;
 
 namespace Taq
@@ -43,7 +38,6 @@ namespace Taq
                 //e.Handled = true;
                 await Launcher.LaunchUriAsync(new Uri("mailto:myhDev@live.com?subject=TAQ%20App異常回報&body=請寄送以下app異常訊息給開發者，謝謝。%0D%0A版本：" + vm.Version + "%0D%0A例外：" + e.Exception.ToString().Replace("\r\n", "%0D%0A") + "%0D%0A若能提供其他造成異常的資訊，可使開發者更快找出問題，謝謝。"));
             };
-            //this.RegisterBackgroundTask();
         }
 
         private void initLocalSettings()

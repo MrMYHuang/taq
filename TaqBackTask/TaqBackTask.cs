@@ -3,7 +3,6 @@ using Taq;
 using Windows.ApplicationModel.Background;
 using Windows.Storage;
 using System.IO;
-using TaqShared;
 using Windows.UI.Xaml.Media.Imaging;
 
 namespace TaqBackTask
@@ -38,10 +37,7 @@ namespace TaqBackTask
                 await m.loadAqXml();
                 m.convertXDoc2Dict();
                 await m.loadCurrSite();
-
-                var medTile = new MedTile();
-                var wideTile = new WideTile();
-                await m.getMedTile(medTile, wideTile);
+                
                 // Update the live tile with the feed items.
                 await m.updateLiveTile();
 

@@ -1,10 +1,4 @@
-﻿using System;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using Windows.UI;
-using Windows.UI.Xaml.Media;
-
-namespace Taq
+﻿namespace Taq
 {
     public class SiteViewModel : AqViewModel
     {

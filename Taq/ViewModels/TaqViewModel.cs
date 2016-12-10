@@ -3,9 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using Taq.Views;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Background;
 using Windows.Devices.Geolocation;
@@ -125,13 +123,11 @@ namespace Taq
             {
                 SetProperty(ref bgUpdatePeriodId, value);
                 m.localSettings.Values["BgUpdatePeriod"] = bgUpdatePeriods[value];
-                RegisterBackgroundTask();
+                RegisterBackgroundTask("TaqBackTask", "TaqBackTask.TaqBackTask", new TimeTrigger(Convert.ToUInt32(m.localSettings.Values["BgUpdatePeriod"]), false));
             }
         }
-
-        private const string taskName = "TaqBackTask";
-        private const string taskEntryPoint = "TaqBackTask.TaqBackTask";
-        private async void RegisterBackgroundTask()
+        
+        public async Task<int> RegisterBackgroundTask(string taskName, string taskEntryPoint, IBackgroundTrigger trigger)
         {
             var backgroundAccessStatus = await BackgroundExecutionManager.RequestAccessAsync();
             if (backgroundAccessStatus == BackgroundAccessStatus.AllowedMayUseActiveRealTimeConnectivity ||
@@ -150,9 +146,10 @@ namespace Taq
                 BackgroundTaskBuilder taskBuilder = new BackgroundTaskBuilder();
                 taskBuilder.Name = taskName;
                 taskBuilder.TaskEntryPoint = taskEntryPoint;
-                taskBuilder.SetTrigger(new TimeTrigger(Convert.ToUInt32(m.localSettings.Values["BgUpdatePeriod"]), false));
+                taskBuilder.SetTrigger(trigger);
                 var registration = taskBuilder.Register();
             }
+            return 0;
         }
 
         public string Version

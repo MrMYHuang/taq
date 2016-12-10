@@ -2,17 +2,13 @@
 using NotificationsExtensions.TileContent;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.IO;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using TaqShared;
-using Windows.Devices.Geolocation;
 using Windows.Graphics.Display;
 using Windows.Graphics.Imaging;
 using Windows.Networking.BackgroundTransfer;
@@ -318,6 +314,7 @@ namespace Taq
             
             if ((bool)localSettings.Values["TileClearSty"])
             {
+                await genTileImages();
                 ITileSquare310x310Image largeContent = clearLiveTiles();
                 // Create a new tile notification.
                 updater.Update(new TileNotification(largeContent.GetXml()));
@@ -401,12 +398,14 @@ namespace Taq
             return largeContent;
         }
 
-        public async Task<int> getMedTile(MedTile medTile, WideTile wideTile)
+        public async Task<int> genTileImages()
         {
+            var medTile = new MedTile();
+            var wideTile = new WideTile();
+
             var siteName = currSiteStrDict["SiteName"];
             var aqName = "AQI";
             var aqLevel = getAqLevel(siteName, aqName);
-            //var medTile = new MedTile();
             // Remove '#'.
             var rectColorStr = aqColors[aqName][aqLevel].Substring(1);
             var r = (byte)Convert.ToUInt32(rectColorStr.Substring(0, 2), 16);
@@ -433,12 +432,12 @@ namespace Taq
             {
                 t.Foreground = textColor;
             }
-            await saveTilePng("MedTile.png", medTile);
-            await saveTilePng("WideTile.png", wideTile);
+            await saveUi2Png("MedTile.png", medTile);
+            await saveUi2Png("WideTile.png", wideTile);
             return 0;
         }
 
-        public async Task<int> saveTilePng(string fileName, UIElement ui)
+        public async Task<StorageFile> saveUi2Png(string fileName, UIElement ui)
         {
             RenderTargetBitmap bitmap = new RenderTargetBitmap();
             await bitmap.RenderAsync(ui);
@@ -454,7 +453,7 @@ namespace Taq
                 pixels);
                 await encoder.FlushAsync();
             }
-            return 0;
+            return saveFile;
         }
 
         public void sendNotifications()
@@ -537,16 +536,6 @@ namespace Taq
                 aqLevel = aqLimits[aqName].Count;
             }
             return aqLevel;
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
-        {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
         }
     }
 }

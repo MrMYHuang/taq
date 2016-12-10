@@ -1,7 +1,4 @@
 ﻿using Microsoft.Practices.Prism.Mvvm;
-using System;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
 using Windows.UI.Xaml.Media;
 
 namespace Taq
