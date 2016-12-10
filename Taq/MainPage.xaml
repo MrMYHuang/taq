@@ -5,6 +5,7 @@
     xmlns:local="using:Taq"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ad="using:Microsoft.Advertising.WinRT.UI"
     mc:Ignorable="d"
     x:Name="mainPage"
     Loaded="Page_Loaded">
@@ -85,7 +86,14 @@
 
         <SplitView.Content>
             <Grid x:FieldModifier="public" x:Name="contentGrid" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-                <Frame x:Name="frame" Margin="0,0,0,117"/>
+                <!--
+                AdRefreshed="OnAdRefreshed"
+                ErrorOccurred="OnErrorOccurred" -->
+                <ad:AdControl x:Name="ad1" HorizontalAlignment="Left" Width="160" Height="600" VerticalAlignment="Top"
+                AdRefreshed="OnAdRefreshed"
+                ErrorOccurred="OnErrorOccurred" Margin="0,0,0,117"/>
+
+                <Frame x:Name="frame" Margin="165,0,0,117"/>
 
                 <ComboBox x:Name="subscrComboBox" HorizontalAlignment="Left" Margin="10,0,0,47" Width="110" Height="65" Header="訂閱觀測站" ItemsSource="{x:Bind app.vm.sites}" IsTapEnabled="True" SelectionChanged="subscrComboBox_SelectionChanged" VerticalAlignment="Bottom">
                     <ComboBox.ItemTemplate>

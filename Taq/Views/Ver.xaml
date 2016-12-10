@@ -28,6 +28,7 @@
             <DataTemplate>
                 <TextBlock Style="{StaticResource txtBlkSty1}" >
                     * 設定頁新增"警報轉態通知模式"。<LineBreak />
+                    * 插入廣告。
                 </TextBlock>
             </DataTemplate>
         </HubSection>

@@ -13,6 +13,9 @@ using Windows.System.Threading;
 using Windows.UI.Core;
 using Windows.Devices.Geolocation;
 using Windows.ApplicationModel.Background;
+using Microsoft.Advertising.WinRT.UI;
+using Windows.UI.Popups;
+using Windows.System.Profile;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -28,6 +31,30 @@ namespace Taq
         public App app;
         ThreadPoolTimer periodicTimer;
         public ApplicationDataContainer localSettings;
+
+        // AD constants.
+        private const int WAD_WIDTH = 160;
+        private const int WAD_HEIGHT = 600;
+        private const int MAD_WIDTH = 320;
+        private const int MAD_HEIGHT = 50;
+        private const string WAPPLICATIONID = "aec60690-4a2f-4285-94cf-9995b35e5b84";
+        private const string WADUNITID = "11655289";
+        private const string MAPPLICATIONID = "1cdf4ecb-9f80-4cde-a32b-4256cc5bfa04";
+        private const string MADUNITID = "11655298";
+
+        // This is an error handler for the interstitial ad.
+        private void OnErrorOccurred(object sender, AdErrorEventArgs e)
+        {
+            var md = new MessageDialog($"An error occurred. {e.ErrorCode}: {e.ErrorMessage}");
+            md.ShowAsync();
+        }        
+
+        // This is an event handler for the ad control. It's invoked when the ad is refreshed.
+        private void OnAdRefreshed(object sender, RoutedEventArgs e)
+        {
+            var md = new MessageDialog($"Advertisement");
+            md.ShowAsync();
+        }
 
         public MainPage()
         {
@@ -50,6 +77,29 @@ namespace Taq
             app.vm.currSite2AqView();
 
             this.InitializeComponent();
+
+            // AD.
+            if ("Windows.Mobile" == AnalyticsInfo.VersionInfo.DeviceFamily)
+            {
+                ad1.ApplicationId = MAPPLICATIONID;
+                ad1.AdUnitId = MADUNITID;
+                ad1.Width = MAD_WIDTH;
+                ad1.Height = MAD_HEIGHT;
+                frame.Margin = new Thickness(0, MAD_HEIGHT+5, 0, 117);
+            }
+            else
+            {
+                // Test
+                //ad1.ApplicationId = "d25517cb-12d4-4699-8bdc-52040c712cab";
+                //ad1.AdUnitId = "10043058";
+
+                ad1.ApplicationId = WAPPLICATIONID;
+                ad1.AdUnitId = WADUNITID;
+                ad1.Width = WAD_WIDTH;
+                ad1.Height = WAD_HEIGHT;
+            }
+            ad1.IsAutoRefreshEnabled = true;
+
             frame.Navigate(typeof(Home));
             initPeriodicTimer();
             DataTransferManager.GetForCurrentView().DataRequested += MainPage_DataRequested;
