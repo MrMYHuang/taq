@@ -86,13 +86,16 @@ namespace Taq
         {
             app.vm.locAccStat = await Geolocator.RequestAccessAsync();
             // The first time to set Values["MapAutoPos"] on a device.
-            if (app.vm.m.localSettings.Values["MapAutoPos"] == null && app.vm.locAccStat == GeolocationAccessStatus.Allowed)
+            if (app.vm.m.localSettings.Values["MapAutoPos"] == null)
             {
-                app.vm.MapAutoPos = true;
-            }
-            else
-            {
-                app.vm.MapAutoPos = false;
+                if (app.vm.locAccStat == GeolocationAccessStatus.Allowed)
+                {
+                    app.vm.MapAutoPos = true;
+                }
+                else
+                {
+                    app.vm.MapAutoPos = false;
+                }
             }
         }
 

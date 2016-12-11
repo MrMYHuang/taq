@@ -24,6 +24,13 @@
                 </TextBlock>
             </DataTemplate>
         </HubSection>
+        <HubSection Header="Ver. 3.0.1" Width="Auto">
+            <DataTemplate>
+                <TextBlock Style="{StaticResource txtBlkSty1}" >
+                    * 修正重啟app地圖自動定位設定不正常原還。<LineBreak />
+                </TextBlock>
+            </DataTemplate>
+        </HubSection>
         <HubSection Header="Ver. 3.0.0" Width="Auto">
             <DataTemplate>
                 <TextBlock Style="{StaticResource txtBlkSty1}" >
