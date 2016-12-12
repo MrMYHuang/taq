@@ -40,7 +40,7 @@
             <DataTemplate>
                 <TextBlock Style="{StaticResource txtBlkSty1}">
 * 動態磚每30分鐘背景下載空氣品質資料庫一次。可調整。<LineBreak/>
-* 空汙的資料來源為環保署，若懷疑數據不即時，請先至<Hyperlink NavigateUri="http://opendata.epa.gov.tw/Data/Details/AQI/">環保署網頁</Hyperlink>確認。<LineBreak/>
+* 空汙的資料來源為環保署。正常情形，TAQ的空汙資料最多晚環保署10分鐘更新。若懷疑數據不正常，請先至<Hyperlink NavigateUri="http://opendata.epa.gov.tw/Data/Details/AQI/">環保署網頁</Hyperlink>確認。<LineBreak/>
                 </TextBlock>
             </DataTemplate>
         </HubSection>

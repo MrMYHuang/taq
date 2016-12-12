@@ -38,7 +38,7 @@ namespace Taq
         public ApplicationDataContainer localSettings;
         // The AQ data XML filename.
         public const string dataXmlFile = "taqi.xml";
-        public Uri source = new Uri("http://YourTaqServerDomainName/" + dataXmlFile);
+        public Uri source = new Uri("https://YourTaqServerDomainName/" + dataXmlFile);
         public XDocument xd = new XDocument();
         public XDocument siteGeoXd = new XDocument();
         // Full sites AQ information in Dictionary. Converted from XML.
