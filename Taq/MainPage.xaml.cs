@@ -13,6 +13,7 @@ using Windows.System.Threading;
 using Windows.UI.Core;
 using Windows.Devices.Geolocation;
 using Windows.ApplicationModel.Background;
+using TaqShared.ModelViews;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -33,12 +34,12 @@ namespace Taq
         {
             app = App.Current as App;
             localSettings =
-       ApplicationData.Current.LocalSettings;            
+       ApplicationData.Current.LocalSettings;
             try
             {
                 initAux().Wait();
             }
-            catch(Exception)
+            catch (Exception)
             {
                 // Ignore.
             }
@@ -104,7 +105,7 @@ namespace Taq
             DataRequest request = args.Request;
 
             DataRequestDeferral deferral = request.GetDeferral();
-            var saveFile = await app.vm.m.saveUi2Png("screenshot.png", mainPage);
+            var saveFile = await StaticTaqModelView.saveUi2Png("screenshot.png", mainPage);
 
             var storageItems = new List<IStorageItem>();
             storageItems.Add(saveFile);
@@ -120,7 +121,7 @@ namespace Taq
         {
             try
             {
-#if DEBUG
+#if DEBU
                 // Do nothing.
 #else
                 statusTextBlock.Text = "Download start.";
@@ -147,12 +148,12 @@ namespace Taq
             }
 
             await updateListView();
-/*#if DEBUG
-            app.vm.m.sendNotification("AQI: " + app.vm.m.currSiteStrDict["AQI"], "AQI");
-            app.vm.m.sendNotification("PM 2.5即時濃度: " + app.vm.m.currSiteStrDict["PM2.5"], "PM2.5");
-#else*/
+            /*#if DEBUG
+                        app.vm.m.sendNotification("AQI: " + app.vm.m.currSiteStrDict["AQI"], "AQI");
+                        app.vm.m.sendNotification("PM 2.5即時濃度: " + app.vm.m.currSiteStrDict["PM2.5"], "PM2.5");
+            #else*/
             app.vm.m.sendNotifications();
-//#endif
+            //#endif
             await backTaskUpdateTiles();
             return 0;
         }
@@ -275,6 +276,7 @@ namespace Taq
         private void setButton_Click(Object sender, TappedRoutedEventArgs e)
         {
             frame.Navigate(typeof(Settings));
+            showFuncGrid(true);
         }
 
         private void setButton_KeyUp(object sender, KeyRoutedEventArgs e)
@@ -282,12 +284,14 @@ namespace Taq
             if (e.Key == VirtualKey.Enter || e.Key == VirtualKey.Space)
             {
                 frame.Navigate(typeof(Settings));
+                showFuncGrid(true);
             }
         }
 
         private void homeButton_Click(Object sender, RoutedEventArgs e)
         {
             frame.Navigate(typeof(Home));
+            showFuncGrid(true);
         }
 
         private void homeButton_KeyUp(object sender, KeyRoutedEventArgs e)
@@ -295,12 +299,14 @@ namespace Taq
             if (e.Key == VirtualKey.Enter || e.Key == VirtualKey.Space)
             {
                 frame.Navigate(typeof(Home));
+                showFuncGrid(true);
             }
         }
 
         private void listButton_Click(Object sender, TappedRoutedEventArgs e)
         {
             frame.Navigate(typeof(AqList));
+            showFuncGrid(true);
         }
 
         private void listButton_KeyUp(object sender, KeyRoutedEventArgs e)
@@ -308,12 +314,14 @@ namespace Taq
             if (e.Key == VirtualKey.Enter || e.Key == VirtualKey.Space)
             {
                 frame.Navigate(typeof(AqList));
+                showFuncGrid(true);
             }
         }
 
         private void mapButton_Click(Object sender, TappedRoutedEventArgs e)
         {
             frame.Navigate(typeof(AqSiteMap));
+            showFuncGrid(true);
         }
 
         private void mapButton_KeyUp(object sender, KeyRoutedEventArgs e)
@@ -321,6 +329,7 @@ namespace Taq
             if (e.Key == VirtualKey.Enter || e.Key == VirtualKey.Space)
             {
                 frame.Navigate(typeof(AqSiteMap));
+                showFuncGrid(true);
             }
         }
 
@@ -340,6 +349,7 @@ namespace Taq
         private void verButton_Click(Object sender, TappedRoutedEventArgs e)
         {
             frame.Navigate(typeof(Ver));
+            showFuncGrid(true);
         }
 
         private void verButton_KeyUp(object sender, KeyRoutedEventArgs e)
@@ -347,12 +357,14 @@ namespace Taq
             if (e.Key == VirtualKey.Enter || e.Key == VirtualKey.Space)
             {
                 frame.Navigate(typeof(Ver));
+                showFuncGrid(true);
             }
         }
 
         private void aboutButton_Click(Object sender, RoutedEventArgs e)
         {
             frame.Navigate(typeof(About));
+            showFuncGrid(true);
         }
 
         private void aboutButton_KeyUp(object sender, KeyRoutedEventArgs e)
@@ -360,6 +372,36 @@ namespace Taq
             if (e.Key == VirtualKey.Enter || e.Key == VirtualKey.Space)
             {
                 frame.Navigate(typeof(About));
+                showFuncGrid(true);
+            }
+        }
+
+        private void colorMapsButton_Click(object sender, TappedRoutedEventArgs e)
+        {
+            frame.Navigate(typeof(AqColorMaps));
+            showFuncGrid(false);
+        }
+
+        private void colorMapsButton_KeyUp(object sender, KeyRoutedEventArgs e)
+        {
+            if (e.Key == VirtualKey.Enter || e.Key == VirtualKey.Space)
+            {
+                frame.Navigate(typeof(AqColorMaps));
+                showFuncGrid(false);
+            }
+        }
+
+        private void showFuncGrid(bool isVisible)
+        {
+            if (isVisible == false)
+            {
+                frame.Margin = new Thickness(0);
+                funcGrid.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                frame.Margin = new Thickness(0, 0, 0, 117);
+                funcGrid.Visibility = Visibility.Visible;
             }
         }
     }

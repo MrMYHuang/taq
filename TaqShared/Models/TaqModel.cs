@@ -9,6 +9,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using TaqShared;
+using TaqShared.ModelViews;
 using Windows.Graphics.Display;
 using Windows.Graphics.Imaging;
 using Windows.Networking.BackgroundTransfer;
@@ -174,7 +175,12 @@ namespace Taq
             CancellationTokenSource cts = new CancellationTokenSource();
             CancellationToken token = cts.Token;
 
-            cts.CancelAfter(5000);
+            var timeout = 5000;
+#if DEBUG
+            timeout = 100;
+#endif
+
+            cts.CancelAfter(timeout);
             try
             {
                 // Pass the token to the task that listens for cancellation.
@@ -432,28 +438,9 @@ namespace Taq
             {
                 t.Foreground = textColor;
             }
-            await saveUi2Png("MedTile.png", medTile);
-            await saveUi2Png("WideTile.png", wideTile);
+            await StaticTaqModelView.saveUi2Png("MedTile.png", medTile);
+            await StaticTaqModelView.saveUi2Png("WideTile.png", wideTile);
             return 0;
-        }
-
-        public async Task<StorageFile> saveUi2Png(string fileName, UIElement ui)
-        {
-            RenderTargetBitmap bitmap = new RenderTargetBitmap();
-            await bitmap.RenderAsync(ui);
-            IBuffer pixelBuffer = await bitmap.GetPixelsAsync();
-            byte[] pixels = WindowsRuntimeBufferExtensions.ToArray(pixelBuffer, 0, (int)pixelBuffer.Length);
-
-            var saveFile = await ApplicationData.Current.LocalFolder.CreateFileAsync(fileName, CreationCollisionOption.ReplaceExisting);
-            // Encode the image to the selected file on disk 
-            using (var fileStream = await saveFile.OpenAsync(FileAccessMode.ReadWrite))
-            {
-                var encoder = await BitmapEncoder.CreateAsync(BitmapEncoder.PngEncoderId, fileStream);
-                encoder.SetPixelData(BitmapPixelFormat.Bgra8, BitmapAlphaMode.Straight, (uint)bitmap.PixelWidth, (uint)bitmap.PixelHeight, DisplayInformation.GetForCurrentView().LogicalDpi, DisplayInformation.GetForCurrentView().LogicalDpi,
-                pixels);
-                await encoder.FlushAsync();
-            }
-            return saveFile;
         }
 
         public void sendNotifications()

@@ -9,4 +9,5 @@
     <Style x:Key="hubSecHeadSty" TargetType="HubSection">
         <Setter Property="Margin" Value="0, 10, 0, 10" />
     </Style>
+    <local:convert x:Key="con"></local:convert>
 </ResourceDictionary>

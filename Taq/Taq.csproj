@@ -110,6 +110,9 @@
       <DependentUpon>About.xaml</DependentUpon>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
+    <Compile Include="Views\AqColorMaps.xaml.cs">
+      <DependentUpon>AqColorMaps.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\AqList.xaml.cs">
       <DependentUpon>AqList.xaml</DependentUpon>
     </Compile>
@@ -330,6 +333,10 @@
       <Generator>MSBuild:Compile</Generator>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Page>
+    <Page Include="Views\AqColorMaps.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\AqList.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -368,6 +375,11 @@
       <Project>{fcbc23ad-dcfb-49a7-882c-88330e21456b}</Project>
       <Name>TaqShared</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Syncfusion.SfChart.UWP">
+      <HintPath>..\..\..\Program Files (x86)\Syncfusion\Essential Studio\14.3.0.52\Assemblies for Universal Windows\10.0\Syncfusion.SfChart.UWP.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

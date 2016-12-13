@@ -1,4 +1,6 @@
-﻿using Windows.UI.Xaml.Controls;
+﻿using Syncfusion.UI.Xaml.Charts;
+using System.Reflection;
+using Windows.UI.Xaml.Controls;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -23,6 +25,14 @@ namespace Taq.Views
             get
             {
                 return "mailto:myhDev@live.com?subject=問題回報&body=TAQ版本：" + app.vm.Version;
+            }
+        }
+
+        public string syncfusionVer
+        {
+            get
+            {
+                return typeof(SfChart).GetTypeInfo().Assembly.GetName().Version.ToString();
             }
         }
     }

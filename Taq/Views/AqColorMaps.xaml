@@ -1,0 +1,23 @@
+﻿<Page
+    x:Class="Taq.AqColorMaps"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Taq"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:chart="using:Syncfusion.UI.Xaml.Charts"
+    mc:Ignorable="d"
+    NavigationCacheMode="Enabled">
+
+    <ScrollViewer Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+            <chart:SfChart x:Name="sfChart" Height="1000" ManipulationMode="System">
+                <chart:SfChart.PrimaryAxis>
+                    <chart:CategoryAxis OpposedPosition="True" FontSize="14" ShowGridLines="False"/>
+                </chart:SfChart.PrimaryAxis>
+
+                <chart:SfChart.SecondaryAxis>
+                    <chart:NumericalAxis IsInversed="True" Visibility="Collapsed" ShowGridLines="False"></chart:NumericalAxis>
+                </chart:SfChart.SecondaryAxis>
+            </chart:SfChart>
+    </ScrollViewer>
+</Page>
