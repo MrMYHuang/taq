@@ -57,7 +57,7 @@
         <HubSection Header="隱私政策" ScrollViewer.VerticalScrollBarVisibility="Auto" Width="Auto">
             <DataTemplate>
                 <TextBlock Style="{StaticResource txtBlkSty1}">
-            <Hyperlink NavigateUri="http://YourTaqServerIp/taq/MapPrivacy.html">隱私政策</Hyperlink><LineBreak/>
+            <Hyperlink NavigateUri="http://YourTaqServerDomainName/MapPrivacy.html">隱私政策</Hyperlink><LineBreak/>
                 </TextBlock>
             </DataTemplate>
         </HubSection>
