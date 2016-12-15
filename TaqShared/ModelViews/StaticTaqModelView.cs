@@ -20,7 +20,6 @@ namespace TaqShared.ModelViews
             RenderTargetBitmap bitmap = new RenderTargetBitmap();
             await bitmap.RenderAsync(ui);
             IBuffer pixelBuffer = await bitmap.GetPixelsAsync();
-            byte[] pixels = WindowsRuntimeBufferExtensions.ToArray(pixelBuffer, 0, (int)pixelBuffer.Length);
 
             var saveFile = await ApplicationData.Current.LocalFolder.CreateFileAsync(fileName, CreationCollisionOption.ReplaceExisting);
             // Encode the image to the selected file on disk 
@@ -28,7 +27,7 @@ namespace TaqShared.ModelViews
             {
                 var encoder = await BitmapEncoder.CreateAsync(BitmapEncoder.PngEncoderId, fileStream);
                 encoder.SetPixelData(BitmapPixelFormat.Bgra8, BitmapAlphaMode.Straight, (uint)bitmap.PixelWidth, (uint)bitmap.PixelHeight, DisplayInformation.GetForCurrentView().LogicalDpi, DisplayInformation.GetForCurrentView().LogicalDpi,
-                pixels);
+                pixelBuffer.ToArray());
                 await encoder.FlushAsync();
             }
             return saveFile;
