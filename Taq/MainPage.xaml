@@ -34,17 +34,17 @@
                         </StackPanel>
                     </ListViewItem>
 
-                    <ListViewItem Tapped="colorMapsButton_Click" KeyUp="colorMapsButton_KeyUp">
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock x:Name="colorMapsButton" Text="&#xE8FD;" Style="{StaticResource txtBlkSty1}" />
-                            <TextBlock Text="顏色" Style="{StaticResource txtBlkSty2}" />
-                        </StackPanel>
-                    </ListViewItem>
-
                     <ListViewItem Tapped="verButton_Click" KeyUp="verButton_KeyUp">
                         <StackPanel Orientation="Horizontal">
                             <TextBlock x:Name="verButton" Text="&#xE81C;" Style="{StaticResource txtBlkSty1}" />
                             <TextBlock Text="版本" Style="{StaticResource txtBlkSty2}" />
+                        </StackPanel>
+                    </ListViewItem>
+
+                    <ListViewItem Tapped="colorMapsButton_Click" KeyUp="colorMapsButton_KeyUp">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock x:Name="colorMapsButton" Text="&#xE8FD;" Style="{StaticResource txtBlkSty1}" />
+                            <TextBlock Text="顏色" Style="{StaticResource txtBlkSty2}" />
                         </StackPanel>
                     </ListViewItem>
 

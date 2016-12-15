@@ -7,7 +7,11 @@ using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Background;
 using Windows.Devices.Geolocation;
+using Windows.System;
 using Windows.UI;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Documents;
 using Windows.UI.Xaml.Media;
 
 namespace Taq
@@ -227,8 +231,17 @@ namespace Taq
                             m.localSettings.Values["MapAutoPos"] = true;
                             break;
                         default:
-                            var md = new Windows.UI.Popups.MessageDialog("您曾拒絕TAQ存取您的位置資訊。必須去系統設定修改准許TAQ存取，然後重啟TAQ。若找不到該設定，可以嘗試重新安裝TAQ解決。", "啟動定位失敗！");
-                            md.ShowAsync();
+                            var cd = new ContentDialog { Title = "啟動定位失敗！" };
+                            var txt = new TextBlock { Text = "您曾拒絕TAQ存取您的位置資訊。必須去系統設定修改准許TAQ存取，然後重啟TAQ。按下確認鈕將開啟系統位置設定頁面。", TextWrapping = TextWrapping.Wrap};
+                            cd.Content = txt;
+                            cd.PrimaryButtonText = "OK";
+                            cd.PrimaryButtonClick += (sender, e) => {
+                                Launcher.LaunchUriAsync(new Uri("ms-settings:privacy-location"));
+                            };
+                            cd.ShowAsync();
+                            //var md = new Windows.UI.Popups.MessageDialog("您曾拒絕TAQ存取您的位置資訊。必須去系統設定修改准許TAQ存取，然後重啟TAQ。若找不到該設定，可以嘗試重新安裝TAQ解決。", "啟動定位失敗！");
+                            
+                            //md.ShowAsync();
                             m.localSettings.Values["MapAutoPos"] = false;
                             break;
                     }
