@@ -176,7 +176,7 @@ namespace Taq
             CancellationToken token = cts.Token;
             
 #if DEBUG
-            timeout = 100;
+            timeout = 2000;
 #endif
 
             cts.CancelAfter(timeout);
@@ -315,7 +315,6 @@ namespace Taq
             // enables the tile to queue up to five notifications 
             updater.EnableNotificationQueue(true);
             updater.Clear();
-
             
             if ((bool)localSettings.Values["TileClearSty"])
             {
@@ -342,17 +341,17 @@ namespace Taq
 
             // not implemented.
             var wideContent = TileContentFactory.CreateTileWide310x150Image();
-            wideContent.Image.Src = " ms-appdata:///local/WideTile.png";
+            wideContent.Image.Src = "ms-appdata:///local/WideTile.png";
             wideContent.Branding = NotificationsExtensions.TileContent.TileBranding.None;
 
             // Square tile.
             var squareContent = TileContentFactory.CreateTileSquare150x150Image();
-            squareContent.Image.Src = " ms-appdata:///local/MedTile.png";
+            squareContent.Image.Src = "ms-appdata:///local/MedTile.png";
             squareContent.Branding = NotificationsExtensions.TileContent.TileBranding.None;
 
             // Smaill tile.
             var smallContent = TileContentFactory.CreateTileSquare71x71Image();
-            smallContent.Image.Src = "Assets/aqi71x71/" + Math.Min(getAqLevel(currSiteStrDict["SiteName"], "AQI"), 5) + ".png";
+            smallContent.Image.Src = "ms-appdata:///local/SmallTile.png";
             smallContent.Branding = NotificationsExtensions.TileContent.TileBranding.None;
 
             largeContent.Wide310x150Content = wideContent;
@@ -405,8 +404,6 @@ namespace Taq
 
         public async Task<int> genTileImages()
         {
-            var medTile = new MedTile();
-            var wideTile = new WideTile();
 
             var siteName = currSiteStrDict["SiteName"];
             var aqName = "AQI";
@@ -420,25 +417,34 @@ namespace Taq
 
             var timeStr = currSiteStrDict["PublishTime"].Substring(11, 5);
 
-            // Med tile
+            var wideTile = new WideTile();
+            // Wide tile
             wideTile.topTxt.Text = currSiteStrDict["SiteName"] + " " + timeStr;
             wideTile.medVal1.Text = currSiteStrDict["AQI"];
             wideTile.medVal2.Text = currSiteStrDict["PM2.5"];
             wideTile.medVal3.Text = currSiteStrDict["PM10"];
             wideTile.border.Background = bgColor;
 
-            // Wide tile
+            var medTile = new MedTile();
+            // Med tile
             medTile.topTxt.Text = currSiteStrDict["SiteName"] + aqName;
             medTile.medTxt.Text = currSiteStrDict[aqName];
             medTile.downTxt.Text = timeStr;
             medTile.border.Background = bgColor;
 
+            // Small tile
+            var smallTile = new SmallTile();
+            smallTile.topTxt.Text = currSiteStrDict["SiteName"];
+            smallTile.downTxt.Text = timeStr;
+            smallTile.border.Background = bgColor;
+
             // Set text color.
             var textColor = aqLevel > 3 ? new SolidColorBrush(Colors.White) : new SolidColorBrush(Colors.Black);
-            foreach (var t in new List<TextBlock> { medTile.topTxt, medTile.medTxt, medTile.downTxt, wideTile.topTxt, wideTile.medTxt1, wideTile.medVal1, wideTile.medTxt2, wideTile.medVal2, wideTile.medTxt3, wideTile.medVal3 })
+            foreach (var t in new List<TextBlock> { smallTile.topTxt, smallTile.downTxt, medTile.topTxt, medTile.medTxt, medTile.downTxt, wideTile.topTxt, wideTile.medTxt1, wideTile.medVal1, wideTile.medTxt2, wideTile.medVal2, wideTile.medTxt3, wideTile.medVal3 })
             {
                 t.Foreground = textColor;
             }
+            await StaticTaqModelView.saveUi2Png("SmallTile.png", smallTile);
             await StaticTaqModelView.saveUi2Png("MedTile.png", medTile);
             await StaticTaqModelView.saveUi2Png("WideTile.png", wideTile);
             return 0;
