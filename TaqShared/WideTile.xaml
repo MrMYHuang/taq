@@ -9,21 +9,37 @@
     d:DesignHeight="150"
     d:DesignWidth="310">
 
+    <UserControl.Resources>
+        <Style x:Key="spSty" TargetType="StackPanel">
+            <Setter Property="Width" Value="100"></Setter>
+        </Style>
+        <Style x:Key="tbSty" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="36"></Setter>
+            <Setter Property="TextAlignment" Value="Center"></Setter>
+            <!-- Please set IsTextScaleFactorEnabled to False, if you want to take screenshot on foreground window. Otherwise, text scaling of OS may destroy the text layout. -->
+            <Setter Property="IsTextScaleFactorEnabled" Value="False"></Setter>
+        </Style>
+    </UserControl.Resources>
+
     <Border x:FieldModifier="public" x:Name="border" VerticalAlignment="Center" Background="Green" Height="150" Width="310">
         <StackPanel Orientation="Vertical">
-            <!-- Please set IsTextScaleFactorEnabled to False, if you want to take screenshot on foreground window. Otherwise, text scaling of OS may destroy the text layout. -->
-            <TextBlock x:FieldModifier="public" x:Name="topTxt" VerticalAlignment="Top" FontSize="32" IsTextScaleFactorEnabled="False">Top</TextBlock>
-            <StackPanel Orientation="Horizontal" Margin="0, 6, 0, 6">
-                <StackPanel Orientation="Horizontal" Width="115" Margin="18, 0, 0, 9">
-                    <TextBlock x:FieldModifier="public" x:Name="medTxt1" TextAlignment="Center" FontSize="32" IsTextScaleFactorEnabled="False">AQI:</TextBlock>
-                    <TextBlock x:FieldModifier="public" x:Name="medVal1" TextAlignment="Center" FontSize="32" IsTextScaleFactorEnabled="False">123</TextBlock>
+            <Border BorderThickness="1" BorderBrush="White">
+            <TextBlock x:FieldModifier="public" x:Name="topTxt" Style="{StaticResource tbSty}" Text="平鎮 12:34"/>
+            </Border>
+            <StackPanel Orientation="Horizontal">
+                <StackPanel Orientation="Vertical" Style="{StaticResource spSty}">
+                    <TextBlock x:FieldModifier="public" x:Name="medTxt1" Style="{StaticResource tbSty}" Text="AQI"/>
+                    <TextBlock x:FieldModifier="public" x:Name="medVal1" Style="{StaticResource tbSty}">123</TextBlock>
                 </StackPanel>
-                <StackPanel Orientation="Horizontal" Width="140" Margin="9, 0, 18, 0">
-                    <TextBlock x:FieldModifier="public" x:Name="medTxt2" TextAlignment="Center" FontSize="32" IsTextScaleFactorEnabled="False">PM<Run Typography.Variants="Subscript">2.5</Run>:</TextBlock>
-                    <TextBlock x:FieldModifier="public" x:Name="medVal2" TextAlignment="Center" FontSize="32" IsTextScaleFactorEnabled="False">123</TextBlock>
+                <StackPanel Orientation="Vertical" Style="{StaticResource spSty}">
+                    <TextBlock x:FieldModifier="public" x:Name="medTxt2" Style="{StaticResource tbSty}">PM<Run Typography.Variants="Subscript">2.5</Run></TextBlock>
+                    <TextBlock x:FieldModifier="public" x:Name="medVal2" Style="{StaticResource tbSty}">123</TextBlock>
+                </StackPanel>
+                <StackPanel Orientation="Vertical" Style="{StaticResource spSty}">
+                    <TextBlock x:FieldModifier="public" x:Name="medTxt3" Style="{StaticResource tbSty}">PM<Run Typography.Variants="Subscript">10</Run></TextBlock>
+                    <TextBlock x:FieldModifier="public" x:Name="medVal3" Style="{StaticResource tbSty}">123</TextBlock>
                 </StackPanel>
             </StackPanel>
-            <TextBlock x:FieldModifier="public" x:Name="downTxt" VerticalAlignment="Bottom" TextAlignment="Right" FontSize="32" IsTextScaleFactorEnabled="False">Down</TextBlock>
         </StackPanel>
     </Border>
 </UserControl>

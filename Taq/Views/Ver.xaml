@@ -24,6 +24,14 @@
                 </TextBlock>
             </DataTemplate>
         </HubSection>
+        <HubSection Header="Ver. 3.2.0" Width="Auto">
+            <DataTemplate>
+                <TextBlock Style="{StaticResource txtBlkSty1}" >
+                    * 簡潔寬磚新增PM 10數據。<LineBreak />
+                    * 修正某些情況下，無網路時，按更新鈕會導致閃退(deferral.Complete未被執行的bug)。
+                </TextBlock>
+            </DataTemplate>
+        </HubSection>
         <HubSection Header="Ver. 3.1.1" Width="Auto">
             <DataTemplate>
                 <TextBlock Style="{StaticResource txtBlkSty1}" >

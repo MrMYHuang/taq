@@ -64,7 +64,7 @@ namespace Taq
         {
             try
             {
-                await app.vm.m.downloadDataXml(false).ConfigureAwait(false);
+                await app.vm.m.downloadDataXml(false, 2000).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
@@ -105,16 +105,26 @@ namespace Taq
             DataRequest request = args.Request;
 
             DataRequestDeferral deferral = request.GetDeferral();
-            var saveFile = await StaticTaqModelView.saveUi2Png("screenshot.png", mainPage);
+            try
+            {
+                var saveFile = await StaticTaqModelView.saveUi2Png("screenshot.png", mainPage);
 
-            var storageItems = new List<IStorageItem>();
-            storageItems.Add(saveFile);
-            // 3. Share it
-            //request.Data.SetText("TAQ");
-            request.Data.Properties.Title = Windows.ApplicationModel.Package.Current.DisplayName;
-            // Facebook app supports SetStorageItems, not SetBitmap.
-            request.Data.SetStorageItems(storageItems);
-            deferral.Complete();
+                var storageItems = new List<IStorageItem>();
+                storageItems.Add(saveFile);
+                // 3. Share it
+                //request.Data.SetText("TAQ");
+                request.Data.Properties.Title = Windows.ApplicationModel.Package.Current.DisplayName;
+                // Facebook app supports SetStorageItems, not SetBitmap.
+                request.Data.SetStorageItems(storageItems);
+            }
+            catch (Exception ex)
+            {
+                // Ignore.
+            }
+            finally
+            {
+                deferral.Complete();
+            }
         }
 
         public async Task<int> downloadAndReload()

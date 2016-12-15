@@ -164,7 +164,7 @@ namespace Taq
             loadSiteGeoXml();
         }
 
-        public async Task<int> downloadDataXml(bool confAwait = true)
+        public async Task<int> downloadDataXml(bool confAwait = true, int timeout = 10000)
         {
             // Download may fail, so we create a temp StorageFile.
             var dlFile = await ApplicationData.Current.LocalFolder.CreateFileAsync("Temp" + dataXmlFile, CreationCollisionOption.ReplaceExisting).AsTask().ConfigureAwait(confAwait);
@@ -174,8 +174,7 @@ namespace Taq
 
             CancellationTokenSource cts = new CancellationTokenSource();
             CancellationToken token = cts.Token;
-
-            var timeout = 5000;
+            
 #if DEBUG
             timeout = 100;
 #endif
@@ -419,22 +418,24 @@ namespace Taq
             var b = (byte)Convert.ToUInt32(rectColorStr.Substring(4, 2), 16);
             var bgColor = new SolidColorBrush(Color.FromArgb(0xFF, r, g, b));
 
+            var timeStr = currSiteStrDict["PublishTime"].Substring(11, 5);
+
             // Med tile
-            wideTile.topTxt.Text = currSiteStrDict["SiteName"];
+            wideTile.topTxt.Text = currSiteStrDict["SiteName"] + " " + timeStr;
             wideTile.medVal1.Text = currSiteStrDict["AQI"];
             wideTile.medVal2.Text = currSiteStrDict["PM2.5"];
-            wideTile.downTxt.Text = currSiteStrDict["PublishTime"];
+            wideTile.medVal3.Text = currSiteStrDict["PM10"];
             wideTile.border.Background = bgColor;
 
             // Wide tile
             medTile.topTxt.Text = currSiteStrDict["SiteName"] + aqName;
             medTile.medTxt.Text = currSiteStrDict[aqName];
-            medTile.downTxt.Text = currSiteStrDict["PublishTime"].Substring(11, 5);
+            medTile.downTxt.Text = timeStr;
             medTile.border.Background = bgColor;
 
             // Set text color.
             var textColor = aqLevel > 3 ? new SolidColorBrush(Colors.White) : new SolidColorBrush(Colors.Black);
-            foreach (var t in new List<TextBlock> { medTile.topTxt, medTile.medTxt, medTile.downTxt, wideTile.topTxt, wideTile.medTxt1, wideTile.medVal1, wideTile.medTxt2, wideTile.medVal2, wideTile.downTxt })
+            foreach (var t in new List<TextBlock> { medTile.topTxt, medTile.medTxt, medTile.downTxt, wideTile.topTxt, wideTile.medTxt1, wideTile.medVal1, wideTile.medTxt2, wideTile.medVal2, wideTile.medTxt3, wideTile.medVal3 })
             {
                 t.Foreground = textColor;
             }
