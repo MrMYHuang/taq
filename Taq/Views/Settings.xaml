@@ -32,6 +32,12 @@
             </DataTemplate>
         </HubSection>
 
+        <HubSection Style="{StaticResource hubSecHeadSty}" Header="次要觀測站">
+            <DataTemplate>
+                <Button x:Name="subscrButton" Tapped="subscrButton_Tapped">開啟訂閱頁面</Button>
+            </DataTemplate>
+        </HubSection>
+
         <HubSection Style="{StaticResource hubSecHeadSty}" Header="動態磚">
             <DataTemplate x:DataType="local:Settings">
                 <ToggleSwitch x:Name="tileClearStyToggle" Header="簡潔樣式" HorizontalAlignment="Left" Margin="0" IsOn="{x:Bind app.vm.TileClearSty, Mode=TwoWay}" Width="340" Height="67"/>

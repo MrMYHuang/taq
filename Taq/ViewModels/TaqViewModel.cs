@@ -4,11 +4,13 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Background;
 using Windows.Devices.Geolocation;
 using Windows.System;
 using Windows.UI;
+using Windows.UI.StartScreen;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Documents;
@@ -23,6 +25,8 @@ namespace Taq
         public ObservableCollection<SiteViewModel> sites = new ObservableCollection<SiteViewModel>();
         // Current site info converted to for data bindings through AqView.
         public ObservableCollection<AqViewModel> currSiteViews = new ObservableCollection<AqViewModel>();
+
+        public ObservableCollection<SiteViewModel> subscrSiteViews = new ObservableCollection<SiteViewModel>();
 
         public TaqViewModel()
         {
@@ -57,6 +61,49 @@ namespace Taq
                 site.TextColor = aqLevel > 3 ? new SolidColorBrush(Colors.White) : new SolidColorBrush(Colors.Black);
             }
             loadSubscrSiteId();
+        }
+
+        public async Task<int> loadSubscrSiteViewModel()
+        {
+            await m.loadSubscrSiteXml();
+            subscrSiteViews.Clear();
+            foreach (var siteName in m.subscrSiteList)
+            {
+                subscrSiteViews.Add(new SiteViewModel { siteName = siteName, CircleColor = "Green", CircleText = siteName, TextColor = new SolidColorBrush(Colors.White) });
+            }
+            await m.saveSubscrXd();
+            return 0;
+        }
+
+
+        public async Task<int> addSubscrSite(string siteName)
+        {
+            m.subscrXd.Root.Add(new XElement("SiteName", siteName));
+            await m.saveSubscrXd();
+            await loadSubscrSiteViewModel();
+            return 0;
+        }
+
+        public async Task<int> delSubscrSite(object[] itemsSelected)
+        {
+            foreach (SiteViewModel item in itemsSelected)
+            {
+                m.subscrXd.Descendants("SiteName").Where(s => s.Value == item.siteName).First().Remove();
+            }
+            await m.saveSubscrXd();
+            await loadSubscrSiteViewModel();
+            return 0;
+        }
+
+        // Update live tiles by a background task.
+        // Don't directly call app.vm.m.updateLiveTile,
+        // which might fail to draw tile images with UI context.
+        public async Task<int> backTaskUpdateTiles()
+        {
+            ApplicationTrigger trigger = new ApplicationTrigger();
+            await RegisterBackgroundTask("BackTaskUpdateTiles", "TaqBackTask.BackTaskUpdateTiles", trigger);
+            var result = await trigger.RequestAsync();
+            return 0;
         }
 
         private int selAqId;
@@ -130,7 +177,7 @@ namespace Taq
                 RegisterBackgroundTask("TaqBackTask", "TaqBackTask.TaqBackTask", new TimeTrigger(Convert.ToUInt32(m.localSettings.Values["BgUpdatePeriod"]), false));
             }
         }
-        
+
         public async Task<int> RegisterBackgroundTask(string taskName, string taskEntryPoint, IBackgroundTrigger trigger)
         {
             var backgroundAccessStatus = await BackgroundExecutionManager.RequestAccessAsync();
@@ -232,15 +279,16 @@ namespace Taq
                             break;
                         default:
                             var cd = new ContentDialog { Title = "啟動定位失敗！" };
-                            var txt = new TextBlock { Text = "您曾拒絕TAQ存取您的位置資訊。必須去系統設定修改准許TAQ存取，然後重啟TAQ。按下確認鈕將開啟系統位置設定頁面。", TextWrapping = TextWrapping.Wrap};
+                            var txt = new TextBlock { Text = "您曾拒絕TAQ存取您的位置資訊。必須去系統設定修改准許TAQ存取，然後重啟TAQ。按下確認鈕將開啟系統位置設定頁面。", TextWrapping = TextWrapping.Wrap };
                             cd.Content = txt;
                             cd.PrimaryButtonText = "OK";
-                            cd.PrimaryButtonClick += (sender, e) => {
+                            cd.PrimaryButtonClick += (sender, e) =>
+                            {
                                 Launcher.LaunchUriAsync(new Uri("ms-settings:privacy-location"));
                             };
                             cd.ShowAsync();
                             //var md = new Windows.UI.Popups.MessageDialog("您曾拒絕TAQ存取您的位置資訊。必須去系統設定修改准許TAQ存取，然後重啟TAQ。若找不到該設定，可以嘗試重新安裝TAQ解決。", "啟動定位失敗！");
-                            
+
                             //md.ShowAsync();
                             m.localSettings.Values["MapAutoPos"] = false;
                             break;

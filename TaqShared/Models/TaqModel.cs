@@ -17,6 +17,7 @@ using Windows.Storage;
 using Windows.Storage.Streams;
 using Windows.UI;
 using Windows.UI.Notifications;
+using Windows.UI.StartScreen;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
@@ -48,6 +49,9 @@ namespace Taq
         public Dictionary<string, string> currSiteStrDict;
         // The previous currSiteStrDict from previous download dataXmlFile.
         public Dictionary<string, string> oldSiteStrDict;
+
+        public List<string> subscrSiteList = new List<string>();
+        public XDocument subscrXd;
 
         // XML AQ names to ordinary AQ names.
         // The order of keys is meaningful!
@@ -308,6 +312,43 @@ namespace Taq
             return 0;
         }
 
+        private static string subscrSiteXml = "SubscrSites.xml";
+        // Reload subscribed site XML files.
+        public async Task<int> loadSubscrSiteXml(bool confAwait = true)
+        {
+            try
+            {
+                var dataXml = await ApplicationData.Current.LocalFolder.GetFileAsync(subscrSiteXml).AsTask().ConfigureAwait(confAwait);
+                using (var s = await dataXml.OpenStreamForReadAsync().ConfigureAwait(confAwait))
+                {
+                    // Reload to xd.
+                    subscrXd = XDocument.Load(s);
+                }
+            }
+            catch (Exception ex)
+            {
+                subscrXd = XDocument.Load("Assets/" + subscrSiteXml);
+            }
+
+            subscrSiteList.Clear();
+            foreach (var s in subscrXd.Descendants("SiteName"))
+            {
+                subscrSiteList.Add(s.Value);
+            }
+
+            return 0;
+        }
+        public async Task<int> saveSubscrXd()
+        {
+            var subscrSitesXml = await ApplicationData.Current.LocalFolder.CreateFileAsync("SubscrSites.xml", CreationCollisionOption.ReplaceExisting);
+            using (var s = await subscrSitesXml.OpenStreamForWriteAsync())
+            {
+                subscrXd.Save(s);
+            }
+            return 0;
+        }
+
+        delegate Task<ISquare310x310TileNotificationContent> LiveTileSty(string siteName);
         public async Task<int> updateLiveTile()
         {
             // create the instance of Tile Updater, which enables you to change the appearance of the calling app's tile
@@ -315,43 +356,57 @@ namespace Taq
             // enables the tile to queue up to five notifications 
             updater.EnableNotificationQueue(true);
             updater.Clear();
-            
+            ISquare310x310TileNotificationContent largeContent;
+            LiveTileSty lts;
+
             if ((bool)localSettings.Values["TileClearSty"])
             {
-                await genTileImages();
-                ITileSquare310x310Image largeContent = clearLiveTiles();
-                // Create a new tile notification.
-                updater.Update(new TileNotification(largeContent.GetXml()));
+                lts = new LiveTileSty(clearLiveTiles);
             }
             else
             {
-                ITileSquare310x310Text09 largeContent = detailedLiveTiles();
-                // Create a new tile notification.
-                updater.Update(new TileNotification(largeContent.GetXml()));
+                lts = new LiveTileSty(detailedLiveTiles);
+            }
+            largeContent = await lts(currSiteStrDict["SiteName"]);
+            // Create a new tile notification.
+            updater.Update(new TileNotification(largeContent.GetXml()));
+
+            foreach (var siteName in subscrSiteList)
+            {
+                if(!SecondaryTile.Exists(siteName))
+                {
+                    continue;
+                }
+                var updater2 = TileUpdateManager.CreateTileUpdaterForSecondaryTile(siteName);
+                updater2.EnableNotificationQueue(true);
+                updater2.Clear();
+                largeContent = await lts(siteName);
+                updater2.Update(new TileNotification(largeContent.GetXml()));
             }
 
             return 0;
         }
         
-        public ITileSquare310x310Image clearLiveTiles()
+        public async Task<ISquare310x310TileNotificationContent> clearLiveTiles(string siteName)
         {
+            await genTileImages(siteName);
             // not implemented.
             var largeContent = TileContentFactory.CreateTileSquare310x310Image();
             largeContent.Branding = NotificationsExtensions.TileContent.TileBranding.None;
 
             // not implemented.
             var wideContent = TileContentFactory.CreateTileWide310x150Image();
-            wideContent.Image.Src = "ms-appdata:///local/WideTile.png";
+            wideContent.Image.Src = $"ms-appdata:///local/{siteName}WideTile.png";
             wideContent.Branding = NotificationsExtensions.TileContent.TileBranding.None;
 
             // Square tile.
             var squareContent = TileContentFactory.CreateTileSquare150x150Image();
-            squareContent.Image.Src = "ms-appdata:///local/MedTile.png";
+            squareContent.Image.Src = $"ms-appdata:///local/{siteName}MedTile.png";
             squareContent.Branding = NotificationsExtensions.TileContent.TileBranding.None;
 
             // Smaill tile.
             var smallContent = TileContentFactory.CreateTileSquare71x71Image();
-            smallContent.Image.Src = "ms-appdata:///local/SmallTile.png";
+            smallContent.Image.Src = $"ms-appdata:///local/{siteName}SmallTile.png";
             smallContent.Branding = NotificationsExtensions.TileContent.TileBranding.None;
 
             largeContent.Wide310x150Content = wideContent;
@@ -360,7 +415,7 @@ namespace Taq
             return largeContent;
         }
 
-        public ITileSquare310x310Text09 detailedLiveTiles()
+        public async Task<ISquare310x310TileNotificationContent> detailedLiveTiles(string siteName)
         {
             var aqiStr = "AQI：" + currSiteStrDict["AQI"];
             var pm2_5_Str = "PM 2.5：" + currSiteStrDict["PM2.5"];
@@ -402,10 +457,8 @@ namespace Taq
             return largeContent;
         }
 
-        public async Task<int> genTileImages()
-        {
-
-            var siteName = currSiteStrDict["SiteName"];
+        public async Task<int> genTileImages(string siteName)
+        {            
             var aqName = "AQI";
             var aqLevel = getAqLevel(siteName, aqName);
             // Remove '#'.
@@ -415,26 +468,26 @@ namespace Taq
             var b = (byte)Convert.ToUInt32(rectColorStr.Substring(4, 2), 16);
             var bgColor = new SolidColorBrush(Color.FromArgb(0xFF, r, g, b));
 
-            var timeStr = currSiteStrDict["PublishTime"].Substring(11, 5);
+            var timeStr = sitesStrDict[siteName]["PublishTime"].Substring(11, 5);
 
             var wideTile = new WideTile();
             // Wide tile
-            wideTile.topTxt.Text = currSiteStrDict["SiteName"] + " " + timeStr;
-            wideTile.medVal1.Text = currSiteStrDict["AQI"];
-            wideTile.medVal2.Text = currSiteStrDict["PM2.5"];
-            wideTile.medVal3.Text = currSiteStrDict["PM10"];
+            wideTile.topTxt.Text = siteName + " " + timeStr;
+            wideTile.medVal1.Text = sitesStrDict[siteName]["AQI"];
+            wideTile.medVal2.Text = sitesStrDict[siteName]["PM2.5"];
+            wideTile.medVal3.Text = sitesStrDict[siteName]["PM10"];
             wideTile.border.Background = bgColor;
 
             var medTile = new MedTile();
             // Med tile
-            medTile.topTxt.Text = currSiteStrDict["SiteName"] + aqName;
-            medTile.medTxt.Text = currSiteStrDict[aqName];
+            medTile.topTxt.Text = sitesStrDict[siteName]["SiteName"] + aqName;
+            medTile.medTxt.Text = sitesStrDict[siteName][aqName];
             medTile.downTxt.Text = timeStr;
             medTile.border.Background = bgColor;
 
             // Small tile
             var smallTile = new SmallTile();
-            smallTile.topTxt.Text = currSiteStrDict["SiteName"];
+            smallTile.topTxt.Text = sitesStrDict[siteName]["SiteName"];
             smallTile.downTxt.Text = timeStr;
             smallTile.border.Background = bgColor;
 
@@ -444,9 +497,9 @@ namespace Taq
             {
                 t.Foreground = textColor;
             }
-            await StaticTaqModelView.saveUi2Png("SmallTile.png", smallTile);
-            await StaticTaqModelView.saveUi2Png("MedTile.png", medTile);
-            await StaticTaqModelView.saveUi2Png("WideTile.png", wideTile);
+            await StaticTaqModelView.saveUi2Png(siteName + "SmallTile.png", smallTile);
+            await StaticTaqModelView.saveUi2Png(siteName + "MedTile.png", medTile);
+            await StaticTaqModelView.saveUi2Png(siteName + "WideTile.png", wideTile);
             return 0;
         }
 

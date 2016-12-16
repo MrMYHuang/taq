@@ -34,10 +34,25 @@ namespace TaqBackTask
 
                 // Download the feed.
                 var res = await m.downloadDataXml();
+            }
+            catch (Exception ex)
+            {
+                // Ignore.
+            }
+            try
+            {
                 await m.loadAqXml();
+            }
+            catch (Exception ex)
+            {
+                // Ignore.
+            }
+            try
+            {
                 m.convertXDoc2Dict();
                 await m.loadCurrSite();
-                
+                await m.loadSubscrSiteXml();
+
                 // Update the live tile with the feed items.
                 await m.updateLiveTile();
 

@@ -92,10 +92,10 @@
 
         <SplitView.Content>
             <Grid x:FieldModifier="public" x:Name="contentGrid" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-                <Frame x:Name="frame" Margin="0,0,0,117"/>
+                <Frame x:FieldModifier="public" x:Name="frame" Margin="0,0,0,117"/>
 
                 <Grid x:Name="funcGrid">
-                    <ComboBox x:Name="subscrComboBox" HorizontalAlignment="Left" Margin="10,0,0,47" Width="110" Height="65" Header="訂閱觀測站" ItemsSource="{x:Bind app.vm.sites}" IsTapEnabled="True" SelectionChanged="subscrComboBox_SelectionChanged" VerticalAlignment="Bottom">
+                    <ComboBox x:Name="subscrComboBox" HorizontalAlignment="Left" Margin="10,0,0,47" Width="110" Height="65" Header="主要觀測站" ItemsSource="{x:Bind app.vm.sites}" IsTapEnabled="True" SelectionChanged="subscrComboBox_SelectionChanged" VerticalAlignment="Bottom">
                         <ComboBox.ItemTemplate>
                             <DataTemplate x:DataType="local:SiteViewModel">
                                 <TextBlock Text="{x:Bind siteName}"></TextBlock>

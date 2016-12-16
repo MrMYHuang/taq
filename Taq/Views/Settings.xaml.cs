@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using Windows.Storage;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
@@ -14,13 +15,14 @@ namespace Taq.Views
     public sealed partial class Settings : Page, INotifyPropertyChanged
     {
         public App app;
+        public Frame rootFrame;
         public ApplicationDataContainer localSettings;
         public Settings()
         {
-            localSettings =
-       ApplicationData.Current.LocalSettings;
-            this.InitializeComponent();
             app = App.Current as App;
+            rootFrame = Window.Current.Content as Frame;
+            localSettings = ApplicationData.Current.LocalSettings;
+            this.InitializeComponent();
         }
 
         public bool AppTheme
@@ -78,6 +80,12 @@ namespace Taq.Views
         {
             var selId = ((ComboBox)sender).SelectedIndex;
             app.vm.BgUpdatePeriodId = selId;
+        }
+
+        private void subscrButton_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
+        {
+            var mainPage = rootFrame.Content as MainPage;
+            mainPage.frame.Navigate(typeof(Subscr));
         }
     }
 }

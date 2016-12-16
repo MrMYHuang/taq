@@ -33,8 +33,7 @@ namespace Taq
         public MainPage()
         {
             app = App.Current as App;
-            localSettings =
-       ApplicationData.Current.LocalSettings;
+            localSettings = ApplicationData.Current.LocalSettings;
             try
             {
                 initAux().Wait();
@@ -164,7 +163,7 @@ namespace Taq
             #else*/
             app.vm.m.sendNotifications();
             //#endif
-            await backTaskUpdateTiles();
+            await app.vm.backTaskUpdateTiles();
             return 0;
         }
 
@@ -234,19 +233,8 @@ namespace Taq
             localSettings.Values["subscrSite"] = selSite.siteName;
             app.vm.loadSubscrSiteId();
             await app.vm.m.loadCurrSite(true);
-            await backTaskUpdateTiles();
+            await app.vm.backTaskUpdateTiles();
             app.vm.currSite2AqView();
-        }
-
-        // Update live tiles by a background task.
-        // Don't directly call app.vm.m.updateLiveTile,
-        // which might fail to draw tile images with UI context.
-        private async Task<int> backTaskUpdateTiles()
-        {
-            ApplicationTrigger trigger = new ApplicationTrigger();
-            await app.vm.RegisterBackgroundTask("BackTaskUpdateTiles", "TaqBackTask.BackTaskUpdateTiles", trigger);
-            var result = await trigger.RequestAsync();
-            return 0;
         }
 
         private void aqComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)

@@ -18,10 +18,18 @@ namespace TaqBackTask
             // after a failed run with exceptions. It means the success rate of a run is almost independent of the previous runs. So, we just catch exceptions and do nothing, so that this baskgroundtask won't crash and exit.
             try
             {
-
                 await m.loadAqXml();
+            }
+            catch (Exception ex)
+            {
+                // Ignore.
+            }
+            
+            try
+            { 
                 m.convertXDoc2Dict();
                 await m.loadCurrSite();
+                await m.loadSubscrSiteXml();
 
                 // Update the live tile with the feed items.
                 await m.updateLiveTile();
