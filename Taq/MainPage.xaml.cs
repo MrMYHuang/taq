@@ -99,10 +99,6 @@ namespace Taq
                     app.vm.MapAutoPos = false;
                 }
             }
-            if(app.vm.MapAutoPos == true)
-            {
-                await app.vm.findNearestSite();
-            }
         }
 
         async void MainPage_DataRequested(DataTransferManager sender, DataRequestedEventArgs args)
@@ -241,10 +237,13 @@ namespace Taq
             app.vm.currSite2AqView();
         }
 
-        private void umiButton_Tapped(object sender, TappedRoutedEventArgs e)
+        private async void umiButton_Tapped(object sender, TappedRoutedEventArgs e)
         {
+            await app.vm.findNearestSite();
             var nearestSite = app.vm.sites.Where(s => s.siteName == app.vm.nearestSite.siteName).First();
-            subscrComboBox.SelectedIndex = app.vm.sites.IndexOf(nearestSite);
+            localSettings.Values["subscrSite"] = nearestSite.siteName;
+            app.vm.loadSubscrSiteId();
+            subscrComboBox.SelectedIndex = app.vm.SubscrSiteId;
         }
 
         private void aqComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -260,7 +259,7 @@ namespace Taq
         private async void Page_Loaded(Object sender, RoutedEventArgs e)
         {
             await ReloadXdAndUpdateList();
-            //subscrComboBox.SelectedIndex = app.vm.SubscrSiteId;
+            subscrComboBox.SelectedIndex = app.vm.SubscrSiteId;
         }
 
         private async void refreshButton_Click(Object sender, RoutedEventArgs e)
