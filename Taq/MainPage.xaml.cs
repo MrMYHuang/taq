@@ -2,7 +2,7 @@
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
-
+using System.Linq;
 using Taq.Views;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
@@ -13,6 +13,7 @@ using Windows.System.Threading;
 using Windows.UI.Core;
 using Windows.Devices.Geolocation;
 using TaqShared.ModelViews;
+using TaqShared.Models;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -46,6 +47,7 @@ namespace Taq
             // Otherwise, some UI controls are not loaded completely after InitializeComponent.
             // Don't put these lines into initAux, because these lines must be executed by UI context. Putting them in initAux may result in deadlock!
             app.vm.SelAqId = 1;
+//            app.vm.loadDict2Sites(app.vm.m.aqList[0]);
             app.vm.currSite2AqView();
 
             this.InitializeComponent();
@@ -96,6 +98,10 @@ namespace Taq
                 {
                     app.vm.MapAutoPos = false;
                 }
+            }
+            if(app.vm.MapAutoPos == true)
+            {
+                await app.vm.findNearestSite();
             }
         }
 
@@ -235,6 +241,12 @@ namespace Taq
             app.vm.currSite2AqView();
         }
 
+        private void umiButton_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            var nearestSite = app.vm.sites.Where(s => s.siteName == app.vm.nearestSite.siteName).First();
+            subscrComboBox.SelectedIndex = app.vm.sites.IndexOf(nearestSite);
+        }
+
         private void aqComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var selAqId = ((ComboBox)sender).SelectedIndex;
@@ -248,7 +260,7 @@ namespace Taq
         private async void Page_Loaded(Object sender, RoutedEventArgs e)
         {
             await ReloadXdAndUpdateList();
-            subscrComboBox.SelectedIndex = app.vm.SubscrSiteId;
+            //subscrComboBox.SelectedIndex = app.vm.SubscrSiteId;
         }
 
         private async void refreshButton_Click(Object sender, RoutedEventArgs e)

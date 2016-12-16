@@ -116,7 +116,10 @@ namespace Taq
 
             set
             {
-                loadDict2Sites(StaticTaqModel.aqList[value]);
+                if (value != -1)
+                {
+                    loadDict2Sites(m.aqList[value]);
+                }
                 SetProperty(ref selAqId, value);
             }
         }
@@ -302,15 +305,22 @@ namespace Taq
             }
         }
 
-        public SiteViewModel findNearestSite(SiteViewModel gpsPos)
+        public SiteViewModel nearestSite;
+        public async Task<int> findNearestSite()
         {
-            var dists = new List<double>(sites.Count);
-            for(var i = 0; i < sites.Count; i++)
+            geoLoc = new Geolocator { ReportInterval = 2000 };
+            var pos = await geoLoc.GetGeopositionAsync();
+            var p = pos.Coordinate.Point;
+            var gpsPos = new SiteViewModel { twd97Lat = p.Position.Latitude, twd97Lon = p.Position.Longitude };
+
+            var dists = new List<double>();
+            for (var i = 0; i < sites.Count; i++)
             {
-                dists[i] = StaticTaqModelView.posDist(gpsPos, sites[i]);
+                dists.Add(StaticTaqModelView.posDist(gpsPos, sites[i]));
             }
             var minId = dists.FindIndex(v => v == dists.Min());
-            return sites[minId];
+            nearestSite = sites[minId]; ;
+            return 0;
         }
     }
 }

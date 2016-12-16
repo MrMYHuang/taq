@@ -5,7 +5,7 @@
     xmlns:local="using:Taq.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:taq="using:Taq"
+    xmlns:tsm="using:TaqShared.ModelViews"
     mc:Ignorable="d"
     NavigationCacheMode="Enabled">
     <Page.Resources>
@@ -40,7 +40,7 @@
                 </Style>
             </ListView.ItemContainerStyle>
             <ListView.ItemTemplate>
-                <DataTemplate x:DataType="taq:SiteViewModel">
+                <DataTemplate x:DataType="tsm:SiteViewModel">
                     <Border Background="{x:Bind CircleColor, Mode=OneWay}">
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="{x:Bind siteName}" Style="{StaticResource txtBlkSty1}" Foreground="{x:Bind TextColor, Mode=OneWay}"/>

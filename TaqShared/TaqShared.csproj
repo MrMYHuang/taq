@@ -108,6 +108,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Models\StaticTaqModel.cs" />
+    <Compile Include="ModelViews\AqViewModel.cs" />
+    <Compile Include="ModelViews\SiteViewModel.cs" />
     <Compile Include="ModelViews\StaticTaqModelView.cs" />
     <Compile Include="SmallTile.xaml.cs">
       <DependentUpon>SmallTile.xaml</DependentUpon>

@@ -48,6 +48,10 @@ namespace Taq
         public List<string> subscrSiteList = new List<string>();
         public XDocument subscrXd;
 
+        // AQ name list for MainPage aqComboBox.
+        // Don't replace it by aqLimits.Keys! Not all names are used in aqComboBox.
+        public List<string> aqList = new List<string> {"AQI", "Status", "PM2.5", "PM2.5_AVG", "PM10", "PM10_AVG", "O3", "O3_8hr", "CO", "CO_8hr", "SO2", "NO2", "NOx", "NO", "WindSpeed", "WindDirec"};
+
         public TaqModel()
         {
             localSettings =
