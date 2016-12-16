@@ -63,7 +63,7 @@ namespace Taq
         {
             try
             {
-                await app.vm.m.downloadDataXml(false, 2000).ConfigureAwait(false);
+                await app.vm.m.downloadDataXml(false, 5000).ConfigureAwait(false);
             }
             catch (Exception ex)
             {

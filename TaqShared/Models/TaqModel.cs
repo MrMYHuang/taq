@@ -174,7 +174,7 @@ namespace Taq
             CancellationToken token = cts.Token;
 
 #if DEBUG
-            timeout = 2000;
+            timeout = 3000;
 #endif
 
             cts.CancelAfter(timeout);
@@ -182,12 +182,6 @@ namespace Taq
             {
                 // Pass the token to the task that listens for cancellation.
                 await download.StartAsync().AsTask(token).ConfigureAwait(confAwait);
-                // file is downloaded in time
-                // Copy download file to dataXmlFile.
-                var dataXml = await ApplicationData.Current.LocalFolder.GetFileAsync(dataXmlFile);
-                var oldDataXml = await ApplicationData.Current.LocalFolder.CreateFileAsync("Old" + dataXmlFile, CreationCollisionOption.ReplaceExisting);
-                await dataXml.CopyAndReplaceAsync(oldDataXml);
-                await dlFile.CopyAndReplaceAsync(dataXml).AsTask().ConfigureAwait(confAwait);
             }
             catch (Exception ex)
             {
@@ -199,6 +193,23 @@ namespace Taq
                 // Releases all resources of cts
                 cts.Dispose();
             }
+
+            // file is downloaded in time
+            
+            StorageFile dataXml;
+            try
+            {
+                dataXml = await ApplicationData.Current.LocalFolder.GetFileAsync(dataXmlFile);
+                // Backup old XML.
+                var oldDataXml = await ApplicationData.Current.LocalFolder.CreateFileAsync("Old" + dataXmlFile, CreationCollisionOption.ReplaceExisting);
+                await dataXml.CopyAndReplaceAsync(oldDataXml);
+            }
+            catch (Exception ex)
+            {
+                dataXml = await ApplicationData.Current.LocalFolder.CreateFileAsync(dataXmlFile, CreationCollisionOption.ReplaceExisting);
+            }
+            // Copy download file to dataXmlFile.
+            await dlFile.CopyAndReplaceAsync(dataXml).AsTask().ConfigureAwait(confAwait);
             return 0;
         }
 
