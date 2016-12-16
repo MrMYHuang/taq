@@ -7,7 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     d:DesignHeight="30"
-    d:DesignWidth="30" IsHitTestVisible="False">
+    d:DesignWidth="30" IsHitTestVisible="False" IsEnabledChanged="UserControl_IsEnabledChanged">
 
     <Grid>
         <Ellipse Width="22" Height="22" Fill="White" StrokeThickness="3" >
@@ -15,6 +15,6 @@
                 <SolidColorBrush Color="Black"/>
             </Ellipse.Stroke>
         </Ellipse>
-        <Ellipse Width="10" Height="10" Fill="{ThemeResource SystemControlHighlightAccentBrush}"></Ellipse>
+        <Ellipse x:FieldModifier="public" x:Name="centerCircle" Width="10" Height="10" Fill="{ThemeResource SystemControlHighlightAccentBrush}"></Ellipse>
     </Grid>
 </UserControl>

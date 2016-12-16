@@ -102,10 +102,10 @@
                         </DataTemplate>
                     </ComboBox.ItemTemplate>
                 </ComboBox>
-                <Button x:Name="umiButton" Margin="88,0,0,90" Tapped="umiButton_Tapped" IsTapEnabled="True" VerticalAlignment="Bottom" HorizontalAlignment="Left" RenderTransformOrigin="0.206,0.549" >
+                <Button x:Name="umiButton" Margin="88,0,0,90" Tapped="umiButton_Tapped" IsTapEnabled="True" VerticalAlignment="Bottom" HorizontalAlignment="Left" RenderTransformOrigin="0.206,0.549" IsEnabled="{x:Bind app.vm.MapAutoPos, Mode=OneWay}">
                     <Button.ContentTemplate>
-                        <DataTemplate>
-                            <Views:UserMapIcon Width="22" Height="22"></Views:UserMapIcon>
+                        <DataTemplate x:DataType="local:MainPage">
+                            <Views:UserMapIcon Width="22" Height="22" IsEnabled="{x:Bind app.vm.MapAutoPos, Mode=OneWay}"></Views:UserMapIcon>
                         </DataTemplate>
                     </Button.ContentTemplate>
                 </Button>
