@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using TaqShared.Models;
 using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -37,12 +38,12 @@ namespace Taq
                     Diffs = new ObservableCollection<double>()
                 };
 
-                aqLimit.Limits.Add(app.vm.m.aqLimits[aqName][0]);
-                aqLimit.Diffs.Add(app.vm.m.aqLimits[aqName][0]);
+                aqLimit.Limits.Add(StaticTaqModel.aqLimits[aqName][0]);
+                aqLimit.Diffs.Add(StaticTaqModel.aqLimits[aqName][0]);
                 for (var i = 1; i < 7; i++)
                 {
-                    aqLimit.Limits.Add(app.vm.m.aqLimits[aqName][i]);
-                    aqLimit.Diffs.Add(app.vm.m.aqLimits[aqName][i] - app.vm.m.aqLimits[aqName][i - 1]);
+                    aqLimit.Limits.Add(StaticTaqModel.aqLimits[aqName][i]);
+                    aqLimit.Diffs.Add(StaticTaqModel.aqLimits[aqName][i] - StaticTaqModel.aqLimits[aqName][i - 1]);
                 }
                 aqLimitsColl.Add(aqLimit);
 
@@ -50,7 +51,7 @@ namespace Taq
             for (var i = 0; i < 7; i++)
             {
                 var sbs = new StackingColumn100Series();
-                sbs.Interior = new SolidColorBrush(html2RgbColor(TaqModel.aqiBgColors[i]));
+                sbs.Interior = new SolidColorBrush(html2RgbColor(StaticTaqModel.aqiBgColors[i]));
 
                 sbs.XBindingPath = "Name";
                 sbs.YBindingPath = "Diffs[" + i + "]";
@@ -120,11 +121,9 @@ namespace Taq
             }
 
             return limit;
-
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string culture)
-
         {
             return value;
         }

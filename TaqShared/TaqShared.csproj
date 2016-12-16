@@ -107,6 +107,7 @@
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\StaticTaqModel.cs" />
     <Compile Include="ModelViews\StaticTaqModelView.cs" />
     <Compile Include="SmallTile.xaml.cs">
       <DependentUpon>SmallTile.xaml</DependentUpon>

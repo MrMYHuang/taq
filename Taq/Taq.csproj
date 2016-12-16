@@ -143,7 +143,6 @@
       <SubType>Designer</SubType>
     </AppxManifest>
     <None Include="Taq_StoreKey.pfx" />
-    <None Include="Taq_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\logos\AppIcon.altform-unplated_targetsize-16.png">

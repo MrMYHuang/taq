@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using TaqShared.Models;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Background;
 using Windows.Devices.Geolocation;
@@ -53,7 +54,7 @@ namespace Taq
             foreach (var site in sites)
             {
                 var aqLevel = m.getAqLevel(site.siteName, aqName);
-                site.CircleColor = m.aqColors[aqName][aqLevel];
+                site.CircleColor = StaticTaqModel.aqColors[aqName][aqLevel];
                 site.CircleText = site.siteName + "\n" + m.sitesStrDict[site.siteName][aqName];
                 site.ListText = m.sitesStrDict[site.siteName][aqName];
                 site.TextColor = aqLevel > 3 ? new SolidColorBrush(Colors.White) : new SolidColorBrush(Colors.Black);
@@ -114,7 +115,7 @@ namespace Taq
 
             set
             {
-                loadDict2Sites(m.aqList[value]);
+                loadDict2Sites(StaticTaqModel.aqList[value]);
                 SetProperty(ref selAqId, value);
             }
         }
@@ -125,14 +126,14 @@ namespace Taq
             // Don't remove all elements by new.
             // Otherwise, data bindings would be problematic.
             currSiteViews.Clear();
-            foreach (var k in m.fieldNames.Keys)
+            foreach (var k in StaticTaqModel.fieldNames.Keys)
             {
                 var aqLevel = m.getAqLevel(m.currSiteStrDict["SiteName"], k);
                 var textColor = aqLevel > 3 ? new SolidColorBrush(Colors.White) : new SolidColorBrush(Colors.Black);
                 currSiteViews.Add(new AqViewModel
                 {
-                    CircleColor = m.aqColors[k][aqLevel], // default border background color
-                    CircleText = m.fieldNames[k] + "\n" + m.currSiteStrDict[k],
+                    CircleColor = StaticTaqModel.aqColors[k][aqLevel], // default border background color
+                    CircleText = StaticTaqModel.fieldNames[k] + "\n" + m.currSiteStrDict[k],
                     TextColor = textColor
                 });
             }

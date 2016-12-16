@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
@@ -11,7 +12,7 @@ using Windows.UI.Xaml.Media.Imaging;
 
 namespace TaqShared.ModelViews
 {
-    public class StaticTaqModelView
+    public static class StaticTaqModelView
     {
         public async static Task<StorageFile> saveUi2Png(string fileName, UIElement ui)
         {
