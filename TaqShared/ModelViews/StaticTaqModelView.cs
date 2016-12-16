@@ -31,5 +31,11 @@ namespace TaqShared.ModelViews
             }
             return saveFile;
         }
+
+        // Squared Euclidean distance.
+        public static double posDist(SiteViewModel p1, SiteViewModel p2)
+        {
+            return Math.Pow(p1.twd97Lat - p2.twd97Lat, 2) + Math.Pow(p1.twd97Lon - p2.twd97Lon, 2);
+        }
     }
 }

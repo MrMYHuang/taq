@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using TaqShared.Models;
+using TaqShared.ModelViews;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Background;
 using Windows.Devices.Geolocation;
@@ -299,6 +300,17 @@ namespace Taq
                 }
                 OnPropertyChanged("MapAutoPos");
             }
+        }
+
+        public SiteViewModel findNearestSite(SiteViewModel gpsPos)
+        {
+            var dists = new List<double>(sites.Count);
+            for(var i = 0; i < sites.Count; i++)
+            {
+                dists[i] = StaticTaqModelView.posDist(gpsPos, sites[i]);
+            }
+            var minId = dists.FindIndex(v => v == dists.Min());
+            return sites[minId];
         }
     }
 }

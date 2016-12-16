@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using TaqShared.ModelViews;
 using Windows.Foundation;
 using Windows.UI.StartScreen;
 using Windows.UI.Xaml;
