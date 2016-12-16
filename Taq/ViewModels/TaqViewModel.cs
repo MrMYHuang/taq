@@ -10,10 +10,8 @@ using Windows.ApplicationModel.Background;
 using Windows.Devices.Geolocation;
 using Windows.System;
 using Windows.UI;
-using Windows.UI.StartScreen;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Documents;
 using Windows.UI.Xaml.Media;
 
 namespace Taq
@@ -71,7 +69,7 @@ namespace Taq
             {
                 subscrSiteViews.Add(new SiteViewModel { siteName = siteName, CircleColor = "Green", CircleText = siteName, TextColor = new SolidColorBrush(Colors.White) });
             }
-            await m.saveSubscrXd();
+            //await m.saveSubscrXd();
             return 0;
         }
 

@@ -57,7 +57,7 @@ namespace TaqBackTask
                 await m.updateLiveTile();
 
                 // Send notifications.
-                m.sendNotifications();
+                m.sendSubscrSitesNotifications();
             }
             catch (Exception ex)
             {

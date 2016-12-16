@@ -21,14 +21,13 @@
             <DataTemplate>
                 <TextBlock Style="{StaticResource txtBlkSty1}" >
                     * 部分尺寸動態磚未實作：詳細小磚、簡潔大磚<LineBreak />
-                    * "次要觀測站"只支援動態磚，不支援警報通知。
                 </TextBlock>
             </DataTemplate>
         </HubSection>
         <HubSection Header="Ver. 3.3.0" Width="Auto">
             <DataTemplate>
                 <TextBlock Style="{StaticResource txtBlkSty1}" >
-                    * 設定頁新增"次要觀測站"，可訂閱多個動態磚。
+                    * 設定頁新增"次要觀測站"，可訂閱多個測站的警報通知與動態磚。<LineBreak />
                     * 簡潔小磚改為顯示地點、發佈時間、AQI顏色。<LineBreak />
                     * 若嘗試啟動自動定位出現失敗對話視窗，按下確定會叫出系統位置設定頁面。<LineBreak />
                 </TextBlock>

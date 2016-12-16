@@ -4,24 +4,18 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using TaqShared;
 using TaqShared.ModelViews;
-using Windows.Graphics.Display;
-using Windows.Graphics.Imaging;
 using Windows.Networking.BackgroundTransfer;
 using Windows.Storage;
-using Windows.Storage.Streams;
 using Windows.UI;
 using Windows.UI.Notifications;
 using Windows.UI.StartScreen;
-using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Media.Imaging;
 
 namespace Taq
 {
@@ -48,7 +42,7 @@ namespace Taq
         // Current (subscribed) site information in Dictionary.
         public Dictionary<string, string> currSiteStrDict;
         // The previous currSiteStrDict from previous download dataXmlFile.
-        public Dictionary<string, string> oldSiteStrDict;
+        public Dictionary<string, Dictionary<string, string>> oldSitesStrDict = new Dictionary<string, Dictionary<string, string>>();
 
         public List<string> subscrSiteList = new List<string>();
         public XDocument subscrXd;
@@ -178,7 +172,7 @@ namespace Taq
 
             CancellationTokenSource cts = new CancellationTokenSource();
             CancellationToken token = cts.Token;
-            
+
 #if DEBUG
             timeout = 2000;
 #endif
@@ -190,7 +184,9 @@ namespace Taq
                 await download.StartAsync().AsTask(token).ConfigureAwait(confAwait);
                 // file is downloaded in time
                 // Copy download file to dataXmlFile.
-                var dataXml = await ApplicationData.Current.LocalFolder.CreateFileAsync(dataXmlFile, CreationCollisionOption.ReplaceExisting);
+                var dataXml = await ApplicationData.Current.LocalFolder.GetFileAsync(dataXmlFile);
+                var oldDataXml = await ApplicationData.Current.LocalFolder.CreateFileAsync("Old" + dataXmlFile, CreationCollisionOption.ReplaceExisting);
+                await dataXml.CopyAndReplaceAsync(oldDataXml);
                 await dlFile.CopyAndReplaceAsync(dataXml).AsTask().ConfigureAwait(confAwait);
             }
             catch (Exception ex)
@@ -272,17 +268,25 @@ namespace Taq
             XDocument loadOldXd = new XDocument();
             try
             {
-                var loadOldXml = await ApplicationData.Current.LocalFolder.GetFileAsync("OldSite.xml").AsTask().ConfigureAwait(confAwait);
+                var loadOldXml = await ApplicationData.Current.LocalFolder.GetFileAsync("Old" + dataXmlFile).AsTask().ConfigureAwait(confAwait);
+
                 using (var s = await loadOldXml.OpenStreamForReadAsync().ConfigureAwait(confAwait))
                 {
                     loadOldXd = XDocument.Load(s);
                 }
-                var oldSiteX = loadOldXd.Descendants("Data").First();
-                oldSiteStrDict = oldSiteX.Elements().ToDictionary(x => x.Name.LocalName, x => x.Value);
             }
             catch (Exception ex)
             {
-                // Ignore.
+                loadOldXd = XDocument.Load("Assets/Old" + dataXmlFile);
+            }
+
+            var oldDataX = from data in loadOldXd.Descendants("Data")
+                           select data;
+            oldSitesStrDict.Clear();
+            foreach (var d in oldDataX.OrderBy(x => x.Element("County").Value))
+            {
+                var siteName = d.Descendants("SiteName").First().Value;
+                oldSitesStrDict.Add(siteName, d.Elements().ToDictionary(x => x.Name.LocalName, x => x.Value));
             }
 
             // Get new site from the setting.
@@ -292,22 +296,6 @@ namespace Taq
                             select d;
 
             currSiteStrDict = currSiteX.Elements().ToDictionary(x => x.Name.LocalName, x => x.Value);
-
-            // Save the current site as old site.
-            XDocument saveOldXd = new XDocument();
-            saveOldXd.Add(currSiteX);
-            try
-            {
-                var saveOldXml = await ApplicationData.Current.LocalFolder.CreateFileAsync("OldSite.xml", CreationCollisionOption.ReplaceExisting).AsTask().ConfigureAwait(confAwait);
-                using (var s = await saveOldXml.OpenStreamForWriteAsync().ConfigureAwait(confAwait))
-                {
-                    saveOldXd.Save(s);
-                }
-            }
-            catch (Exception)
-            {
-                // Ignore.
-            }
 
             return 0;
         }
@@ -338,6 +326,7 @@ namespace Taq
 
             return 0;
         }
+
         public async Task<int> saveSubscrXd()
         {
             var subscrSitesXml = await ApplicationData.Current.LocalFolder.CreateFileAsync("SubscrSites.xml", CreationCollisionOption.ReplaceExisting);
@@ -373,7 +362,7 @@ namespace Taq
 
             foreach (var siteName in subscrSiteList)
             {
-                if(!SecondaryTile.Exists(siteName))
+                if (!SecondaryTile.Exists(siteName))
                 {
                     continue;
                 }
@@ -386,7 +375,7 @@ namespace Taq
 
             return 0;
         }
-        
+
         public async Task<ISquare310x310TileNotificationContent> clearLiveTiles(string siteName)
         {
             await genTileImages(siteName);
@@ -458,7 +447,7 @@ namespace Taq
         }
 
         public async Task<int> genTileImages(string siteName)
-        {            
+        {
             var aqName = "AQI";
             var aqLevel = getAqLevel(siteName, aqName);
             // Remove '#'.
@@ -503,14 +492,23 @@ namespace Taq
             return 0;
         }
 
-        public void sendNotifications()
+        public void sendSubscrSitesNotifications()
+        {
+            sendNotifications(currSiteStrDict["SiteName"]);
+            foreach (var siteName in subscrSiteList)
+            {
+                sendNotifications(siteName);
+            }
+        }
+
+        public void sendNotifications(string siteName)
         {
             var warnStateChangeMode = (bool)localSettings.Values["WarnStateChangeMode"];
-            foreach(var aqName in new List<string> { "AQI", "PM2.5" })
+            foreach (var aqName in new List<string> { "AQI", "PM2.5" })
             {
                 var aqi_Limit = (double)localSettings.Values[aqName + "_Limit"];
-                var currAqi = getValidAqVal(currSiteStrDict[aqName]);
-                var oldAqi = getValidAqVal(oldSiteStrDict[aqName]);
+                var currAqi = getValidAqVal(sitesStrDict[siteName][aqName]);
+                var oldAqi = getValidAqVal(oldSitesStrDict[siteName][aqName]);
 
                 var isAqiOverWarnLevel = (oldAqi != currAqi && currAqi > aqi_Limit);
 
@@ -519,14 +517,15 @@ namespace Taq
 
                 if ((!warnStateChangeMode && isAqiOverWarnLevel) || (warnStateChangeMode && isWarnStateChanged))
                 {
-                    sendNotification(aqName + ": " + currSiteStrDict[aqName], aqName);
+                    sendNotification(siteName, aqName);
                 }
             }
         }
 
-        public void sendNotification(string title, string tag)
+        public void sendNotification(string siteName, string aqName)
         {
-            var content = "觀測站: " + currSiteStrDict["SiteName"];
+            var title = aqName + ": " + sitesStrDict[siteName][aqName];
+            var content = "觀測站: " + siteName;
             // Now we can construct the final toast content
             ToastContent toastContent = new ToastContent()
             {
@@ -536,7 +535,7 @@ namespace Taq
             // And create the toast notification
             var toast = new ToastNotification(toastContent.GetXml());
             toast.ExpirationTime = DateTime.Now.AddHours(1);
-            toast.Tag = tag;
+            toast.Tag = siteName + aqName;
             toast.Group = "wallPosts";
             ToastNotificationManager.CreateToastNotifier().Show(toast);
         }

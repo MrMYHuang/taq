@@ -12,7 +12,6 @@ using System.Threading.Tasks;
 using Windows.System.Threading;
 using Windows.UI.Core;
 using Windows.Devices.Geolocation;
-using Windows.ApplicationModel.Background;
 using TaqShared.ModelViews;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
@@ -50,6 +49,7 @@ namespace Taq
             app.vm.currSite2AqView();
 
             this.InitializeComponent();
+            app.vm.loadSubscrSiteViewModel();
             frame.Navigate(typeof(Home));
             initPeriodicTimer();
             DataTransferManager.GetForCurrentView().DataRequested += MainPage_DataRequested;
@@ -158,10 +158,8 @@ namespace Taq
 
             await updateListView();
             /*#if DEBUG
-                        app.vm.m.sendNotification("AQI: " + app.vm.m.currSiteStrDict["AQI"], "AQI");
-                        app.vm.m.sendNotification("PM 2.5即時濃度: " + app.vm.m.currSiteStrDict["PM2.5"], "PM2.5");
             #else*/
-            app.vm.m.sendNotifications();
+            app.vm.m.sendSubscrSitesNotifications();
             //#endif
             await app.vm.backTaskUpdateTiles();
             return 0;
