@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using TaqShared.ModelViews;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -26,6 +27,18 @@ namespace Taq.Views
             rootFrame = Window.Current.Content as Frame;
             mainPage = rootFrame.Content as MainPage;
             this.InitializeComponent();
+            umi.Loaded += Umi_Loaded;
+        }
+
+        private async void Umi_Loaded(object sender, RoutedEventArgs e)
+        {
+            // Wait MainPage's initPos for MapAutoPos being set.
+            while (app.vm.m.localSettings.Values["MapAutoPos"] == null)
+            {
+                // Force Umi_Loaded to an async function by await this.
+                await Task.Delay(100);
+            }
+            umi.IsEnabled = app.vm.MapAutoPos;
         }
 
         private async void subscrComboBox_SelectionChanged(Object sender, SelectionChangedEventArgs e)
@@ -56,7 +69,6 @@ namespace Taq.Views
         {
             // ComboBox ItemSource is ready after page loading.
             subscrComboBox.SelectedIndex = app.vm.SubscrSiteId;
-            umi.IsEnabled = app.vm.MapAutoPos;
         }
     }
 }

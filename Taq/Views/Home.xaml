@@ -41,6 +41,7 @@
         <!-- Viewbox is used to scale up UserMapIcon. -->
         <Viewbox VerticalAlignment="Bottom" Margin="240,0,0,0" Height="36" HorizontalAlignment="Left" Width="36">
             <!-- Don't bind UserMapIcon's IsEnabled to MapAutoPos. Otherwise, IsEnabledChanged event is not triggered. A UWP bug? -->
+            <!-- Please use Page_Loaded or Umi_Loaded to set UserMapIcon's IsEnabled. -->
             <local:UserMapIcon x:FieldModifier="public" x:Name="umi" Tapped="umiButton_Tapped" HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="30" Width="30"/>
         </Viewbox>
     </Grid>

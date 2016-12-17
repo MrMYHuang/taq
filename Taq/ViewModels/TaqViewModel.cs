@@ -266,6 +266,10 @@ namespace Taq
         {
             get
             {
+                if(m.localSettings.Values["MapAutoPos"] == null)
+                {
+                    return false;
+                }
                 return (bool)m.localSettings.Values["MapAutoPos"];
             }
 

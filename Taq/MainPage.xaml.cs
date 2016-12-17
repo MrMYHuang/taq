@@ -52,8 +52,11 @@ namespace Taq
 
             this.InitializeComponent();
 
-            // Must be called after this.InitializeComponent!!!
-            initPos().Wait();
+            // * Must be called after this.InitializeComponent!
+            // * Must be called by async, not sync. Otherwise,
+            // the app can't pass Windows App Cert Kit!
+            initPos();
+
             app.vm.loadSubscrSiteViewModel();
             frame.Navigate(typeof(Home));
             initPeriodicTimer();
