@@ -93,7 +93,7 @@ namespace Taq
         {
             try
             {
-                app.vm.locAccStat = await Geolocator.RequestAccessAsync().AsTask().ConfigureAwait(false);
+                app.vm.m.locAccStat = await Geolocator.RequestAccessAsync().AsTask().ConfigureAwait(false);
             }
             catch (Exception ex)
             {
@@ -103,7 +103,7 @@ namespace Taq
             // The first time to set Values["MapAutoPos"] on a device.
             if (app.vm.m.localSettings.Values["MapAutoPos"] == null)
             {
-                if (app.vm.locAccStat == GeolocationAccessStatus.Allowed)
+                if (app.vm.m.locAccStat == GeolocationAccessStatus.Allowed)
                 {
                     app.vm.MapAutoPos = true;
                 }

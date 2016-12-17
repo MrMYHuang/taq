@@ -110,5 +110,11 @@ namespace TaqShared.Models
             { "WindSpeed", defaultLimits},
             { "WindDirec", defaultLimits},
         };
+
+        // Squared Euclidean distance.
+        public static double posDist(GpsPoint p1, GpsPoint p2)
+        {
+            return Math.Pow(p1.twd97Lat - p2.twd97Lat, 2) + Math.Pow(p1.twd97Lon - p2.twd97Lon, 2);
+        }
     }
 }

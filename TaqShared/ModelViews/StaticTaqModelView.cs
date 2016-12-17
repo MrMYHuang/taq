@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
+using Taq;
 using Windows.Graphics.Display;
 using Windows.Graphics.Imaging;
 using Windows.Storage;
@@ -30,12 +31,6 @@ namespace TaqShared.ModelViews
                 await encoder.FlushAsync();
             }
             return saveFile;
-        }
-
-        // Squared Euclidean distance.
-        public static double posDist(SiteViewModel p1, SiteViewModel p2)
-        {
-            return Math.Pow(p1.twd97Lat - p2.twd97Lat, 2) + Math.Pow(p1.twd97Lon - p2.twd97Lon, 2);
         }
     }
 }

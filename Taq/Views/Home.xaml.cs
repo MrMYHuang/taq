@@ -58,8 +58,8 @@ namespace Taq.Views
         }
         private async void umiButton_Tapped(object sender, TappedRoutedEventArgs e)
         {
-            await app.vm.findNearestSite();
-            var nearestSite = app.vm.sites.Where(s => s.siteName == app.vm.nearestSite.siteName).First();
+            await app.vm.m.findNearestSite();
+            var nearestSite = app.vm.sites.Where(s => s.siteName == app.vm.m.nearestSite).First();
             app.vm.m.localSettings.Values["subscrSite"] = nearestSite.siteName;
             app.vm.loadSubscrSiteId();
             subscrComboBox.SelectedIndex = app.vm.SubscrSiteId;

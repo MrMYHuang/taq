@@ -10,6 +10,7 @@ using System.Xml.Linq;
 using TaqShared;
 using TaqShared.Models;
 using TaqShared.ModelViews;
+using Windows.Devices.Geolocation;
 using Windows.Networking.BackgroundTransfer;
 using Windows.Storage;
 using Windows.UI;
@@ -38,6 +39,7 @@ namespace Taq
         public Uri source = new Uri("https://YourTaqServerDomainName/" + dataXmlFile);
         public XDocument xd = new XDocument();
         public XDocument siteGeoXd = new XDocument();
+        public Dictionary<string, GpsPoint> sitesGeoDict = new Dictionary<string, GpsPoint>();
         // Full sites AQ information in Dictionary. Converted from XML.
         public Dictionary<string, Dictionary<string, string>> sitesStrDict = new Dictionary<string, Dictionary<string, string>>();
         // Current (subscribed) site information in Dictionary.
@@ -114,7 +116,6 @@ namespace Taq
         {
             //http://opendata.epa.gov.tw/ws/Data/AQXSite/?format=xml
             siteGeoXd = XDocument.Load("Assets/SiteGeo.xml");
-
             return 0;
         }
 
@@ -147,6 +148,7 @@ namespace Taq
                            select data;
 
             sitesStrDict.Clear();
+            sitesGeoDict.Clear();
             foreach (var d in dataX.OrderBy(x => x.Element("County").Value))
             {
                 var siteName = d.Descendants("SiteName").First().Value;
@@ -158,6 +160,11 @@ namespace Taq
                 var geoDict = geoD.Elements().ToDictionary(x => x.Name.LocalName, x => x.Value);
                 siteDict.Add("TWD97Lat", geoDict["TWD97Lat"]);
                 siteDict.Add("TWD97Lon", geoDict["TWD97Lon"]);
+                sitesGeoDict.Add(siteName, new GpsPoint
+                {
+                    twd97Lat = double.Parse(siteDict["TWD97Lat"]),
+                    twd97Lon = double.Parse(siteDict["TWD97Lon"]),
+                });
                 var statusStr = siteDict["Status"];
                 // Shorten long status strings for map icons.
                 if (statusStr.Length > 2)
@@ -501,6 +508,26 @@ namespace Taq
                 aqLevel = StaticTaqModel.aqLimits[aqName].Count;
             }
             return aqLevel;
+        }
+
+        public GeolocationAccessStatus locAccStat;
+        public Geolocator geoLoc;
+        public string nearestSite;
+        public async Task<int> findNearestSite()
+        {
+            geoLoc = new Geolocator { ReportInterval = 2000 };
+            var pos = await geoLoc.GetGeopositionAsync();
+            var p = pos.Coordinate.Point;
+            var gpsPos = new GpsPoint { twd97Lat = p.Position.Latitude, twd97Lon = p.Position.Longitude };
+
+            var dists = new List<double>();
+            foreach(var s in sitesGeoDict)
+            {
+                dists.Add(StaticTaqModel.posDist(gpsPos, s.Value));
+            }
+            var minId = dists.FindIndex(v => v == dists.Min());
+            nearestSite = sitesGeoDict.Keys.ToList()[minId];
+            return 0;
         }
     }
 }

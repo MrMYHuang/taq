@@ -50,6 +50,7 @@ namespace TaqBackTask
             try
             {
                 m.convertXDoc2Dict();
+                await m.findNearestSite();
                 await m.loadCurrSite();
                 await m.loadSubscrSiteXml();
 

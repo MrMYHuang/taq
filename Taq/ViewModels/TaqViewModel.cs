@@ -10,6 +10,7 @@ using TaqShared.ModelViews;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Background;
 using Windows.Devices.Geolocation;
+using Windows.Foundation;
 using Windows.System;
 using Windows.UI;
 using Windows.UI.Xaml;
@@ -260,8 +261,6 @@ namespace Taq
             }
         }
 
-        public GeolocationAccessStatus locAccStat;
-        public Geolocator geoLoc;
         public bool MapAutoPos
         {
             get
@@ -277,7 +276,7 @@ namespace Taq
             {
                 if (value == true)
                 {
-                    switch (locAccStat)
+                    switch (m.locAccStat)
                     {
                         case GeolocationAccessStatus.Allowed:
                             // Subscribe to the PositionChanged event to get location updates.
@@ -307,24 +306,6 @@ namespace Taq
                 }
                 OnPropertyChanged("MapAutoPos");
             }
-        }
-
-        public SiteViewModel nearestSite;
-        public async Task<int> findNearestSite()
-        {
-            geoLoc = new Geolocator { ReportInterval = 2000 };
-            var pos = await geoLoc.GetGeopositionAsync();
-            var p = pos.Coordinate.Point;
-            var gpsPos = new SiteViewModel { twd97Lat = p.Position.Latitude, twd97Lon = p.Position.Longitude };
-
-            var dists = new List<double>();
-            for (var i = 0; i < sites.Count; i++)
-            {
-                dists.Add(StaticTaqModelView.posDist(gpsPos, sites[i]));
-            }
-            var minId = dists.FindIndex(v => v == dists.Min());
-            nearestSite = sites[minId]; ;
-            return 0;
         }
     }
 }

@@ -77,8 +77,8 @@ namespace Taq.Views
             {
                 // Subscribe to the PositionChanged event to get location updates.
                 //geoLoc.PositionChanged += OnPositionChanged;
-                app.vm.geoLoc = new Geolocator { ReportInterval = 2000 };
-                var pos = await app.vm.geoLoc.GetGeopositionAsync();
+                app.vm.m.geoLoc = new Geolocator { ReportInterval = 2000 };
+                var pos = await app.vm.m.geoLoc.GetGeopositionAsync();
                 var p = pos.Coordinate.Point;
                 // userMapIcon has not been added.
                 if (map.Children.IndexOf(userMapIcon) == -1)
