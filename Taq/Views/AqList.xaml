@@ -27,7 +27,7 @@
         <ListView
                 ItemsSource="{x:Bind app.vm.sites, Mode=OneWay}"
                 x:Name="listView"
-                Margin="10,40,10,0">
+                Margin="10,40,10,65">
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">
                     <Setter Property="Template">
@@ -51,5 +51,6 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
+        <ComboBox x:Name="aqComboBox" ItemsSource="{x:Bind app.vm.m.aqList, Mode=OneWay}" HorizontalAlignment="Left" VerticalAlignment="Bottom" SelectedIndex="{x:Bind app.vm.SelAqId, Mode=OneWay}" SelectionChanged="aqComboBox_SelectionChanged" Width="230" Height="65" Header="空汙指標" Margin="10,0,0,0" />
     </Grid>
 </Page>

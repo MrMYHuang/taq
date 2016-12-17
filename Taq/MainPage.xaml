@@ -92,24 +92,9 @@
         </SplitView.Pane>
 
         <Grid x:FieldModifier="public" x:Name="contentGrid" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-            <Frame x:FieldModifier="public" x:Name="frame" Margin="0,0,0,117"/>
+            <Frame x:FieldModifier="public" x:Name="frame" Margin="0,0,0,50"/>
 
             <Grid x:Name="funcGrid">
-                <ComboBox x:Name="subscrComboBox" HorizontalAlignment="Left" Margin="10,0,0,47" Width="110" Height="65" Header="主要觀測站" ItemsSource="{x:Bind app.vm.sites}" IsTapEnabled="True" SelectionChanged="subscrComboBox_SelectionChanged" VerticalAlignment="Bottom">
-                    <ComboBox.ItemTemplate>
-                        <DataTemplate x:DataType="tsmv:SiteViewModel">
-                            <TextBlock Text="{x:Bind siteName}"></TextBlock>
-                        </DataTemplate>
-                    </ComboBox.ItemTemplate>
-                </ComboBox>
-                <Button x:Name="umiButton" Margin="88,0,0,90" Tapped="umiButton_Tapped" IsTapEnabled="True" VerticalAlignment="Bottom" HorizontalAlignment="Left" RenderTransformOrigin="0.206,0.549" IsEnabled="{x:Bind app.vm.MapAutoPos, Mode=OneWay}">
-                    <Button.ContentTemplate>
-                        <DataTemplate x:DataType="local:MainPage">
-                            <Views:UserMapIcon Width="22" Height="22" IsEnabled="{x:Bind app.vm.MapAutoPos, Mode=OneWay}"></Views:UserMapIcon>
-                        </DataTemplate>
-                    </Button.ContentTemplate>
-                </Button>
-                <ComboBox x:Name="aqComboBox" ItemsSource="{x:Bind app.vm.m.aqList, Mode=OneWay}" HorizontalAlignment="Left" Margin="125,0,0,47" VerticalAlignment="Bottom" SelectedIndex="{x:Bind app.vm.SelAqId, Mode=OneWay}" SelectionChanged="aqComboBox_SelectionChanged" Width="110" Height="65" Header="空汙指標" />
                 <Button x:Name="refreshButton"  FontFamily="Segoe MDL2 Assets" Content="&#xE895;"  HorizontalAlignment="Left" Margin="10,0,0,10" VerticalAlignment="Bottom" Click="refreshButton_Click" Height="32" ToolTipService.ToolTip="更新" Width="35" />
                 <TextBlock x:Name="textBlock" HorizontalAlignment="Left" Margin="50,0,0,10" TextWrapping="Wrap" Text="狀態：" FontSize="20" Height="32" VerticalAlignment="Bottom"/>
                 <TextBlock x:Name="statusTextBlock" HorizontalAlignment="Left" Margin="110,0,0,10" TextWrapping="Wrap" Text="訊息" FontSize="20" Height="32" VerticalAlignment="Bottom"/>

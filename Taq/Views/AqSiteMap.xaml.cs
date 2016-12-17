@@ -21,12 +21,16 @@ namespace Taq.Views
     {
         public ApplicationDataContainer localSettings;
         public App app;
+        public Frame rootFrame;
+        public MainPage mainPage;
 
         public AqSiteMap()
         {
             localSettings =
        ApplicationData.Current.LocalSettings;
             app = App.Current as App;
+            rootFrame = Window.Current.Content as Frame;
+            mainPage = rootFrame.Content as MainPage;
             this.InitializeComponent();
             initPos();
             //map.Loaded += initPos;
@@ -47,7 +51,7 @@ namespace Taq.Views
 
             if (app.vm.MapAutoPos)
             {
-                await mapAutoPos();
+                await autoPosUmi();
             }
             else
             {
@@ -55,19 +59,32 @@ namespace Taq.Views
             }
         }
 
-        private async Task<int> mapAutoPos()
+        private void aqComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            // Subscribe to the PositionChanged event to get location updates.
-            //geoLoc.PositionChanged += OnPositionChanged;
+            mainPage.aqComboBox_SelectionChanged(sender, e);
+        }
+
+        private async void umiButton_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
+        {
+            await autoPosUmi();
+        }
+        
+        // Map icon for user location obtained by GPS.
+        UserMapIcon userMapIcon = new UserMapIcon();
+        private async Task<int> autoPosUmi()
+        {
             try
             {
-                // Center map on user location.
+                // Subscribe to the PositionChanged event to get location updates.
+                //geoLoc.PositionChanged += OnPositionChanged;
                 app.vm.geoLoc = new Geolocator { ReportInterval = 2000 };
                 var pos = await app.vm.geoLoc.GetGeopositionAsync();
                 var p = pos.Coordinate.Point;
-
-                var userMapIcon = new UserMapIcon();
-                map.Children.Add(userMapIcon);
+                // userMapIcon has not been added.
+                if (map.Children.IndexOf(userMapIcon) == -1)
+                {
+                    map.Children.Add(userMapIcon);
+                }
                 MapControl.SetLocation(userMapIcon, p);
                 MapControl.SetNormalizedAnchorPoint(userMapIcon, new Point(0.5, 0.5));
                 await map.TrySetSceneAsync(MapScene.CreateFromLocationAndRadius(p, 1000));
@@ -75,7 +92,6 @@ namespace Taq.Views
             catch (Exception ex)
             {
             }
-
             return 0;
         }
 
@@ -141,6 +157,11 @@ namespace Taq.Views
 
             // Center the map over the POI.
             //map.Center = gp;
+        }
+
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            umi.IsEnabled = app.vm.MapAutoPos;
         }
     }
 

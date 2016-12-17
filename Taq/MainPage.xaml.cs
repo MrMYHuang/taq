@@ -195,8 +195,8 @@ namespace Taq
             try
             {
                 app.vm.m.convertXDoc2Dict();
-                var selAqId = aqComboBox.SelectedIndex;
-                app.vm.SelAqId = selAqId;
+                //var selAqId = aqComboBox.SelectedIndex;
+                //app.vm.SelAqId = selAqId;
                 await app.vm.m.loadCurrSite();
                 app.vm.currSite2AqView();
             }
@@ -221,32 +221,7 @@ namespace Taq
             return 0;
         }
 
-        private async void subscrComboBox_SelectionChanged(Object sender, SelectionChangedEventArgs e)
-        {
-            var selSite = (SiteViewModel)((ComboBox)sender).SelectedItem;
-            // sites reloading can trigger this event handler and results in null.
-            // Unused???
-            if (selSite == null)
-            {
-                return;
-            }
-            localSettings.Values["subscrSite"] = selSite.siteName;
-            app.vm.loadSubscrSiteId();
-            await app.vm.m.loadCurrSite(true);
-            await app.vm.backTaskUpdateTiles();
-            app.vm.currSite2AqView();
-        }
-
-        private async void umiButton_Tapped(object sender, TappedRoutedEventArgs e)
-        {
-            await app.vm.findNearestSite();
-            var nearestSite = app.vm.sites.Where(s => s.siteName == app.vm.nearestSite.siteName).First();
-            localSettings.Values["subscrSite"] = nearestSite.siteName;
-            app.vm.loadSubscrSiteId();
-            subscrComboBox.SelectedIndex = app.vm.SubscrSiteId;
-        }
-
-        private void aqComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        public void aqComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var selAqId = ((ComboBox)sender).SelectedIndex;
             if (selAqId == -1)
@@ -259,7 +234,6 @@ namespace Taq
         private async void Page_Loaded(Object sender, RoutedEventArgs e)
         {
             await ReloadXdAndUpdateList();
-            subscrComboBox.SelectedIndex = app.vm.SubscrSiteId;
         }
 
         private async void refreshButton_Click(Object sender, RoutedEventArgs e)
@@ -283,7 +257,6 @@ namespace Taq
         private void setButton_Click(Object sender, TappedRoutedEventArgs e)
         {
             frame.Navigate(typeof(Settings));
-            showFuncGrid(true);
         }
 
         private void setButton_KeyUp(object sender, KeyRoutedEventArgs e)
@@ -291,14 +264,12 @@ namespace Taq
             if (e.Key == VirtualKey.Enter || e.Key == VirtualKey.Space)
             {
                 frame.Navigate(typeof(Settings));
-                showFuncGrid(true);
             }
         }
 
         private void homeButton_Click(Object sender, RoutedEventArgs e)
         {
             frame.Navigate(typeof(Home));
-            showFuncGrid(true);
         }
 
         private void homeButton_KeyUp(object sender, KeyRoutedEventArgs e)
@@ -306,14 +277,12 @@ namespace Taq
             if (e.Key == VirtualKey.Enter || e.Key == VirtualKey.Space)
             {
                 frame.Navigate(typeof(Home));
-                showFuncGrid(true);
             }
         }
 
         private void listButton_Click(Object sender, TappedRoutedEventArgs e)
         {
             frame.Navigate(typeof(AqList));
-            showFuncGrid(true);
         }
 
         private void listButton_KeyUp(object sender, KeyRoutedEventArgs e)
@@ -321,14 +290,12 @@ namespace Taq
             if (e.Key == VirtualKey.Enter || e.Key == VirtualKey.Space)
             {
                 frame.Navigate(typeof(AqList));
-                showFuncGrid(true);
             }
         }
 
         private void mapButton_Click(Object sender, TappedRoutedEventArgs e)
         {
             frame.Navigate(typeof(AqSiteMap));
-            showFuncGrid(true);
         }
 
         private void mapButton_KeyUp(object sender, KeyRoutedEventArgs e)
@@ -336,27 +303,25 @@ namespace Taq
             if (e.Key == VirtualKey.Enter || e.Key == VirtualKey.Space)
             {
                 frame.Navigate(typeof(AqSiteMap));
-                showFuncGrid(true);
             }
         }
 
         private void shareBtn_Click(Object sender, TappedRoutedEventArgs e)
         {
-            Windows.ApplicationModel.DataTransfer.DataTransferManager.ShowShareUI();
+            DataTransferManager.ShowShareUI();
         }
 
         private void shareButton_KeyUp(object sender, KeyRoutedEventArgs e)
         {
             if (e.Key == VirtualKey.Enter || e.Key == VirtualKey.Space)
             {
-                Windows.ApplicationModel.DataTransfer.DataTransferManager.ShowShareUI();
+                DataTransferManager.ShowShareUI();
             }
         }
 
         private void verButton_Click(Object sender, TappedRoutedEventArgs e)
         {
             frame.Navigate(typeof(Ver));
-            showFuncGrid(true);
         }
 
         private void verButton_KeyUp(object sender, KeyRoutedEventArgs e)
@@ -364,14 +329,12 @@ namespace Taq
             if (e.Key == VirtualKey.Enter || e.Key == VirtualKey.Space)
             {
                 frame.Navigate(typeof(Ver));
-                showFuncGrid(true);
             }
         }
 
         private void aboutButton_Click(Object sender, RoutedEventArgs e)
         {
             frame.Navigate(typeof(About));
-            showFuncGrid(true);
         }
 
         private void aboutButton_KeyUp(object sender, KeyRoutedEventArgs e)
@@ -379,14 +342,12 @@ namespace Taq
             if (e.Key == VirtualKey.Enter || e.Key == VirtualKey.Space)
             {
                 frame.Navigate(typeof(About));
-                showFuncGrid(true);
             }
         }
 
         private void colorMapsButton_Click(object sender, TappedRoutedEventArgs e)
         {
             frame.Navigate(typeof(AqColorMaps));
-            showFuncGrid(false);
         }
 
         private void colorMapsButton_KeyUp(object sender, KeyRoutedEventArgs e)
@@ -394,21 +355,6 @@ namespace Taq
             if (e.Key == VirtualKey.Enter || e.Key == VirtualKey.Space)
             {
                 frame.Navigate(typeof(AqColorMaps));
-                showFuncGrid(false);
-            }
-        }
-
-        private void showFuncGrid(bool isVisible)
-        {
-            if (isVisible == false)
-            {
-                frame.Margin = new Thickness(0);
-                funcGrid.Visibility = Visibility.Collapsed;
-            }
-            else
-            {
-                frame.Margin = new Thickness(0, 0, 0, 117);
-                funcGrid.Visibility = Visibility.Visible;
             }
         }
     }

@@ -12,18 +12,32 @@ namespace Taq.Views
         public UserMapIcon()
         {
             this.InitializeComponent();
+            accentAltBrush = new SolidColorBrush(Color.FromArgb(0xff, (byte)~accentBrush.Color.R, (byte)~accentBrush.Color.G, (byte)~accentBrush.Color.B));
         }
 
-        private void UserControl_IsEnabledChanged(object sender, Windows.UI.Xaml.DependencyPropertyChangedEventArgs e)
+        SolidColorBrush accentBrush = Application.Current.Resources["SystemControlHighlightAccentBrush"] as SolidColorBrush;
+        SolidColorBrush accentAltBrush;
+        SolidColorBrush accentDisBrush = new SolidColorBrush(Colors.Gray);
+        public void UserControl_IsEnabledChanged(object sender, Windows.UI.Xaml.DependencyPropertyChangedEventArgs e)
         {
             if (this.IsEnabled)
             {
-                centerCircle.Fill = Application.Current.Resources["SystemControlHighlightAccentBrush"] as SolidColorBrush;
+                centerCircle.Fill = accentBrush;
             }
             else
             {
-                centerCircle.Fill = new SolidColorBrush(Colors.Gray);
+                centerCircle.Fill = accentDisBrush;
             }
+        }
+
+        private void centerCircle_PointerEntered(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
+        {
+                centerCircle.Fill = accentAltBrush;
+        }
+
+        private void centerCircle_PointerExited(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
+        {
+            centerCircle.Fill = accentBrush;
         }
     }
 }

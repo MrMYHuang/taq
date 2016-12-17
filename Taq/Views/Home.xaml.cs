@@ -1,4 +1,9 @@
-﻿using Windows.UI.Xaml.Controls;
+﻿using System;
+using System.Linq;
+using TaqShared.ModelViews;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Input;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -12,11 +17,46 @@ namespace Taq.Views
     public sealed partial class Home : Page
     {
         public App app;
+        public Frame rootFrame;
+        public MainPage mainPage;
 
         public Home()
         {
             app = App.Current as App;
+            rootFrame = Window.Current.Content as Frame;
+            mainPage = rootFrame.Content as MainPage;
             this.InitializeComponent();
+            //umi.AddHandler(TappedEvent, new TappedEventHandler(umiButton_Tapped), true);
+        }
+
+        private async void subscrComboBox_SelectionChanged(Object sender, SelectionChangedEventArgs e)
+        {
+            var selSite = (SiteViewModel)((ComboBox)sender).SelectedItem;
+            // sites reloading can trigger this event handler and results in null.
+            // Unused???
+            if (selSite == null)
+            {
+                return;
+            }
+            app.vm.m.localSettings.Values["subscrSite"] = selSite.siteName;
+            app.vm.loadSubscrSiteId();
+            await app.vm.m.loadCurrSite(true);
+            await app.vm.backTaskUpdateTiles();
+            app.vm.currSite2AqView();
+        }
+        private async void umiButton_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            await app.vm.findNearestSite();
+            var nearestSite = app.vm.sites.Where(s => s.siteName == app.vm.nearestSite.siteName).First();
+            app.vm.m.localSettings.Values["subscrSite"] = nearestSite.siteName;
+            app.vm.loadSubscrSiteId();
+            subscrComboBox.SelectedIndex = app.vm.SubscrSiteId;
+        }
+
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            subscrComboBox.SelectedIndex = app.vm.SubscrSiteId;
+            umi.IsEnabled = app.vm.MapAutoPos;
         }
     }
 }

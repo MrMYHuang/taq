@@ -7,14 +7,14 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     d:DesignHeight="30"
-    d:DesignWidth="30" IsHitTestVisible="False" IsEnabledChanged="UserControl_IsEnabledChanged">
+    d:DesignWidth="30" IsEnabledChanged="UserControl_IsEnabledChanged">
 
     <Grid>
-        <Ellipse Width="22" Height="22" Fill="White" StrokeThickness="3" >
+        <Ellipse x:FieldModifier="public" x:Name="outterCircle" Width="22" Height="22" Fill="White" StrokeThickness="3" PointerEntered="centerCircle_PointerEntered" PointerExited="centerCircle_PointerExited">
             <Ellipse.Stroke>
                 <SolidColorBrush Color="Black"/>
             </Ellipse.Stroke>
         </Ellipse>
-        <Ellipse x:FieldModifier="public" x:Name="centerCircle" Width="10" Height="10" Fill="{ThemeResource SystemControlHighlightAccentBrush}"></Ellipse>
+        <Ellipse x:FieldModifier="public" x:Name="centerCircle" Width="10" Height="10"  Fill="{ThemeResource SystemControlHighlightAccentBrush}" IsHitTestVisible="False"></Ellipse>
     </Grid>
 </UserControl>
