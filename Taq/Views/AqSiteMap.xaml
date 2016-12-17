@@ -19,9 +19,9 @@
             MapServiceToken="YourBingMapToken" Margin="0,0,0,65" DataContext="app" ColorScheme="{x:Bind app.vm.MapColor, Converter={StaticResource b2mcc}, Mode=OneWay}"/>
         <ComboBox x:Name="aqComboBox" ItemsSource="{x:Bind app.vm.m.aqList, Mode=OneWay}" HorizontalAlignment="Left" VerticalAlignment="Bottom" SelectedIndex="{x:Bind app.vm.SelAqId, Mode=OneWay}" SelectionChanged="aqComboBox_SelectionChanged" Width="230" Height="65" Header="空汙指標" Margin="10,0,0,0" />
         <!-- Viewbox is used to scale up UserMapIcon. -->
-        <Viewbox VerticalAlignment="Bottom" Margin="240,0,0,0" Height="36" HorizontalAlignment="Left" Width="36">
+        <Viewbox VerticalAlignment="Bottom" Margin="240,0,0,0" Height="35" HorizontalAlignment="Left" Width="35">
             <!-- Don't bind UserMapIcon's IsEnabled to MapAutoPos. Otherwise, IsEnabledChanged event is not triggered. A UWP bug? -->
-            <local:UserMapIcon x:FieldModifier="public" x:Name="umi" Tapped="umiButton_Tapped" HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="30" Width="30"/>
+            <local:UserMapIcon x:FieldModifier="public" x:Name="umi" Tapped="umiButton_Tapped" HorizontalAlignment="Left" VerticalAlignment="Bottom" ToolTipService.ToolTip="定位"/>
         </Viewbox>
 
     </Grid>
