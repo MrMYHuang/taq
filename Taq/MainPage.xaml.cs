@@ -47,15 +47,17 @@ namespace Taq
             // Otherwise, some UI controls are not loaded completely after InitializeComponent.
             // Don't put these lines into initAux, because these lines must be executed by UI context. Putting them in initAux may result in deadlock!
             app.vm.SelAqId = 1;
-//            app.vm.loadDict2Sites(app.vm.m.aqList[0]);
+            //            app.vm.loadDict2Sites(app.vm.m.aqList[0]);
             app.vm.currSite2AqView();
 
             this.InitializeComponent();
+
+            // Must be called after this.InitializeComponent!!!
+            initPos().Wait();
             app.vm.loadSubscrSiteViewModel();
             frame.Navigate(typeof(Home));
             initPeriodicTimer();
             DataTransferManager.GetForCurrentView().DataRequested += MainPage_DataRequested;
-            initPos();
         }
 
         // This auxiliary method is used to wait for app.vm ready,
@@ -83,10 +85,18 @@ namespace Taq
             await app.vm.m.loadCurrSite(false).ConfigureAwait(false);
             return 0;
         }
-
-        async void initPos()
+        
+        async Task<int> initPos()
         {
-            app.vm.locAccStat = await Geolocator.RequestAccessAsync();
+            try
+            {
+                app.vm.locAccStat = await Geolocator.RequestAccessAsync().AsTask().ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                // Ignore.
+            }
+
             // The first time to set Values["MapAutoPos"] on a device.
             if (app.vm.m.localSettings.Values["MapAutoPos"] == null)
             {
@@ -99,6 +109,7 @@ namespace Taq
                     app.vm.MapAutoPos = false;
                 }
             }
+            return 0;
         }
 
         async void MainPage_DataRequested(DataTransferManager sender, DataRequestedEventArgs args)

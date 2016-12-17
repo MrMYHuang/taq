@@ -26,7 +26,6 @@ namespace Taq.Views
             rootFrame = Window.Current.Content as Frame;
             mainPage = rootFrame.Content as MainPage;
             this.InitializeComponent();
-            //umi.AddHandler(TappedEvent, new TappedEventHandler(umiButton_Tapped), true);
         }
 
         private async void subscrComboBox_SelectionChanged(Object sender, SelectionChangedEventArgs e)
@@ -55,6 +54,7 @@ namespace Taq.Views
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
+            // ComboBox ItemSource is ready after page loading.
             subscrComboBox.SelectedIndex = app.vm.SubscrSiteId;
             umi.IsEnabled = app.vm.MapAutoPos;
         }
