@@ -58,6 +58,10 @@ namespace Taq
             {
                 localSettings.Values["MapColor"] = false;
             }
+            if (localSettings.Values["MapAutoPos"] == null)
+            {
+                localSettings.Values["MapAutoPos"] = true;
+            }
             if (localSettings.Values["WarnStateChangeMode"] == null)
             {
                 localSettings.Values["WarnStateChangeMode"] = true;
@@ -81,6 +85,10 @@ namespace Taq
             else
             {
                 vm.BgUpdatePeriodId = vm.bgUpdatePeriods.FindIndex(x => x == (int)localSettings.Values["BgUpdatePeriod"]);
+            }
+            if (localSettings.Values["BgMainSiteAutoPos"] == null)
+            {
+                localSettings.Values["BgMainSiteAutoPos"] = true;
             }
         }
 

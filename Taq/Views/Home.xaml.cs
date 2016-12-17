@@ -5,6 +5,7 @@ using TaqShared.ModelViews;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Data;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -32,13 +33,13 @@ namespace Taq.Views
 
         private async void Umi_Loaded(object sender, RoutedEventArgs e)
         {
-            // Wait MainPage's initPos for MapAutoPos being set.
-            while (app.vm.m.localSettings.Values["MapAutoPos"] == null)
+            // Wait MainPage's initPos for AutoPos being set.
+            while (app.vm.m.localSettings.Values["AutoPos"] == null)
             {
                 // Force Umi_Loaded to an async function by await this.
                 await Task.Delay(100);
             }
-            umi.IsEnabled = app.vm.MapAutoPos;
+            umi.IsEnabled = app.vm.AutoPos;
         }
 
         private async void subscrComboBox_SelectionChanged(Object sender, SelectionChangedEventArgs e)
@@ -59,16 +60,22 @@ namespace Taq.Views
         private async void umiButton_Tapped(object sender, TappedRoutedEventArgs e)
         {
             await app.vm.m.findNearestSite();
-            var nearestSite = app.vm.sites.Where(s => s.siteName == app.vm.m.nearestSite).First();
-            app.vm.m.localSettings.Values["subscrSite"] = nearestSite.siteName;
+            app.vm.m.localSettings.Values["subscrSite"] = app.vm.m.nearestSite;
             app.vm.loadSubscrSiteId();
-            subscrComboBox.SelectedIndex = app.vm.SubscrSiteId;
         }
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
             // ComboBox ItemSource is ready after page loading.
-            subscrComboBox.SelectedIndex = app.vm.SubscrSiteId;
+            //subscrComboBox.SelectedIndex = app.vm.SubscrSiteId;
+        }
+
+        private void subscrComboBox_Loaded(object sender, RoutedEventArgs e)
+        {
+            // Do binding SelectedIndex to SubscrSiteId after ubscrComboBox.Items ready (subscrComboBox_Loaded).
+            // Don't directly bind SelectedIndex to SubscrSiteId in XAML!
+            var b = new Binding { Source = app.vm, Path = new PropertyPath("SubscrSiteId"), Mode = BindingMode.TwoWay };
+            subscrComboBox.SetBinding(ComboBox.SelectedIndexProperty, b);
         }
     }
 }

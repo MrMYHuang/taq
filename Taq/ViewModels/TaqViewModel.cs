@@ -261,15 +261,15 @@ namespace Taq
             }
         }
 
-        public bool MapAutoPos
+        public bool AutoPos
         {
             get
             {
-                if(m.localSettings.Values["MapAutoPos"] == null)
+                if (m.localSettings.Values["AutoPos"] == null)
                 {
                     return false;
                 }
-                return (bool)m.localSettings.Values["MapAutoPos"];
+                return (bool)m.localSettings.Values["AutoPos"];
             }
 
             set
@@ -281,7 +281,7 @@ namespace Taq
                         case GeolocationAccessStatus.Allowed:
                             // Subscribe to the PositionChanged event to get location updates.
                             //geoLoc.PositionChanged += OnPositionChanged;
-                            m.localSettings.Values["MapAutoPos"] = true;
+                            m.localSettings.Values["AutoPos"] = true;
                             break;
                         default:
                             var cd = new ContentDialog { Title = "啟動定位失敗！" };
@@ -296,15 +296,43 @@ namespace Taq
                             //var md = new Windows.UI.Popups.MessageDialog("您曾拒絕TAQ存取您的位置資訊。必須去系統設定修改准許TAQ存取，然後重啟TAQ。若找不到該設定，可以嘗試重新安裝TAQ解決。", "啟動定位失敗！");
 
                             //md.ShowAsync();
-                            m.localSettings.Values["MapAutoPos"] = false;
+                            m.localSettings.Values["AutoPos"] = false;
                             break;
                     }
                 }
                 else
                 {
-                    m.localSettings.Values["MapAutoPos"] = value;
+                    m.localSettings.Values["AutoPos"] = value;
                 }
+                OnPropertyChanged("AutoPos");
+            }
+        }
+
+        public bool MapAutoPos
+        {
+            get
+            {
+                return (bool)m.localSettings.Values["MapAutoPos"];
+            }
+
+            set
+            {
+                m.localSettings.Values["MapAutoPos"] = value;
                 OnPropertyChanged("MapAutoPos");
+            }
+        }
+
+        public bool BgMainSiteAutoPos
+        {
+            get
+            {
+                return (bool)m.localSettings.Values["BgMainSiteAutoPos"];
+            }
+
+            set
+            {
+                m.localSettings.Values["BgMainSiteAutoPos"] = value;
+                OnPropertyChanged("BgMainSiteAutoPos");
             }
         }
     }

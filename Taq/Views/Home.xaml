@@ -31,7 +31,7 @@
                 </DataTemplate>
             </GridView.ItemTemplate>
         </GridView>
-        <ComboBox x:Name="subscrComboBox" HorizontalAlignment="Left" Width="230" Height="65" Header="主要觀測站" ItemsSource="{x:Bind app.vm.sites}" IsTapEnabled="True" SelectionChanged="subscrComboBox_SelectionChanged" VerticalAlignment="Bottom" Margin="10,0,0,0">
+        <ComboBox x:Name="subscrComboBox" HorizontalAlignment="Left" Width="230" Height="65" Header="主要觀測站" ItemsSource="{x:Bind app.vm.sites}" IsTapEnabled="True" SelectionChanged="subscrComboBox_SelectionChanged" VerticalAlignment="Bottom" Margin="10,0,0,0" Loaded="subscrComboBox_Loaded">
             <ComboBox.ItemTemplate>
                 <DataTemplate x:DataType="tsmv:SiteViewModel">
                     <TextBlock Text="{x:Bind siteName}"></TextBlock>
@@ -40,7 +40,7 @@
         </ComboBox>
         <!-- Viewbox is used to scale up UserMapIcon. -->
         <Viewbox VerticalAlignment="Bottom" Margin="240,0,0,0" Height="35" HorizontalAlignment="Left" Width="35">
-            <!-- Don't bind UserMapIcon's IsEnabled to MapAutoPos. Otherwise, IsEnabledChanged event is not triggered. A UWP bug? -->
+            <!-- Don't bind UserMapIcon's IsEnabled to AutoPos. Otherwise, IsEnabledChanged event is not triggered. A UWP bug? -->
             <!-- Please use Page_Loaded or Umi_Loaded to set UserMapIcon's IsEnabled. -->
             <local:UserMapIcon x:FieldModifier="public" x:Name="umi" Tapped="umiButton_Tapped" HorizontalAlignment="Left" VerticalAlignment="Bottom" ToolTipService.ToolTip="定位找最近站"/>
         </Viewbox>

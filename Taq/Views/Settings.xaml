@@ -16,19 +16,30 @@
             </DataTemplate>
         </HubSection>
 
+        <HubSection Style="{StaticResource hubSecHeadSty}" Header="定位">
+            <DataTemplate x:DataType="local:Settings">
+                <StackPanel Orientation="Vertical">
+                    <ToggleSwitch Header="總開關" x:FieldModifier="public" x:Name="autoPosToggle" HorizontalAlignment="Left" Margin="0" IsOn="{x:Bind app.vm.AutoPos, Mode=TwoWay}" />
+                </StackPanel>
+            </DataTemplate>
+        </HubSection>
+
         <HubSection Style="{StaticResource hubSecHeadSty}" Header="地圖">
             <DataTemplate x:DataType="local:Settings">
                 <StackPanel Orientation="Vertical">
                     <ToggleSwitch Header="暗色" x:Name="mapColorToggle" HorizontalAlignment="Left" Margin="0" IsOn="{x:Bind app.vm.MapColor, Mode=TwoWay}" />
-                    <ToggleSwitch Header="自動定位" x:Name="autoPosToggle" HorizontalAlignment="Left" Margin="0" IsOn="{x:Bind app.vm.MapAutoPos, Mode=TwoWay}" />
+                    <ToggleSwitch Header="定位" x:FieldModifier="public" x:Name="mapAutoPosToggle" HorizontalAlignment="Left" Margin="0" IsOn="{x:Bind app.vm.MapAutoPos, Mode=TwoWay}" />
                 </StackPanel>
             </DataTemplate>
         </HubSection>
 
         <HubSection Style="{StaticResource hubSecHeadSty}" Header="背景更新">
             <DataTemplate x:DataType="local:Settings">
-                <ComboBox x:Name="bgUpdateComboBox" HorizontalAlignment="Left" Width="265" Header="週期(分鐘)" ItemsSource="{x:Bind app.vm.bgUpdatePeriods}" IsTapEnabled="True" SelectedIndex="{x:Bind app.vm.BgUpdatePeriodId, Mode=OneWay}" SelectionChanged="bgUpdateComboBox_SelectionChanged">
-                </ComboBox>
+                <StackPanel Orientation="Vertical">
+                    <ComboBox x:Name="bgUpdateComboBox" HorizontalAlignment="Left" Width="265" Header="週期(分鐘)" ItemsSource="{x:Bind app.vm.bgUpdatePeriods}" IsTapEnabled="True" SelectedIndex="{x:Bind app.vm.BgUpdatePeriodId, Mode=OneWay}" SelectionChanged="bgUpdateComboBox_SelectionChanged">
+                    </ComboBox>
+                    <ToggleSwitch Header="主要觀測站定位" x:FieldModifier="public" x:Name="bgMainSiteAutoPosToggle" HorizontalAlignment="Left" Margin="0" IsOn="{x:Bind app.vm.BgMainSiteAutoPos, Mode=TwoWay}" />
+                </StackPanel>
             </DataTemplate>
         </HubSection>
 

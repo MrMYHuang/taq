@@ -100,16 +100,16 @@ namespace Taq
                 // Ignore.
             }
 
-            // The first time to set Values["MapAutoPos"] on a device.
-            if (app.vm.m.localSettings.Values["MapAutoPos"] == null)
+            // The first time to set Values["AutoPos"] on a device.
+            if (app.vm.m.localSettings.Values["AutoPos"] == null)
             {
                 if (app.vm.m.locAccStat == GeolocationAccessStatus.Allowed)
                 {
-                    app.vm.MapAutoPos = true;
+                    app.vm.AutoPos = true;
                 }
                 else
                 {
-                    app.vm.MapAutoPos = false;
+                    app.vm.AutoPos = false;
                 }
             }
             return 0;
@@ -185,7 +185,7 @@ namespace Taq
         {
 
 #if DEBUG
-            TimeSpan delay = TimeSpan.FromSeconds(3e3);
+            TimeSpan delay = TimeSpan.FromSeconds(20);
 #else
             TimeSpan delay = TimeSpan.FromSeconds(60);
 #endif
@@ -209,8 +209,7 @@ namespace Taq
             try
             {
                 app.vm.m.convertXDoc2Dict();
-                //var selAqId = aqComboBox.SelectedIndex;
-                //app.vm.SelAqId = selAqId;
+                app.vm.loadSubscrSiteId();
                 await app.vm.m.loadCurrSite();
                 app.vm.currSite2AqView();
             }

@@ -49,7 +49,7 @@ namespace Taq.Views
         {
             addMapIcons();
 
-            if (app.vm.MapAutoPos)
+            if (app.vm.AutoPos && app.vm.MapAutoPos)
             {
                 await autoPosUmi();
             }
@@ -161,7 +161,7 @@ namespace Taq.Views
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            umi.IsEnabled = app.vm.MapAutoPos;
+            umi.IsEnabled = app.vm.AutoPos && app.vm.MapAutoPos;
         }
     }
 

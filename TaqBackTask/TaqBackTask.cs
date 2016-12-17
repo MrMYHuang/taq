@@ -50,7 +50,11 @@ namespace TaqBackTask
             try
             {
                 m.convertXDoc2Dict();
-                await m.findNearestSite();
+                if((bool)m.localSettings.Values["AutoPos"] && (bool)m.localSettings.Values["BgMainSiteAutoPos"])
+                {
+                    await m.findNearestSite();
+                    m.localSettings.Values["subscrSite"] = m.nearestSite;
+                }
                 await m.loadCurrSite();
                 await m.loadSubscrSiteXml();
 
