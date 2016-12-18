@@ -14,6 +14,8 @@ using Windows.UI.Core;
 using Windows.Devices.Geolocation;
 using TaqShared.ModelViews;
 using TaqShared.Models;
+using Windows.ApplicationModel.Background;
+using Windows.ApplicationModel.Core;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -59,7 +61,7 @@ namespace Taq
 
             app.vm.loadSubscrSiteViewModel();
             frame.Navigate(typeof(Home));
-            initPeriodicTimer();
+            initBackTask();
             DataTransferManager.GetForCurrentView().DataRequested += MainPage_DataRequested;
         }
 
@@ -88,7 +90,7 @@ namespace Taq
             await app.vm.m.loadCurrSite(false).ConfigureAwait(false);
             return 0;
         }
-        
+
         async Task<int> initPos()
         {
             try
@@ -112,6 +114,38 @@ namespace Taq
                     app.vm.AutoPos = false;
                 }
             }
+            return 0;
+        }
+
+        async Task<int> initBackTask()
+        {
+            if (localSettings.Values["BgUpdatePeriod"] == null)
+            {
+                app.vm.BgUpdatePeriodId = 0;
+            }
+            else
+            {
+                app.vm.BgUpdatePeriodId = app.vm.bgUpdatePeriods.FindIndex(x => x == (int)localSettings.Values["BgUpdatePeriod"]);
+            }
+            if (localSettings.Values["BgMainSiteAutoPos"] == null)
+            {
+                localSettings.Values["BgMainSiteAutoPos"] = true;
+            }
+            await backTaskReg();
+            return 0;
+        }
+
+        public async Task<int> backTaskReg()
+        {
+            var btr = await app.vm.RegisterBackgroundTask("TaqBackTask", "TaqBackTask.TaqBackTask", new TimeTrigger(Convert.ToUInt32(localSettings.Values["BgUpdatePeriod"]), false));
+            btr.Completed += (s, e) =>
+            {
+                CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                {
+                    statusTextBlock.Text = DateTime.Now.ToString("HH:mm:ss tt") + "更新";
+                    ReloadXmlAndSitesData();
+                });
+            };
             return 0;
         }
 
@@ -172,7 +206,7 @@ namespace Taq
                 // Ignore.
             }
 
-            await updateListView();
+            await updateSitesData();
             /*#if DEBUG
             #else*/
             app.vm.m.sendSubscrSitesNotifications();
@@ -181,30 +215,21 @@ namespace Taq
             return 0;
         }
 
-        private void initPeriodicTimer()
+        private async Task<int> ReloadXmlAndSitesData()
         {
-
-#if DEBUG
-            TimeSpan delay = TimeSpan.FromSeconds(20);
-#else
-            TimeSpan delay = TimeSpan.FromSeconds(60);
-#endif
-            periodicTimer = ThreadPoolTimer.CreatePeriodicTimer(async (source) =>
+            try
             {
-                // TODO: Work
-
-                // Update the UI thread by using the UI core dispatcher.
-                await Dispatcher.RunAsync(CoreDispatcherPriority.High,
-                        async () =>
-                        {
-                            await ReloadXdAndUpdateList();
-                        }
-                    );
-
-            }, delay);
+                await app.vm.m.loadAqXml();
+                await updateSitesData();
+            }
+            catch (Exception ex)
+            {
+                statusTextBlock.Text = "自動更新失敗。請嘗試手動更新。";
+            }
+            return 0;
         }
 
-        public async Task<int> updateListView()
+        public async Task<int> updateSitesData()
         {
             try
             {
@@ -220,20 +245,17 @@ namespace Taq
             return 0;
         }
 
-        private async Task<int> ReloadXdAndUpdateList()
+        private async void Page_Loaded(Object sender, RoutedEventArgs e)
         {
-            try
-            {
-                await app.vm.m.loadAqXml();
-                await updateListView();
-            }
-            catch (Exception ex)
-            {
-                statusTextBlock.Text = "自動更新失敗。請嘗試手動更新。";
-            }
-            return 0;
+            await ReloadXmlAndSitesData();
         }
 
+        private async void refreshButton_Click(Object sender, RoutedEventArgs e)
+        {
+            await downloadAndReload();
+        }
+
+        // Used by AqList and AqSiteMap.
         public void aqComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var selAqId = ((ComboBox)sender).SelectedIndex;
@@ -244,16 +266,7 @@ namespace Taq
             app.vm.SelAqId = selAqId;
         }
 
-        private async void Page_Loaded(Object sender, RoutedEventArgs e)
-        {
-            await ReloadXdAndUpdateList();
-        }
-
-        private async void refreshButton_Click(Object sender, RoutedEventArgs e)
-        {
-            await downloadAndReload();
-        }
-
+        // Trivial codes
         private void HamburgerButton_Click(Object sender, RoutedEventArgs e)
         {
             MySplitView.IsPaneOpen = !MySplitView.IsPaneOpen;

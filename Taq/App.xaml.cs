@@ -46,7 +46,7 @@ namespace Taq
        ApplicationData.Current.LocalSettings;
             if (localSettings.Values["AppTheme"] == null)
             {
-                localSettings.Values["AppTheme"] = false;
+                localSettings.Values["AppTheme"] = true;
             }
             this.RequestedTheme = (bool)localSettings.Values["AppTheme"] ? ApplicationTheme.Dark : ApplicationTheme.Light;
 
@@ -56,7 +56,7 @@ namespace Taq
             }
             if (localSettings.Values["MapColor"] == null)
             {
-                localSettings.Values["MapColor"] = false;
+                localSettings.Values["MapColor"] = true;
             }
             if (localSettings.Values["MapAutoPos"] == null)
             {
@@ -76,19 +76,7 @@ namespace Taq
             }
             if (localSettings.Values["subscrSite"] == null)
             {
-                localSettings.Values["subscrSite"] = "中壢";
-            }
-            if (localSettings.Values["BgUpdatePeriod"] == null)
-            {
-                vm.BgUpdatePeriodId = 2;
-            }
-            else
-            {
-                vm.BgUpdatePeriodId = vm.bgUpdatePeriods.FindIndex(x => x == (int)localSettings.Values["BgUpdatePeriod"]);
-            }
-            if (localSettings.Values["BgMainSiteAutoPos"] == null)
-            {
-                localSettings.Values["BgMainSiteAutoPos"] = true;
+                localSettings.Values["subscrSite"] = "平鎮";
             }
         }
 

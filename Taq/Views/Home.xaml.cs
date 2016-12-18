@@ -42,6 +42,14 @@ namespace Taq.Views
             umi.IsEnabled = app.vm.AutoPos;
         }
 
+        private void subscrComboBox_Loaded(object sender, RoutedEventArgs e)
+        {
+            // Do binding SelectedIndex to SubscrSiteId after ubscrComboBox.Items ready (subscrComboBox_Loaded).
+            // Don't directly bind SelectedIndex to SubscrSiteId in XAML!
+            var b = new Binding { Source = app.vm, Path = new PropertyPath("SubscrSiteId"), Mode = BindingMode.TwoWay };
+            subscrComboBox.SetBinding(ComboBox.SelectedIndexProperty, b);
+        }
+
         private async void subscrComboBox_SelectionChanged(Object sender, SelectionChangedEventArgs e)
         {
             var selSite = (SiteViewModel)((ComboBox)sender).SelectedItem;
@@ -51,11 +59,21 @@ namespace Taq.Views
             {
                 return;
             }
-            app.vm.m.localSettings.Values["subscrSite"] = selSite.siteName;
-            app.vm.loadSubscrSiteId();
-            await app.vm.m.loadCurrSite(true);
-            await app.vm.backTaskUpdateTiles();
-            app.vm.currSite2AqView();
+            if(app.vm.m.localSettings.Values["TaqBackTaskUpdated"] == null || (bool)app.vm.m.localSettings.Values["TaqBackTaskUpdated"] == false)
+            {
+                // SelectionChanged is triggered by changing selected item by, e.g., tapping.
+                app.vm.m.localSettings.Values["subscrSite"] = selSite.siteName;
+                //app.vm.loadSubscrSiteId();
+                await app.vm.m.loadCurrSite(true);
+                app.vm.currSite2AqView();
+                await app.vm.backTaskUpdateTiles();
+            }
+            else
+            {
+                // SelectionChanged is triggered by TaqBackTask updating.
+                // Do nothing but set this:
+                app.vm.m.localSettings.Values["TaqBackTaskUpdated"] = false;
+            }
         }
         private async void umiButton_Tapped(object sender, TappedRoutedEventArgs e)
         {
@@ -68,14 +86,6 @@ namespace Taq.Views
         {
             // ComboBox ItemSource is ready after page loading.
             //subscrComboBox.SelectedIndex = app.vm.SubscrSiteId;
-        }
-
-        private void subscrComboBox_Loaded(object sender, RoutedEventArgs e)
-        {
-            // Do binding SelectedIndex to SubscrSiteId after ubscrComboBox.Items ready (subscrComboBox_Loaded).
-            // Don't directly bind SelectedIndex to SubscrSiteId in XAML!
-            var b = new Binding { Source = app.vm, Path = new PropertyPath("SubscrSiteId"), Mode = BindingMode.TwoWay };
-            subscrComboBox.SetBinding(ComboBox.SelectedIndexProperty, b);
         }
     }
 }

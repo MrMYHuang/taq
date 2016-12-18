@@ -24,9 +24,11 @@
                 </TextBlock>
             </DataTemplate>
         </HubSection>
-        <HubSection Header="Ver. 3.5.1" Width="Auto">
+        <HubSection Header="Ver. 3.6.0" Width="Auto">
             <DataTemplate>
                 <TextBlock Style="{StaticResource txtBlkSty1}" >
+                    * 若前景app開啟，背景更新後會在狀態顯示更新時間。<LineBreak />
+                    * 移除前景定時更新，改用背景更新結束觸發前景更新UI。<LineBreak />
                     * 修正背景更新未註冊BackgroundTaskCanceledEventHandler。<LineBreak />
                 </TextBlock>
             </DataTemplate>

@@ -11,6 +11,7 @@ namespace TaqBackTask
 
         protected async override void OnRun(IBackgroundTaskInstance taskInstance)
         {
+            // Don't place any code (including debug code) before GetDeferral!!!
             // Get a deferral, to prevent the task from closing prematurely
             // while asynchronous code is still running.
             BackgroundTaskDeferral deferral = taskInstance.GetDeferral();

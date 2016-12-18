@@ -16,11 +16,13 @@ namespace Taq.Views
     {
         public App app;
         public Frame rootFrame;
+        public MainPage mainPage;
         public ApplicationDataContainer localSettings;
         public Settings()
         {
             app = App.Current as App;
             rootFrame = Window.Current.Content as Frame;
+            mainPage = rootFrame.Content as MainPage;
             localSettings = ApplicationData.Current.LocalSettings;
             this.InitializeComponent();
         }
@@ -76,10 +78,11 @@ namespace Taq.Views
             }
         }
 
-        private void bgUpdateComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private async void bgUpdateComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var selId = ((ComboBox)sender).SelectedIndex;
             app.vm.BgUpdatePeriodId = selId;
+            await mainPage.backTaskReg();
         }
 
         private void subscrButton_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)

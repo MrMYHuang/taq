@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Xml.Linq;
@@ -9,10 +10,12 @@ using TaqShared.Models;
 using TaqShared.ModelViews;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Background;
+using Windows.ApplicationModel.Core;
 using Windows.Devices.Geolocation;
 using Windows.Foundation;
 using Windows.System;
 using Windows.UI;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
@@ -178,11 +181,10 @@ namespace Taq
             {
                 SetProperty(ref bgUpdatePeriodId, value);
                 m.localSettings.Values["BgUpdatePeriod"] = bgUpdatePeriods[value];
-                RegisterBackgroundTask("TaqBackTask", "TaqBackTask.TaqBackTask", new TimeTrigger(Convert.ToUInt32(m.localSettings.Values["BgUpdatePeriod"]), false));
             }
         }
 
-        public async Task<int> RegisterBackgroundTask(string taskName, string taskEntryPoint, IBackgroundTrigger trigger)
+        public async Task<BackgroundTaskRegistration> RegisterBackgroundTask(string taskName, string taskEntryPoint, IBackgroundTrigger trigger)
         {
             var backgroundAccessStatus = await BackgroundExecutionManager.RequestAccessAsync();
             if (backgroundAccessStatus == BackgroundAccessStatus.AllowedMayUseActiveRealTimeConnectivity ||
@@ -195,6 +197,9 @@ namespace Taq
                     if (task.Value.Name == taskName)
                     {
                         task.Value.Unregister(true);
+#if DEBUG
+                        Debug.WriteLine(taskName + " unregistered!!!");
+#endif
                     }
                 }
 
@@ -202,9 +207,9 @@ namespace Taq
                 taskBuilder.Name = taskName;
                 taskBuilder.TaskEntryPoint = taskEntryPoint;
                 taskBuilder.SetTrigger(trigger);
-                var registration = taskBuilder.Register();
+                return taskBuilder.Register();
             }
-            return 0;
+            return null;
         }
 
         public string Version
