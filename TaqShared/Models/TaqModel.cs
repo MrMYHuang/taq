@@ -378,7 +378,7 @@ namespace Taq
             var timeStr = sitesStrDict[siteName]["PublishTime"].Substring(11, 5);
 
             // Wide tile
-            var wideTile = new WideTile();
+            var wideTile = new WideTile(textColor);
             wideTile.topTxt.Text = siteName + " " + timeStr;
             wideTile.medVal1.Text = sitesStrDict[siteName]["AQI"];
             wideTile.medVal2.Text = sitesStrDict[siteName]["PM2.5"];
@@ -394,16 +394,11 @@ namespace Taq
             medTile.border.Background = bgColor;
 
             // Small tile
-            var smallTile = new SmallTile();
+            var smallTile = new SmallTile(textColor);
             smallTile.topTxt.Text = siteName;
             smallTile.downTxt.Text = timeStr;
             smallTile.border.Background = bgColor;
-
-            // Set text color.
-            foreach (var t in new List<TextBlock> { smallTile.topTxt, smallTile.downTxt,  wideTile.topTxt, wideTile.medTxt1, wideTile.medVal1, wideTile.medTxt2, wideTile.medVal2, wideTile.medTxt3, wideTile.medVal3 })
-            {
-                t.Foreground = textColor;
-            }
+            
             await StaticTaqModelView.saveUi2Png(siteName + "SmallTile.png", smallTile);
             await StaticTaqModelView.saveUi2Png(siteName + "MedTile.png", medTile);
             await StaticTaqModelView.saveUi2Png(siteName + "WideTile.png", wideTile);

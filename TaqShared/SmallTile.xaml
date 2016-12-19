@@ -20,8 +20,8 @@
 
     <Border x:FieldModifier="public" x:Name="border" VerticalAlignment="Center" Background="Green" Height="71" Width="71">
         <StackPanel Orientation="Vertical">
-            <TextBlock x:FieldModifier="public" x:Name="topTxt" Style="{StaticResource tbSty}">平鎮</TextBlock>
-            <TextBlock x:FieldModifier="public" x:Name="downTxt" Style="{StaticResource tbSty}">12:34</TextBlock>
+            <TextBlock x:FieldModifier="public" x:Name="topTxt" Style="{StaticResource tbSty}" Foreground="{x:Bind TextColor}">平鎮</TextBlock>
+            <TextBlock x:FieldModifier="public" x:Name="downTxt" Style="{StaticResource tbSty}" Foreground="{x:Bind TextColor}">12:34</TextBlock>
         </StackPanel>
     </Border>
 </UserControl>

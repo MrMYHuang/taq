@@ -23,19 +23,19 @@
 
     <Border x:FieldModifier="public" x:Name="border" VerticalAlignment="Center" Background="Green" Height="150" Width="310">
         <StackPanel Orientation="Vertical">
-            <TextBlock x:FieldModifier="public" x:Name="topTxt" Style="{StaticResource tbSty}" Text="平鎮 12:34"/>
+            <TextBlock x:FieldModifier="public" x:Name="topTxt" Style="{StaticResource tbSty}" Foreground="{x:Bind TextColor}" Text="平鎮 12:34"/>
             <StackPanel Orientation="Horizontal">
                 <StackPanel Orientation="Vertical" Style="{StaticResource spSty}">
-                    <TextBlock x:FieldModifier="public" x:Name="medTxt1" Style="{StaticResource tbSty}" Text="AQI"/>
-                    <TextBlock x:FieldModifier="public" x:Name="medVal1" Style="{StaticResource tbSty}">123</TextBlock>
+                    <TextBlock x:FieldModifier="public" x:Name="medTxt1" Style="{StaticResource tbSty}" Foreground="{x:Bind TextColor}" Text="AQI"/>
+                    <TextBlock x:FieldModifier="public" x:Name="medVal1" Style="{StaticResource tbSty}" Foreground="{x:Bind TextColor}">123</TextBlock>
                 </StackPanel>
                 <StackPanel Orientation="Vertical" Style="{StaticResource spSty}">
-                    <TextBlock x:FieldModifier="public" x:Name="medTxt2" Style="{StaticResource tbSty}">PM<Run Typography.Variants="Subscript">2.5</Run></TextBlock>
-                    <TextBlock x:FieldModifier="public" x:Name="medVal2" Style="{StaticResource tbSty}">123</TextBlock>
+                    <TextBlock x:FieldModifier="public" x:Name="medTxt2" Style="{StaticResource tbSty}" Foreground="{x:Bind TextColor}">PM<Run Typography.Variants="Subscript">2.5</Run></TextBlock>
+                    <TextBlock x:FieldModifier="public" x:Name="medVal2" Style="{StaticResource tbSty}" Foreground="{x:Bind TextColor}">123</TextBlock>
                 </StackPanel>
                 <StackPanel Orientation="Vertical" Style="{StaticResource spSty}">
-                    <TextBlock x:FieldModifier="public" x:Name="medTxt3" Style="{StaticResource tbSty}">PM<Run Typography.Variants="Subscript">10</Run></TextBlock>
-                    <TextBlock x:FieldModifier="public" x:Name="medVal3" Style="{StaticResource tbSty}">123</TextBlock>
+                    <TextBlock x:FieldModifier="public" x:Name="medTxt3" Style="{StaticResource tbSty}" Foreground="{x:Bind TextColor}">PM<Run Typography.Variants="Subscript">10</Run></TextBlock>
+                    <TextBlock x:FieldModifier="public" x:Name="medVal3" Style="{StaticResource tbSty}" Foreground="{x:Bind TextColor}">123</TextBlock>
                 </StackPanel>
             </StackPanel>
         </StackPanel>
