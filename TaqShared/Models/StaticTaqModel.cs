@@ -42,6 +42,15 @@ namespace TaqShared.Models
             { "非常不良", "非常"},
         };
 
+        public static string getShortStatus(string statusStr)
+        {
+            if (statusStr.Length > 2)
+            {
+                return StaticTaqModel.shortStatusDict[statusStr];
+            }
+            return statusStr;
+        }
+
         // Limit of color of texts on the corresponding AQ background color.
         // <= aqTextColorLimit: black
         // > aqTextColorLimit: white

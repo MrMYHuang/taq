@@ -20,13 +20,14 @@
         <HubSection Header="已知問題" Width="Auto">
             <DataTemplate>
                 <TextBlock Style="{StaticResource txtBlkSty1}" >
-                    * 部分尺寸動態磚未實作：詳細小磚、簡潔大磚<LineBreak />
+                    * 無。<LineBreak />
                 </TextBlock>
             </DataTemplate>
         </HubSection>
         <HubSection Header="Ver. 3.7.0" Width="Auto">
             <DataTemplate>
                 <TextBlock Style="{StaticResource txtBlkSty1}" >
+                    * 實作簡潔大磚。<LineBreak />
                     * 簡潔中磚加入即時PM 2.5數值。<LineBreak />
                     * 空汙指標背景色為紅色時，文字顏色改為白色(原先為黑色)。<LineBreak />
                 </TextBlock>

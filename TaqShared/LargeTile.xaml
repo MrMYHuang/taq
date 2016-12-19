@@ -1,0 +1,74 @@
+﻿<UserControl
+    x:Class="TaqShared.LargeTile"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:TaqShared"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    d:DesignHeight="310"
+    d:DesignWidth="310">
+
+    <UserControl.Resources>
+        <Style x:Key="spSty" TargetType="StackPanel">
+            <Setter Property="Width" Value="100"></Setter>
+        </Style>
+        <Style x:Key="tbSty" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="36"></Setter>
+            <Setter Property="TextAlignment" Value="Center"></Setter>
+            <!-- Please set IsTextScaleFactorEnabled to False, if you want to take screenshot on foreground window. Otherwise, text scaling of OS may destroy the text layout. -->
+            <Setter Property="IsTextScaleFactorEnabled" Value="False"></Setter>
+        </Style>
+    </UserControl.Resources>
+
+    <Border x:FieldModifier="public" x:Name="border" VerticalAlignment="Center" Background="Green" Height="310" Width="310">
+        <Grid>
+            <!--
+            <TextBlock x:FieldModifier="public" x:Name="topTxt" Style="{StaticResource tbSty}" Foreground="{x:Bind TextColor}" Text="平鎮 12:34"/>-->
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Top">
+                <StackPanel Orientation="Vertical" Style="{StaticResource spSty}">
+                    <TextBlock Style="{StaticResource tbSty}" Foreground="{x:Bind TextColor}">測站</TextBlock>
+                    <TextBlock x:FieldModifier="public" x:Name="val1" Style="{StaticResource tbSty}" Foreground="{x:Bind TextColor}">平鎮</TextBlock>
+                </StackPanel>
+                <StackPanel Orientation="Vertical" Style="{StaticResource spSty}">
+                    <TextBlock Style="{StaticResource tbSty}" Foreground="{x:Bind TextColor}">狀態</TextBlock>
+                    <TextBlock x:FieldModifier="public" x:Name="val2" Style="{StaticResource tbSty}" Foreground="{x:Bind TextColor}">良好</TextBlock>
+                </StackPanel>
+                <StackPanel Orientation="Vertical" Style="{StaticResource spSty}">
+                    <TextBlock Style="{StaticResource tbSty}" Foreground="{x:Bind TextColor}">時間</TextBlock>
+                    <TextBlock x:FieldModifier="public" x:Name="val3" Style="{StaticResource tbSty}" Foreground="{x:Bind TextColor}">12:34</TextBlock>
+                </StackPanel>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                <StackPanel Orientation="Vertical" Style="{StaticResource spSty}">
+                    <TextBlock Style="{StaticResource tbSty}" Foreground="{x:Bind TextColor}">AQI</TextBlock>
+                    <TextBlock x:FieldModifier="public" x:Name="val4" Style="{StaticResource tbSty}" Foreground="{x:Bind TextColor}">123</TextBlock>
+                </StackPanel>
+                <StackPanel Orientation="Vertical" Style="{StaticResource spSty}">
+                    <TextBlock Style="{StaticResource tbSty}" Foreground="{x:Bind TextColor}">PM<Run Typography.Variants="Subscript">2.5</Run></TextBlock>
+                    <TextBlock x:FieldModifier="public" x:Name="val5" Style="{StaticResource tbSty}" Foreground="{x:Bind TextColor}">123</TextBlock>
+                </StackPanel>
+                <StackPanel Orientation="Vertical" Style="{StaticResource spSty}">
+                    <TextBlock Style="{StaticResource tbSty}" Foreground="{x:Bind TextColor}">PM<Run Typography.Variants="Subscript">10</Run></TextBlock>
+                    <TextBlock x:FieldModifier="public" x:Name="val6" Style="{StaticResource tbSty}" Foreground="{x:Bind TextColor}">123</TextBlock>
+                </StackPanel>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom">
+                <StackPanel Orientation="Vertical" Style="{StaticResource spSty}">
+                    <TextBlock Style="{StaticResource tbSty}" Foreground="{x:Bind TextColor}">O<Run Typography.Variants="Subscript">3</Run></TextBlock>
+                    <TextBlock x:FieldModifier="public" x:Name="val7" Style="{StaticResource tbSty}" Foreground="{x:Bind TextColor}">123</TextBlock>
+                </StackPanel>
+                <StackPanel Orientation="Vertical" Style="{StaticResource spSty}">
+                    <TextBlock Style="{StaticResource tbSty}" Foreground="{x:Bind TextColor}">CO</TextBlock>
+                    <TextBlock x:FieldModifier="public" x:Name="val8" Style="{StaticResource tbSty}" Foreground="{x:Bind TextColor}">123</TextBlock>
+                </StackPanel>
+                <StackPanel Orientation="Vertical" Style="{StaticResource spSty}">
+                    <TextBlock Style="{StaticResource tbSty}" Foreground="{x:Bind TextColor}">SO<Run Typography.Variants="Subscript">2</Run></TextBlock>
+                    <TextBlock x:FieldModifier="public" x:Name="val9" Style="{StaticResource tbSty}" Foreground="{x:Bind TextColor}">123</TextBlock>
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+    </Border>
+</UserControl>

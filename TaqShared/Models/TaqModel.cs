@@ -52,7 +52,7 @@ namespace Taq
 
         // AQ name list for MainPage aqComboBox.
         // Don't replace it by aqLimits.Keys! Not all names are used in aqComboBox.
-        public List<string> aqList = new List<string> {"AQI", "Status", "PM2.5", "PM2.5_AVG", "PM10", "PM10_AVG", "O3", "O3_8hr", "CO", "CO_8hr", "SO2", "NO2", "NOx", "NO", "WindSpeed", "WindDirec"};
+        public List<string> aqList = new List<string> { "AQI", "Status", "PM2.5", "PM2.5_AVG", "PM10", "PM10_AVG", "O3", "O3_8hr", "CO", "CO_8hr", "SO2", "NO2", "NOx", "NO", "WindSpeed", "WindDirec" };
 
         public TaqModel()
         {
@@ -94,7 +94,7 @@ namespace Taq
             }
 
             // file is downloaded in time
-            
+
             StorageFile dataXml;
             try
             {
@@ -167,10 +167,7 @@ namespace Taq
                 });
                 var statusStr = siteDict["Status"];
                 // Shorten long status strings for map icons.
-                if (statusStr.Length > 2)
-                {
-                    siteDict["Status"] = StaticTaqModel.shortStatusDict[statusStr];
-                }
+                siteDict["Status"] = StaticTaqModel.getShortStatus(statusStr);
                 sitesStrDict.Add(siteName, siteDict);
             }
 
@@ -296,6 +293,7 @@ namespace Taq
             await genTileImages(siteName);
             // not implemented.
             var largeContent = TileContentFactory.CreateTileSquare310x310Image();
+            largeContent.Image.Src = $"ms-appdata:///local/{siteName}LargeTile.png";
             largeContent.Branding = NotificationsExtensions.TileContent.TileBranding.None;
 
             // not implemented.
@@ -353,8 +351,6 @@ namespace Taq
             squareContent.TextBody3.Text = "時間：" + timeStr;
             squareContent.Branding = NotificationsExtensions.TileContent.TileBranding.None;
 
-            // Small tile is not implemented.
-
             largeContent.Wide310x150Content = wideContent;
             wideContent.Square150x150Content = squareContent;
 
@@ -376,32 +372,49 @@ namespace Taq
 
             // Extract time.
             var timeStr = sitesStrDict[siteName]["PublishTime"].Substring(11, 5);
-
-            // Wide tile
-            var wideTile = new WideTile(textColor);
-            wideTile.topTxt.Text = siteName + " " + timeStr;
-            wideTile.medVal1.Text = sitesStrDict[siteName]["AQI"];
-            wideTile.medVal2.Text = sitesStrDict[siteName]["PM2.5"];
-            wideTile.medVal3.Text = sitesStrDict[siteName]["PM10"];
-            wideTile.border.Background = bgColor;
-
-            // Med tile
-            var medTile = new MedTile(textColor);
-            medTile.topTxt.Text = siteName;
-            medTile.topVal.Text = timeStr;
-            medTile.medVal.Text = sitesStrDict[siteName]["AQI"];
-            medTile.downVal.Text = sitesStrDict[siteName]["PM2.5"];
-            medTile.border.Background = bgColor;
+            var aqiStr = sitesStrDict[siteName]["AQI"];
+            var pm2_5_Str = sitesStrDict[siteName]["PM2.5"];
+            var pm10_Str = sitesStrDict[siteName]["PM10"];
 
             // Small tile
             var smallTile = new SmallTile(textColor);
             smallTile.topTxt.Text = siteName;
             smallTile.downTxt.Text = timeStr;
             smallTile.border.Background = bgColor;
-            
+
+            // Med tile
+            var medTile = new MedTile(textColor);
+            medTile.topTxt.Text = siteName;
+            medTile.topVal.Text = timeStr;
+            medTile.medVal.Text = aqiStr;
+            medTile.downVal.Text = pm2_5_Str;
+            medTile.border.Background = bgColor;
+
+            // Wide tile
+            var wideTile = new WideTile(textColor);
+            wideTile.topTxt.Text = siteName + " " + timeStr;
+            wideTile.medVal1.Text = aqiStr;
+            wideTile.medVal2.Text = pm2_5_Str;
+            wideTile.medVal3.Text = pm10_Str;
+            wideTile.border.Background = bgColor;
+
+            // Large tile
+            var largeTile = new LargeTile(textColor);
+            largeTile.val1.Text = siteName;
+            largeTile.val2.Text = StaticTaqModel.getShortStatus(sitesStrDict[siteName]["Status"]);
+            largeTile.val3.Text = timeStr;
+            largeTile.val4.Text = aqiStr;
+            largeTile.val5.Text = pm2_5_Str;
+            largeTile.val6.Text = pm10_Str;
+            largeTile.val7.Text = sitesStrDict[siteName]["O3"];
+            largeTile.val8.Text = sitesStrDict[siteName]["CO"];
+            largeTile.val9.Text = sitesStrDict[siteName]["SO2"];
+            largeTile.border.Background = bgColor;
+
             await StaticTaqModelView.saveUi2Png(siteName + "SmallTile.png", smallTile);
             await StaticTaqModelView.saveUi2Png(siteName + "MedTile.png", medTile);
             await StaticTaqModelView.saveUi2Png(siteName + "WideTile.png", wideTile);
+            await StaticTaqModelView.saveUi2Png(siteName + "LargeTile.png", largeTile);
             return 0;
         }
 
@@ -519,7 +532,7 @@ namespace Taq
             var gpsPos = new GpsPoint { twd97Lat = p.Position.Latitude, twd97Lon = p.Position.Longitude };
 
             var dists = new List<double>();
-            foreach(var s in sitesGeoDict)
+            foreach (var s in sitesGeoDict)
             {
                 dists.Add(StaticTaqModel.posDist(gpsPos, s.Value));
             }
