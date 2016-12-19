@@ -363,6 +363,7 @@ namespace Taq
 
         public async Task<int> genTileImages(string siteName)
         {
+            // Get colors by AQI.
             var aqName = "AQI";
             var aqLevel = getAqLevel(siteName, aqName);
             // Remove '#'.
@@ -371,33 +372,35 @@ namespace Taq
             var g = (byte)Convert.ToUInt32(rectColorStr.Substring(2, 2), 16);
             var b = (byte)Convert.ToUInt32(rectColorStr.Substring(4, 2), 16);
             var bgColor = new SolidColorBrush(Color.FromArgb(0xFF, r, g, b));
+            var textColor = StaticTaqModelView.getTextColor(aqLevel);
 
+            // Extract time.
             var timeStr = sitesStrDict[siteName]["PublishTime"].Substring(11, 5);
 
-            var wideTile = new WideTile();
             // Wide tile
+            var wideTile = new WideTile();
             wideTile.topTxt.Text = siteName + " " + timeStr;
             wideTile.medVal1.Text = sitesStrDict[siteName]["AQI"];
             wideTile.medVal2.Text = sitesStrDict[siteName]["PM2.5"];
             wideTile.medVal3.Text = sitesStrDict[siteName]["PM10"];
             wideTile.border.Background = bgColor;
 
-            var medTile = new MedTile();
             // Med tile
-            medTile.topTxt.Text = sitesStrDict[siteName]["SiteName"] + aqName;
-            medTile.medTxt.Text = sitesStrDict[siteName][aqName];
-            medTile.downTxt.Text = timeStr;
+            var medTile = new MedTile(textColor);
+            medTile.topTxt.Text = siteName;
+            medTile.topVal.Text = timeStr;
+            medTile.medVal.Text = sitesStrDict[siteName]["AQI"];
+            medTile.downVal.Text = sitesStrDict[siteName]["PM2.5"];
             medTile.border.Background = bgColor;
 
             // Small tile
             var smallTile = new SmallTile();
-            smallTile.topTxt.Text = sitesStrDict[siteName]["SiteName"];
+            smallTile.topTxt.Text = siteName;
             smallTile.downTxt.Text = timeStr;
             smallTile.border.Background = bgColor;
 
             // Set text color.
-            var textColor = aqLevel > 3 ? new SolidColorBrush(Colors.White) : new SolidColorBrush(Colors.Black);
-            foreach (var t in new List<TextBlock> { smallTile.topTxt, smallTile.downTxt, medTile.topTxt, medTile.medTxt, medTile.downTxt, wideTile.topTxt, wideTile.medTxt1, wideTile.medVal1, wideTile.medTxt2, wideTile.medVal2, wideTile.medTxt3, wideTile.medVal3 })
+            foreach (var t in new List<TextBlock> { smallTile.topTxt, smallTile.downTxt,  wideTile.topTxt, wideTile.medTxt1, wideTile.medVal1, wideTile.medTxt2, wideTile.medVal2, wideTile.medTxt3, wideTile.medVal3 })
             {
                 t.Foreground = textColor;
             }

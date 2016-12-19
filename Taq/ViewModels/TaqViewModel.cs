@@ -62,7 +62,7 @@ namespace Taq
                 site.CircleColor = StaticTaqModel.aqColors[aqName][aqLevel];
                 site.CircleText = site.siteName + "\n" + m.sitesStrDict[site.siteName][aqName];
                 site.ListText = m.sitesStrDict[site.siteName][aqName];
-                site.TextColor = aqLevel > 3 ? new SolidColorBrush(Colors.White) : new SolidColorBrush(Colors.Black);
+                site.TextColor = StaticTaqModelView.getTextColor(aqLevel);
             }
             loadSubscrSiteId();
         }
@@ -137,7 +137,7 @@ namespace Taq
             foreach (var k in StaticTaqModel.fieldNames.Keys)
             {
                 var aqLevel = m.getAqLevel(m.currSiteStrDict["SiteName"], k);
-                var textColor = aqLevel > 3 ? new SolidColorBrush(Colors.White) : new SolidColorBrush(Colors.Black);
+                var textColor = StaticTaqModelView.getTextColor(aqLevel);
                 currSiteViews.Add(new AqViewModel
                 {
                     CircleColor = StaticTaqModel.aqColors[k][aqLevel], // default border background color

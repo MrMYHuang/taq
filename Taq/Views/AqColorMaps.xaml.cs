@@ -66,7 +66,7 @@ namespace Taq
                 cai.SegmentLabelContent = LabelContent.LabelContentPath;
                 // DataContext =\"aqLimitsColl[" + i + "].\"
                 var textColor = "Black";
-                if(i >3)
+                if(i > StaticTaqModel.aqTextColorLimit)
                 {
                     textColor = "White";
                 }

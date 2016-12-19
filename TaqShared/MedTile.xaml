@@ -9,12 +9,32 @@
     d:DesignHeight="150"
     d:DesignWidth="150">
 
-    <Border x:FieldModifier="public" x:Name="border" VerticalAlignment="Center" Background="Green" Width="150" Height="150">
-        <StackPanel Orientation="Vertical">
+    <UserControl.Resources>
+        <Style x:Key="spSty" TargetType="StackPanel">
+            <Setter Property="Height" Value="42"></Setter>
+            <Setter Property="Margin" Value="0"></Setter>
+        </Style>
+        <Style x:Key="tbSty" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="34"></Setter>
             <!-- Please set IsTextScaleFactorEnabled to False, if you want to take screenshot on foreground window. Otherwise, text scaling of OS may destroy the text layout. -->
-        <TextBlock x:FieldModifier="public" x:Name="topTxt" VerticalAlignment="Top" FontSize="32" IsTextScaleFactorEnabled="False">Top</TextBlock>
-            <TextBlock x:FieldModifier="public" x:Name="medTxt" TextAlignment="Center" FontSize="48" IsTextScaleFactorEnabled="False">12345</TextBlock>
-            <TextBlock x:FieldModifier="public" x:Name="downTxt" VerticalAlignment="Bottom" TextAlignment="Right" FontSize="32" IsTextScaleFactorEnabled="False">Down</TextBlock>
-        </StackPanel>
+            <Setter Property="IsTextScaleFactorEnabled" Value="False"></Setter>
+        </Style>
+    </UserControl.Resources>
+
+    <Border x:FieldModifier="public" x:Name="border" Background="Green" Height="150" Width="150">
+        <Grid Margin="0">
+            <Grid VerticalAlignment="Top">
+                <TextBlock x:FieldModifier="public" x:Name="topTxt" Style="{StaticResource tbSty}" Foreground="{x:Bind TextColor}" Text="平鎮"/>
+                <TextBlock x:FieldModifier="public" x:Name="topVal" Style="{StaticResource tbSty}" Foreground="{x:Bind TextColor}" TextAlignment="Right" Text="12:34"/>
+            </Grid>
+            <Grid VerticalAlignment="Center" Margin="0">
+                <TextBlock x:FieldModifier="public" x:Name="medTxt" Style="{StaticResource tbSty}" Foreground="{x:Bind TextColor}" Text="AQI"/>
+                <TextBlock x:FieldModifier="public" x:Name="medVal" Style="{StaticResource tbSty}" Foreground="{x:Bind TextColor}" TextAlignment="Right">123</TextBlock>
+            </Grid>
+            <Grid VerticalAlignment="Bottom">
+                <TextBlock x:FieldModifier="public" x:Name="downTxt" Style="{StaticResource tbSty}" Foreground="{x:Bind TextColor}">PM<Run Typography.Variants="Subscript">2.5</Run></TextBlock>
+                <TextBlock x:FieldModifier="public" x:Name="downVal" Style="{StaticResource tbSty}" Foreground="{x:Bind TextColor}" TextAlignment="Right">123</TextBlock>
+            </Grid>
+        </Grid>
     </Border>
 </UserControl>

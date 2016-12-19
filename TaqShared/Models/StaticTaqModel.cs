@@ -42,10 +42,15 @@ namespace TaqShared.Models
             { "非常不良", "非常"},
         };
 
+        // Limit of color of texts on the corresponding AQ background color.
+        // <= aqTextColorLimit: black
+        // > aqTextColorLimit: white
+        public static int aqTextColorLimit = 2;
+
         // AQ level limits and corresponding colors lists.
         // Notice: a color list has one more element than a limit list!
         public static List<double> defaultLimits = new List<double> { 0 };
-        public static List<string> defaultColors = new List<string> { "#31cf00", "#31cf00" };
+        public static List<string> defaultColors = new List<string> { "#00ff00", "#00ff00" };
 
         public static List<string> dirtyColors = new List<string> { "#C0C0C0", "#C0C0C0" };
 

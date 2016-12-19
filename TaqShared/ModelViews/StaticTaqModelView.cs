@@ -4,11 +4,14 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using Taq;
+using TaqShared.Models;
 using Windows.Graphics.Display;
 using Windows.Graphics.Imaging;
 using Windows.Storage;
 using Windows.Storage.Streams;
+using Windows.UI;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 
 namespace TaqShared.ModelViews
@@ -31,6 +34,11 @@ namespace TaqShared.ModelViews
                 await encoder.FlushAsync();
             }
             return saveFile;
+        }
+
+        public static SolidColorBrush getTextColor(int aqLevel)
+        {
+            return aqLevel > StaticTaqModel.aqTextColorLimit ? new SolidColorBrush(Colors.White) : new SolidColorBrush(Colors.Black);
         }
     }
 }
