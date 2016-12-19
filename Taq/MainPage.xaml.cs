@@ -34,6 +34,7 @@ namespace Taq
 
         public MainPage()
         {
+            BackgroundExecutionManager.RemoveAccess();
             app = App.Current as App;
             localSettings = ApplicationData.Current.LocalSettings;
             try

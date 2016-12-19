@@ -10,22 +10,22 @@ namespace TaqBackTask
 {
     public sealed class TaqBackTask : XamlRenderingBackgroundTask
     {
-        private static TaqModel m = new TaqModel();
+        BackgroundTaskDeferral deferral;
 
         protected async override void OnRun(IBackgroundTaskInstance taskInstance)
         {
             // Don't place any code (including debug code) before GetDeferral!!!
             // Get a deferral, to prevent the task from closing prematurely
             // while asynchronous code is still running.
-            BackgroundTaskDeferral deferral = taskInstance.GetDeferral();
-
-
+            deferral = taskInstance.GetDeferral();
 
             var tbtLog = await ApplicationData.Current.LocalFolder.CreateFileAsync("TbtLog.txt", CreationCollisionOption.ReplaceExisting);
             var s = await tbtLog.OpenStreamForWriteAsync();
             var sw = new StreamWriter(s);
             var ct = DateTime.Now;
             sw.WriteLine("Background task start time: " + ct.ToString());
+
+            TaqModel m = new TaqModel();
 
             taskInstance.Canceled += new BackgroundTaskCanceledEventHandler(OnCanceled);
 
@@ -107,6 +107,7 @@ namespace TaqBackTask
             // Indicate that the background task is canceled.
             //
             _cancelRequested = true;
+            deferral.Complete();
         }
     }
 }
