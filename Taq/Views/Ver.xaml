@@ -28,6 +28,7 @@
             <DataTemplate>
                 <TextBlock Style="{StaticResource txtBlkSty1}" >
                     * 簡潔小磚字型加粗。<LineBreak />
+                    * 地圖與列表頁的空氣品質選單第一項改為Status。<LineBreak />
                 </TextBlock>
             </DataTemplate>
         </HubSection>
