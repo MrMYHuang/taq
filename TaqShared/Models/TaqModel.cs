@@ -43,8 +43,8 @@ namespace Taq
         // Full sites AQ information in Dictionary. Converted from XML.
         public Dictionary<string, Dictionary<string, string>> sitesStrDict = new Dictionary<string, Dictionary<string, string>>();
         // Current (subscribed) site information in Dictionary.
-        public Dictionary<string, string> currSiteStrDict;
-        // The previous currSiteStrDict from previous download dataXmlFile.
+        public Dictionary<string, string> mainSiteStrDict;
+        // The previous mainSiteStrDict from previous download dataXmlFile.
         public Dictionary<string, Dictionary<string, string>> oldSitesStrDict = new Dictionary<string, Dictionary<string, string>>();
 
         public List<string> subscrSiteList = new List<string>();
@@ -61,10 +61,10 @@ namespace Taq
             loadSiteGeoXml();
         }
 
-        public async Task<int> downloadDataXml(bool confAwait = true, int timeout = 10000)
+        public async Task<int> downloadDataXml(int timeout = 10000)
         {
             // Download may fail, so we create a temp StorageFile.
-            var dlFile = await ApplicationData.Current.LocalFolder.CreateFileAsync("Temp" + dataXmlFile, CreationCollisionOption.ReplaceExisting).AsTask().ConfigureAwait(confAwait);
+            var dlFile = await ApplicationData.Current.LocalFolder.CreateFileAsync("Temp" + dataXmlFile, CreationCollisionOption.ReplaceExisting);
 
             BackgroundDownloader downloader = new BackgroundDownloader();
             DownloadOperation download = downloader.CreateDownload(source, dlFile);
@@ -80,7 +80,7 @@ namespace Taq
             try
             {
                 // Pass the token to the task that listens for cancellation.
-                await download.StartAsync().AsTask(token).ConfigureAwait(confAwait);
+                await download.StartAsync();
             }
             catch (Exception ex)
             {
@@ -108,7 +108,7 @@ namespace Taq
                 dataXml = await ApplicationData.Current.LocalFolder.CreateFileAsync(dataXmlFile, CreationCollisionOption.ReplaceExisting);
             }
             // Copy download file to dataXmlFile.
-            await dlFile.CopyAndReplaceAsync(dataXml).AsTask().ConfigureAwait(confAwait);
+            await dlFile.CopyAndReplaceAsync(dataXml);
             return 0;
         }
 
@@ -120,12 +120,12 @@ namespace Taq
         }
 
         // Reload air quality XML files.
-        public async Task<int> loadAqXml(bool confAwait = true)
+        public async Task<int> loadAqXml()
         {
             try
             {
-                var dataXml = await ApplicationData.Current.LocalFolder.GetFileAsync(dataXmlFile).AsTask().ConfigureAwait(confAwait);
-                using (var s = await dataXml.OpenStreamForReadAsync().ConfigureAwait(confAwait))
+                var dataXml = await ApplicationData.Current.LocalFolder.GetFileAsync(dataXmlFile);
+                using (var s = await dataXml.OpenStreamForReadAsync())
                 {
                     // Reload to xd.
                     xd = XDocument.Load(s);
@@ -174,15 +174,15 @@ namespace Taq
             return 0;
         }
 
-        public async Task<int> loadCurrSite(bool confAwait = true)
+        public async Task<int> loadMainSite()
         {
-            // Load the old site.
+            // Load the old sites.
             XDocument loadOldXd = new XDocument();
             try
             {
-                var loadOldXml = await ApplicationData.Current.LocalFolder.GetFileAsync("Old" + dataXmlFile).AsTask().ConfigureAwait(confAwait);
+                var loadOldXml = await ApplicationData.Current.LocalFolder.GetFileAsync("Old" + dataXmlFile);
 
-                using (var s = await loadOldXml.OpenStreamForReadAsync().ConfigureAwait(confAwait))
+                using (var s = await loadOldXml.OpenStreamForReadAsync())
                 {
                     loadOldXd = XDocument.Load(s);
                 }
@@ -202,24 +202,24 @@ namespace Taq
             }
 
             // Get new site from the setting.
-            var newSiteName = (string)localSettings.Values["subscrSite"];
-            var currSiteX = from d in xd.Descendants("Data")
+            var newSiteName = (string)localSettings.Values["MainSite"];
+            var mainSiteX = from d in xd.Descendants("Data")
                             where d.Descendants("SiteName").First().Value == newSiteName
                             select d;
 
-            currSiteStrDict = currSiteX.Elements().ToDictionary(x => x.Name.LocalName, x => x.Value);
+            mainSiteStrDict = mainSiteX.Elements().ToDictionary(x => x.Name.LocalName, x => x.Value);
 
             return 0;
         }
 
         private static string subscrSiteXml = "SubscrSites.xml";
         // Reload subscribed site XML files.
-        public async Task<int> loadSubscrSiteXml(bool confAwait = true)
+        public async Task<int> loadSubscrSiteXml()
         {
             try
             {
-                var dataXml = await ApplicationData.Current.LocalFolder.GetFileAsync(subscrSiteXml).AsTask().ConfigureAwait(confAwait);
-                using (var s = await dataXml.OpenStreamForReadAsync().ConfigureAwait(confAwait))
+                var dataXml = await ApplicationData.Current.LocalFolder.GetFileAsync(subscrSiteXml);
+                using (var s = await dataXml.OpenStreamForReadAsync())
                 {
                     // Reload to xd.
                     subscrXd = XDocument.Load(s);
@@ -268,7 +268,7 @@ namespace Taq
             {
                 lts = new LiveTileSty(detailedLiveTiles);
             }
-            largeContent = await lts(currSiteStrDict["SiteName"]);
+            largeContent = await lts(mainSiteStrDict["SiteName"]);
             // Create a new tile notification.
             updater.Update(new TileNotification(largeContent.GetXml()));
 
@@ -319,13 +319,13 @@ namespace Taq
 
         public async Task<ISquare310x310TileNotificationContent> detailedLiveTiles(string siteName)
         {
-            var aqiStr = "AQI：" + currSiteStrDict["AQI"];
-            var pm2_5_Str = "PM 2.5：" + currSiteStrDict["PM2.5"];
-            var siteStr = "觀測站：" + currSiteStrDict["SiteName"];
-            var timeStr = currSiteStrDict["PublishTime"].Substring(11, 5);
+            var aqiStr = "AQI：" + mainSiteStrDict["AQI"];
+            var pm2_5_Str = "PM 2.5：" + mainSiteStrDict["PM2.5"];
+            var siteStr = "觀測站：" + mainSiteStrDict["SiteName"];
+            var timeStr = mainSiteStrDict["PublishTime"].Substring(11, 5);
             // get the XML content of one of the predefined tile templates, so that, you can customize it
             // Large template
-            var statusStr = StaticTaqModel.fieldNames["Status"] + "：" + currSiteStrDict["Status"];
+            var statusStr = StaticTaqModel.fieldNames["Status"] + "：" + mainSiteStrDict["Status"];
             var largeContent = TileContentFactory.CreateTileSquare310x310Text09();
             largeContent.TextHeadingWrap.Text = statusStr;
             largeContent.TextHeading1.Text = siteStr;
@@ -345,7 +345,7 @@ namespace Taq
 
             // create the square template and attach it to the wide template
             var squareContent = TileContentFactory.CreateTileSquare150x150Text01();
-            squareContent.TextHeading.Text = "AQI：" + currSiteStrDict["AQI"];
+            squareContent.TextHeading.Text = "AQI：" + mainSiteStrDict["AQI"];
             squareContent.TextBody1.Text = pm2_5_Str;
             squareContent.TextBody2.Text = siteStr;
             squareContent.TextBody3.Text = "時間：" + timeStr;
@@ -420,7 +420,7 @@ namespace Taq
 
         public void sendSubscrSitesNotifications()
         {
-            sendNotifications(currSiteStrDict["SiteName"]);
+            sendNotifications(mainSiteStrDict["SiteName"]);
             foreach (var siteName in subscrSiteList)
             {
                 sendNotifications(siteName);

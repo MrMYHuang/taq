@@ -42,8 +42,14 @@ namespace Taq.Views
             umi.IsEnabled = app.vm.AutoPos;
         }
 
-        private void subscrComboBox_Loaded(object sender, RoutedEventArgs e)
+        private async void subscrComboBox_Loaded(object sender, RoutedEventArgs e)
         {
+            // Wait MainPage's initPos for AutoPos being set.
+            while (subscrComboBox.Items.Count == 0 || subscrComboBox.Items.Count <= app.vm.MainSiteId)
+            {
+                // Force Umi_Loaded to an async function by await this.
+                await Task.Delay(100);
+            }
             // Do binding SelectedIndex to SubscrSiteId after ubscrComboBox.Items ready (subscrComboBox_Loaded).
             // Don't directly bind SelectedIndex to SubscrSiteId in XAML!
             var b = new Binding { Source = app.vm, Path = new PropertyPath("SubscrSiteId"), Mode = BindingMode.TwoWay };
@@ -53,39 +59,30 @@ namespace Taq.Views
         private async void subscrComboBox_SelectionChanged(Object sender, SelectionChangedEventArgs e)
         {
             var selSite = (SiteViewModel)((ComboBox)sender).SelectedItem;
-            // sites reloading can trigger this event handler and results in null.
-            // Unused???
-            if (selSite == null)
+            // SelectionChanged is triggered by changing selected item by, e.g., tapping.
+            if (app.vm.m.localSettings.Values["TaqBackTaskUpdated"] == null || (bool)app.vm.m.localSettings.Values["TaqBackTaskUpdated"] == false)
             {
-                return;
-            }
-            if(app.vm.m.localSettings.Values["TaqBackTaskUpdated"] == null || (bool)app.vm.m.localSettings.Values["TaqBackTaskUpdated"] == false)
-            {
-                // SelectionChanged is triggered by changing selected item by, e.g., tapping.
-                app.vm.m.localSettings.Values["subscrSite"] = selSite.siteName;
+                app.vm.m.localSettings.Values["MainSite"] = selSite.siteName;
                 //app.vm.loadSubscrSiteId();
-                await app.vm.m.loadCurrSite(true);
-                app.vm.currSite2AqView();
+                await app.vm.mainSite2AqView();
                 await app.vm.backTaskUpdateTiles();
             }
+            // SelectionChanged is triggered by TaqBackTask updating.
+            // Do nothing but set this:
             else
             {
-                // SelectionChanged is triggered by TaqBackTask updating.
-                // Do nothing but set this:
                 app.vm.m.localSettings.Values["TaqBackTaskUpdated"] = false;
             }
         }
         private async void umiButton_Tapped(object sender, TappedRoutedEventArgs e)
         {
             await app.vm.m.findNearestSite();
-            app.vm.m.localSettings.Values["subscrSite"] = app.vm.m.nearestSite;
-            app.vm.loadSubscrSiteId();
+            app.vm.m.localSettings.Values["MainSite"] = app.vm.m.nearestSite;
+            app.vm.loadMainSiteId();
         }
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            // ComboBox ItemSource is ready after page loading.
-            //subscrComboBox.SelectedIndex = app.vm.SubscrSiteId;
         }
     }
 }

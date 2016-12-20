@@ -30,7 +30,7 @@ namespace TaqBackTask
             try
             { 
                 m.convertXDoc2Dict();
-                await m.loadCurrSite();
+                await m.loadMainSite();
                 await m.loadSubscrSiteXml();
 
                 // Update the live tile with the feed items.

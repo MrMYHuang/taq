@@ -74,9 +74,9 @@ namespace Taq
             {
                 localSettings.Values["PM2.5_Limit"] = 15.4;
             }
-            if (localSettings.Values["subscrSite"] == null)
+            if (localSettings.Values["MainSite"] == null)
             {
-                localSettings.Values["subscrSite"] = "平鎮";
+                localSettings.Values["MainSite"] = "平鎮";
             }
         }
 

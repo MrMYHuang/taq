@@ -10,7 +10,7 @@
     NavigationCacheMode="Enabled" Loaded="Page_Loaded">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <GridView ItemsSource="{x:Bind app.vm.currSiteViews, Mode=OneWay}" 
+        <GridView ItemsSource="{x:Bind app.vm.mainSiteViews, Mode=OneWay}" 
                 Margin="0,10,0,74">
             <GridView.ItemContainerStyle>
                 <Style TargetType="GridViewItem">

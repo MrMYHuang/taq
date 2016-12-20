@@ -37,30 +37,9 @@ namespace Taq
             BackgroundExecutionManager.RemoveAccess();
             app = App.Current as App;
             localSettings = ApplicationData.Current.LocalSettings;
-            try
-            {
-                initAux().Wait();
-            }
-            catch (Exception)
-            {
-                // Ignore.
-            }
-
-            // Notice: these lines must be executed before InitializeComponent.
-            // Otherwise, some UI controls are not loaded completely after InitializeComponent.
-            // Don't put these lines into initAux, because these lines must be executed by UI context. Putting them in initAux may result in deadlock!
-            app.vm.SelAqId = 1;
-            //            app.vm.loadDict2Sites(app.vm.m.aqList[0]);
-            app.vm.currSite2AqView();
 
             this.InitializeComponent();
-
-            // * Must be called after this.InitializeComponent!
-            // * Must be called by async, not sync. Otherwise,
-            // the app can't pass Windows App Cert Kit!
-            initPos();
-
-            app.vm.loadSubscrSiteViewModel();
+            initAux();
             frame.Navigate(typeof(Home));
             initBackTask();
             DataTransferManager.GetForCurrentView().DataRequested += MainPage_DataRequested;
@@ -73,7 +52,7 @@ namespace Taq
         {
             try
             {
-                await app.vm.m.downloadDataXml(false, 5000).ConfigureAwait(false);
+                await app.vm.m.downloadDataXml(5000);
             }
             catch (Exception ex)
             {
@@ -81,14 +60,26 @@ namespace Taq
             }
             try
             {
-                await app.vm.m.loadAqXml(false).ConfigureAwait(false);
+                await app.vm.m.loadAqXml();
             }
             catch (Exception ex)
             {
                 // Ignore.
             }
             app.vm.m.convertXDoc2Dict();
-            await app.vm.m.loadCurrSite(false).ConfigureAwait(false);
+            await app.vm.mainSite2AqView();
+
+            // Notice: these lines must be executed before InitializeComponent.
+            // Otherwise, some UI controls are not loaded completely after InitializeComponent.
+            // Don't put these lines into initAux, because these lines must be executed by UI context. Putting them in initAux may result in deadlock!
+            app.vm.SelAqId = 0;
+
+            // * Must be called after this.InitializeComponent!
+            // * Must be called by async, not sync. Otherwise,
+            // the app can't pass Windows App Cert Kit!
+            await initPos();
+
+            await app.vm.loadSubscrSiteViewModel();
             return 0;
         }
 
@@ -235,9 +226,8 @@ namespace Taq
             try
             {
                 app.vm.m.convertXDoc2Dict();
-                app.vm.loadSubscrSiteId();
-                await app.vm.m.loadCurrSite();
-                app.vm.currSite2AqView();
+                app.vm.loadMainSiteId();
+                await app.vm.mainSite2AqView();
             }
             catch (Exception ex)
             {
@@ -248,7 +238,7 @@ namespace Taq
 
         private async void Page_Loaded(Object sender, RoutedEventArgs e)
         {
-            await ReloadXmlAndSitesData();
+            //await ReloadXmlAndSitesData();
         }
 
         private async void refreshButton_Click(Object sender, RoutedEventArgs e)

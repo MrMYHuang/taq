@@ -28,7 +28,7 @@ namespace Taq
         // Partial sites AQ information. Contain properties for data bindings (from AqView).
         public ObservableCollection<SiteViewModel> sites = new ObservableCollection<SiteViewModel>();
         // Current site info converted to for data bindings through AqView.
-        public ObservableCollection<AqViewModel> currSiteViews = new ObservableCollection<AqViewModel>();
+        public ObservableCollection<AqViewModel> mainSiteViews = new ObservableCollection<AqViewModel>();
 
         public ObservableCollection<SiteViewModel> subscrSiteViews = new ObservableCollection<SiteViewModel>();
 
@@ -64,7 +64,7 @@ namespace Taq
                 site.ListText = m.sitesStrDict[site.siteName][aqName];
                 site.TextColor = StaticTaqModelView.getTextColor(aqLevel);
             }
-            loadSubscrSiteId();
+            loadMainSiteId();
         }
 
         public async Task<int> loadSubscrSiteViewModel()
@@ -129,44 +129,46 @@ namespace Taq
         }
 
         // Has to be run by UI context!
-        public void currSite2AqView()
+        public async Task<int> mainSite2AqView()
         {
+            await m.loadMainSite();
             // Don't remove all elements by new.
             // Otherwise, data bindings would be problematic.
-            currSiteViews.Clear();
+            mainSiteViews.Clear();
             foreach (var k in StaticTaqModel.fieldNames.Keys)
             {
-                var aqLevel = m.getAqLevel(m.currSiteStrDict["SiteName"], k);
+                var aqLevel = m.getAqLevel(m.mainSiteStrDict["SiteName"], k);
                 var textColor = StaticTaqModelView.getTextColor(aqLevel);
-                currSiteViews.Add(new AqViewModel
+                mainSiteViews.Add(new AqViewModel
                 {
                     CircleColor = StaticTaqModel.aqColors[k][aqLevel], // default border background color
-                    CircleText = StaticTaqModel.fieldNames[k] + "\n" + m.currSiteStrDict[k],
+                    CircleText = StaticTaqModel.fieldNames[k] + "\n" + m.mainSiteStrDict[k],
                     TextColor = textColor
                 });
             }
+            return 0;
         }
 
-        private int subscrSiteId;
-        public int SubscrSiteId
+        private int mainSiteId;
+        public int MainSiteId
         {
             get
             {
-                return subscrSiteId;
+                return mainSiteId;
             }
             set
             {
-                SetProperty(ref subscrSiteId, value);
+                SetProperty(ref mainSiteId, value);
             }
         }
 
-        public void loadSubscrSiteId()
+        public void loadMainSiteId()
         {
-            var subscrSiteName = (string)m.localSettings.Values["subscrSite"];
-            var subscrSiteElem = from s in sites
-                                 where s.siteName == subscrSiteName
+            var mainSiteName = (string)m.localSettings.Values["mainSite"];
+            var mainSiteElem = from s in sites
+                                 where s.siteName == mainSiteName
                                  select s;
-            SubscrSiteId = sites.IndexOf(subscrSiteElem.First());
+            mainSiteId = sites.IndexOf(mainSiteElem.First());
         }
 
         public List<int> bgUpdatePeriods = new List<int> { 15, 20, 30, 60 };
