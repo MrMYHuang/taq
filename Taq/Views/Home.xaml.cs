@@ -42,28 +42,27 @@ namespace Taq.Views
             umi.IsEnabled = app.vm.AutoPos;
         }
 
-        private async void subscrComboBox_Loaded(object sender, RoutedEventArgs e)
+        private async void mainSiteComboBox_Loaded(object sender, RoutedEventArgs e)
         {
             // Wait MainPage's initPos for AutoPos being set.
-            while (subscrComboBox.Items.Count == 0 || subscrComboBox.Items.Count <= app.vm.MainSiteId)
+            while (mainSiteComboBox.Items.Count == 0 || mainSiteComboBox.Items.Count <= app.vm.MainSiteId)
             {
                 // Force Umi_Loaded to an async function by await this.
                 await Task.Delay(100);
             }
-            // Do binding SelectedIndex to SubscrSiteId after ubscrComboBox.Items ready (subscrComboBox_Loaded).
+            // Do binding SelectedIndex to MainSiteId after ubscrComboBox.Items ready (mainSiteComboBox_Loaded).
             // Don't directly bind SelectedIndex to SubscrSiteId in XAML!
-            var b = new Binding { Source = app.vm, Path = new PropertyPath("SubscrSiteId"), Mode = BindingMode.TwoWay };
-            subscrComboBox.SetBinding(ComboBox.SelectedIndexProperty, b);
+            var b = new Binding { Source = app.vm, Path = new PropertyPath("MainSiteId"), Mode = BindingMode.TwoWay };
+            mainSiteComboBox.SetBinding(ComboBox.SelectedIndexProperty, b);
         }
 
-        private async void subscrComboBox_SelectionChanged(Object sender, SelectionChangedEventArgs e)
+        private async void mainSiteComboBox_SelectionChanged(Object sender, SelectionChangedEventArgs e)
         {
             var selSite = (SiteViewModel)((ComboBox)sender).SelectedItem;
             // SelectionChanged is triggered by changing selected item by, e.g., tapping.
             if (app.vm.m.localSettings.Values["TaqBackTaskUpdated"] == null || (bool)app.vm.m.localSettings.Values["TaqBackTaskUpdated"] == false)
             {
                 app.vm.m.localSettings.Values["MainSite"] = selSite.siteName;
-                //app.vm.loadSubscrSiteId();
                 await app.vm.mainSite2AqView();
                 await app.vm.backTaskUpdateTiles();
             }

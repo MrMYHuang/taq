@@ -68,10 +68,7 @@ namespace Taq
             }
             app.vm.m.convertXDoc2Dict();
             await app.vm.mainSite2AqView();
-
-            // Notice: these lines must be executed before InitializeComponent.
-            // Otherwise, some UI controls are not loaded completely after InitializeComponent.
-            // Don't put these lines into initAux, because these lines must be executed by UI context. Putting them in initAux may result in deadlock!
+            // Run mainSite2AqView before setting SelAqId!
             app.vm.SelAqId = 0;
 
             // * Must be called after this.InitializeComponent!
@@ -221,13 +218,15 @@ namespace Taq
             return 0;
         }
 
+        // Run after loadAqXml.
         public async Task<int> updateSitesData()
         {
             try
             {
                 app.vm.m.convertXDoc2Dict();
-                app.vm.loadMainSiteId();
                 await app.vm.mainSite2AqView();
+                // Force run loadDict2Sites by setting SelAqId to itself.
+                app.vm.SelAqId = app.vm.SelAqId;
             }
             catch (Exception ex)
             {

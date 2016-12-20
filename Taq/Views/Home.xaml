@@ -31,7 +31,7 @@
                 </DataTemplate>
             </GridView.ItemTemplate>
         </GridView>
-        <ComboBox x:Name="subscrComboBox" HorizontalAlignment="Left" Width="230" Height="65" Header="主要觀測站" ItemsSource="{x:Bind app.vm.sites}" IsTapEnabled="True" SelectionChanged="subscrComboBox_SelectionChanged" VerticalAlignment="Bottom" Margin="10,0,0,0" Loaded="subscrComboBox_Loaded">
+        <ComboBox x:Name="mainSiteComboBox" HorizontalAlignment="Left" Width="230" Height="65" Header="主要觀測站" ItemsSource="{x:Bind app.vm.sites}" IsTapEnabled="True" SelectionChanged="mainSiteComboBox_SelectionChanged" VerticalAlignment="Bottom" Margin="10,0,0,0" Loaded="mainSiteComboBox_Loaded">
             <ComboBox.ItemTemplate>
                 <DataTemplate x:DataType="tsmv:SiteViewModel">
                     <TextBlock Text="{x:Bind siteName}"></TextBlock>

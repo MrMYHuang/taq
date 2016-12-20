@@ -64,7 +64,6 @@ namespace Taq
                 site.ListText = m.sitesStrDict[site.siteName][aqName];
                 site.TextColor = StaticTaqModelView.getTextColor(aqLevel);
             }
-            loadMainSiteId();
         }
 
         public async Task<int> loadSubscrSiteViewModel()
@@ -132,6 +131,7 @@ namespace Taq
         public async Task<int> mainSite2AqView()
         {
             await m.loadMainSite();
+            loadMainSiteId();
             // Don't remove all elements by new.
             // Otherwise, data bindings would be problematic.
             mainSiteViews.Clear();
@@ -165,10 +165,15 @@ namespace Taq
         public void loadMainSiteId()
         {
             var mainSiteName = (string)m.localSettings.Values["mainSite"];
-            var mainSiteElem = from s in sites
-                                 where s.siteName == mainSiteName
-                                 select s;
-            mainSiteId = sites.IndexOf(mainSiteElem.First());
+            var i = 0;
+            foreach(var k in m.sitesStrDict.Keys)
+            {
+                if(mainSiteName == k) {
+                    MainSiteId = i;
+                    break;
+                }
+                i++;
+            }
         }
 
         public List<int> bgUpdatePeriods = new List<int> { 15, 20, 30, 60 };

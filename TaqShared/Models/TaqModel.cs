@@ -202,12 +202,8 @@ namespace Taq
             }
 
             // Get new site from the setting.
-            var newSiteName = (string)localSettings.Values["MainSite"];
-            var mainSiteX = from d in xd.Descendants("Data")
-                            where d.Descendants("SiteName").First().Value == newSiteName
-                            select d;
-
-            mainSiteStrDict = mainSiteX.Elements().ToDictionary(x => x.Name.LocalName, x => x.Value);
+            var mainSiteName = (string)localSettings.Values["MainSite"];
+            mainSiteStrDict = sitesStrDict[mainSiteName];
 
             return 0;
         }
