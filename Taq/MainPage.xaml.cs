@@ -50,33 +50,14 @@ namespace Taq
         // initialized app.vm.
         async Task<int> initAux()
         {
-            try
-            {
-                await app.vm.m.downloadDataXml(5000);
-            }
-            catch (Exception ex)
-            {
-                // Ignore.
-            }
-            try
-            {
-                await app.vm.m.loadAqXml();
-            }
-            catch (Exception ex)
-            {
-                // Ignore.
-            }
-            app.vm.m.convertXDoc2Dict();
-            await app.vm.mainSite2AqView();
-            // Run mainSite2AqView before setting SelAqId!
-            app.vm.SelAqId = 0;
+            await downloadAndReload();
+
+            await app.vm.loadSubscrSiteViewModel();
 
             // * Must be called after this.InitializeComponent!
             // * Must be called by async, not sync. Otherwise,
             // the app can't pass Windows App Cert Kit!
             await initPos();
-
-            await app.vm.loadSubscrSiteViewModel();
             return 0;
         }
 
@@ -224,7 +205,7 @@ namespace Taq
             try
             {
                 app.vm.m.convertXDoc2Dict();
-                await app.vm.mainSite2AqView();
+                await app.vm.loadMainSiteAndAqView();
                 // Force run loadDict2Sites by setting SelAqId to itself.
                 app.vm.SelAqId = app.vm.SelAqId;
             }
@@ -233,11 +214,6 @@ namespace Taq
                 statusTextBlock.Text = "更新失敗，請試手動更新。";
             }
             return 0;
-        }
-
-        private async void Page_Loaded(Object sender, RoutedEventArgs e)
-        {
-            //await ReloadXmlAndSitesData();
         }
 
         private async void refreshButton_Click(Object sender, RoutedEventArgs e)

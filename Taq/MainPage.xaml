@@ -9,8 +9,7 @@
     xmlns:Views="using:Taq.Views"
     x:Class="Taq.MainPage"
     mc:Ignorable="d"
-    x:Name="mainPage"
-    Loaded="Page_Loaded">
+    x:Name="mainPage">
 
     <Page.Resources>
         <Style x:Key="txtBlkSty1" TargetType="TextBlock">

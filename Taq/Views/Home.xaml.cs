@@ -63,7 +63,7 @@ namespace Taq.Views
             if (app.vm.m.localSettings.Values["TaqBackTaskUpdated"] == null || (bool)app.vm.m.localSettings.Values["TaqBackTaskUpdated"] == false)
             {
                 app.vm.m.localSettings.Values["MainSite"] = selSite.siteName;
-                await app.vm.mainSite2AqView();
+                app.vm.loadMainSite2dAqView();
                 await app.vm.backTaskUpdateTiles();
             }
             // SelectionChanged is triggered by TaqBackTask updating.

@@ -98,15 +98,26 @@ namespace Taq
             return 0;
         }
 
-        // Update live tiles by a background task.
+        // In foreground, updating live tiles by a background task.
         // Don't directly call app.vm.m.updateLiveTile,
         // which might fail to draw tile images with UI context.
+        bool isUpdateCompleted = true;
         public async Task<int> backTaskUpdateTiles()
         {
-            ApplicationTrigger trigger = new ApplicationTrigger();
-            await RegisterBackgroundTask("BackTaskUpdateTiles", "TaqBackTask.BackTaskUpdateTiles", trigger);
-            var result = await trigger.RequestAsync();
+            if (isUpdateCompleted == true)
+            {
+                isUpdateCompleted = false;
+                ApplicationTrigger trigger = new ApplicationTrigger();
+                var btr = await RegisterBackgroundTask("BackTaskUpdateTiles", "TaqBackTask.BackTaskUpdateTiles", trigger);
+                btr.Completed += Btr_Completed;
+                var result = await trigger.RequestAsync();
+            }
             return 0;
+        }
+
+        private void Btr_Completed(BackgroundTaskRegistration sender, BackgroundTaskCompletedEventArgs args)
+        {
+            isUpdateCompleted = true;
         }
 
         private int selAqId;
@@ -128,10 +139,16 @@ namespace Taq
         }
 
         // Has to be run by UI context!
-        public async Task<int> mainSite2AqView()
+        public async Task<int> loadMainSiteAndAqView()
         {
             await m.loadMainSite();
             loadMainSiteId();
+            loadMainSite2dAqView();
+            return 0;
+        }
+
+        public int loadMainSite2dAqView()
+        {
             // Don't remove all elements by new.
             // Otherwise, data bindings would be problematic.
             mainSiteViews.Clear();
@@ -166,9 +183,10 @@ namespace Taq
         {
             var mainSiteName = (string)m.localSettings.Values["mainSite"];
             var i = 0;
-            foreach(var k in m.sitesStrDict.Keys)
+            foreach (var k in m.sitesStrDict.Keys)
             {
-                if(mainSiteName == k) {
+                if (mainSiteName == k)
+                {
                     MainSiteId = i;
                     break;
                 }
@@ -191,6 +209,18 @@ namespace Taq
             }
         }
 
+        public int unregisterBackTask(string taskName)
+        {
+            foreach (var task in BackgroundTaskRegistration.AllTasks)
+            {
+                if (task.Value.Name == taskName)
+                {
+                    task.Value.Unregister(true);
+                }
+            }
+            return 0;
+        }
+
         public async Task<BackgroundTaskRegistration> RegisterBackgroundTask(string taskName, string taskEntryPoint, IBackgroundTrigger trigger)
         {
             var backgroundAccessStatus = await BackgroundExecutionManager.RequestAccessAsync();
@@ -199,22 +229,21 @@ namespace Taq
                 backgroundAccessStatus == BackgroundAccessStatus.AllowedSubjectToSystemPolicy ||
                 backgroundAccessStatus == BackgroundAccessStatus.AlwaysAllowed)
             {
-                foreach (var task in BackgroundTaskRegistration.AllTasks)
-                {
-                    if (task.Value.Name == taskName)
-                    {
-                        task.Value.Unregister(true);
-#if DEBUG
-                        Debug.WriteLine(taskName + " unregistered!!!");
-#endif
-                    }
-                }
+                unregisterBackTask(taskName);
 
                 BackgroundTaskBuilder taskBuilder = new BackgroundTaskBuilder();
                 taskBuilder.Name = taskName;
                 taskBuilder.TaskEntryPoint = taskEntryPoint;
                 taskBuilder.SetTrigger(trigger);
-                return taskBuilder.Register();
+                try
+                {
+                    var btr = taskBuilder.Register();
+                    return btr;
+                }
+                catch (Exception ex)
+                {
+                    return null;
+                }
             }
             return null;
         }
