@@ -11,6 +11,7 @@
 
     <UserControl.Resources>
         <Style x:Key="tbSty" TargetType="TextBlock">
+            <Setter Property="FontWeight" Value="Bold"></Setter>
             <Setter Property="FontSize" Value="26"></Setter>
             <Setter Property="TextAlignment" Value="Center"></Setter>
             <!-- Please set IsTextScaleFactorEnabled to False, if you want to take screenshot on foreground window. Otherwise, text scaling of OS may destroy the text layout. -->
