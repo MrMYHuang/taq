@@ -80,7 +80,7 @@ namespace Taq
             try
             {
                 // Pass the token to the task that listens for cancellation.
-                await download.StartAsync();
+                await download.StartAsync().AsTask(token);
             }
             catch (Exception ex)
             {
