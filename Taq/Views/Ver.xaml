@@ -24,9 +24,10 @@
                 </TextBlock>
             </DataTemplate>
         </HubSection>
-        <HubSection Header="Ver. 3.7.1" Width="Auto">
+        <HubSection Header="Ver. 3.8.0" Width="Auto">
             <DataTemplate>
                 <TextBlock Style="{StaticResource txtBlkSty1}" >
+                    * 狀態訊息可滑動，解決訊息過長超出螢幕無法看到的問題。<LineBreak />
                     * 簡潔小磚字型加粗。<LineBreak />
                     * 地圖與列表頁的空氣品質選單第一項改為Status。<LineBreak />
                     * 修正可能的手動更新導致閃退問題。

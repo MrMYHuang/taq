@@ -153,9 +153,9 @@ namespace Taq
 #if DEBU
                 // Do nothing.
 #else
-                statusTextBlock.Text = "Download start.";
+                statusTextBlock.Text = "下載開始。";
                 await app.vm.m.downloadDataXml();
-                statusTextBlock.Text = "Download finish.";
+                statusTextBlock.Text = DateTime.Now.ToString("HH:mm:ss tt") + "下載成功。";
 #endif
             }
             catch (DownloadException ex)

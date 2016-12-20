@@ -47,7 +47,6 @@ namespace Taq.Views
             // Wait MainPage's initPos for AutoPos being set.
             while (mainSiteComboBox.Items.Count == 0 || mainSiteComboBox.Items.Count <= app.vm.MainSiteId)
             {
-                // Force Umi_Loaded to an async function by await this.
                 await Task.Delay(100);
             }
             // Do binding SelectedIndex to MainSiteId after ubscrComboBox.Items ready (mainSiteComboBox_Loaded).
