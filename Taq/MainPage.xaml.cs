@@ -29,7 +29,6 @@ namespace Taq
     public sealed partial class MainPage : Page
     {
         public App app;
-        ThreadPoolTimer periodicTimer;
         public ApplicationDataContainer localSettings;
 
         public MainPage()
@@ -51,8 +50,6 @@ namespace Taq
         async Task<int> initAux()
         {
             await downloadAndReload();
-
-            await app.vm.loadSubscrSiteViewModel();
 
             // * Must be called after this.InitializeComponent!
             // * Must be called by async, not sync. Otherwise,

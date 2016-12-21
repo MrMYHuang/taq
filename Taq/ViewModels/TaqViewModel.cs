@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using Taq.Views;
 using TaqShared.Models;
 using TaqShared.ModelViews;
 using Windows.ApplicationModel;
@@ -27,8 +28,6 @@ namespace Taq
         public TaqModel m = new TaqModel();
         // Partial sites AQ information. Contain properties for data bindings (from AqView).
         public ObservableCollection<SiteViewModel> sites = new ObservableCollection<SiteViewModel>();
-        // Current site info converted to for data bindings through AqView.
-        public ObservableCollection<AqViewModel> mainSiteViews = new ObservableCollection<AqViewModel>();
 
         public ObservableCollection<SiteViewModel> subscrSiteViews = new ObservableCollection<SiteViewModel>();
 
@@ -138,32 +137,40 @@ namespace Taq
             }
         }
 
+        public ObservableCollection<AqGridView> aqgvList = new ObservableCollection<AqGridView>();
+
         // Has to be run by UI context!
         public async Task<int> loadMainSiteAndAqView()
         {
             await m.loadMainSite();
             loadMainSiteId();
-            loadMainSite2dAqView();
+            await m.loadSubscrSiteXml();
+            aqgvList.Clear();
+            aqgvList.Add(new AqGridView(loadMainSite2dAqView(m.mainSiteStrDict["SiteName"])));
+            foreach(var siteName in m.subscrSiteList)
+            {
+                aqgvList.Add(new AqGridView(loadMainSite2dAqView(siteName)));
+            }
             return 0;
         }
 
-        public int loadMainSite2dAqView()
+        public ObservableCollection<AqViewModel> loadMainSite2dAqView(string siteName)
         {
-            // Don't remove all elements by new.
-            // Otherwise, data bindings would be problematic.
-            mainSiteViews.Clear();
+            // Current site info converted to for data bindings through AqView.
+            ObservableCollection<AqViewModel> aqvms = new ObservableCollection<AqViewModel>();
+
             foreach (var k in StaticTaqModel.fieldNames.Keys)
             {
-                var aqLevel = m.getAqLevel(m.mainSiteStrDict["SiteName"], k);
+                var aqLevel = m.getAqLevel(siteName, k);
                 var textColor = StaticTaqModelView.getTextColor(aqLevel);
-                mainSiteViews.Add(new AqViewModel
+                aqvms.Add(new AqViewModel
                 {
                     CircleColor = StaticTaqModel.aqColors[k][aqLevel], // default border background color
-                    CircleText = StaticTaqModel.fieldNames[k] + "\n" + m.mainSiteStrDict[k],
+                    CircleText = StaticTaqModel.fieldNames[k] + "\n" + m.sitesStrDict[siteName][k],
                     TextColor = textColor
                 });
             }
-            return 0;
+            return aqvms;
         }
 
         private int mainSiteId;

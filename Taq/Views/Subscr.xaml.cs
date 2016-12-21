@@ -24,6 +24,7 @@ namespace Taq.Views
         {
             app = App.Current as App;
             this.InitializeComponent();
+            app.vm.loadSubscrSiteViewModel();
         }
 
         private async void addButton_Tapped(object sender, TappedRoutedEventArgs e)
@@ -34,6 +35,7 @@ namespace Taq.Views
             }
             var siteName = ((SiteViewModel)subscrComboBox.SelectedValue).siteName;
             await app.vm.addSubscrSite(siteName);
+            await app.vm.loadMainSiteAndAqView();
         }
 
         private async void delButton_Tapped(object sender, TappedRoutedEventArgs e)
@@ -53,6 +55,7 @@ namespace Taq.Views
                 }
             }
             await app.vm.delSubscrSite(itemsSelected);
+            await app.vm.loadMainSiteAndAqView();
         }
 
         public async void genSecondLiveTiles(object sender, TappedRoutedEventArgs e)

@@ -111,6 +111,9 @@
     <Compile Include="Views\AqColorMaps.xaml.cs">
       <DependentUpon>AqColorMaps.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\AqGridView.xaml.cs">
+      <DependentUpon>AqGridView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\AqList.xaml.cs">
       <DependentUpon>AqList.xaml</DependentUpon>
     </Compile>
@@ -324,6 +327,10 @@
     <Page Include="Views\AqColorMaps.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\AqGridView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\AqList.xaml">
       <SubType>Designer</SubType>

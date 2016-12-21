@@ -10,27 +10,13 @@
     NavigationCacheMode="Enabled" Loaded="Page_Loaded">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <GridView ItemsSource="{x:Bind app.vm.mainSiteViews, Mode=OneWay}" 
-                Margin="0,10,0,74">
-            <GridView.ItemContainerStyle>
-                <Style TargetType="GridViewItem">
-                    <Setter Property="Template">
-                        <Setter.Value>
-                            <ControlTemplate TargetType="GridViewItem">
-                                <GridViewItemPresenter Content="{TemplateBinding Content}"></GridViewItemPresenter>
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                </Style>
-            </GridView.ItemContainerStyle>
-            <GridView.ItemTemplate>
-                <DataTemplate x:DataType="tsmv:AqViewModel">
-                    <Border Background="{x:Bind CircleColor, Mode=OneWay}" VerticalAlignment="Center" Height="100">
-                        <TextBlock Text="{x:Bind CircleText, Mode=OneWay}" FontSize="22" Width="145" TextAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Center" Foreground="{x:Bind TextColor, Mode=OneWay}"></TextBlock>
-                    </Border>
-                </DataTemplate>
-            </GridView.ItemTemplate>
-        </GridView>
+        <FlipView UseTouchAnimationsForAllNavigation="True" ItemsSource="{x:Bind app.vm.aqgvList}">
+            <FlipView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <VirtualizingStackPanel Orientation="Horizontal"/>
+                </ItemsPanelTemplate>
+            </FlipView.ItemsPanel>
+        </FlipView>
         <ComboBox x:Name="mainSiteComboBox" HorizontalAlignment="Left" Width="230" Height="65" Header="主要觀測站" ItemsSource="{x:Bind app.vm.sites}" IsTapEnabled="True" SelectionChanged="mainSiteComboBox_SelectionChanged" VerticalAlignment="Bottom" Margin="10,0,0,0" Loaded="mainSiteComboBox_Loaded">
             <ComboBox.ItemTemplate>
                 <DataTemplate x:DataType="tsmv:SiteViewModel">
@@ -38,6 +24,7 @@
                 </DataTemplate>
             </ComboBox.ItemTemplate>
         </ComboBox>
+        <Button x:Name="subscrButton" Height="35" Tapped="subscrButton_Tapped" Margin="145,0,0,40" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="95">次要觀測站</Button>
         <!-- Viewbox is used to scale up UserMapIcon. -->
         <Viewbox VerticalAlignment="Bottom" Margin="240,0,0,0" Height="35" HorizontalAlignment="Left" Width="35">
             <!-- Don't bind UserMapIcon's IsEnabled to AutoPos. Otherwise, IsEnabledChanged event is not triggered. A UWP bug? -->

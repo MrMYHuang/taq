@@ -24,6 +24,13 @@
                 </TextBlock>
             </DataTemplate>
         </HubSection>
+        <HubSection Header="Ver. 3.9.0" Width="Auto">
+            <DataTemplate>
+                <TextBlock Style="{StaticResource txtBlkSty1}" >
+                    * 首頁支援顯示主要、次要觀測站空汙數據。觸控操作使用者可用水平左右滑動切換觀測站。滑鼠操作者請按左右邊方向鍵切換。<LineBreak />
+                </TextBlock>
+            </DataTemplate>
+        </HubSection>
         <HubSection Header="Ver. 3.8.0" Width="Auto">
             <DataTemplate>
                 <TextBlock Style="{StaticResource txtBlkSty1}" >

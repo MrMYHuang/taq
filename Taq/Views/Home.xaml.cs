@@ -62,7 +62,7 @@ namespace Taq.Views
             if (app.vm.m.localSettings.Values["TaqBackTaskUpdated"] == null || (bool)app.vm.m.localSettings.Values["TaqBackTaskUpdated"] == false)
             {
                 app.vm.m.localSettings.Values["MainSite"] = selSite.siteName;
-                app.vm.loadMainSite2dAqView();
+                app.vm.aqgvList[0] = new AqGridView(app.vm.loadMainSite2dAqView(selSite.siteName));
                 await app.vm.backTaskUpdateTiles();
             }
             // SelectionChanged is triggered by TaqBackTask updating.
@@ -81,6 +81,12 @@ namespace Taq.Views
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
+        }
+
+        private void subscrButton_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
+        {
+            var mainPage = rootFrame.Content as MainPage;
+            mainPage.frame.Navigate(typeof(Subscr));
         }
     }
 }

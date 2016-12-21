@@ -84,11 +84,5 @@ namespace Taq.Views
             app.vm.BgUpdatePeriodId = selId;
             await mainPage.backTaskReg();
         }
-
-        private void subscrButton_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
-        {
-            var mainPage = rootFrame.Content as MainPage;
-            mainPage.frame.Navigate(typeof(Subscr));
-        }
     }
 }

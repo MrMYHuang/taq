@@ -22,16 +22,16 @@
                 </GridView.ItemTemplate>
             </GridView>
             <StackPanel Orientation="Horizontal">
-                <ComboBox x:Name="subscrComboBox" HorizontalAlignment="Left" Width="110" Height="65" Header="訂閱觀測站" ItemsSource="{x:Bind app.vm.sites}" IsTapEnabled="True">
+                <ComboBox x:Name="subscrComboBox" HorizontalAlignment="Left" Width="110" Height="65" Header="訂閱次要觀測站" ItemsSource="{x:Bind app.vm.sites}" IsTapEnabled="True">
                     <ComboBox.ItemTemplate>
                         <DataTemplate x:DataType="tsm:SiteViewModel">
                             <TextBlock Text="{x:Bind siteName}"></TextBlock>
                         </DataTemplate>
                     </ComboBox.ItemTemplate>
                 </ComboBox>
-                <Button x:Name="addButton" Style="{StaticResource buttonSty}" Tapped="addButton_Tapped">&#xE710;</Button>
-                <Button x:Name="delButton" Style="{StaticResource buttonSty}" Tapped="delButton_Tapped">&#xE711;</Button>
-                <Button x:Name="pinButton" Style="{StaticResource buttonSty}" Tapped="genSecondLiveTiles">&#xE718;</Button>
+                <Button x:Name="addButton" Style="{StaticResource buttonSty}" Tapped="addButton_Tapped" ToolTipService.ToolTip="新增訂閱">&#xE710;</Button>
+                <Button x:Name="delButton" Style="{StaticResource buttonSty}" Tapped="delButton_Tapped" ToolTipService.ToolTip="移除訂閱">&#xE711;</Button>
+                <Button x:Name="pinButton" Style="{StaticResource buttonSty}" Tapped="genSecondLiveTiles" ToolTipService.ToolTip="釘選動態磚">&#xE718;</Button>
             </StackPanel>
         </StackPanel>
     </Grid>
