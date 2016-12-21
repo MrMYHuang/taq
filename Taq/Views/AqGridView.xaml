@@ -8,9 +8,9 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <GridView x:FieldModifier="public" x:Name="gv" ItemsSource="{x:Bind aqvms, Mode=OneWay}" 
-                Margin="0,10,0,74">
+    <ScrollViewer VerticalScrollMode="Enabled" Margin="0,10,0,74">
+        <!-- Please wrap this GridView by the ScrollViewer! Otherwise, the scrolling in the FlipView in Home might crash the app if the GridView height is larger than the screen size. A bug of W10M? -->
+        <GridView x:FieldModifier="public" x:Name="gv" ItemsSource="{x:Bind aqvms, Mode=OneWay}">
             <GridView.ItemContainerStyle>
                 <Style TargetType="GridViewItem">
                     <Setter Property="Template">
@@ -30,5 +30,5 @@
                 </DataTemplate>
             </GridView.ItemTemplate>
         </GridView>
-    </Grid>
+    </ScrollViewer>
 </Page>

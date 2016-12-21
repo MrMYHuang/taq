@@ -158,7 +158,7 @@ namespace Taq
         {
             // Current site info converted to for data bindings through AqView.
             ObservableCollection<AqViewModel> aqvms = new ObservableCollection<AqViewModel>();
-
+            
             foreach (var k in StaticTaqModel.fieldNames.Keys)
             {
                 var aqLevel = m.getAqLevel(siteName, k);
