@@ -9,6 +9,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Maps;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Shapes;
+using System.Linq;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -68,7 +69,7 @@ namespace Taq.Views
         {
             await autoPosUmi();
         }
-        
+
         // Map icon for user location obtained by GPS.
         UserMapIcon userMapIcon = new UserMapIcon();
         private async Task<int> autoPosUmi()
@@ -80,18 +81,24 @@ namespace Taq.Views
                 app.vm.m.geoLoc = new Geolocator { ReportInterval = 2000 };
                 var pos = await app.vm.m.geoLoc.GetGeopositionAsync();
                 var p = pos.Coordinate.Point;
-                // userMapIcon has not been added.
-                if (map.Children.IndexOf(userMapIcon) == -1)
-                {
-                    map.Children.Add(userMapIcon);
-                }
-                MapControl.SetLocation(userMapIcon, p);
-                MapControl.SetNormalizedAnchorPoint(userMapIcon, new Point(0.5, 0.5));
-                await map.TrySetSceneAsync(MapScene.CreateFromLocationAndRadius(p, 1000));
+                await posUmi(p);
             }
             catch (Exception ex)
             {
             }
+            return 0;
+        }
+
+        public async Task<int> posUmi(Geopoint p)
+        {
+            // userMapIcon has not been added.
+            if (map.Children.IndexOf(userMapIcon) == -1)
+            {
+                map.Children.Add(userMapIcon);
+            }
+            MapControl.SetLocation(userMapIcon, p);
+            MapControl.SetNormalizedAnchorPoint(userMapIcon, new Point(0.5, 0.5));
+            await map.TrySetSceneAsync(MapScene.CreateFromLocationAndRadius(p, 1000));
             return 0;
         }
 
@@ -162,6 +169,32 @@ namespace Taq.Views
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
             umi.IsEnabled = app.vm.AutoPos && app.vm.MapAutoPos;
+        }
+
+        private void AutoSuggestBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
+        {
+            if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
+            {
+                var siteNames = app.vm.m.sitesStrDict.Keys;
+
+                asb.ItemsSource = siteNames.Where(sn => sn.Contains(asb.Text));
+            }
+        }
+
+        private async void asb_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
+        {
+            var siteNames = app.vm.m.sitesStrDict.Keys;
+            var findSite = siteNames.Where(sn => sn == asb.Text);
+            if (findSite.Count() != 0)
+            {
+                var findSiteName = findSite.First();
+                var p = new Geopoint(new BasicGeoposition
+                {
+                    Latitude = double.Parse(app.vm.m.sitesStrDict[findSiteName]["TWD97Lat"]),
+                    Longitude = double.Parse(app.vm.m.sitesStrDict[findSiteName]["TWD97Lon"])
+                });
+                await map.TrySetSceneAsync(MapScene.CreateFromLocationAndRadius(p, 1000));
+            }
         }
     }
 
