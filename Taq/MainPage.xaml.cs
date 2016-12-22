@@ -98,22 +98,35 @@ namespace Taq
             {
                 localSettings.Values["BgMainSiteAutoPos"] = true;
             }
-            await backTaskReg();
+            // Update by timer.
+            await timerBackUpdateReg();
+            // Update if user presents.
+            await backUpdateReg("UserPresent", new SystemTrigger(SystemTriggerType.UserPresent, false));
+            // Update if the Internet is available.
+            await backUpdateReg("HasNet", new SystemTrigger(SystemTriggerType.InternetAvailable, false));
             return 0;
         }
 
-        public async Task<int> backTaskReg()
+        public async Task<int> timerBackUpdateReg()
         {
-            var btr = await app.vm.RegisterBackgroundTask("TaqBackTask", "TaqBackTask.TaqBackTask", new TimeTrigger(Convert.ToUInt32(localSettings.Values["BgUpdatePeriod"]), false));
-            btr.Completed += (s, e) =>
-            {
-                CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-                {
-                    statusTextBlock.Text = DateTime.Now.ToString("HH:mm:ss tt") + "更新";
-                    ReloadXmlAndSitesData();
-                });
-            };
+            await backUpdateReg("Timer", new TimeTrigger(Convert.ToUInt32(localSettings.Values["BgUpdatePeriod"]), false));
             return 0;
+        }
+
+        public async Task<int> backUpdateReg(string name, IBackgroundTrigger trigger)
+        {
+            var btr = await app.vm.RegisterBackgroundTask(name + "TaqBackTask", "TaqBackTask.TaqBackTask", trigger);
+            btr.Completed += Btr_Completed;
+            return 0;
+        }
+
+        private async void Btr_Completed(BackgroundTaskRegistration sender, BackgroundTaskCompletedEventArgs args)
+        {
+            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+            {
+                statusTextBlock.Text = DateTime.Now.ToString("HH:mm:ss tt") + "更新";
+                await ReloadXmlAndSitesData();
+            });
         }
 
         async void MainPage_DataRequested(DataTransferManager sender, DataRequestedEventArgs args)
@@ -187,11 +200,18 @@ namespace Taq
             try
             {
                 await app.vm.m.loadAqXml();
-                await updateSitesData();
             }
             catch (Exception ex)
             {
                 statusTextBlock.Text = "自動更新失敗。請嘗試手動更新。";
+            }
+
+            try
+            {
+                await updateSitesData();
+            }
+            catch (Exception ex)
+            {
             }
             return 0;
         }

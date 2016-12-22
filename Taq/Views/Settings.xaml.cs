@@ -82,7 +82,7 @@ namespace Taq.Views
         {
             var selId = ((ComboBox)sender).SelectedIndex;
             app.vm.BgUpdatePeriodId = selId;
-            await mainPage.backTaskReg();
+            await mainPage.timerBackUpdateReg();
         }
     }
 }
