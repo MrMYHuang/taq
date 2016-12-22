@@ -59,12 +59,13 @@ namespace TaqShared.Models
         // AQ level limits and corresponding colors lists.
         // Notice: a color list has one more element than a limit list!
         public static List<double> defaultLimits = new List<double> { 0 };
-        public static List<string> defaultColors = new List<string> { "#00ff00", "#00ff00" };
+        public static List<string> defaultColors = new List<string> { "#a6ce39", "#a6ce39" };
 
         public static List<string> dirtyColors = new List<string> { "#C0C0C0", "#C0C0C0" };
 
         public static List<double> aqiLimits = new List<double> { 50, 100, 150, 200, 300, 400, 500 };
-        public static List<string> aqiBgColors = new List<string> { "#00ff00", "#ffff00", "#ff7e00", "#ff0000", "#800080", "#633300", "#633300", "#633300" };
+        // From https://www3.epa.gov/airnow/aqi_brochure_02_14.pdf
+        public static List<string> aqiBgColors = new List<string> { "#a6ce39", "#fff200", "#f7901e", "#ed1d24", "#a2064a", "#891a1c", "#891a1c", "#891a1c" };
 
         public static List<double> pm2_5Limits = new List<double> { 15.4, 35.4, 54.4, 150.4, 250.4, 350.4, 500.4 };
         public static List<double> pm10Limits = new List<double> { 54, 125, 254, 354, 424, 504, 604 };
