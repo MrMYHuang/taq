@@ -242,6 +242,7 @@ namespace Taq
                 taskBuilder.Name = taskName;
                 taskBuilder.TaskEntryPoint = taskEntryPoint;
                 taskBuilder.SetTrigger(trigger);
+                taskBuilder.AddCondition(new SystemCondition(SystemConditionType.InternetAvailable));
                 try
                 {
                     var btr = taskBuilder.Register();
