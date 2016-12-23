@@ -283,6 +283,20 @@ namespace Taq
             }
         }
 
+        public bool SecondSitesNotify
+        {
+            get
+            {
+                return (bool)m.localSettings.Values["SecondSitesNotify"];
+            }
+
+            set
+            {
+                m.localSettings.Values["SecondSitesNotify"] = value;
+                OnPropertyChanged("SecondSitesNotify");
+            }
+        }
+
         public bool WarnStateChangeMode
         {
             get

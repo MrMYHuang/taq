@@ -62,6 +62,10 @@ namespace Taq
             {
                 localSettings.Values["MapAutoPos"] = true;
             }
+            if (localSettings.Values["SecondSitesNotify"] == null)
+            {
+                localSettings.Values["SecondSitesNotify"] = true;
+            }
             if (localSettings.Values["WarnStateChangeMode"] == null)
             {
                 localSettings.Values["WarnStateChangeMode"] = true;

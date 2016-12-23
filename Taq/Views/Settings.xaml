@@ -49,6 +49,13 @@
             </DataTemplate>
         </HubSection>
 
+        <HubSection Style="{StaticResource hubSecHeadSty}" Width="300" HorizontalAlignment="Left" Header="次要觀測站通知">
+            <DataTemplate x:DataType="local:Settings">
+                <ToggleSwitch x:Name="tileClearStyToggle" HorizontalAlignment="Left" Margin="0" IsOn="{x:Bind app.vm.SecondSitesNotify, Mode=TwoWay}">
+                </ToggleSwitch>
+            </DataTemplate>
+        </HubSection>
+
         <HubSection Style="{StaticResource hubSecHeadSty}" Width="300" HorizontalAlignment="Left" Header="警報轉態通知模式">
             <DataTemplate x:DataType="local:Settings">
                 <ToggleSwitch x:Name="tileClearStyToggle" HorizontalAlignment="Left" Margin="0" IsOn="{x:Bind app.vm.WarnStateChangeMode, Mode=TwoWay}" Width="340">

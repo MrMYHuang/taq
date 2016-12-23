@@ -417,9 +417,12 @@ namespace Taq
         public void sendSubscrSitesNotifications()
         {
             sendNotifications(mainSiteStrDict["SiteName"]);
-            foreach (var siteName in subscrSiteList)
+            if ((bool)localSettings.Values["SecondSitesNotify"])
             {
-                sendNotifications(siteName);
+                foreach (var siteName in subscrSiteList)
+                {
+                    sendNotifications(siteName);
+                }
             }
         }
 
