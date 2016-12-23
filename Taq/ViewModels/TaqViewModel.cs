@@ -49,6 +49,7 @@ namespace Taq
                     {
                         siteName = s.Key,
                         county = s.Value["County"],
+                        aqi =  m.getValidAqVal(siteDict["AQI"]),
                         twd97Lat = double.Parse(siteDict["TWD97Lat"]),
                         twd97Lon = double.Parse(siteDict["TWD97Lon"]),
                     });

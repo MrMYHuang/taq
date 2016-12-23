@@ -6,5 +6,7 @@
         public string county;
         public double twd97Lat;
         public double twd97Lon;
+        // For sorting Status.
+        public double aqi;
     }
 }

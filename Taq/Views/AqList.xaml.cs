@@ -1,5 +1,10 @@
-﻿using Windows.UI.Xaml;
+﻿using System.Collections.ObjectModel;
+using TaqShared.ModelViews;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using System.Linq;
+using System.Collections.Generic;
+using System;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -27,6 +32,33 @@ namespace Taq.Views
         private void aqComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             mainPage.aqComboBox_SelectionChanged(sender, e);
+        }
+
+        // For toggling between descending and ascending orderings.
+        private bool desc = true;
+        private void aqCol_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
+        {
+            Func<SiteViewModel, double> getSortElem;
+            if (aqComboBox.SelectedValue.ToString() == "Status")
+            {
+                getSortElem = (svm => ((SiteViewModel)svm).aqi);
+            }
+            else
+            {
+                getSortElem = (svm => app.vm.m.getValidAqVal(((SiteViewModel)svm).ListText));
+            }
+
+            // Don't know why set null first, but it just works!
+            listView.ItemsSource = null;
+            if(desc)
+            {
+                listView.ItemsSource = app.vm.sites.OrderByDescending(getSortElem);
+            }
+            else
+            {
+                listView.ItemsSource = app.vm.sites.OrderBy(getSortElem);
+            }
+            desc = !desc;
         }
     }
 }

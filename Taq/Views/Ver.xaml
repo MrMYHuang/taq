@@ -24,9 +24,10 @@
                 </TextBlock>
             </DataTemplate>
         </HubSection>
-        <HubSection Header="Ver. 3.11.4" Width="Auto">
+        <HubSection Header="Ver. 3.12.0" Width="Auto">
             <DataTemplate>
                 <TextBlock Style="{StaticResource txtBlkSty1}" >
+                    * 在列表頁點擊數值行標題可作降/升冪排序。<LineBreak />
                     * 在地圖頁對焦搜尋盒即會顯示所有測站列表。<LineBreak />
                     * 修改次要觀測站頁，釘動態磚只釘選中的。<LineBreak />
                 </TextBlock>
