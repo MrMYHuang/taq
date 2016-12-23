@@ -183,6 +183,16 @@ namespace Taq.Views
 
         private async void asb_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
         {
+            await asb_QuerySubmit();
+        }
+
+        private async void asb_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
+        {
+            await asb_QuerySubmit();
+        }
+
+        private async Task<int> asb_QuerySubmit()
+        {
             var siteNames = app.vm.m.sitesStrDict.Keys;
             var findSite = siteNames.Where(sn => sn == asb.Text);
             if (findSite.Count() != 0)
@@ -195,6 +205,7 @@ namespace Taq.Views
                 });
                 await map.TrySetSceneAsync(MapScene.CreateFromLocationAndRadius(p, 1000));
             }
+            return 0;
         }
     }
 

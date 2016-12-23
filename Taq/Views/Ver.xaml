@@ -24,12 +24,13 @@
                 </TextBlock>
             </DataTemplate>
         </HubSection>
-        <HubSection Header="Ver. 3.11.0" Width="Auto">
+        <HubSection Header="Ver. 3.11.2" Width="Auto">
             <DataTemplate>
                 <TextBlock Style="{StaticResource txtBlkSty1}" >
                     * 支援"使用者出現(UserPresent)"背景更新。當使用者開啟裝置，即會觸發此背景更新。<LineBreak />
                     * 支援"可上網(InternetAvailable)"背景更新。當使用者裝置從無網路切換至有網路，如原本離線再打開WiFi連上網路，即會觸發此背景更新。<LineBreak />
                     * AQI顏色改使用<Hyperlink NavigateUri="https://www3.epa.gov/airnow/aqi_brochure_02_14.pdf">EPA文件</Hyperlink>。綠色較不刺眼。<LineBreak />
+                    * 地圖頁搜尋盒，選取測站(鍵盤操作要再按下Enter鍵)後會執行定位，不必再按搜尋鈕。<LineBreak />
                 </TextBlock>
             </DataTemplate>
         </HubSection>

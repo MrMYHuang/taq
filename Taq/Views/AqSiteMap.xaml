@@ -16,7 +16,7 @@
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Margin="0, 0, 60, 0">
         <Maps:MapControl x:Name="map"
             MapServiceToken="YourBingMapToken" Margin="0,0,0,65" DataContext="app" ColorScheme="{x:Bind app.vm.MapColor, Converter={StaticResource b2mcc}, Mode=OneWay}">
-            <AutoSuggestBox x:FieldModifier="public" x:Name="asb" HorizontalAlignment="Left" Margin="10,10,0,593" VerticalAlignment="Top" Width="150" Height="37" QueryIcon="Find" TextChanged="AutoSuggestBox_TextChanged" QuerySubmitted="asb_QuerySubmitted"/>
+            <AutoSuggestBox x:FieldModifier="public" x:Name="asb" HorizontalAlignment="Left" Margin="10,10,0,593" VerticalAlignment="Top" Width="150" Height="37" QueryIcon="Find" TextChanged="AutoSuggestBox_TextChanged" QuerySubmitted="asb_QuerySubmitted" SuggestionChosen="asb_SuggestionChosen" />
         </Maps:MapControl>
         <ComboBox x:Name="aqComboBox" ItemsSource="{x:Bind app.vm.m.aqList, Mode=OneWay}" HorizontalAlignment="Left" VerticalAlignment="Bottom" SelectedIndex="{x:Bind app.vm.SelAqId, Mode=OneWay}" SelectionChanged="aqComboBox_SelectionChanged" Width="250" Height="65" Header="空汙指標" Margin="10,0,0,0" />
         <!-- Viewbox is used to scale up UserMapIcon. -->
