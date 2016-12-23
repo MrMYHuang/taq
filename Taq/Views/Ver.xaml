@@ -24,7 +24,7 @@
                 </TextBlock>
             </DataTemplate>
         </HubSection>
-        <HubSection Header="Ver. 3.11.2" Width="Auto">
+        <HubSection Header="Ver. 3.11.3" Width="Auto">
             <DataTemplate>
                 <TextBlock Style="{StaticResource txtBlkSty1}" >
                     * 支援"使用者出現(UserPresent)"背景更新。當使用者開啟裝置，即會觸發此背景更新。<LineBreak />
