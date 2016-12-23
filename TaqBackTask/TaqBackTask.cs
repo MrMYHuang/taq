@@ -21,7 +21,7 @@ namespace TaqBackTask
 
             try
             {
-
+                // tbtLog is used to not only log infos, but also act as an execution token. Multiple TaqBackTasks might be triggered at the same time, but only one of them has the token to execute the full Run.
                 var tbtLog = await ApplicationData.Current.LocalFolder.CreateFileAsync("TbtLog.txt", CreationCollisionOption.ReplaceExisting);
                 var s = await tbtLog.OpenStreamForWriteAsync();
                 var sw = new StreamWriter(s);
