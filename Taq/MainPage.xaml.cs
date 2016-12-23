@@ -39,7 +39,6 @@ namespace Taq
 
             this.InitializeComponent();
             initAux();
-            frame.Navigate(typeof(Home));
             initBackTask();
             DataTransferManager.GetForCurrentView().DataRequested += MainPage_DataRequested;
         }
@@ -55,6 +54,7 @@ namespace Taq
             // * Must be called by async, not sync. Otherwise,
             // the app can't pass Windows App Cert Kit!
             await initPos();
+            frame.Navigate(typeof(Home));
             return 0;
         }
 

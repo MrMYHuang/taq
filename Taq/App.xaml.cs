@@ -6,6 +6,8 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using Windows.System;
 using Windows.Storage;
+using System.Threading.Tasks;
+using Taq.Views;
 
 namespace Taq
 {
@@ -89,8 +91,11 @@ namespace Taq
         /// will be used such as when the application is launched to open a specific file.
         /// </summary>
         /// <param name="e">Details about the launch request and process.</param>
+        /// 
+        public string tappedId;
         protected override void OnLaunched(LaunchActivatedEventArgs e)
         {
+            tappedId = e.TileId;
 #if DEBUG
             if (System.Diagnostics.Debugger.IsAttached)
             {

@@ -6,6 +6,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Data;
+using Windows.UI.Xaml.Navigation;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -87,6 +88,24 @@ namespace Taq.Views
         {
             var mainPage = rootFrame.Content as MainPage;
             mainPage.frame.Navigate(typeof(Subscr));
+        }
+
+        protected override async void OnNavigatedTo(NavigationEventArgs e)
+        {
+            //var md = new Windows.UI.Popups.MessageDialog(app.tappedId);
+            //await md.ShowAsync();
+            if (app.tappedId == "App" || app.vm.m.subscrSiteList.Count() == 0)
+            {
+                return;
+            }
+            var tappedSsId = app.vm.m.subscrSiteList.IndexOf(app.tappedId);
+            while (fv.Items.Count() != (app.vm.m.subscrSiteList.Count() + 1))
+            {
+                await Task.Delay(100);
+            }
+            // Pay attention! "0" is the main site.
+            fv.SelectedIndex = (tappedSsId + 1);
+            return;
         }
     }
 }

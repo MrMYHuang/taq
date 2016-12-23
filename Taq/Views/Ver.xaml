@@ -27,6 +27,7 @@
         <HubSection Header="Ver. 3.12.0" Width="Auto">
             <DataTemplate>
                 <TextBlock Style="{StaticResource txtBlkSty1}" >
+                    * 點選動態磚，會依據所屬測站開啟對應首頁空汙資訊。<LineBreak />
                     * 在列表頁點擊數值行標題可作降/升冪排序。<LineBreak />
                     * 設定頁新增選項"次要觀測站通知"，可全開/全關次要觀測站警報通知。若要關主要觀測站通知，請調大警報值。<LineBreak />
                     * 在地圖頁對焦搜尋盒即會顯示所有測站列表。<LineBreak />
