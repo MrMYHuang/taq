@@ -171,6 +171,11 @@ namespace Taq.Views
             umi.IsEnabled = app.vm.AutoPos && app.vm.MapAutoPos;
         }
 
+        private void asb_Loaded(object sender, RoutedEventArgs e)
+        {
+            asb.ItemsSource = app.vm.m.sitesStrDict.Keys;
+        }
+
         private void AutoSuggestBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
         {
             if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
@@ -206,6 +211,11 @@ namespace Taq.Views
                 await map.TrySetSceneAsync(MapScene.CreateFromLocationAndRadius(p, 1000));
             }
             return 0;
+        }
+
+        private void asb_GotFocus(object sender, RoutedEventArgs e)
+        {
+            asb.IsSuggestionListOpen = true;
         }
     }
 
