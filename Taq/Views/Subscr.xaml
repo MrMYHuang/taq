@@ -9,7 +9,7 @@
     mc:Ignorable="d"
     NavigationCacheMode="Enabled">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Margin="0, 0, 60, 0">
         <StackPanel Orientation="Vertical">
             <GridView x:Name="subscrGridView" ItemsSource="{x:Bind app.vm.subscrSiteViews, Mode=OneWay}" 
                 SelectionMode="Multiple" IsMultiSelectCheckBoxEnabled="True" Margin="0,10,0,0">

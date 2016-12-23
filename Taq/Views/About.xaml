@@ -17,7 +17,7 @@
         </Style>
     </Page.Resources>
 
-    <Hub Header="關於" Orientation="Vertical" HorizontalAlignment="Left" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Width="Auto" DataContext="{x:Bind}">
+    <Hub Header="關於" Orientation="Vertical" HorizontalAlignment="Left" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Width="Auto" DataContext="{x:Bind}" Margin="0, 0, 60, 0">
         <HubSection Header="App資訊" Width="Auto">
             <DataTemplate x:DataType="local:About">
                 <TextBlock Style="{StaticResource txtBlkSty1}" >

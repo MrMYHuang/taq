@@ -9,7 +9,7 @@
     mc:Ignorable="d"
     NavigationCacheMode="Enabled">
 
-    <Hub Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Orientation="Vertical" DataContext="{x:Bind}" Margin="0">
+    <Hub Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Orientation="Vertical" DataContext="{x:Bind}" Margin="0, 0, 60, 0">
         <HubSection Style="{StaticResource hubSecHeadSty}" Header="夜晚主題">
             <DataTemplate x:DataType="local:Settings">
                 <ToggleSwitch x:Name="themeToggle" Header="重新啟動app後生效" HorizontalAlignment="Left" Margin="0" IsOn="{x:Bind AppTheme, Mode=TwoWay}" Width="340" Height="67"/>
