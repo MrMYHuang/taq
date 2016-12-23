@@ -28,6 +28,7 @@
             <DataTemplate>
                 <TextBlock Style="{StaticResource txtBlkSty1}" >
                     * 在地圖頁對焦搜尋盒即會顯示所有測站列表。<LineBreak />
+                    * 修改次要觀測站頁，釘動態磚只釘選中的。<LineBreak />
                 </TextBlock>
             </DataTemplate>
         </HubSection>

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using TaqShared.ModelViews;
@@ -60,9 +61,10 @@ namespace Taq.Views
 
         public async void genSecondLiveTiles(object sender, TappedRoutedEventArgs e)
         {
-            foreach (var siteName in app.vm.m.subscrSiteList)
+            var itemsSelected = subscrGridView.SelectedItems.ToArray();
+            foreach (SiteViewModel svm in itemsSelected)
             {
-                var st = new SecondaryTile(siteName, siteName, siteName, new Uri("ms-appx:///Assets/logos/MediumTile.png"), TileSize.Default);
+                var st = new SecondaryTile(svm.siteName, svm.siteName, svm.siteName, new Uri("ms-appx:///Assets/logos/MediumTile.png"), TileSize.Default);
                 st.VisualElements.Wide310x150Logo = new Uri("ms-appx:///Assets/logos/WideTile.png");
                 st.VisualElements.Square310x310Logo = new Uri("ms-appx:///Assets/logos/LargeTile.png");
                 await st.RequestCreateForSelectionAsync(getElementRect((FrameworkElement)sender));
@@ -70,7 +72,7 @@ namespace Taq.Views
             await app.vm.backTaskUpdateTiles();
         }
 
-        public static Windows.Foundation.Rect getElementRect(FrameworkElement element)
+        public static Rect getElementRect(FrameworkElement element)
         {
             GeneralTransform buttonTransform = element.TransformToVisual(null);
             Point point = buttonTransform.TransformPoint(new Point());
