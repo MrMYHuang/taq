@@ -193,7 +193,9 @@ namespace Taq
         {
             var sitesList = m.subscrSiteList.ToList();
             sitesList.Insert(0, m.mainSiteStrDict["SiteName"]);
-            var delId = sitesList.IndexOf(siteName);
+            // Main site is still possible to be the same as one secondary site
+            // after auto positioning. If so, delete the secondary one.
+            var delId = sitesList.LastIndexOf(siteName);
             aqgvList.RemoveAt(delId);
         }
 
