@@ -1,4 +1,9 @@
 **/*.*
+**/bin/**/*.*
+**/obj/**/*.*
+**/Assets/**/*.*
+**/AppPackages/**/*.*
+**/*.lock.json
 !*.gitignore
 !*.cs
 !*.xaml
