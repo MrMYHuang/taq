@@ -8,8 +8,10 @@
         <Setter Property="TextWrapping" Value="WrapWholeWords" />
     </Style>
 
-    <Style x:Key="hubSecHeadSty" TargetType="HubSection">
-        <Setter Property="Margin" Value="0, 10, 0, 10" />
+    <Style x:Key="secHeadSty" TargetType="TextBlock">
+        <Setter Property="IsTextSelectionEnabled" Value="True" />
+        <Setter Property="FontSize" Value="20"></Setter>
+        <Setter Property="Margin" Value="0, 50, 0, 0"></Setter>
     </Style>
 
     <Style x:Key="buttonSty" TargetType="Button">

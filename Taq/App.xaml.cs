@@ -8,6 +8,7 @@ using Windows.System;
 using Windows.Storage;
 using System.Threading.Tasks;
 using Taq.Views;
+using Microsoft.QueryStringDotNET;
 
 namespace Taq
 {
@@ -92,10 +93,10 @@ namespace Taq
         /// </summary>
         /// <param name="e">Details about the launch request and process.</param>
         /// 
-        public string tappedId;
+        public string tappedSiteName;
         protected override void OnLaunched(LaunchActivatedEventArgs e)
         {
-            tappedId = e.TileId;
+            tappedSiteName = e.TileId;
 #if DEBUG
             if (System.Diagnostics.Debugger.IsAttached)
             {
@@ -131,6 +132,10 @@ namespace Taq
                     // parameter
                     rootFrame.Navigate(typeof(MainPage), e.Arguments);
                 }
+                else
+                {
+                    navigateToHome(rootFrame);
+                }
                 // Ensure the current window is active
                 Window.Current.Activate();
             }
@@ -138,6 +143,15 @@ namespace Taq
 
         protected override void OnActivated(IActivatedEventArgs e)
         {
+            if (e is ToastNotificationActivatedEventArgs)
+            {
+                var toastActivationArgs = e as ToastNotificationActivatedEventArgs;
+
+                // Parse the query string
+                var args = QueryString.Parse(toastActivationArgs.Argument);
+                tappedSiteName = args["siteName"];
+            }
+
             Frame rootFrame = Window.Current.Content as Frame;
 
             // Do not repeat app initialization when the Window already has content,
@@ -165,8 +179,19 @@ namespace Taq
                 // parameter
                 rootFrame.Navigate(typeof(MainPage));
             }
+            else
+            {
+                navigateToHome(rootFrame);
+            }
             // Ensure the current window is active
             Window.Current.Activate();
+        }
+
+        void navigateToHome(Frame rootFrame)
+        {
+            var mainPage = rootFrame.Content as MainPage;
+            // For triggerring OnNavigatedTo event of Home.
+            mainPage.frame.Navigate(typeof(Home));
         }
 
         /// <summary>

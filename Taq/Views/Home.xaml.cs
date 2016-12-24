@@ -94,17 +94,17 @@ namespace Taq.Views
         {
             //var md = new Windows.UI.Popups.MessageDialog(app.tappedId);
             //await md.ShowAsync();
-            if (app.tappedId == "App" || app.vm.m.subscrSiteList.Count() == 0)
+            if (app.tappedSiteName == "App" || app.vm.m.subscrSiteList.Count() == 0)
             {
                 return;
             }
-            var tappedSsId = app.vm.m.subscrSiteList.IndexOf(app.tappedId);
+            var tappedSnId = app.vm.m.subscrSiteList.IndexOf(app.tappedSiteName);
             while (fv.Items.Count() != (app.vm.m.subscrSiteList.Count() + 1))
             {
                 await Task.Delay(100);
             }
-            // Pay attention! "0" is the main site.
-            fv.SelectedIndex = (tappedSsId + 1);
+            // Pay attention! "0" is for the main site.
+            fv.SelectedIndex = (tappedSnId + 1);
             return;
         }
     }

@@ -8,7 +8,6 @@
     xmlns:taq="using:Taq"
     mc:Ignorable="d"
     NavigationCacheMode="Enabled">
-
     <Page.Resources>
         <Style x:Key="txtBlkSty1" TargetType="TextBlock">
             <Setter Property="IsTextSelectionEnabled" Value="True" />
@@ -17,49 +16,40 @@
         </Style>
     </Page.Resources>
 
-    <Hub Header="關於" Orientation="Vertical" HorizontalAlignment="Left" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Width="Auto" DataContext="{x:Bind}" Margin="0, 0, 60, 0">
-        <HubSection Header="App資訊" Width="Auto">
-            <DataTemplate x:DataType="local:About">
-                <TextBlock Style="{StaticResource txtBlkSty1}" >
+    <ScrollViewer>
+        <StackPanel Orientation="Vertical" HorizontalAlignment="Left" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" DataContext="{x:Bind}">
+            <TextBlock Style="{StaticResource secHeadSty}" Margin="0">App資訊</TextBlock>
+            <TextBlock Style="{StaticResource txtBlkSty1}" >
                 名稱：<Hyperlink NavigateUri="ms-windows-store://pdp/?productid=9nblggh43pdr">Taiwan Air Quality (TAQ)</Hyperlink><LineBreak/>
                 版本：<Run Text="{x:Bind app.vm.Version}" /><LineBreak/>
                 外部函式庫：Syncfusion <Run Text="{x:Bind syncfusionVer}" /><LineBreak/>
                 簡介：此app用來查詢、訂閱由<Hyperlink NavigateUri="http://opendata.epa.gov.tw/Data/Details/AQI/">台灣環保署</Hyperlink>所提供之觀測站所測得的每小時之空汙資訊，如即時AQI、PM 2.5濃度。<LineBreak/>
-                </TextBlock>
-            </DataTemplate>
-        </HubSection>
-        <HubSection Header="主要特色" Width="Auto">
-            <DataTemplate>
-                <TextBlock Style="{StaticResource txtBlkSty1}">                   
-* 支援動態磚(Live Tile)。可從訂閱觀測站的列表點選，即會在動態磚顯示其空汙數值(如AQI)。可訂閱多個觀測站。<LineBreak/>
-* 支援通知(Notification)。當AQI、PM 2.5濃度超過設定值且數值有更新，就會發出通知。<LineBreak/>
-* 支援背景更新。即app關閉後，動態磚與通知仍會正常更新。<LineBreak/>
-                </TextBlock>
-            </DataTemplate>
-        </HubSection>
-        <HubSection Header="注意事項" Width="Auto">
-            <DataTemplate>
-                <TextBlock Style="{StaticResource txtBlkSty1}">
-* 動態磚每15分鐘背景下載空氣品質資料庫一次。可調整。<LineBreak/>
-* 空汙的資料來源為環保署。正常情形，TAQ的空汙資料最多晚環保署10分鐘更新。若懷疑數據不正常，請先至<Hyperlink NavigateUri="http://opendata.epa.gov.tw/Data/Details/AQI/">環保署網頁</Hyperlink>確認。<LineBreak/>
-                </TextBlock>
-            </DataTemplate>
-        </HubSection>
-        <HubSection Header="問題與回報" Width="Auto">
-            <DataTemplate>
-                <TextBlock Style="{StaticResource txtBlkSty1}">
-                    FB粉絲頁：<Hyperlink NavigateUri="http://fb.com/TaqUwp">http://fb.com/TaqUwp</Hyperlink><LineBreak/>
-                    作者信箱：<Hyperlink NavigateUri="{Binding mailUri}">myhDev@live.com</Hyperlink><LineBreak/>
-                    作者：Meng-Yuan Huang<LineBreak/>
-                </TextBlock>
-            </DataTemplate>
-        </HubSection>
-        <HubSection Header="隱私政策" Width="Auto">
-            <DataTemplate>
-                <TextBlock Style="{StaticResource txtBlkSty1}">
+            </TextBlock>
+
+            <TextBlock Style="{StaticResource secHeadSty}">主要特色</TextBlock>
+            <TextBlock Style="{StaticResource txtBlkSty1}">
+                * 支援動態磚(Live Tile)。可從訂閱觀測站的列表點選，即會在動態磚顯示其空汙數值(如AQI)。可訂閱多個觀測站。<LineBreak/>
+                * 支援通知(Notification)。當AQI、PM 2.5濃度超過設定值且數值有更新，就會發出通知。<LineBreak/>
+                * 支援背景更新。即app關閉後，動態磚與通知仍會正常更新。<LineBreak/>
+            </TextBlock>
+
+            <TextBlock Style="{StaticResource secHeadSty}">注意事項</TextBlock>
+            <TextBlock Style="{StaticResource txtBlkSty1}">
+                * 動態磚每15分鐘背景下載空氣品質資料庫一次。可調整。<LineBreak/>
+                * 空汙的資料來源為環保署。正常情形，TAQ的空汙資料最多晚環保署10分鐘更新。若懷疑數據不正常，請先至<Hyperlink NavigateUri="http://opendata.epa.gov.tw/Data/Details/AQI/">環保署網頁</Hyperlink>確認。<LineBreak/>
+            </TextBlock>
+
+            <TextBlock Style="{StaticResource secHeadSty}">問題與回報</TextBlock>
+            <TextBlock Style="{StaticResource txtBlkSty1}">
+                FB粉絲頁：<Hyperlink NavigateUri="http://fb.com/TaqUwp">http://fb.com/TaqUwp</Hyperlink><LineBreak/>
+                作者信箱：<Hyperlink NavigateUri="{Binding mailUri}">myhDev@live.com</Hyperlink><LineBreak/>
+                作者：Meng-Yuan Huang<LineBreak/>
+            </TextBlock>
+
+            <TextBlock Style="{StaticResource secHeadSty}">隱私政策</TextBlock>
+            <TextBlock Style="{StaticResource txtBlkSty1}">
             <Hyperlink NavigateUri="http://YourTaqServerDomainName/MapPrivacy.html">隱私政策</Hyperlink><LineBreak/>
-                </TextBlock>
-            </DataTemplate>
-        </HubSection>
-    </Hub>
+            </TextBlock>
+        </StackPanel>
+    </ScrollViewer>
 </Page>

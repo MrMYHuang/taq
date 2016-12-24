@@ -28,10 +28,10 @@
         <SplitView.Pane>
             <ListView VerticalAlignment="Bottom">
 
-                <ListViewItem Tapped="aboutButton_Click" KeyUp="aboutButton_KeyUp">
+                <ListViewItem Tapped="setButton_Click" KeyUp="setButton_KeyUp">
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock x:Name="aboutButton" Text="&#xE897;" Style="{StaticResource txtBlkSty1}" />
-                        <TextBlock Text="關於" Style="{StaticResource txtBlkSty2}" />
+                        <TextBlock Text="&#xE713;" Style="{StaticResource txtBlkSty1}" />
+                        <TextBlock Text="設定" Style="{StaticResource txtBlkSty2}" />
                     </StackPanel>
                 </ListViewItem>
 
@@ -39,6 +39,13 @@
                     <StackPanel Orientation="Horizontal">
                         <TextBlock x:Name="verButton" Text="&#xE81C;" Style="{StaticResource txtBlkSty1}" />
                         <TextBlock Text="版本" Style="{StaticResource txtBlkSty2}" />
+                    </StackPanel>
+                </ListViewItem>
+
+                <ListViewItem Tapped="aboutButton_Click" KeyUp="aboutButton_KeyUp">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock x:Name="aboutButton" Text="&#xE897;" Style="{StaticResource txtBlkSty1}" />
+                        <TextBlock Text="關於" Style="{StaticResource txtBlkSty2}" />
                     </StackPanel>
                 </ListViewItem>
 
@@ -74,13 +81,6 @@
                     <StackPanel Orientation="Horizontal">
                         <TextBlock x:Name="homeButton" Text="&#xE80F;" Style="{StaticResource txtBlkSty1}" />
                         <TextBlock Text="首頁" Style="{StaticResource txtBlkSty2}" />
-                    </StackPanel>
-                </ListViewItem>
-
-                <ListViewItem Tapped="setButton_Click" KeyUp="setButton_KeyUp">
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="&#xE713;" Style="{StaticResource txtBlkSty1}" />
-                        <TextBlock Text="設定" Style="{StaticResource txtBlkSty2}" />
                     </StackPanel>
                 </ListViewItem>
 

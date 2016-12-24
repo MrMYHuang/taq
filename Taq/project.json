@@ -1,7 +1,8 @@
 ﻿{
   "dependencies": {
     "Microsoft.NETCore.UniversalWindowsPlatform": "5.2.2",
-    "Prism.StoreApps": "2.0.0"
+    "Prism.StoreApps": "2.0.0",
+    "QueryString.NET": "1.0.0"
   },
   "frameworks": {
     "uap10.0": {}

@@ -9,74 +9,50 @@
     mc:Ignorable="d"
     NavigationCacheMode="Enabled">
 
-    <Hub Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Orientation="Vertical" DataContext="{x:Bind}" Margin="0, 0, 60, 0">
-        <HubSection Style="{StaticResource hubSecHeadSty}" Header="夜晚主題">
-            <DataTemplate x:DataType="local:Settings">
-                <ToggleSwitch x:Name="themeToggle" Header="重新啟動app後生效" HorizontalAlignment="Left" Margin="0" IsOn="{x:Bind AppTheme, Mode=TwoWay}" Width="340" Height="67"/>
-            </DataTemplate>
-        </HubSection>
+    <ScrollViewer Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" DataContext="{x:Bind}">
+        <StackPanel Orientation="Vertical">
+            <TextBlock Style="{StaticResource secHeadSty}" Margin="0">夜晚主題</TextBlock>
+        <ToggleSwitch x:Name="themeToggle" Header="重新啟動app後生效" HorizontalAlignment="Left" Margin="0" IsOn="{x:Bind AppTheme, Mode=TwoWay}" Width="340" Height="67"/>
 
-        <HubSection Style="{StaticResource hubSecHeadSty}" Header="定位">
-            <DataTemplate x:DataType="local:Settings">
-                <StackPanel Orientation="Vertical">
-                    <ToggleSwitch Header="總開關" x:FieldModifier="public" x:Name="autoPosToggle" HorizontalAlignment="Left" Margin="0" IsOn="{x:Bind app.vm.AutoPos, Mode=TwoWay}" />
-                </StackPanel>
-            </DataTemplate>
-        </HubSection>
+            <TextBlock Style="{StaticResource secHeadSty}">定位</TextBlock>
+            <ToggleSwitch Header="總開關" x:FieldModifier="public" x:Name="autoPosToggle" HorizontalAlignment="Left" Margin="0" IsOn="{x:Bind app.vm.AutoPos, Mode=TwoWay}" />
 
-        <HubSection Style="{StaticResource hubSecHeadSty}" Header="地圖">
-            <DataTemplate x:DataType="local:Settings">
-                <StackPanel Orientation="Vertical">
-                    <ToggleSwitch Header="暗色" x:Name="mapColorToggle" HorizontalAlignment="Left" Margin="0" IsOn="{x:Bind app.vm.MapColor, Mode=TwoWay}" />
-                    <ToggleSwitch Header="定位" x:FieldModifier="public" x:Name="mapAutoPosToggle" HorizontalAlignment="Left" Margin="0" IsOn="{x:Bind app.vm.MapAutoPos, Mode=TwoWay}" />
-                </StackPanel>
-            </DataTemplate>
-        </HubSection>
+            <TextBlock Style="{StaticResource secHeadSty}">地圖</TextBlock>
+            <StackPanel Orientation="Vertical">
+                <ToggleSwitch Header="暗色" x:Name="mapColorToggle" HorizontalAlignment="Left" Margin="0" IsOn="{x:Bind app.vm.MapColor, Mode=TwoWay}" />
+                <ToggleSwitch Header="定位" x:FieldModifier="public" x:Name="mapAutoPosToggle" HorizontalAlignment="Left" Margin="0" IsOn="{x:Bind app.vm.MapAutoPos, Mode=TwoWay}" />
+            </StackPanel>
 
-        <HubSection Style="{StaticResource hubSecHeadSty}" Header="背景更新">
-            <DataTemplate x:DataType="local:Settings">
-                <StackPanel Orientation="Vertical">
-                    <ComboBox x:Name="bgUpdateComboBox" HorizontalAlignment="Left" Width="265" Header="週期(分鐘)" ItemsSource="{x:Bind app.vm.bgUpdatePeriods}" IsTapEnabled="True" SelectedIndex="{x:Bind app.vm.BgUpdatePeriodId, Mode=OneWay}" SelectionChanged="bgUpdateComboBox_SelectionChanged">
-                    </ComboBox>
-                    <ToggleSwitch Header="主要觀測站定位" x:FieldModifier="public" x:Name="bgMainSiteAutoPosToggle" HorizontalAlignment="Left" Margin="0" IsOn="{x:Bind app.vm.BgMainSiteAutoPos, Mode=TwoWay}" />
-                </StackPanel>
-            </DataTemplate>
-        </HubSection>
+            <TextBlock Style="{StaticResource secHeadSty}">背景更新</TextBlock>
+            <StackPanel Orientation="Vertical">
+                <ComboBox x:Name="bgUpdateComboBox" HorizontalAlignment="Left" Width="265" Header="週期(分鐘)" ItemsSource="{x:Bind app.vm.bgUpdatePeriods}" IsTapEnabled="True" SelectedIndex="{x:Bind app.vm.BgUpdatePeriodId, Mode=OneWay}" SelectionChanged="bgUpdateComboBox_SelectionChanged">
+                </ComboBox>
+                <ToggleSwitch Header="主要觀測站定位" x:FieldModifier="public" x:Name="bgMainSiteAutoPosToggle" HorizontalAlignment="Left" Margin="0" IsOn="{x:Bind app.vm.BgMainSiteAutoPos, Mode=TwoWay}" />
+            </StackPanel>
 
-        <HubSection Style="{StaticResource hubSecHeadSty}" Header="動態磚">
-            <DataTemplate x:DataType="local:Settings">
-                <ToggleSwitch x:Name="tileClearStyToggle" Header="簡潔樣式" HorizontalAlignment="Left" Margin="0" IsOn="{x:Bind app.vm.TileClearSty, Mode=TwoWay}" Width="340" Height="67"/>
-            </DataTemplate>
-        </HubSection>
+            <TextBlock Style="{StaticResource secHeadSty}">動態磚</TextBlock>
+            <ToggleSwitch x:Name="tileClearStyToggle" Header="簡潔樣式" HorizontalAlignment="Left" Margin="0" IsOn="{x:Bind app.vm.TileClearSty, Mode=TwoWay}" Width="340" Height="67"/>
 
-        <HubSection Style="{StaticResource hubSecHeadSty}" Width="300" HorizontalAlignment="Left" Header="次要觀測站通知">
-            <DataTemplate x:DataType="local:Settings">
-                <ToggleSwitch x:Name="tileClearStyToggle" HorizontalAlignment="Left" Margin="0" IsOn="{x:Bind app.vm.SecondSitesNotify, Mode=TwoWay}">
+            <TextBlock Style="{StaticResource secHeadSty}" Width="300" HorizontalAlignment="Left">次要觀測站通知</TextBlock>
+            <ToggleSwitch x:Name="secSitNotifyToggle" HorizontalAlignment="Left" Margin="0" IsOn="{x:Bind app.vm.SecondSitesNotify, Mode=TwoWay}">
                 </ToggleSwitch>
-            </DataTemplate>
-        </HubSection>
 
-        <HubSection Style="{StaticResource hubSecHeadSty}" Width="300" HorizontalAlignment="Left" Header="警報轉態通知模式">
-            <DataTemplate x:DataType="local:Settings">
-                <ToggleSwitch x:Name="tileClearStyToggle" HorizontalAlignment="Left" Margin="0" IsOn="{x:Bind app.vm.WarnStateChangeMode, Mode=TwoWay}" Width="340">
+            <TextBlock Style="{StaticResource secHeadSty}" Width="300" HorizontalAlignment="Left">警報轉態通知模式</TextBlock>
+            <ToggleSwitch x:Name="warnModeToggle" HorizontalAlignment="Left" Margin="0" IsOn="{x:Bind app.vm.WarnStateChangeMode, Mode=TwoWay}" Width="340">
                     <ToggleSwitch.HeaderTemplate>
                         <DataTemplate>
                             <TextBlock HorizontalAlignment="Left" Width="260" TextWrapping="Wrap">減少一段時間內空汙超標的通知，只有在警報狀態有改變才發通知。例如，一波超標空汙在某地區停留8小時，舊的警報通知會發出8則。若啟用新的轉態通知模式，則只會在空汙一開始來臨超標時與結束未超標時各發1則通知。</TextBlock>
                         </DataTemplate>
                     </ToggleSwitch.HeaderTemplate>
                 </ToggleSwitch>
-            </DataTemplate>
-        </HubSection>
 
-        <HubSection Style="{StaticResource hubSecHeadSty}" Header="指標警報值">
-            <DataTemplate x:DataType="local:Settings">
+            <TextBlock Style="{StaticResource secHeadSty}">指標警報值</TextBlock>
                 <StackPanel Orientation="Vertical">
                     <TextBlock Style="{StaticResource normTxtSty}">超過警報值則發通知。</TextBlock>
                     <Slider x:Name="aqiSlider" HorizontalAlignment="Left" Width="265" Minimum="0" Maximum="500" TickFrequency="50" Header="AQI指標 (預設50)" Value="{x:Bind Aqi_Limit, Mode=TwoWay}" Height="97"/>
 
                     <Slider x:Name="slider" HorizontalAlignment="Left" Width="265" Minimum="0" Maximum="500" TickFrequency="50" Header="PM 2.5澧度 (預設15)" Value="{x:Bind Pm2_5_Limit, Mode=TwoWay}" Height="97"/>
-                </StackPanel>
-            </DataTemplate>
-        </HubSection>
-    </Hub>
+                </StackPanel>        
+        </StackPanel>
+    </ScrollViewer>
 </Page>

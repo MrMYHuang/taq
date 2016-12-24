@@ -1,4 +1,5 @@
-﻿using Microsoft.Toolkit.Uwp.Notifications;
+﻿using Microsoft.QueryStringDotNET;
+using Microsoft.Toolkit.Uwp.Notifications;
 using NotificationsExtensions.TileContent;
 using System;
 using System.Collections.Generic;
@@ -451,10 +452,14 @@ namespace Taq
         {
             var title = aqName + ": " + sitesStrDict[siteName][aqName];
             var content = "觀測站: " + siteName;
+            var launch = new QueryString() {
+                { "siteName", siteName },
+            }.ToString();
             // Now we can construct the final toast content
             ToastContent toastContent = new ToastContent()
             {
-                Visual = getNotifyVisual(title, content)
+                Visual = getNotifyVisual(title, content),
+                Launch = launch
             };
 
             // And create the toast notification
