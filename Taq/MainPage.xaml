@@ -51,7 +51,7 @@
 
                 <ListViewItem Tapped="colorMapsButton_Click" KeyUp="colorMapsButton_KeyUp">
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock x:Name="colorMapsButton" Text="&#xE8FD;" Style="{StaticResource txtBlkSty1}" />
+                        <TextBlock x:Name="colorMapsButton" Text="&#xE790;" Style="{StaticResource txtBlkSty1}" />
                         <TextBlock Text="顏色" Style="{StaticResource txtBlkSty2}" />
                     </StackPanel>
                 </ListViewItem>
@@ -65,7 +65,7 @@
 
                 <ListViewItem Tapped="listButton_Click" KeyUp="listButton_KeyUp">
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="&#xEA37;" Style="{StaticResource txtBlkSty1}" />
+                        <TextBlock Text="&#xE8FD;" Style="{StaticResource txtBlkSty1}" />
                         <TextBlock Text="列表" Style="{StaticResource txtBlkSty2}" />
                     </StackPanel>
                 </ListViewItem>

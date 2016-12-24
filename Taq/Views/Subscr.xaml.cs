@@ -40,7 +40,7 @@ namespace Taq.Views
             sitesList.Insert(0, app.vm.m.mainSiteStrDict["SiteName"]);
             if(sitesList.IndexOf(siteName) != -1)
             {
-                var md = new Windows.UI.Popups.MessageDialog("不可重與已訂閱之主要/次要站重複！", "錯誤");
+                var md = new Windows.UI.Popups.MessageDialog("不可與已訂閱之主要/次要站重複！", "錯誤");
                 await md.ShowAsync();
                 return;
             }

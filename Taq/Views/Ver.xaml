@@ -20,10 +20,15 @@
             <TextBlock Style="{StaticResource txtBlkSty1}" >
                     * 列表頁作數值排序後會卡住幾秒。<LineBreak />
             </TextBlock>
+            <TextBlock Style="{StaticResource secHeadSty}">Ver. 3.13.2</TextBlock>
+            <TextBlock Style="{StaticResource txtBlkSty1}" >
+                * 顏色頁圖示換至列表頁，改用調色盤圖示。<LineBreak />
+                * 修正次要測站頁對話框錯字。<LineBreak />
+            </TextBlock>
             <TextBlock Style="{StaticResource secHeadSty}">Ver. 3.13.1</TextBlock>
             <TextBlock Style="{StaticResource txtBlkSty1}" >
                 * 修正若點選主測站動態磚或通知，首頁可能不會切換到對應站的問題。<LineBreak />
-                * 若下載更新空汙資料，首頁不再會固定跳回主站。
+                * 若下載更新空汙資料，首頁不再會固定跳回主站。<LineBreak />
             </TextBlock>
             <TextBlock Style="{StaticResource secHeadSty}">Ver. 3.13.0</TextBlock>
             <TextBlock Style="{StaticResource txtBlkSty1}" >
