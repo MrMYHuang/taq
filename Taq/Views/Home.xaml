@@ -11,23 +11,23 @@
 
     <!-- The right margin 60 is reserved for MainPage SplitView panel. -->
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <FlipView x:Name="fv" UseTouchAnimationsForAllNavigation="True" ItemsSource="{x:Bind app.vm.aqgvList}" Grid.RowSpan="2">
+        <FlipView x:Name="fv" UseTouchAnimationsForAllNavigation="True" ItemsSource="{x:Bind app.vm.aqgvList}">
             <FlipView.ItemsPanel>
                 <ItemsPanelTemplate>
                     <VirtualizingStackPanel Orientation="Horizontal"/>
                 </ItemsPanelTemplate>
             </FlipView.ItemsPanel>
         </FlipView>
-        <ComboBox x:Name="mainSiteComboBox" HorizontalAlignment="Left" Width="230" Height="65" Header="主要觀測站" ItemsSource="{x:Bind app.vm.sites}" IsTapEnabled="True" SelectionChanged="mainSiteComboBox_SelectionChanged" VerticalAlignment="Bottom" Margin="10,0,0,0" Loaded="mainSiteComboBox_Loaded" Grid.Row="1">
+        <ComboBox x:Name="mainSiteComboBox" HorizontalAlignment="Left" Width="230" Height="65" Header="主要觀測站" ItemsSource="{x:Bind app.vm.sites}" IsTapEnabled="True" SelectionChanged="mainSiteComboBox_SelectionChanged" VerticalAlignment="Bottom" Margin="10,0,0,0" Loaded="mainSiteComboBox_Loaded">
             <ComboBox.ItemTemplate>
                 <DataTemplate x:DataType="tsmv:SiteViewModel">
                     <TextBlock Text="{x:Bind siteName}"></TextBlock>
                 </DataTemplate>
             </ComboBox.ItemTemplate>
         </ComboBox>
-        <Button x:Name="subscrButton" Height="35" Tapped="subscrButton_Tapped" Margin="145,0,0,40" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="95" Grid.Row="1">次要觀測站</Button>
+        <Button x:Name="subscrButton" Height="35" Tapped="subscrButton_Tapped" Margin="145,0,0,40" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="95">次要觀測站</Button>
         <!-- Viewbox is used to scale up UserMapIcon. -->
-        <Viewbox VerticalAlignment="Bottom" Margin="240,0,0,0" Height="35" HorizontalAlignment="Left" Width="35" Grid.Row="1">
+        <Viewbox VerticalAlignment="Bottom" Margin="240,0,0,0" Height="35" HorizontalAlignment="Left" Width="35">
             <!-- Don't bind UserMapIcon's IsEnabled to AutoPos. Otherwise, IsEnabledChanged event is not triggered. A UWP bug? -->
             <!-- Please use Page_Loaded or Umi_Loaded to set UserMapIcon's IsEnabled. -->
             <local:UserMapIcon x:FieldModifier="public" x:Name="umi" Tapped="umiButton_Tapped" HorizontalAlignment="Left" VerticalAlignment="Bottom" ToolTipService.ToolTip="定位找最近站"/>

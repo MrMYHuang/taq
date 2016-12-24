@@ -98,7 +98,7 @@ namespace Taq
         {
             tappedSiteName = e.TileId;
 #if DEBUG
-            if (System.Diagnostics.Debugger.IsAttached)
+                if (System.Diagnostics.Debugger.IsAttached)
             {
                 //                this.DebugSettings.EnableFrameRateCounter = true;
             }
@@ -191,7 +191,7 @@ namespace Taq
         {
             var mainPage = rootFrame.Content as MainPage;
             // For triggerring OnNavigatedTo event of Home.
-            mainPage.frame.Navigate(typeof(Home));
+            mainPage.frame.Navigate(typeof(Home), tappedSiteName);
         }
 
         /// <summary>

@@ -25,7 +25,7 @@ namespace Taq.Views
     public sealed partial class AqGridView : Page
     {
         public App app;
-        ObservableCollection<AqViewModel> aqvms = new ObservableCollection<AqViewModel>();
+        public ObservableCollection<AqViewModel> aqvms = new ObservableCollection<AqViewModel>();
 
         public AqGridView(ObservableCollection<AqViewModel> _aqvms)
         {

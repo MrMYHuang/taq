@@ -35,8 +35,18 @@ namespace Taq.Views
                 return;
             }
             var siteName = ((SiteViewModel)subscrComboBox.SelectedValue).siteName;
+
+            var sitesList = app.vm.m.subscrSiteList.ToList();
+            sitesList.Insert(0, app.vm.m.mainSiteStrDict["SiteName"]);
+            if(sitesList.IndexOf(siteName) != -1)
+            {
+                var md = new Windows.UI.Popups.MessageDialog("不可重與已訂閱之主要/次要站重複！", "錯誤");
+                await md.ShowAsync();
+                return;
+            }
+
             await app.vm.addSubscrSite(siteName);
-            await app.vm.loadMainSiteAndAqView();
+            app.vm.addSecSiteAndAqView(siteName);
         }
 
         private async void delButton_Tapped(object sender, TappedRoutedEventArgs e)
@@ -54,9 +64,9 @@ namespace Taq.Views
                     var st = new SecondaryTile(item.siteName);
                     await st.RequestDeleteForSelectionAsync(getElementRect((FrameworkElement)sender));
                 }
+                app.vm.delSecSiteAndAqView(item.siteName);
             }
             await app.vm.delSubscrSite(itemsSelected);
-            await app.vm.loadMainSiteAndAqView();
         }
 
         public async void genSecondLiveTiles(object sender, TappedRoutedEventArgs e)

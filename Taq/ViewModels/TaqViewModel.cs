@@ -49,7 +49,7 @@ namespace Taq
                     {
                         siteName = s.Key,
                         county = s.Value["County"],
-                        aqi =  m.getValidAqVal(siteDict["AQI"]),
+                        aqi = m.getValidAqVal(siteDict["AQI"]),
                         twd97Lat = double.Parse(siteDict["TWD97Lat"]),
                         twd97Lon = double.Parse(siteDict["TWD97Lon"]),
                     });
@@ -146,20 +146,62 @@ namespace Taq
             await m.loadMainSite();
             loadMainSiteId();
             await m.loadSubscrSiteXml();
-            aqgvList.Clear();
-            aqgvList.Add(new AqGridView(loadMainSite2dAqView(m.mainSiteStrDict["SiteName"])));
-            foreach(var siteName in m.subscrSiteList)
+            // Create mode
+            if (aqgvList.Count == 0)
             {
-                aqgvList.Add(new AqGridView(loadMainSite2dAqView(siteName)));
+                aqgvList.Add(new AqGridView(loadMainSite2dAqView(m.mainSiteStrDict["SiteName"])));
+                foreach (var siteName in m.subscrSiteList)
+                {
+                    aqgvList.Add(new AqGridView(loadMainSite2dAqView(siteName)));
+                }
+            }
+            // Update mode.
+            else
+            {
+                var i = 0;
+                var sitesList = m.subscrSiteList.ToList();
+                sitesList.Insert(0, m.mainSiteStrDict["SiteName"]);
+                foreach (var aqgv in aqgvList)
+                {
+                    updateAqgv(sitesList[i], aqgv);
+                    i++;
+                }
             }
             return 0;
+        }
+
+        public void updateAqgv(string siteName, AqGridView aqgv)
+        {
+            var i = 0;
+            foreach (var k in StaticTaqModel.fieldNames.Keys)
+            {
+                var aqLevel = m.getAqLevel(siteName, k);
+                var textColor = StaticTaqModelView.getTextColor(aqLevel);
+                aqgv.aqvms[i].CircleColor = StaticTaqModel.aqColors[k][aqLevel];
+                aqgv.aqvms[i].CircleText = StaticTaqModel.fieldNames[k] + "\n" + m.sitesStrDict[siteName][k];
+                aqgv.aqvms[i].TextColor = textColor;
+                i++;
+            }
+        }
+
+        public void addSecSiteAndAqView(string siteName)
+        {
+            aqgvList.Add(new AqGridView(loadMainSite2dAqView(siteName)));
+        }
+
+        public void delSecSiteAndAqView(string siteName)
+        {
+            var sitesList = m.subscrSiteList.ToList();
+            sitesList.Insert(0, m.mainSiteStrDict["SiteName"]);
+            var delId = sitesList.IndexOf(siteName);
+            aqgvList.RemoveAt(delId);
         }
 
         public ObservableCollection<AqViewModel> loadMainSite2dAqView(string siteName)
         {
             // Current site info converted to for data bindings through AqView.
             ObservableCollection<AqViewModel> aqvms = new ObservableCollection<AqViewModel>();
-            
+
             foreach (var k in StaticTaqModel.fieldNames.Keys)
             {
                 var aqLevel = m.getAqLevel(siteName, k);
@@ -267,6 +309,8 @@ namespace Taq
                     Package.Current.Id.Version.Build);
             }
         }
+
+        public int homeSelSiteId = -1;
 
         // Settings related properites.
         public bool TileClearSty

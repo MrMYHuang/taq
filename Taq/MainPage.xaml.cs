@@ -54,7 +54,7 @@ namespace Taq
             // * Must be called by async, not sync. Otherwise,
             // the app can't pass Windows App Cert Kit!
             await initPos();
-            frame.Navigate(typeof(Home));
+            frame.Navigate(typeof(Home), app.tappedSiteName);
             return 0;
         }
 

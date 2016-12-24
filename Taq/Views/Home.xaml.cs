@@ -92,19 +92,23 @@ namespace Taq.Views
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
-            //var md = new Windows.UI.Popups.MessageDialog(app.tappedId);
-            //await md.ShowAsync();
-            if (app.tappedSiteName == "App" || app.vm.m.subscrSiteList.Count() == 0)
+            if (app.vm.m.subscrSiteList.Count() == 0 || e.Parameter == null)
             {
                 return;
             }
-            var tappedSnId = app.vm.m.subscrSiteList.IndexOf(app.tappedSiteName);
-            while (fv.Items.Count() != (app.vm.m.subscrSiteList.Count() + 1))
+            if (app.tappedSiteName == "App")
+            {
+                app.tappedSiteName = app.vm.m.mainSiteStrDict["SiteName"];
+            }
+            var sitesList = app.vm.m.subscrSiteList.ToList();
+            sitesList.Insert(0, app.vm.m.mainSiteStrDict["SiteName"]);
+            var tappedSnId = sitesList.IndexOf(app.tappedSiteName);
+            while (fv.Items.Count() != sitesList.Count())
             {
                 await Task.Delay(100);
             }
-            // Pay attention! "0" is for the main site.
-            fv.SelectedIndex = (tappedSnId + 1);
+            app.vm.homeSelSiteId = tappedSnId;
+            fv.SelectedIndex = tappedSnId;
             return;
         }
     }
