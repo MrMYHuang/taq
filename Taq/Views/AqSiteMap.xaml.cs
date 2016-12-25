@@ -193,6 +193,7 @@ namespace Taq.Views
 
         private async void asb_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
         {
+            asb.Text = args.SelectedItem.ToString();
             await asb_QuerySubmit();
         }
 

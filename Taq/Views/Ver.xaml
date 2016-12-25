@@ -22,10 +22,11 @@
                     * 列表頁作數值排序後會卡住幾秒。<LineBreak />
                 </TextBlock>
 
-                <TextBlock Style="{StaticResource secHeadSty}">Ver. 3.14.0</TextBlock>
+                <TextBlock Style="{StaticResource secHeadSty}">Ver. 3.14.1</TextBlock>
                 <TextBlock Style="{StaticResource txtBlkSty1}" >
                 * 框架主頁改用適應性UI，改善小螢幕內容顯示面積。在app介面寬度小，按鈕列會被隱藏，須用漢堡鈕開啟。反之寬度大會顯示按鈕列。
                 * 顏色頁圖示換至列表頁，改用調色盤圖示。<LineBreak />
+                * 修正地圖頁搜尋盒點選建議測站後定位錯誤的問題。<LineBreak />
                 * 修正次要測站頁對話框錯字。<LineBreak />
                 </TextBlock>
 
