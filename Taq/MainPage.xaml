@@ -24,81 +24,107 @@
         </Style>
     </Page.Resources>
 
-    <SplitView x:Name="MySplitView" DisplayMode="CompactInline" IsPaneOpen="False" CompactPaneLength="60" OpenPaneLength="150">
-        <SplitView.Pane>
-            <ListView VerticalAlignment="Bottom">
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState x:Name="phone">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="MySplitView.DisplayMode" Value="Overlay"/>
+                    </VisualState.Setters>
+                </VisualState>
 
-                <ListViewItem Tapped="setButton_Click" KeyUp="setButton_KeyUp">
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="&#xE713;" Style="{StaticResource txtBlkSty1}" />
-                        <TextBlock Text="設定" Style="{StaticResource txtBlkSty2}" />
-                    </StackPanel>
-                </ListViewItem>
+                <VisualState x:Name="tablet">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="640"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="MySplitView.DisplayMode" Value="CompactOverlay"/>
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
 
-                <ListViewItem Tapped="verButton_Click" KeyUp="verButton_KeyUp">
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock x:Name="verButton" Text="&#xE81C;" Style="{StaticResource txtBlkSty1}" />
-                        <TextBlock Text="版本" Style="{StaticResource txtBlkSty2}" />
-                    </StackPanel>
-                </ListViewItem>
+        <SplitView x:Name="MySplitView" DisplayMode="CompactOverlay" IsPaneOpen="False" CompactPaneLength="60" OpenPaneLength="150"  Margin="0,0,0,50">
+            <SplitView.Pane>
+                <ListView VerticalAlignment="Bottom">
+                    <ListViewItem Tapped="setButton_Click" KeyUp="setButton_KeyUp">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="&#xE713;" Style="{StaticResource txtBlkSty1}" />
+                            <TextBlock Text="設定" Style="{StaticResource txtBlkSty2}" />
+                        </StackPanel>
+                    </ListViewItem>
 
-                <ListViewItem Tapped="aboutButton_Click" KeyUp="aboutButton_KeyUp">
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock x:Name="aboutButton" Text="&#xE897;" Style="{StaticResource txtBlkSty1}" />
-                        <TextBlock Text="關於" Style="{StaticResource txtBlkSty2}" />
-                    </StackPanel>
-                </ListViewItem>
+                    <ListViewItem Tapped="verButton_Click" KeyUp="verButton_KeyUp">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="&#xE81C;" Style="{StaticResource txtBlkSty1}" />
+                            <TextBlock Text="版本" Style="{StaticResource txtBlkSty2}" />
+                        </StackPanel>
+                    </ListViewItem>
 
-                <ListViewItem Tapped="colorMapsButton_Click" KeyUp="colorMapsButton_KeyUp">
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock x:Name="colorMapsButton" Text="&#xE790;" Style="{StaticResource txtBlkSty1}" />
-                        <TextBlock Text="顏色" Style="{StaticResource txtBlkSty2}" />
-                    </StackPanel>
-                </ListViewItem>
+                    <ListViewItem Tapped="aboutButton_Click" KeyUp="aboutButton_KeyUp">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="&#xE897;" Style="{StaticResource txtBlkSty1}" />
+                            <TextBlock Text="關於" Style="{StaticResource txtBlkSty2}" />
+                        </StackPanel>
+                    </ListViewItem>
 
-                <ListViewItem Tapped="shareBtn_Click" KeyUp="shareButton_KeyUp">
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock x:Name="shareButton" Text="&#xE72D;" Style="{StaticResource txtBlkSty1}" />
-                        <TextBlock Text="分享" Style="{StaticResource txtBlkSty2}" />
-                    </StackPanel>
-                </ListViewItem>
+                    <ListViewItem Tapped="colorMapsButton_Click" KeyUp="colorMapsButton_KeyUp">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="&#xE2B1;" Style="{StaticResource txtBlkSty1}" />
+                            <TextBlock Text="顏色" Style="{StaticResource txtBlkSty2}" />
+                        </StackPanel>
+                    </ListViewItem>
 
-                <ListViewItem Tapped="listButton_Click" KeyUp="listButton_KeyUp">
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="&#xE8FD;" Style="{StaticResource txtBlkSty1}" />
-                        <TextBlock Text="列表" Style="{StaticResource txtBlkSty2}" />
-                    </StackPanel>
-                </ListViewItem>
+                    <ListViewItem Tapped="shareBtn_Click" KeyUp="shareButton_KeyUp">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="&#xE72D;" Style="{StaticResource txtBlkSty1}" />
+                            <TextBlock Text="分享" Style="{StaticResource txtBlkSty2}" />
+                        </StackPanel>
+                    </ListViewItem>
 
-                <ListViewItem Tapped="mapButton_Click" KeyUp="mapButton_KeyUp">
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock x:Name="mapButton" Text="&#xE707;" Style="{StaticResource txtBlkSty1}" />
-                        <TextBlock Text="地圖" Style="{StaticResource txtBlkSty2}" />
-                    </StackPanel>
-                </ListViewItem>
+                    <ListViewItem Tapped="refreshButton_Click" KeyUp="refreshButton_KeyUp">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="&#xE895;" Style="{StaticResource txtBlkSty1}" />
+                            <TextBlock Text="更新" Style="{StaticResource txtBlkSty2}" />
+                        </StackPanel>
+                    </ListViewItem>
 
-                <ListViewItem Tapped="homeButton_Click" KeyUp="homeButton_KeyUp">
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock x:Name="homeButton" Text="&#xE80F;" Style="{StaticResource txtBlkSty1}" />
-                        <TextBlock Text="首頁" Style="{StaticResource txtBlkSty2}" />
-                    </StackPanel>
-                </ListViewItem>
+                    <ListViewItem Tapped="listButton_Click" KeyUp="listButton_KeyUp">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="&#xE8FD;" Style="{StaticResource txtBlkSty1}" />
+                            <TextBlock Text="列表" Style="{StaticResource txtBlkSty2}" />
+                        </StackPanel>
+                    </ListViewItem>
 
-                <ListViewItem Tapped="HamburgerButton_Click" KeyUp="HamburgerButton_KeyUp">
-                    <TextBlock x:Name="HamburgerButton" Text="&#xE700;" Style="{StaticResource txtBlkSty1}" />
-                </ListViewItem>
-            </ListView>
-        </SplitView.Pane>
+                    <ListViewItem Tapped="mapButton_Click" KeyUp="mapButton_KeyUp">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="&#xE707;" Style="{StaticResource txtBlkSty1}" />
+                            <TextBlock Text="地圖" Style="{StaticResource txtBlkSty2}" />
+                        </StackPanel>
+                    </ListViewItem>
 
-        <Grid x:FieldModifier="public" x:Name="contentGrid" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-            <Frame x:FieldModifier="public" x:Name="frame" Margin="0,0,0,50"/>
-
-            <Grid x:Name="funcGrid">
-                <Button x:Name="refreshButton"  FontFamily="Segoe MDL2 Assets" Content="&#xE895;"  HorizontalAlignment="Left" Margin="10,0,0,10" VerticalAlignment="Bottom" Click="refreshButton_Click" Height="32" ToolTipService.ToolTip="更新" Width="35" />
-                <ScrollViewer HorizontalScrollBarVisibility="Auto" HorizontalScrollMode="Enabled" VerticalScrollBarVisibility="Disabled" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="50,0,0,10" Height="32">
-                    <TextBlock x:FieldModifier="public" x:Name="statusTextBlock" Text="訊息" FontSize="20" />
-                </ScrollViewer>
-            </Grid>
-        </Grid>
-    </SplitView>
+                    <ListViewItem Tapped="homeButton_Click" KeyUp="homeButton_KeyUp">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="&#xE80F;" Style="{StaticResource txtBlkSty1}" />
+                            <TextBlock Text="首頁" Style="{StaticResource txtBlkSty2}" />
+                        </StackPanel>
+                    </ListViewItem>
+                </ListView>
+            </SplitView.Pane>
+            <Frame x:FieldModifier="public" x:Name="frame" Margin="10"/>
+        </SplitView>
+        <Button x:Name="HamburgerButton2" Tapped="HamburgerButton_Click" Margin="0" Width="60" Height="48" VerticalAlignment="Bottom" HorizontalAlignment="Left" KeyUp="HamburgerButton_KeyUp">
+            <Button.ContentTemplate>
+                <DataTemplate>
+                    <TextBlock x:Name="HamburgerButton" Text="&#xE700;" Style="{StaticResource txtBlkSty1}" Height="36" Width="36"/>
+                </DataTemplate>
+            </Button.ContentTemplate>
+        </Button>
+        <ScrollViewer HorizontalScrollBarVisibility="Auto" HorizontalScrollMode="Enabled" VerticalScrollBarVisibility="Disabled" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="65,0,0,10" Height="32">
+            <TextBlock x:FieldModifier="public" x:Name="statusTextBlock" Text="訊息" FontSize="20" />
+        </ScrollViewer>
+    </Grid>
 </Page>

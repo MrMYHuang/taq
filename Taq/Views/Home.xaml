@@ -9,7 +9,6 @@
     mc:Ignorable="d"
     NavigationCacheMode="Enabled" Loaded="Page_Loaded">
 
-    <!-- The right margin 60 is reserved for MainPage SplitView panel. -->
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <FlipView x:Name="fv" UseTouchAnimationsForAllNavigation="True" ItemsSource="{x:Bind app.vm.aqgvList}">
             <FlipView.ItemsPanel>

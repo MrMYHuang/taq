@@ -233,11 +233,6 @@ namespace Taq
             return 0;
         }
 
-        private async void refreshButton_Click(Object sender, RoutedEventArgs e)
-        {
-            await downloadAndReload();
-        }
-
         // Used by AqList and AqSiteMap.
         public void aqComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -250,9 +245,10 @@ namespace Taq
         }
 
         // Trivial codes
-        private void HamburgerButton_Click(Object sender, RoutedEventArgs e)
+        private void HamburgerButton_Click(object sender, TappedRoutedEventArgs e)
         {
             MySplitView.IsPaneOpen = !MySplitView.IsPaneOpen;
+
         }
 
         private void HamburgerButton_KeyUp(object sender, KeyRoutedEventArgs e)
@@ -266,6 +262,7 @@ namespace Taq
         private void setButton_Click(Object sender, TappedRoutedEventArgs e)
         {
             frame.Navigate(typeof(Settings));
+            MySplitView.IsPaneOpen = false;
         }
 
         private void setButton_KeyUp(object sender, KeyRoutedEventArgs e)
@@ -279,6 +276,7 @@ namespace Taq
         private void homeButton_Click(Object sender, RoutedEventArgs e)
         {
             frame.Navigate(typeof(Home));
+            MySplitView.IsPaneOpen = false;
         }
 
         private void homeButton_KeyUp(object sender, KeyRoutedEventArgs e)
@@ -292,6 +290,7 @@ namespace Taq
         private void listButton_Click(Object sender, TappedRoutedEventArgs e)
         {
             frame.Navigate(typeof(AqList));
+            MySplitView.IsPaneOpen = false;
         }
 
         private void listButton_KeyUp(object sender, KeyRoutedEventArgs e)
@@ -305,6 +304,7 @@ namespace Taq
         private void mapButton_Click(Object sender, TappedRoutedEventArgs e)
         {
             frame.Navigate(typeof(AqSiteMap));
+            MySplitView.IsPaneOpen = false;
         }
 
         private void mapButton_KeyUp(object sender, KeyRoutedEventArgs e)
@@ -318,6 +318,7 @@ namespace Taq
         private void shareBtn_Click(Object sender, TappedRoutedEventArgs e)
         {
             DataTransferManager.ShowShareUI();
+            MySplitView.IsPaneOpen = false;
         }
 
         private void shareButton_KeyUp(object sender, KeyRoutedEventArgs e)
@@ -331,6 +332,7 @@ namespace Taq
         private void verButton_Click(Object sender, TappedRoutedEventArgs e)
         {
             frame.Navigate(typeof(Ver));
+            MySplitView.IsPaneOpen = false;
         }
 
         private void verButton_KeyUp(object sender, KeyRoutedEventArgs e)
@@ -344,6 +346,7 @@ namespace Taq
         private void aboutButton_Click(Object sender, RoutedEventArgs e)
         {
             frame.Navigate(typeof(About));
+            MySplitView.IsPaneOpen = false;
         }
 
         private void aboutButton_KeyUp(object sender, KeyRoutedEventArgs e)
@@ -357,6 +360,7 @@ namespace Taq
         private void colorMapsButton_Click(object sender, TappedRoutedEventArgs e)
         {
             frame.Navigate(typeof(AqColorMaps));
+            MySplitView.IsPaneOpen = false;
         }
 
         private void colorMapsButton_KeyUp(object sender, KeyRoutedEventArgs e)
@@ -365,6 +369,17 @@ namespace Taq
             {
                 frame.Navigate(typeof(AqColorMaps));
             }
+        }
+
+        private async void refreshButton_Click(object sender, TappedRoutedEventArgs e)
+        {
+            MySplitView.IsPaneOpen = false;
+            await downloadAndReload();
+        }
+
+        private async void refreshButton_KeyUp(object sender, KeyRoutedEventArgs e)
+        {
+            await downloadAndReload();
         }
     }
 }

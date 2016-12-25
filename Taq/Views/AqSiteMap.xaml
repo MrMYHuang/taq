@@ -15,12 +15,12 @@
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Maps:MapControl x:Name="map"
-            MapServiceToken="YourBingMapToken" Margin="0,0,0,65" DataContext="app" ColorScheme="{x:Bind app.vm.MapColor, Converter={StaticResource b2mcc}, Mode=OneWay}">
-            <AutoSuggestBox x:FieldModifier="public" x:Name="asb" HorizontalAlignment="Left" Margin="10,10,0,593" VerticalAlignment="Top" Width="150" Height="37" QueryIcon="Find" TextChanged="AutoSuggestBox_TextChanged" QuerySubmitted="asb_QuerySubmitted" SuggestionChosen="asb_SuggestionChosen" GotFocus="asb_GotFocus" Loaded="asb_Loaded" />
+            MapServiceToken="YourBingMapToken" Margin="0" DataContext="app" ColorScheme="{x:Bind app.vm.MapColor, Converter={StaticResource b2mcc}, Mode=OneWay}" Canvas.ZIndex="0">
         </Maps:MapControl>
-        <ComboBox x:Name="aqComboBox" ItemsSource="{x:Bind app.vm.m.aqList, Mode=OneWay}" HorizontalAlignment="Left" VerticalAlignment="Bottom" SelectedIndex="{x:Bind app.vm.SelAqId, Mode=OneWay}" SelectionChanged="aqComboBox_SelectionChanged" Width="250" Height="65" Header="空汙指標" Margin="10,0,0,0" />
+        <AutoSuggestBox x:FieldModifier="public" x:Name="asb" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="130" Height="37" QueryIcon="Find" TextChanged="AutoSuggestBox_TextChanged" QuerySubmitted="asb_QuerySubmitted" SuggestionChosen="asb_SuggestionChosen" GotFocus="asb_GotFocus" Loaded="asb_Loaded" Canvas.ZIndex="3" />
+        <ComboBox x:Name="aqComboBox" ItemsSource="{x:Bind app.vm.m.aqList, Mode=OneWay}" HorizontalAlignment="Left" VerticalAlignment="Bottom" SelectedIndex="{x:Bind app.vm.SelAqId, Mode=OneWay}" SelectionChanged="aqComboBox_SelectionChanged" Width="150" Header="空汙指標" Margin="10,0,0,10" Canvas.ZIndex="3" Height="65" />
         <!-- Viewbox is used to scale up UserMapIcon. -->
-        <Viewbox VerticalAlignment="Bottom" Margin="265,0,0,0" Height="35" HorizontalAlignment="Left" Width="35">
+        <Viewbox Margin="145,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="35" Canvas.ZIndex="3">
             <!-- Don't bind UserMapIcon's IsEnabled to MapAutoPos. Otherwise, IsEnabledChanged event is not triggered. A UWP bug? -->
             <local:UserMapIcon x:FieldModifier="public" x:Name="umi" Tapped="umiButton_Tapped" HorizontalAlignment="Left" VerticalAlignment="Bottom" ToolTipService.ToolTip="定位"/>
         </Viewbox>

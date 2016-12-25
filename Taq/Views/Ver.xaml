@@ -14,160 +14,164 @@
             <Setter Property="TextWrapping" Value="WrapWholeWords" />
         </Style>
     </Page.Resources>
-    <ScrollViewer>
-        <StackPanel Orientation="Vertical" HorizontalAlignment="Left" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" >
-            <TextBlock Style="{StaticResource secHeadSty}" Margin="0">已知問題</TextBlock>
-            <TextBlock Style="{StaticResource txtBlkSty1}" >
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <ScrollViewer>
+            <StackPanel Orientation="Vertical" HorizontalAlignment="Left" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" >
+                <TextBlock Style="{StaticResource secHeadSty}" Margin="0">已知問題</TextBlock>
+                <TextBlock Style="{StaticResource txtBlkSty1}" >
                     * 列表頁作數值排序後會卡住幾秒。<LineBreak />
-            </TextBlock>
-            <TextBlock Style="{StaticResource secHeadSty}">Ver. 3.13.2</TextBlock>
-            <TextBlock Style="{StaticResource txtBlkSty1}" >
+                </TextBlock>
+
+                <TextBlock Style="{StaticResource secHeadSty}">Ver. 3.14.0</TextBlock>
+                <TextBlock Style="{StaticResource txtBlkSty1}" >
+                * 框架主頁改用適應性UI，改善小螢幕內容顯示面積。在app介面寬度小，按鈕列會被隱藏，須用漢堡鈕開啟。反之寬度大會顯示按鈕列。
                 * 顏色頁圖示換至列表頁，改用調色盤圖示。<LineBreak />
                 * 修正次要測站頁對話框錯字。<LineBreak />
-            </TextBlock>
-            <TextBlock Style="{StaticResource secHeadSty}">Ver. 3.13.1</TextBlock>
-            <TextBlock Style="{StaticResource txtBlkSty1}" >
+                </TextBlock>
+
+                <TextBlock Style="{StaticResource secHeadSty}">Ver. 3.13.1</TextBlock>
+                <TextBlock Style="{StaticResource txtBlkSty1}" >
                 * 修正若點選主測站動態磚或通知，首頁可能不會切換到對應站的問題。<LineBreak />
                 * 若下載更新空汙資料，首頁不再會固定跳回主站。<LineBreak />
-            </TextBlock>
-            <TextBlock Style="{StaticResource secHeadSty}">Ver. 3.13.0</TextBlock>
-            <TextBlock Style="{StaticResource txtBlkSty1}" >
+                </TextBlock>
+                <TextBlock Style="{StaticResource secHeadSty}">Ver. 3.13.0</TextBlock>
+                <TextBlock Style="{StaticResource txtBlkSty1}" >
                 * 點選通知，會依據所屬測站開啟對應首頁空汙資訊。<LineBreak />
                 * 修正app開啟下、點選動態磚，首頁不會切換顯示測站的問題。<LineBreak />
                 * 修正UI排版。<LineBreak />
                 * 改善設定頁、版本頁、關於頁滑動順暢度的問題。<LineBreak />
                 * 更動漢堡選單順序。<LineBreak />
-            </TextBlock>
-            <TextBlock Style="{StaticResource secHeadSty}">Ver. 3.12.0</TextBlock>
-            <TextBlock Style="{StaticResource txtBlkSty1}" >
+                </TextBlock>
+                <TextBlock Style="{StaticResource secHeadSty}">Ver. 3.12.0</TextBlock>
+                <TextBlock Style="{StaticResource txtBlkSty1}" >
                     * 點選動態磚，會依據所屬測站開啟對應首頁空汙資訊。<LineBreak />
                     * 在列表頁點擊數值行標題可作降/升冪排序。<LineBreak />
                     * 設定頁新增選項"次要觀測站通知"，可全開/全關次要觀測站警報通知。若要關主要觀測站通知，請調大警報值。<LineBreak />
                     * 在地圖頁對焦搜尋盒即會顯示所有測站列表。<LineBreak />
                     * 修改次要觀測站頁，釘動態磚只釘選中的。<LineBreak />
-            </TextBlock>
-            <TextBlock Style="{StaticResource secHeadSty}">Ver. 3.11.3</TextBlock>
-            <TextBlock Style="{StaticResource txtBlkSty1}" >
+                </TextBlock>
+                <TextBlock Style="{StaticResource secHeadSty}">Ver. 3.11.3</TextBlock>
+                <TextBlock Style="{StaticResource txtBlkSty1}" >
                     * 支援"使用者出現(UserPresent)"背景更新。當使用者開啟裝置，即會觸發此背景更新。<LineBreak />
                     * 支援"可上網(InternetAvailable)"背景更新。當使用者裝置從無網路切換至有網路，如原本離線再打開WiFi連上網路，即會觸發此背景更新。<LineBreak />
                     * AQI顏色改使用<Hyperlink NavigateUri="https://www3.epa.gov/airnow/aqi_brochure_02_14.pdf">EPA文件</Hyperlink>。綠色較不刺眼。<LineBreak />
                     * 在地圖頁搜尋盒，選取測站(鍵盤操作要再按下Enter鍵)後會執行定位，不必再按搜尋鈕。<LineBreak />
-            </TextBlock>
-            <TextBlock Style="{StaticResource secHeadSty}">Ver. 3.10.0</TextBlock>
-            <TextBlock Style="{StaticResource txtBlkSty1}" >
+                </TextBlock>
+                <TextBlock Style="{StaticResource secHeadSty}">Ver. 3.10.0</TextBlock>
+                <TextBlock Style="{StaticResource txtBlkSty1}" >
                     * 解決W10M首頁滑動會閃退的問題。<LineBreak />
                     * 地圖頁支援文字搜尋測站並作定位。<LineBreak />
                     * 修正次要測站頁文字被截掉的問題。<LineBreak />
-            </TextBlock>
-            <TextBlock Style="{StaticResource secHeadSty}">Ver. 3.9.0</TextBlock>
-            <TextBlock Style="{StaticResource txtBlkSty1}" >
+                </TextBlock>
+                <TextBlock Style="{StaticResource secHeadSty}">Ver. 3.9.0</TextBlock>
+                <TextBlock Style="{StaticResource txtBlkSty1}" >
                     * 首頁支援顯示主要、次要觀測站空汙數據。觸控操作使用者可用水平左右滑動切換觀測站。滑鼠操作者請按左右邊方向鍵切換。<LineBreak />
-            </TextBlock>
-            <TextBlock Style="{StaticResource secHeadSty}">Ver. 3.8.0</TextBlock>
-            <TextBlock Style="{StaticResource txtBlkSty1}" >
+                </TextBlock>
+                <TextBlock Style="{StaticResource secHeadSty}">Ver. 3.8.0</TextBlock>
+                <TextBlock Style="{StaticResource txtBlkSty1}" >
                     * 狀態訊息可滑動，解決訊息過長超出螢幕無法看到的問題。<LineBreak />
                     * 簡潔小磚字型加粗。<LineBreak />
                     * 地圖與列表頁的空氣品質選單第一項改為Status。<LineBreak />
                     * 修正可能的手動更新導致閃退問題。
-            </TextBlock>
-            <TextBlock Style="{StaticResource secHeadSty}">Ver. 3.7.0</TextBlock>
-            <TextBlock Style="{StaticResource txtBlkSty1}" >
+                </TextBlock>
+                <TextBlock Style="{StaticResource secHeadSty}">Ver. 3.7.0</TextBlock>
+                <TextBlock Style="{StaticResource txtBlkSty1}" >
                     * 支援簡潔大磚。(W10M除外)<LineBreak />
                     * 簡潔中磚加入即時PM 2.5數值。<LineBreak />
                     * 空汙指標背景色為紅色時，文字顏色改為白色(原先為黑色)。<LineBreak />
-            </TextBlock>
-            <TextBlock Style="{StaticResource secHeadSty}">Ver. 3.6.0</TextBlock>
-            <TextBlock Style="{StaticResource txtBlkSty1}" >
+                </TextBlock>
+                <TextBlock Style="{StaticResource secHeadSty}">Ver. 3.6.0</TextBlock>
+                <TextBlock Style="{StaticResource txtBlkSty1}" >
                     * 若前景app開啟，背景更新後會在狀態顯示更新時間。<LineBreak />
                     * 移除前景定時更新，改用背景更新結束事件觸發前景更新UI。<LineBreak />
                     * 修正背景更新未註冊BackgroundTaskCanceledEventHandler。<LineBreak />
-            </TextBlock>
-            <TextBlock Style="{StaticResource secHeadSty}">Ver. 3.5.0</TextBlock>
-            <TextBlock Style="{StaticResource txtBlkSty1}" >
+                </TextBlock>
+                <TextBlock Style="{StaticResource secHeadSty}">Ver. 3.5.0</TextBlock>
+                <TextBlock Style="{StaticResource txtBlkSty1}" >
                     * 背景更新新增定位功能。可自動更新最近距離的主要觀測站。<LineBreak />
                     * 設定頁新增開關，可關閉背景定位更新主要觀測站。<LineBreak />
-            </TextBlock>
-            <TextBlock Style="{StaticResource secHeadSty}">Ver. 3.4.0</TextBlock>
-            <TextBlock Style="{StaticResource txtBlkSty1}" >
+                </TextBlock>
+                <TextBlock Style="{StaticResource secHeadSty}">Ver. 3.4.0</TextBlock>
+                <TextBlock Style="{StaticResource txtBlkSty1}" >
                     * 首頁新增自動定位按鈕。可自動選擇最近的主要觀測站。<LineBreak />
                     * 地圖頁新增自動定位按鈕。可標示使用者目前位置。<LineBreak />
-            </TextBlock>
-            <TextBlock Style="{StaticResource secHeadSty}">Ver. 3.3.0</TextBlock>
-            <TextBlock Style="{StaticResource txtBlkSty1}" >
+                </TextBlock>
+                <TextBlock Style="{StaticResource secHeadSty}">Ver. 3.3.0</TextBlock>
+                <TextBlock Style="{StaticResource txtBlkSty1}" >
                     * 設定頁新增"次要觀測站"，可訂閱多個測站的警報通知與動態磚。<LineBreak />
                     * 簡潔小磚改為顯示地點、發佈時間、AQI顏色。<LineBreak />
                     * 若嘗試啟動自動定位出現失敗對話視窗，按下確定會叫出系統位置設定頁面。<LineBreak />
-            </TextBlock>
-            <TextBlock Style="{StaticResource secHeadSty}">Ver. 3.2.0</TextBlock>
-            <TextBlock Style="{StaticResource txtBlkSty1}" >
+                </TextBlock>
+                <TextBlock Style="{StaticResource secHeadSty}">Ver. 3.2.0</TextBlock>
+                <TextBlock Style="{StaticResource txtBlkSty1}" >
                     * 簡潔寬磚新增PM 10數據。<LineBreak />
                     * 修正某些情況下且無網路時，按更新鈕會導致閃退(deferral.Complete未被執行)的bug。<LineBreak />
-            </TextBlock>
-            <TextBlock Style="{StaticResource secHeadSty}">Ver. 3.1.1</TextBlock>
-            <TextBlock Style="{StaticResource txtBlkSty1}" >
+                </TextBlock>
+                <TextBlock Style="{StaticResource secHeadSty}">Ver. 3.1.1</TextBlock>
+                <TextBlock Style="{StaticResource txtBlkSty1}" >
                     * 修正關於頁面"隱私政策"的連結。<LineBreak />
-            </TextBlock>
-            <TextBlock Style="{StaticResource secHeadSty}">Ver. 3.1.0</TextBlock>
-            <TextBlock Style="{StaticResource txtBlkSty1}" >
+                </TextBlock>
+                <TextBlock Style="{StaticResource secHeadSty}">Ver. 3.1.0</TextBlock>
+                <TextBlock Style="{StaticResource txtBlkSty1}" >
                     * 新增"顏色"頁面，顯示空汙指標與對應顏色。<LineBreak />
                     * 修正設定頁部分文字被截掉的問題。<LineBreak />
-            </TextBlock>
-            <TextBlock Style="{StaticResource secHeadSty}">Ver. 3.0.1</TextBlock>
-            <TextBlock Style="{StaticResource txtBlkSty1}" >
+                </TextBlock>
+                <TextBlock Style="{StaticResource secHeadSty}">Ver. 3.0.1</TextBlock>
+                <TextBlock Style="{StaticResource txtBlkSty1}" >
                     * 修正重啟app地圖自動定位設定不正常原還。<LineBreak />
-            </TextBlock>
-            <TextBlock Style="{StaticResource secHeadSty}">Ver. 3.0.0</TextBlock>
-            <TextBlock Style="{StaticResource txtBlkSty1}" >
+                </TextBlock>
+                <TextBlock Style="{StaticResource secHeadSty}">Ver. 3.0.0</TextBlock>
+                <TextBlock Style="{StaticResource txtBlkSty1}" >
                     * 更改空汙資料來源server。<LineBreak />
-            </TextBlock>
-            <TextBlock Style="{StaticResource secHeadSty}">Ver. 2.6.0</TextBlock>
-            <TextBlock Style="{StaticResource txtBlkSty1}" >
+                </TextBlock>
+                <TextBlock Style="{StaticResource secHeadSty}">Ver. 2.6.0</TextBlock>
+                <TextBlock Style="{StaticResource txtBlkSty1}" >
                     * 設定頁新增"警報轉態通知模式"。<LineBreak />
-            </TextBlock>
-            <TextBlock Style="{StaticResource secHeadSty}">Ver. 2.5.1</TextBlock>
-            <TextBlock Style="{StaticResource txtBlkSty1}" >
+                </TextBlock>
+                <TextBlock Style="{StaticResource secHeadSty}">Ver. 2.5.1</TextBlock>
+                <TextBlock Style="{StaticResource txtBlkSty1}" >
                     * 修正主視窗在更新動態磚時會閃過動態磚圖片的問題。<LineBreak />
-            </TextBlock>
-            <TextBlock Style="{StaticResource secHeadSty}">Ver. 2.5.0</TextBlock>
-            <TextBlock Style="{StaticResource txtBlkSty1}" >
+                </TextBlock>
+                <TextBlock Style="{StaticResource secHeadSty}">Ver. 2.5.0</TextBlock>
+                <TextBlock Style="{StaticResource txtBlkSty1}" >
                     * 實作簡潔寬動態磚。<LineBreak />
-            </TextBlock>
-            <TextBlock Style="{StaticResource secHeadSty}">Ver. 2.4.0</TextBlock>
-            <TextBlock Style="{StaticResource txtBlkSty1}" >
+                </TextBlock>
+                <TextBlock Style="{StaticResource secHeadSty}">Ver. 2.4.0</TextBlock>
+                <TextBlock Style="{StaticResource txtBlkSty1}" >
                     * 新增動態磚簡潔樣式開關。<LineBreak />
-            </TextBlock>
-            <TextBlock Style="{StaticResource secHeadSty}">Ver. 2.3.2</TextBlock>
-            <TextBlock Style="{StaticResource txtBlkSty1}" >
+                </TextBlock>
+                <TextBlock Style="{StaticResource secHeadSty}">Ver. 2.3.2</TextBlock>
+                <TextBlock Style="{StaticResource txtBlkSty1}" >
                     * 修正OS若有設定字型縮放，可能會導致動態磚文字排版出界的問題。<LineBreak />
-            </TextBlock>
-            <TextBlock Style="{StaticResource secHeadSty}">Ver. 2.3.1</TextBlock>
-            <TextBlock Style="{StaticResource txtBlkSty1}" >
+                </TextBlock>
+                <TextBlock Style="{StaticResource secHeadSty}">Ver. 2.3.1</TextBlock>
+                <TextBlock Style="{StaticResource txtBlkSty1}" >
                     * 修正自動定位設定無法記憶開關狀態。<LineBreak />
-            </TextBlock>
-            <TextBlock Style="{StaticResource secHeadSty}">Ver. 2.3.0</TextBlock>
-            <TextBlock Style="{StaticResource txtBlkSty1}" >
+                </TextBlock>
+                <TextBlock Style="{StaticResource secHeadSty}">Ver. 2.3.0</TextBlock>
+                <TextBlock Style="{StaticResource txtBlkSty1}" >
                     * 中型動態磚使用自定樣版產生，顯示AQI訊息，大字型、依指標上色。<LineBreak />
-            </TextBlock>
-            <TextBlock Style="{StaticResource secHeadSty}">Ver. 2.2.0</TextBlock>
-            <TextBlock Style="{StaticResource txtBlkSty1}" >
+                </TextBlock>
+                <TextBlock Style="{StaticResource secHeadSty}">Ver. 2.2.0</TextBlock>
+                <TextBlock Style="{StaticResource txtBlkSty1}" >
                     * 設定頁新增地圖自動定位開關。<LineBreak />
-            </TextBlock>
-            <TextBlock Style="{StaticResource secHeadSty}">Ver. 2.1.5</TextBlock>
-            <TextBlock Style="{StaticResource txtBlkSty1}" >
+                </TextBlock>
+                <TextBlock Style="{StaticResource secHeadSty}">Ver. 2.1.5</TextBlock>
+                <TextBlock Style="{StaticResource txtBlkSty1}" >
                     * 支援小型動態磚，顯示短AQI狀態。<LineBreak />
                     * 縮短地圖圖示顯示的"AQI狀態"。"對敏感族群不良"簡化為"敏感"、"對所有族群不良"簡化為"所有"、"非常不良"簡化為"非常"。<LineBreak />
-            </TextBlock>
-            <TextBlock Style="{StaticResource secHeadSty}">Ver. 2.1.4</TextBlock>
-            <TextBlock Style="{StaticResource txtBlkSty1}" >
+                </TextBlock>
+                <TextBlock Style="{StaticResource secHeadSty}">Ver. 2.1.4</TextBlock>
+                <TextBlock Style="{StaticResource txtBlkSty1}" >
                     * 支援大型動態磚(W10M除外)。<LineBreak />
                     * 修正"狀態"上色問題。與"AQI"同色。<LineBreak />
                     * 更動地圖與列表按鈕順序。<LineBreak />
                     * 修正預設PM 2.5警戒值。<LineBreak />
                     * 修正PM 2.5上色錯誤bug。<LineBreak />
                     * 修正地圖、列表每分鐘會自動切回AQI數值的bug。<LineBreak />
-            </TextBlock>
-            <TextBlock Style="{StaticResource secHeadSty}">Ver. 2.1.3</TextBlock>
-            <TextBlock Style="{StaticResource txtBlkSty1}" >
+                </TextBlock>
+                <TextBlock Style="{StaticResource secHeadSty}">Ver. 2.1.3</TextBlock>
+                <TextBlock Style="{StaticResource txtBlkSty1}" >
                     * 列表頁、地圖頁支援多種空汙資訊切換。<LineBreak />
                     * 大部分指標支援根據數值作背景、文字上色。<LineBreak />
                     * 設定頁新增"空氣品質指標(AQI)"警報設定。<LineBreak />
@@ -175,162 +179,163 @@
                     * 修正異常回報bug。<LineBreak />
                     * 修正訂閱站台設定切換站台後，來回切換頁面後，選擇之站台不正確的bug。<LineBreak />
                     * 訂閱站台設定移至框架頁<LineBreak />
-            </TextBlock>
-            <TextBlock Style="{StaticResource secHeadSty}">Ver. 2.0.0</TextBlock>
-            <TextBlock Style="{StaticResource txtBlkSty1}" >
+                </TextBlock>
+                <TextBlock Style="{StaticResource secHeadSty}">Ver. 2.0.0</TextBlock>
+                <TextBlock Style="{StaticResource txtBlkSty1}" >
                     * 更新資料來源為"空氣品質指標(AQI)"。<LineBreak />
                     * 設定頁新增"背景更新"。<LineBreak />
                     * 寬動態磚顯示更多訊息。<LineBreak />
-            </TextBlock>
-            <TextBlock Style="{StaticResource secHeadSty}">Ver. 1.12.5</TextBlock>
-            <TextBlock Style="{StaticResource txtBlkSty1}" >
+                </TextBlock>
+                <TextBlock Style="{StaticResource secHeadSty}">Ver. 1.12.5</TextBlock>
+                <TextBlock Style="{StaticResource txtBlkSty1}" >
                     * 修正一個在W10M會閃退的bug。<LineBreak />
                     * 改善設定頁的排版。<LineBreak />
-            </TextBlock>
-            <TextBlock Style="{StaticResource secHeadSty}">Ver. 1.12.3</TextBlock>
-            <TextBlock Style="{StaticResource txtBlkSty1}" >
+                </TextBlock>
+                <TextBlock Style="{StaticResource secHeadSty}">Ver. 1.12.3</TextBlock>
+                <TextBlock Style="{StaticResource txtBlkSty1}" >
                     * 改善對鍵盤操作的支援。<LineBreak />
-            </TextBlock>
-            <TextBlock Style="{StaticResource secHeadSty}">Ver. 1.12.2</TextBlock>
-            <TextBlock Style="{StaticResource txtBlkSty1}" >
+                </TextBlock>
+                <TextBlock Style="{StaticResource secHeadSty}">Ver. 1.12.2</TextBlock>
+                <TextBlock Style="{StaticResource txtBlkSty1}" >
                     * 修正"關於"頁面中，版本號消失問題。<LineBreak />
                     * 中型、寬型動態磚加入"發佈時間"資訊。<LineBreak />
-            </TextBlock>
-            <TextBlock Style="{StaticResource secHeadSty}">Ver. 1.12.1</TextBlock>
-            <TextBlock Style="{StaticResource txtBlkSty1}" >
+                </TextBlock>
+                <TextBlock Style="{StaticResource secHeadSty}">Ver. 1.12.1</TextBlock>
+                <TextBlock Style="{StaticResource txtBlkSty1}" >
                     * 改善設定頁可能造成的閃退。<LineBreak />
-            </TextBlock>
-            <TextBlock Style="{StaticResource secHeadSty}">Ver. 1.12.0</TextBlock>
-            <TextBlock Style="{StaticResource txtBlkSty1}" >
+                </TextBlock>
+                <TextBlock Style="{StaticResource secHeadSty}">Ver. 1.12.0</TextBlock>
+                <TextBlock Style="{StaticResource txtBlkSty1}" >
                     * 實作app異常後啟動E-mail回報功能。<LineBreak />
                     * "分享"功能支援分享app擷圖給Facebook app。W10M也支援。<LineBreak />
                     * 修正定位失敗後地圖頁會閃退。<LineBreak />
                     * 資料下載失敗後會讀取上次成功下載，而非預設範例。<LineBreak />
-            </TextBlock>
-            <TextBlock Style="{StaticResource secHeadSty}">Ver. 1.11.2</TextBlock>
-            <TextBlock Style="{StaticResource txtBlkSty1}" >
+                </TextBlock>
+                <TextBlock Style="{StaticResource secHeadSty}">Ver. 1.11.2</TextBlock>
+                <TextBlock Style="{StaticResource txtBlkSty1}" >
                     * 修正點選通知中心裡的TAQ訊息會造成app涷結。<LineBreak />
                     * 修正首頁文字顏色在亮色主題下不清楚的問題。<LineBreak />
                     * 更動設定鈕位置。<LineBreak />
-            </TextBlock>
-            <TextBlock Style="{StaticResource secHeadSty}">Ver. 1.11.1</TextBlock>
-            <TextBlock Style="{StaticResource txtBlkSty1}" >
+                </TextBlock>
+                <TextBlock Style="{StaticResource secHeadSty}">Ver. 1.11.1</TextBlock>
+                <TextBlock Style="{StaticResource txtBlkSty1}" >
                     * 修正無網路時，開啟地圖頁會造成閃退。<LineBreak />
                     * 修正通知訊息重複推送。<LineBreak />
-            </TextBlock>
-            <TextBlock Style="{StaticResource secHeadSty}">Ver. 1.11.0</TextBlock>
-            <TextBlock Style="{StaticResource txtBlkSty1}" >
+                </TextBlock>
+                <TextBlock Style="{StaticResource secHeadSty}">Ver. 1.11.0</TextBlock>
+                <TextBlock Style="{StaticResource txtBlkSty1}" >
                     * 新增新"首頁"，列出更多訂閱觀測站之空汙資訊。<LineBreak />
-            </TextBlock>
-            <TextBlock Style="{StaticResource secHeadSty}">Ver. 1.10.4</TextBlock>
-            <TextBlock Style="{StaticResource txtBlkSty1}" >
+                </TextBlock>
+                <TextBlock Style="{StaticResource secHeadSty}">Ver. 1.10.4</TextBlock>
+                <TextBlock Style="{StaticResource txtBlkSty1}" >
                     * 背景更新任務改成app啟動後只註冊一次。<LineBreak />
-            </TextBlock>
-            <TextBlock Style="{StaticResource secHeadSty}">Ver. 1.10.3</TextBlock>
-            <TextBlock Style="{StaticResource txtBlkSty1}" >
+                </TextBlock>
+                <TextBlock Style="{StaticResource secHeadSty}">Ver. 1.10.3</TextBlock>
+                <TextBlock Style="{StaticResource txtBlkSty1}" >
                     * 修正設定頁在縱向某些解析度下會被截掉。<LineBreak />
                     * 部分資料更新優化。<LineBreak />
                     * 修正無網路時，開啟設定頁、地圖頁會閃退。<LineBreak />
-            </TextBlock>
-            <TextBlock Style="{StaticResource secHeadSty}">Ver. 1.10.2</TextBlock>
-            <TextBlock Style="{StaticResource txtBlkSty1}" >
+                </TextBlock>
+                <TextBlock Style="{StaticResource secHeadSty}">Ver. 1.10.2</TextBlock>
+                <TextBlock Style="{StaticResource txtBlkSty1}" >
                     * 修正按下"列表"之更新鈕後，"設定"之"訂閱觀測站ComboBox列表異常。<LineBreak />
-            </TextBlock>
-            <TextBlock Style="{StaticResource secHeadSty}">Ver. 1.10.1</TextBlock>
-            <TextBlock Style="{StaticResource txtBlkSty1}" >
+                </TextBlock>
+                <TextBlock Style="{StaticResource secHeadSty}">Ver. 1.10.1</TextBlock>
+                <TextBlock Style="{StaticResource txtBlkSty1}" >
                     * 若XML檔PM 2.5為空字串則顯示改為"N/A"。<LineBreak />
-            </TextBlock>
-            <TextBlock Style="{StaticResource secHeadSty}">Ver. 1.10.0</TextBlock>
-            <TextBlock Style="{StaticResource txtBlkSty1}" >
+                </TextBlock>
+                <TextBlock Style="{StaticResource secHeadSty}">Ver. 1.10.0</TextBlock>
+                <TextBlock Style="{StaticResource txtBlkSty1}" >
                     * 訂閱觀測站改成在設定頁面設定。<LineBreak />
                     * "首頁"改名"列表"。<LineBreak />
                     * 觀測站改列表依PM 2.5級數上色。<LineBreak />
-            </TextBlock>
-            <TextBlock Style="{StaticResource secHeadSty}">Ver. 1.9.1</TextBlock>
-            <TextBlock Style="{StaticResource txtBlkSty1}" >
+                </TextBlock>
+                <TextBlock Style="{StaticResource secHeadSty}">Ver. 1.9.1</TextBlock>
+                <TextBlock Style="{StaticResource txtBlkSty1}" >
                     * 修正XML檔PM 2.5為空字串之問題。<LineBreak />
                     * 修正部分設定預設值未正確設定之問題。<LineBreak />
-            </TextBlock>
-            <TextBlock Style="{StaticResource secHeadSty}">Ver. 1.9.0</TextBlock>
-            <TextBlock Style="{StaticResource txtBlkSty1}" >
+                </TextBlock>
+                <TextBlock Style="{StaticResource secHeadSty}">Ver. 1.9.0</TextBlock>
+                <TextBlock Style="{StaticResource txtBlkSty1}" >
                     * 新增"PM 2.5級數上限"設定。<LineBreak />
-            </TextBlock>
-            <TextBlock Style="{StaticResource secHeadSty}">Ver. 1.8.3</TextBlock>
-            <TextBlock Style="{StaticResource txtBlkSty1}" >
+                </TextBlock>
+                <TextBlock Style="{StaticResource secHeadSty}">Ver. 1.8.3</TextBlock>
+                <TextBlock Style="{StaticResource txtBlkSty1}" >
                     * 新增"暗色地圖"設定。<LineBreak />
-            </TextBlock>
-            <TextBlock Style="{StaticResource secHeadSty}">Ver. 1.8.2</TextBlock>
-            <TextBlock Style="{StaticResource txtBlkSty1}" >
+                </TextBlock>
+                <TextBlock Style="{StaticResource secHeadSty}">Ver. 1.8.2</TextBlock>
+                <TextBlock Style="{StaticResource txtBlkSty1}" >
                     * 新增"隱私政策"。<LineBreak />
-            </TextBlock>
-            <TextBlock Style="{StaticResource secHeadSty}">Ver. 1.8.0</TextBlock>
-            <TextBlock Style="{StaticResource txtBlkSty1}" >
+                </TextBlock>
+                <TextBlock Style="{StaticResource secHeadSty}">Ver. 1.8.0</TextBlock>
+                <TextBlock Style="{StaticResource txtBlkSty1}" >
                     * 新增"設定"頁面。<LineBreak />
                     * 新增"夜晚主題"開關。<LineBreak />
-            </TextBlock>
-            <TextBlock Style="{StaticResource secHeadSty}">Ver. 1.7.2</TextBlock>
-            <TextBlock Style="{StaticResource txtBlkSty1}" >
+                </TextBlock>
+                <TextBlock Style="{StaticResource secHeadSty}">Ver. 1.7.2</TextBlock>
+                <TextBlock Style="{StaticResource txtBlkSty1}" >
                     * 修正未刪除舊地圖標示的bug。<LineBreak />
                     * 美化地圖標示的文字顏色。<LineBreak />
-            </TextBlock>
-            <TextBlock Style="{StaticResource secHeadSty}">Ver. 1.7.0</TextBlock>
-            <TextBlock Style="{StaticResource txtBlkSty1}" >
+                </TextBlock>
+                <TextBlock Style="{StaticResource secHeadSty}">Ver. 1.7.0</TextBlock>
+                <TextBlock Style="{StaticResource txtBlkSty1}" >
                     * 新增"分享"按鈕，可分享螢幕擷圖。<LineBreak />
-            </TextBlock>
-            <TextBlock Style="{StaticResource secHeadSty}">Ver. 1.6.8</TextBlock>
-            <TextBlock Style="{StaticResource txtBlkSty1}" >
+                </TextBlock>
+                <TextBlock Style="{StaticResource secHeadSty}">Ver. 1.6.8</TextBlock>
+                <TextBlock Style="{StaticResource txtBlkSty1}" >
                     * 修正地圖雙指放大時，若一指按到PM 2.5標示，會變成平移。<LineBreak />
-            </TextBlock>
-            <TextBlock Style="{StaticResource secHeadSty}">Ver. 1.6.0</TextBlock>
-            <TextBlock Style="{StaticResource txtBlkSty1}" >
+                </TextBlock>
+                <TextBlock Style="{StaticResource secHeadSty}">Ver. 1.6.0</TextBlock>
+                <TextBlock Style="{StaticResource txtBlkSty1}" >
                     * 地圖支援定位。<LineBreak />
-            </TextBlock>
-            <TextBlock Style="{StaticResource secHeadSty}">Ver. 1.5.4</TextBlock>
-            <TextBlock Style="{StaticResource txtBlkSty1}" >
+                </TextBlock>
+                <TextBlock Style="{StaticResource secHeadSty}">Ver. 1.5.4</TextBlock>
+                <TextBlock Style="{StaticResource txtBlkSty1}" >
                     * 修正可能無法正常下載資料庫的問題，即使網路正常。<LineBreak />
                     * 修正可能造成app卡在啟動畫面的bug。<LineBreak />
-            </TextBlock>
-            <TextBlock Style="{StaticResource secHeadSty}">Ver. 1.5.1</TextBlock>
-            <TextBlock Style="{StaticResource txtBlkSty1}" >
+                </TextBlock>
+                <TextBlock Style="{StaticResource secHeadSty}">Ver. 1.5.1</TextBlock>
+                <TextBlock Style="{StaticResource txtBlkSty1}" >
                     * 修正開啟地圖後閃退問題。<LineBreak />
-            </TextBlock>
-            <TextBlock Style="{StaticResource secHeadSty}">Ver. 1.5.0</TextBlock>
-            <TextBlock Style="{StaticResource txtBlkSty1}" >
+                </TextBlock>
+                <TextBlock Style="{StaticResource secHeadSty}">Ver. 1.5.0</TextBlock>
+                <TextBlock Style="{StaticResource txtBlkSty1}" >
                     * 地圖PM 2.5標示根據即時濃度上色。<LineBreak />
-            </TextBlock>
-            <TextBlock Style="{StaticResource secHeadSty}">Ver. 1.4.0</TextBlock>
-            <TextBlock Style="{StaticResource txtBlkSty1}" >
+                </TextBlock>
+                <TextBlock Style="{StaticResource secHeadSty}">Ver. 1.4.0</TextBlock>
+                <TextBlock Style="{StaticResource txtBlkSty1}" >
                     * 美化地圖PM 2.5即時濃度標示。<LineBreak />
-            </TextBlock>
-            <TextBlock Style="{StaticResource secHeadSty}">Ver. 1.3.1</TextBlock>
-            <TextBlock Style="{StaticResource txtBlkSty1}" >
+                </TextBlock>
+                <TextBlock Style="{StaticResource secHeadSty}">Ver. 1.3.1</TextBlock>
+                <TextBlock Style="{StaticResource txtBlkSty1}" >
                     * 地圖頁面新增PM 2.5即時濃度標示。<LineBreak />
-            </TextBlock>
-            <TextBlock Style="{StaticResource secHeadSty}">Ver. 1.3.0</TextBlock>
-            <TextBlock Style="{StaticResource txtBlkSty1}" >
+                </TextBlock>
+                <TextBlock Style="{StaticResource secHeadSty}">Ver. 1.3.0</TextBlock>
+                <TextBlock Style="{StaticResource txtBlkSty1}" >
                     * 新增"地圖"頁面。目前只支援顯示觀測站位置。<LineBreak />
-            </TextBlock>
-            <TextBlock Style="{StaticResource secHeadSty}">Ver. 1.2.1</TextBlock>
-            <TextBlock Style="{StaticResource txtBlkSty1}" >
+                </TextBlock>
+                <TextBlock Style="{StaticResource secHeadSty}">Ver. 1.2.1</TextBlock>
+                <TextBlock Style="{StaticResource txtBlkSty1}" >
                     * 修正首頁列表自動更新後，選錯訂閱觀測站bug。<LineBreak />
-            </TextBlock>
-            <TextBlock Style="{StaticResource secHeadSty}">Ver. 1.2.0</TextBlock>
-            <TextBlock Style="{StaticResource txtBlkSty1}" >
+                </TextBlock>
+                <TextBlock Style="{StaticResource secHeadSty}">Ver. 1.2.0</TextBlock>
+                <TextBlock Style="{StaticResource txtBlkSty1}" >
                     * 首頁列表新增"縣市"行。<LineBreak />
                     * 列表根據"縣市"排序。<LineBreak />
                     * 動態磚加入更多資訊。<LineBreak />
-            </TextBlock>
-            <TextBlock Style="{StaticResource secHeadSty}">Ver. 1.1.19</TextBlock>
-            <TextBlock Style="{StaticResource txtBlkSty1}" >
+                </TextBlock>
+                <TextBlock Style="{StaticResource secHeadSty}">Ver. 1.1.19</TextBlock>
+                <TextBlock Style="{StaticResource txtBlkSty1}" >
                     * 新增首頁定時刷新。<LineBreak />
                     * 左側頁面切換項目改為對齊頁面底部。<LineBreak />
                     * 新增"版本歷史"頁面。<LineBreak />
                     * 實作例外處理，避免閃退(crash)。<LineBreak />
-            </TextBlock>
-            <TextBlock Style="{StaticResource secHeadSty}">Ver. 1.1.17</TextBlock>
-            <TextBlock Style="{StaticResource txtBlkSty1}" >
+                </TextBlock>
+                <TextBlock Style="{StaticResource secHeadSty}">Ver. 1.1.17</TextBlock>
+                <TextBlock Style="{StaticResource txtBlkSty1}" >
                     公開下載初版。<LineBreak />
-            </TextBlock>
-        </StackPanel>
-    </ScrollViewer>
+                </TextBlock>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
 </Page>

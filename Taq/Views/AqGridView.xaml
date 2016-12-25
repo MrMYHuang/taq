@@ -25,7 +25,7 @@
             <GridView.ItemTemplate>
                 <DataTemplate x:DataType="tsmv:AqViewModel">
                     <Border Background="{x:Bind CircleColor, Mode=OneWay}" VerticalAlignment="Center" Height="100">
-                        <TextBlock Text="{x:Bind CircleText, Mode=OneWay}" FontSize="22" Width="145" TextAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Center" Foreground="{x:Bind TextColor, Mode=OneWay}"></TextBlock>
+                        <TextBlock Text="{x:Bind CircleText, Mode=OneWay}" FontSize="22" Width="160" TextAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Center" Foreground="{x:Bind TextColor, Mode=OneWay}"></TextBlock>
                     </Border>
                 </DataTemplate>
             </GridView.ItemTemplate>
