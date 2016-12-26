@@ -85,6 +85,11 @@ namespace Taq
             {
                 localSettings.Values["MainSite"] = "平鎮";
             }
+            if (localSettings.Values["BackUpdateBusy"] == null)
+            {
+                localSettings.Values["BackUpdateBusy"] = false;
+                localSettings.Values["UpdateTime"] = DateTimeOffset.UtcNow;
+            }
         }
 
         /// <summary>

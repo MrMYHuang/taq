@@ -22,13 +22,29 @@ namespace TaqBackTask
             try
             {
                 // tbtLog is used to not only log infos, but also act as an execution token. Multiple TaqBackTasks might be triggered at the same time, but only one of them has the token to execute the full Run.
-                var tbtLog = await ApplicationData.Current.LocalFolder.CreateFileAsync("BtLog.txt", CreationCollisionOption.ReplaceExisting);
+
+                var tbtLog = await ApplicationData.Current.LocalFolder.CreateFileAsync(taskInstance.Task.Name + "Log.txt", CreationCollisionOption.ReplaceExisting);
                 var s = await tbtLog.OpenStreamForWriteAsync();
                 var sw = new StreamWriter(s);
-                var ct = DateTime.Now;
-                sw.WriteLine("Background task start time: " + ct.ToString());
+                sw.WriteLine("Background task start time: " + DateTime.Now.ToString());
 
                 TaqModel m = new TaqModel();
+                var lastUpdateTime = (DateTimeOffset)m.localSettings.Values["UpdateTime"];
+                var currTime = DateTimeOffset.UtcNow;
+
+                var isIdle = (bool)m.localSettings.Values["BackUpdateBusy"] == false;
+                var isBusyTimeout = (!isIdle) && ((currTime - lastUpdateTime) > TimeSpan.FromMinutes(1));
+
+                if (isIdle || isBusyTimeout)
+                {
+                    m.localSettings.Values["BackUpdateBusy"] = true;
+                }
+                else
+                {
+                    sw.WriteLine("Another background is updating: " + DateTime.Now.ToString());
+                    throw new Exception(taskInstance.Task.Name + ": another background is updating.");
+                }
+                m.localSettings.Values["UpdateTime"] = DateTimeOffset.UtcNow;
 
                 taskInstance.Canceled += new BackgroundTaskCanceledEventHandler(OnCanceled);
 
@@ -36,28 +52,28 @@ namespace TaqBackTask
                 // after a failed run with exceptions. It means the success rate of a run is almost independent of the previous runs. So, we just catch exceptions and do nothing, so that this baskgroundtask won't crash and exit.
                 try
                 {
-                    sw.WriteLine("Download start time: " + ct.ToString());
+                    sw.WriteLine("Download start time: " + DateTime.Now.ToString());
                     // Download the feed.
                     var res = await m.downloadDataXml();
                 }
                 catch (Exception ex)
                 {
-                    sw.WriteLine("Download fail time: " + ct.ToString());
+                    sw.WriteLine("Download fail time: " + DateTime.Now.ToString());
                     // Ignore.
                 }
 
                 try
                 {
-                    sw.WriteLine("loadAqXml time: " + ct.ToString());
+                    sw.WriteLine("loadAqXml time: " + DateTime.Now.ToString());
                     await m.loadAqXml();
                 }
                 catch (Exception ex)
                 {
-                    sw.WriteLine("loadAqXml fail time: " + ct.ToString());
+                    sw.WriteLine("loadAqXml fail time: " + DateTime.Now.ToString());
                     // Ignore.
                 }
 
-                sw.WriteLine("Many calls start time: " + ct.ToString());
+                sw.WriteLine("Many calls start time: " + DateTime.Now.ToString());
                 try
                 {
                     m.convertXDoc2Dict();
@@ -80,7 +96,7 @@ namespace TaqBackTask
 
                     // Tell Taq foreground app that data has been updated.
                     m.localSettings.Values["TaqBackTaskUpdated"] = true;
-                    sw.WriteLine("Many calls end time: " + ct.ToString());
+                    sw.WriteLine("Many calls end time: " + DateTime.Now.ToString());
                 }
                 catch (Exception ex)
                 {
@@ -88,7 +104,9 @@ namespace TaqBackTask
                 }
                 finally
                 {
-                    sw.WriteLine("Background task end time: " + ct.ToString());
+                    m.localSettings.Values["UpdateTime"] = DateTimeOffset.UtcNow;
+                    m.localSettings.Values["BackUpdateBusy"] = false;
+                    sw.WriteLine("Background task end time: " + DateTime.Now.ToString());
                     sw.Flush();
                     s.Dispose();
                 }
