@@ -64,9 +64,12 @@ namespace TaqBackTask
                     if ((bool)m.localSettings.Values["AutoPos"] && (bool)m.localSettings.Values["BgMainSiteAutoPos"])
                     {
                         await m.findNearestSite();
-                        m.localSettings.Values["MainSite"] = m.nearestSite;
+                        await m.loadMainSite(m.nearestSite);
                     }
-                    await m.loadMainSite();
+                    else
+                    {
+                        await m.loadMainSite((string)m.localSettings.Values["MainSite"]);
+                    }
                     await m.loadSubscrSiteXml();
 
                     // Update the live tile with the feed items.

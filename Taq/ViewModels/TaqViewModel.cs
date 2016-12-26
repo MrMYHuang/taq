@@ -143,7 +143,7 @@ namespace Taq
         // Has to be run by UI context!
         public async Task<int> loadMainSiteAndAqView()
         {
-            await m.loadMainSite();
+            await m.loadMainSite((string)m.localSettings.Values["MainSite"]);
             loadMainSiteId();
             await m.loadSubscrSiteXml();
             // Create mode
@@ -196,6 +196,7 @@ namespace Taq
             // Main site is still possible to be the same as one secondary site
             // after auto positioning. If so, delete the secondary one.
             var delId = sitesList.LastIndexOf(siteName);
+            Debug.Assert(delId != -1);
             aqgvList.RemoveAt(delId);
         }
 
@@ -233,7 +234,7 @@ namespace Taq
 
         public void loadMainSiteId()
         {
-            var mainSiteName = (string)m.localSettings.Values["mainSite"];
+            var mainSiteName = (string)m.localSettings.Values["MainSite"];
             var i = 0;
             foreach (var k in m.sitesStrDict.Keys)
             {

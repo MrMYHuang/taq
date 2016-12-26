@@ -62,8 +62,8 @@ namespace Taq.Views
             // SelectionChanged is triggered by changing selected item by, e.g., tapping.
             if (app.vm.m.localSettings.Values["TaqBackTaskUpdated"] == null || (bool)app.vm.m.localSettings.Values["TaqBackTaskUpdated"] == false)
             {
-                app.vm.m.localSettings.Values["MainSite"] = selSite.siteName;
-                app.vm.aqgvList[0] = new AqGridView(app.vm.loadMainSite2dAqView(selSite.siteName));
+                await app.vm.m.loadMainSite(selSite.siteName);
+                app.vm.updateAqgv(selSite.siteName, app.vm.aqgvList[0]);
                 await app.vm.backTaskUpdateTiles();
             }
             // SelectionChanged is triggered by TaqBackTask updating.
@@ -76,7 +76,7 @@ namespace Taq.Views
         private async void umiButton_Tapped(object sender, TappedRoutedEventArgs e)
         {
             await app.vm.m.findNearestSite();
-            app.vm.m.localSettings.Values["MainSite"] = app.vm.m.nearestSite;
+            await app.vm.m.loadMainSite(app.vm.m.nearestSite);
             app.vm.loadMainSiteId();
         }
 

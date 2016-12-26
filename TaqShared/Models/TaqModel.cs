@@ -175,7 +175,7 @@ namespace Taq
             return 0;
         }
 
-        public async Task<int> loadMainSite()
+        public async Task<int> loadMainSite(string newMainSite)
         {
             // Load the old sites.
             XDocument loadOldXd = new XDocument();
@@ -202,9 +202,9 @@ namespace Taq
                 oldSitesStrDict.Add(siteName, d.Elements().ToDictionary(x => x.Name.LocalName, x => x.Value));
             }
 
-            // Get new site from the setting.
-            var mainSiteName = (string)localSettings.Values["MainSite"];
-            mainSiteStrDict = sitesStrDict[mainSiteName];
+            // Save new site to the setting.
+            localSettings.Values["MainSite"] = newMainSite;
+            mainSiteStrDict = sitesStrDict[newMainSite];
 
             return 0;
         }

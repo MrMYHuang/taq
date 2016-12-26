@@ -22,6 +22,11 @@
                     * 列表頁作數值排序後會卡住幾秒。<LineBreak />
                 </TextBlock>
 
+                <TextBlock Style="{StaticResource secHeadSty}">Ver. 3.14.6</TextBlock>
+                <TextBlock Style="{StaticResource txtBlkSty1}" >
+                * 修正主測站內部讀寫不正確，導致相關功能異常的問題。<LineBreak />
+                </TextBlock>
+
                 <TextBlock Style="{StaticResource secHeadSty}">Ver. 3.14.2</TextBlock>
                 <TextBlock Style="{StaticResource txtBlkSty1}" >
                 * 背景任務去除執行條件SystemCondition，避免可能發生的同時背景任務觸發。<LineBreak />
