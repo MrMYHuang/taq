@@ -312,9 +312,7 @@ namespace Taq
                     Package.Current.Id.Version.Build);
             }
         }
-
-        public int homeSelSiteId = -1;
-
+        
         // Settings related properites.
         public bool TileClearSty
         {

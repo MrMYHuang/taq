@@ -103,19 +103,13 @@ namespace Taq.Views
             var sitesList = app.vm.m.subscrSiteList.ToList();
             sitesList.Insert(0, app.vm.m.mainSiteStrDict["SiteName"]);
             var tappedSnId = sitesList.IndexOf(app.tappedSiteName);
-            // User could have deleted the site after the site's notification sent.
-            if(tappedSnId == -1)
-            {
-                app.vm.homeSelSiteId = 0;
-                fv.SelectedIndex = tappedSnId;
-                return;
-            }
+            // No necessary to consider tappedSnId == -1,
+            // because fv.SelectedIndex accepts -1.
 
             while (fv.Items.Count() != sitesList.Count())
             {
                 await Task.Delay(100);
             }
-            app.vm.homeSelSiteId = tappedSnId;
             fv.SelectedIndex = tappedSnId;
             return;
         }
