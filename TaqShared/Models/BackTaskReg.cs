@@ -8,21 +8,21 @@ namespace TaqBackTask
     {
         public async static Task<int> UserPresentTaskReg(uint timerPeriod)
         {
-            unregisterAllTasks();
             // Update by timer.
             await timerBackUpdateReg(timerPeriod);
-            // Update if user aways.
-            await BackTaskReg.RegisterBackgroundTask("UserAwayBackTask", "TaqBackTask.UserAwayBackTask", new SystemTrigger(SystemTriggerType.UserAway, false));
             // Update if the Internet is available.
             await backUpdateReg("HasNet", new SystemTrigger(SystemTriggerType.InternetAvailable, false));
             return 0;
         }
 
-        public static void unregisterAllTasks()
+        public static void unregisterAllTasks(string preserrved)
         {
             foreach (var task in BackgroundTaskRegistration.AllTasks)
             {
-                task.Value.Unregister(true);
+                if(task.Value.Name != preserrved)
+                {
+                    task.Value.Unregister(true);
+                }
             }
         }
 

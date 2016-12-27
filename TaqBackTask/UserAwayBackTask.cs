@@ -28,10 +28,10 @@ namespace TaqBackTask
             sw.WriteLine("Background task start time: " + DateTime.Now.ToString());
             try
             {
-                sw.WriteLine("Unregister all background tasks start: " + DateTime.Now.ToString());               
-                BackTaskReg.unregisterAllTasks();
+                sw.WriteLine("Unregister all background tasks start: " + DateTime.Now.ToString());
+                BackTaskReg.unregisterBackTask("TimerTaqBackTask");
+                BackTaskReg.unregisterBackTask("HasNetTaqBackTask");
                 sw.WriteLine("Unregister all background tasks end: " + DateTime.Now.ToString());
-                await BackTaskReg.RegisterBackgroundTask("UserPresentBackTask", "TaqBackTask.UserPresentBackTask", new SystemTrigger(SystemTriggerType.UserPresent, false));
             }
             catch (Exception ex)
             {
@@ -42,6 +42,7 @@ namespace TaqBackTask
                 sw.Flush();
                 s.Dispose();
                 // Inform the system that the task is finished.
+                //BackTaskReg.unregisterBackTask("UserAwayBackTask");
                 deferral.Complete();
             }
         }
