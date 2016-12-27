@@ -27,6 +27,7 @@
                     * 關閉地圖自動定位設定後，手動定位按鈕改為可使用狀態。<LineBreak />
                     * App預設值更動。<LineBreak />
                     * 首頁"狀態"改為原本長字串。<LineBreak />
+                    * 微調背景任務試圖增加穩定度。
                 </TextBlock>
 
                 <TextBlock Style="{StaticResource secHeadSty}">Ver. 3.14.11</TextBlock>

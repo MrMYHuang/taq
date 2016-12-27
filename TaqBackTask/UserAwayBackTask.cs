@@ -10,11 +10,11 @@ using Windows.UI.Xaml.Media.Imaging;
 
 namespace TaqBackTask
 {
-    public sealed class UserAwayBackTask : XamlRenderingBackgroundTask
+    public sealed class UserAwayBackTask : IBackgroundTask
     {
         BackgroundTaskDeferral deferral;
 
-        protected async override void OnRun(IBackgroundTaskInstance taskInstance)
+        public async void Run(IBackgroundTaskInstance taskInstance)
         {
             // Don't place any code (including debug code) before GetDeferral!!!
             // Get a deferral, to prevent the task from closing prematurely
