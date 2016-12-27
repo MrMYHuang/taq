@@ -8,8 +8,6 @@ namespace TaqBackTask
     {
         public async static Task<int> UserPresentTaskReg(uint timerPeriod)
         {
-            unregisterBackTask("TimerTaqBackTask");
-            unregisterBackTask("HasNetTaqBackTask");
             // Update by timer.
             await timerBackUpdateReg(timerPeriod);
             // Update if the Internet is available.
@@ -50,17 +48,6 @@ namespace TaqBackTask
                 }
             }
             return 0;
-        }
-
-        public static void unregisterAllTasks(string preserrved)
-        {
-            foreach (var task in BackgroundTaskRegistration.AllTasks)
-            {
-                if (task.Value.Name != preserrved)
-                {
-                    task.Value.Unregister(true);
-                }
-            }
         }
 
         public static async Task<BackgroundTaskRegistration> RegisterBackgroundTask(string taskName, string taskEntryPoint, IBackgroundTrigger trigger)

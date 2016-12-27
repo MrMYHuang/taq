@@ -42,7 +42,6 @@ namespace TaqBackTask
                 sw.Flush();
                 s.Dispose();
                 // Inform the system that the task is finished.
-                //BackTaskReg.unregisterBackTask("UserAwayBackTask");
                 deferral.Complete();
             }
         }
