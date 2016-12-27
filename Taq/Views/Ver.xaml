@@ -19,14 +19,16 @@
             <StackPanel Orientation="Vertical" HorizontalAlignment="Left" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" >
                 <TextBlock Style="{StaticResource secHeadSty}" Margin="0">已知問題</TextBlock>
                 <TextBlock Style="{StaticResource txtBlkSty1}" >
+                    * 背景任務開啟裝置後會隨機crashes。<LineBreak />
                     * 列表頁作數值排序後會卡住幾秒。<LineBreak />
                 </TextBlock>
 
-                <TextBlock Style="{StaticResource secHeadSty}">Ver. 3.14.12</TextBlock>
+                <TextBlock Style="{StaticResource secHeadSty}">Ver. 3.15.0</TextBlock>
                 <TextBlock Style="{StaticResource txtBlkSty1}" >
+                    * 新增ServicingComplete背景任務，會在app更新後觸發清除舊版app未使用內容。<LineBreak />
                     * 關閉地圖自動定位設定後，手動定位按鈕改為可使用狀態。<LineBreak />
-                    * App預設值更動。<LineBreak />
                     * 首頁"狀態"改為原本長字串。<LineBreak />
+                    * App預設值更動。<LineBreak />
                     * 微調背景任務試圖增加穩定度。
                 </TextBlock>
 

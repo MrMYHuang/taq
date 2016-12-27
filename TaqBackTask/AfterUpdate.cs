@@ -4,22 +4,21 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Taq;
 using Windows.ApplicationModel.Background;
 using Windows.Storage;
 using Windows.UI.Xaml.Media.Imaging;
 
 namespace TaqBackTask
 {
-    public sealed class UserPresentBackTask : IBackgroundTask
+    public sealed class AfterUpdate : IBackgroundTask
     {
         private ApplicationDataContainer localSettings;
-        public UserPresentBackTask()
+        BackgroundTaskDeferral deferral;
+
+        public AfterUpdate()
         {
             localSettings = ApplicationData.Current.LocalSettings;
         }
-
-        BackgroundTaskDeferral deferral;
 
         public async void Run(IBackgroundTaskInstance taskInstance)
         {
@@ -29,27 +28,35 @@ namespace TaqBackTask
             deferral = taskInstance.GetDeferral();
             taskInstance.Canceled += new BackgroundTaskCanceledEventHandler(OnCanceled);
 
+            var tbtLog = await ApplicationData.Current.LocalFolder.CreateFileAsync("AfterUpdateLog.txt", CreationCollisionOption.ReplaceExisting);
+            var s = await tbtLog.OpenStreamForWriteAsync();
+            var sw = new StreamWriter(s);
+            sw.WriteLine("Background task start time: " + DateTime.Now.ToString());
             try
             {
-                var tbtLog = await ApplicationData.Current.LocalFolder.CreateFileAsync("UserPresentBackTaskLog.txt", CreationCollisionOption.ReplaceExisting);
-                var s = await tbtLog.OpenStreamForWriteAsync();
-                var sw = new StreamWriter(s);
-                sw.WriteLine("Background task start time: " + DateTime.Now.ToString()); TaqModel m = new TaqModel();
+                sw.WriteLine("Unregister old background tasks start: " + DateTime.Now.ToString());
+                foreach (var task in BackgroundTaskRegistration.AllTasks)
+                {
+                    if (task.Value.Name != "AfterUpdateBackTask")
+                    {
+                        task.Value.Unregister(true);
+                    }
+                }
 
-                sw.WriteLine("User present tasks reg start: " + DateTime.Now.ToString());
+                sw.WriteLine("Register new background tasks start: " + DateTime.Now.ToString());
+                await BackTaskReg.RegisterBackgroundTask("UserPresentBackTask", "TaqBackTask.UserPresentBackTask", new SystemTrigger(SystemTriggerType.UserPresent, false));
+                await BackTaskReg.RegisterBackgroundTask("UserAwayBackTask", "TaqBackTask.UserAwayBackTask", new SystemTrigger(SystemTriggerType.UserAway, false));
                 await BackTaskReg.UserPresentTaskReg(Convert.ToUInt32(localSettings.Values["BgUpdatePeriod"]));
-
-                taskInstance.Canceled += new BackgroundTaskCanceledEventHandler(OnCanceled);
-                sw.WriteLine("Background task end time: " + DateTime.Now.ToString());
-                sw.Flush();
-                s.Dispose();
+                sw.WriteLine("Register new background tasks end: " + DateTime.Now.ToString());
             }
             catch (Exception ex)
             {
-
             }
             finally
             {
+                sw.WriteLine("Background task end time: " + DateTime.Now.ToString());
+                sw.Flush();
+                s.Dispose();
                 // Inform the system that the task is finished.
                 deferral.Complete();
             }

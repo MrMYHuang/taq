@@ -99,6 +99,7 @@ namespace Taq
             {
                 localSettings.Values["BgMainSiteAutoPos"] = false;
             }
+            await BackTaskReg.RegisterBackgroundTask("AfterUpdateBackTask", "TaqBackTask.AfterUpdate", new SystemTrigger(SystemTriggerType.ServicingComplete, false));
             await BackTaskReg.RegisterBackgroundTask("UserPresentBackTask", "TaqBackTask.UserPresentBackTask", new SystemTrigger(SystemTriggerType.UserPresent, false));
             // Update if user aways.
             await BackTaskReg.RegisterBackgroundTask("UserAwayBackTask", "TaqBackTask.UserAwayBackTask", new SystemTrigger(SystemTriggerType.UserAway, false));
