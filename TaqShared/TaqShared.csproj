@@ -107,6 +107,7 @@
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\BackTaskReg.cs" />
     <Compile Include="Models\GpsPoint.cs" />
     <Compile Include="Models\StaticTaqModel.cs" />
     <Compile Include="ModelViews\AqViewModel.cs" />

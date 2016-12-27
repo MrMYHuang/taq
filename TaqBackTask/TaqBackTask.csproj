@@ -111,6 +111,8 @@
     <Compile Include="BackTaskUpdateTiles.cs" />
     <Compile Include="TaqBackTask.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UserAwayBackTask.cs" />
+    <Compile Include="UserPresentBackTask.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\taqShared\TaqShared.csproj">

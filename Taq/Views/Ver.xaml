@@ -22,6 +22,11 @@
                     * 列表頁作數值排序後會卡住幾秒。<LineBreak />
                 </TextBlock>
 
+                <TextBlock Style="{StaticResource secHeadSty}">Ver. 3.14.10</TextBlock>
+                <TextBlock Style="{StaticResource txtBlkSty1}" >
+                    * 試圖解決多個背景任務被觸發導致crashes的問題。<LineBreak />
+                </TextBlock>
+
                 <TextBlock Style="{StaticResource secHeadSty}">Ver. 3.14.9</TextBlock>
                 <TextBlock Style="{StaticResource txtBlkSty1}" >
                     * 加入防止同時執行多個背景任務的機制。<LineBreak />

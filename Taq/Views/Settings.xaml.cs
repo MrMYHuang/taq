@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using TaqBackTask;
 using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -82,7 +83,7 @@ namespace Taq.Views
         {
             var selId = ((ComboBox)sender).SelectedIndex;
             app.vm.BgUpdatePeriodId = selId;
-            await mainPage.timerBackUpdateReg();
+            await BackTaskReg.UserPresentTaskReg(Convert.ToUInt32(localSettings.Values["BgUpdatePeriod"]));
         }
     }
 }

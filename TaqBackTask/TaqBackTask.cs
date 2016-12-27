@@ -29,22 +29,6 @@ namespace TaqBackTask
                 sw.WriteLine("Background task start time: " + DateTime.Now.ToString());
 
                 TaqModel m = new TaqModel();
-                var lastUpdateTime = (DateTimeOffset)m.localSettings.Values["UpdateTime"];
-                var currTime = DateTimeOffset.UtcNow;
-
-                var isIdle = (bool)m.localSettings.Values["BackUpdateBusy"] == false;
-                var isBusyTimeout = (!isIdle) && ((currTime - lastUpdateTime) > TimeSpan.FromMinutes(1));
-
-                if (isIdle || isBusyTimeout)
-                {
-                    m.localSettings.Values["BackUpdateBusy"] = true;
-                }
-                else
-                {
-                    sw.WriteLine("Another background is updating: " + DateTime.Now.ToString());
-                    throw new Exception(taskInstance.Task.Name + ": another background is updating.");
-                }
-                m.localSettings.Values["UpdateTime"] = DateTimeOffset.UtcNow;
 
                 taskInstance.Canceled += new BackgroundTaskCanceledEventHandler(OnCanceled);
 
@@ -104,8 +88,6 @@ namespace TaqBackTask
                 }
                 finally
                 {
-                    m.localSettings.Values["UpdateTime"] = DateTimeOffset.UtcNow;
-                    m.localSettings.Values["BackUpdateBusy"] = false;
                     sw.WriteLine("Background task end time: " + DateTime.Now.ToString());
                     sw.Flush();
                     s.Dispose();

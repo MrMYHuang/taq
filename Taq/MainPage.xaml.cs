@@ -16,6 +16,7 @@ using TaqShared.ModelViews;
 using TaqShared.Models;
 using Windows.ApplicationModel.Background;
 using Windows.ApplicationModel.Core;
+using TaqBackTask;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -98,35 +99,8 @@ namespace Taq
             {
                 localSettings.Values["BgMainSiteAutoPos"] = true;
             }
-            // Update by timer.
-            await timerBackUpdateReg();
-            // Update if user presents.
-            await backUpdateReg("UserPresent", new SystemTrigger(SystemTriggerType.UserPresent, false));
-            // Update if the Internet is available.
-            await backUpdateReg("HasNet", new SystemTrigger(SystemTriggerType.InternetAvailable, false));
+            await BackTaskReg.UserPresentTaskReg(Convert.ToUInt32(localSettings.Values["BgUpdatePeriod"]));
             return 0;
-        }
-
-        public async Task<int> timerBackUpdateReg()
-        {
-            await backUpdateReg("Timer", new TimeTrigger(Convert.ToUInt32(localSettings.Values["BgUpdatePeriod"]), false));
-            return 0;
-        }
-
-        public async Task<int> backUpdateReg(string name, IBackgroundTrigger trigger)
-        {
-            var btr = await app.vm.RegisterBackgroundTask(name + "TaqBackTask", "TaqBackTask.TaqBackTask", trigger);
-            btr.Completed += Btr_Completed;
-            return 0;
-        }
-
-        private async void Btr_Completed(BackgroundTaskRegistration sender, BackgroundTaskCompletedEventArgs args)
-        {
-            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
-            {
-                statusTextBlock.Text = DateTime.Now.ToString("HH:mm:ss tt") + "更新";
-                await ReloadXmlAndSitesData();
-            });
         }
 
         async void MainPage_DataRequested(DataTransferManager sender, DataRequestedEventArgs args)
