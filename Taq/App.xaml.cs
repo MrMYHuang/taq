@@ -67,11 +67,11 @@ namespace Taq
             }
             if (localSettings.Values["SecondSitesNotify"] == null)
             {
-                localSettings.Values["SecondSitesNotify"] = true;
+                localSettings.Values["SecondSitesNotify"] = false;
             }
             if (localSettings.Values["WarnStateChangeMode"] == null)
             {
-                localSettings.Values["WarnStateChangeMode"] = true;
+                localSettings.Values["WarnStateChangeMode"] = false;
             }
             if (localSettings.Values["AQI_Limit"] == null)
             {
@@ -85,11 +85,12 @@ namespace Taq
             {
                 localSettings.Values["MainSite"] = "平鎮";
             }
+            /*
             if (localSettings.Values["BackUpdateBusy"] == null)
             {
                 localSettings.Values["BackUpdateBusy"] = false;
                 localSettings.Values["UpdateTime"] = DateTimeOffset.UtcNow;
-            }
+            }*/
         }
 
         /// <summary>

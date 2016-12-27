@@ -22,6 +22,13 @@
                     * 列表頁作數值排序後會卡住幾秒。<LineBreak />
                 </TextBlock>
 
+                <TextBlock Style="{StaticResource secHeadSty}">Ver. 3.14.12</TextBlock>
+                <TextBlock Style="{StaticResource txtBlkSty1}" >
+                    * 關閉地圖自動定位設定後，手動定位按鈕改為可使用狀態。<LineBreak />
+                    * App預設值更動。<LineBreak />
+                    * 首頁"狀態"改為原本長字串。<LineBreak />
+                </TextBlock>
+
                 <TextBlock Style="{StaticResource secHeadSty}">Ver. 3.14.11</TextBlock>
                 <TextBlock Style="{StaticResource txtBlkSty1}" >
                     * 改善背景任務穩定度。<LineBreak />

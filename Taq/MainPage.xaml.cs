@@ -97,7 +97,7 @@ namespace Taq
             }
             if (localSettings.Values["BgMainSiteAutoPos"] == null)
             {
-                localSettings.Values["BgMainSiteAutoPos"] = true;
+                localSettings.Values["BgMainSiteAutoPos"] = false;
             }
             await BackTaskReg.RegisterBackgroundTask("UserPresentBackTask", "TaqBackTask.UserPresentBackTask", new SystemTrigger(SystemTriggerType.UserPresent, false));
             // Update if user aways.

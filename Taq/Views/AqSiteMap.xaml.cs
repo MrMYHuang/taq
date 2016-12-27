@@ -168,15 +168,16 @@ namespace Taq.Views
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            umi.IsEnabled = app.vm.AutoPos && app.vm.MapAutoPos;
+            umi.IsEnabled = app.vm.AutoPos;
         }
 
+        // ASB
         private void asb_Loaded(object sender, RoutedEventArgs e)
         {
             asb.ItemsSource = app.vm.m.sitesStrDict.Keys;
         }
 
-        private void AutoSuggestBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
+        private void asb_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
         {
             if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
             {

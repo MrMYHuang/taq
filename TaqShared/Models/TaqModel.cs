@@ -3,6 +3,7 @@ using Microsoft.Toolkit.Uwp.Notifications;
 using NotificationsExtensions.TileContent;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -53,7 +54,7 @@ namespace Taq
 
         // AQ name list for MainPage aqComboBox.
         // Don't replace it by aqLimits.Keys! Not all names are used in aqComboBox.
-        public List<string> aqList = new List<string> { "Status", "AQI", "PM2.5", "PM2.5_AVG", "PM10", "PM10_AVG", "O3", "O3_8hr", "CO", "CO_8hr", "SO2", "NO2", "NOx", "NO", "WindSpeed", "WindDirec" };
+        public List<string> aqList = new List<string> { "ShortStatus", "AQI", "PM2.5", "PM2.5_AVG", "PM10", "PM10_AVG", "O3", "O3_8hr", "CO", "CO_8hr", "SO2", "NO2", "NOx", "NO", "WindSpeed", "WindDirec" };
 
         public TaqModel()
         {
@@ -166,9 +167,8 @@ namespace Taq
                     twd97Lat = double.Parse(siteDict["TWD97Lat"]),
                     twd97Lon = double.Parse(siteDict["TWD97Lon"]),
                 });
-                var statusStr = siteDict["Status"];
                 // Shorten long status strings for map icons.
-                siteDict["Status"] = StaticTaqModel.getShortStatus(statusStr);
+                siteDict.Add("ShortStatus", StaticTaqModel.getShortStatus(siteDict["Status"]));
                 sitesStrDict.Add(siteName, siteDict);
             }
 
@@ -322,7 +322,7 @@ namespace Taq
             var timeStr = mainSiteStrDict["PublishTime"].Substring(11, 5);
             // get the XML content of one of the predefined tile templates, so that, you can customize it
             // Large template
-            var statusStr = StaticTaqModel.fieldNames["Status"] + "：" + mainSiteStrDict["Status"];
+            var statusStr = StaticTaqModel.fieldNames["ShortStatus"] + "：" + mainSiteStrDict["ShortStatus"];
             var largeContent = TileContentFactory.CreateTileSquare310x310Text09();
             largeContent.TextHeadingWrap.Text = statusStr;
             largeContent.TextHeading1.Text = siteStr;
@@ -398,7 +398,7 @@ namespace Taq
             // Large tile
             var largeTile = new LargeTile(textColor);
             largeTile.val1.Text = siteName;
-            largeTile.val2.Text = StaticTaqModel.getShortStatus(sitesStrDict[siteName]["Status"]);
+            largeTile.val2.Text = sitesStrDict[siteName]["ShortStatus"];
             largeTile.val3.Text = timeStr;
             largeTile.val4.Text = aqiStr;
             largeTile.val5.Text = pm2_5_Str;
@@ -507,7 +507,7 @@ namespace Taq
 
         public double getAqVal(string siteName, string aqName)
         {
-            if (aqName == "Status")
+            if (aqName == "Status" || aqName == "ShortStatus")
             {
                 aqName = "AQI";
             }

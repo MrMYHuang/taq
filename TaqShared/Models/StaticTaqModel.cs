@@ -13,24 +13,33 @@ namespace TaqShared.Models
         // The display order of AQ items in Home.xaml follows this order of keys.
         public static Dictionary<string, string> fieldNames = new Dictionary<string, string>
         {
-            { "PublishTime", "發佈時間"},
             { "SiteName", "觀測站" },
-            { "County", "縣市"},
+            { "PublishTime", "發佈時間"},
+
             { "Status", "狀態"},
             { "AQI", "空氣品質指標"},
+
             { "Pollutant", "污染指標物"},
+            { "County", "縣市"},
+
             { "PM2.5", "PM 2.5"},
             { "PM2.5_AVG", "PM2.5_AVG"},
+
             { "PM10", "PM 10"},
             { "PM10_AVG", "PM10_AVG"},
+
             { "O3", "O3"},
             { "O3_8hr", "O3_8hr"},
+
             { "CO", "CO"},
             { "CO_8hr", "CO_8hr"},
+
             { "SO2", "SO2"},
             { "NO2", "NO2"},
+
             { "NOx", "NOx"},
             { "NO", "NO"},
+
             { "WindSpeed", "風速"},
             { "WindDirec", "風向"},
         };
@@ -85,6 +94,7 @@ namespace TaqShared.Models
             { "Pollutant", dirtyColors},
             { "AQI", aqiBgColors},
             { "Status", aqiBgColors},
+            { "ShortStatus", aqiBgColors},
             { "PM2.5", aqiBgColors},
             { "PM2.5_AVG", aqiBgColors},
             { "PM10", aqiBgColors},
@@ -110,6 +120,7 @@ namespace TaqShared.Models
             { "Pollutant", defaultLimits},
             { "AQI", aqiLimits},
             { "Status", aqiLimits},
+            { "ShortStatus", aqiLimits},
             { "PM2.5", pm2_5Limits},
             { "PM2.5_AVG", pm2_5Limits},
             { "PM10", pm10Limits},
