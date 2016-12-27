@@ -34,6 +34,9 @@ namespace TaqBackTask
             var sw = new StreamWriter(s);
             sw.WriteLine("Background task start time: " + DateTime.Now.ToString()); TaqModel m = new TaqModel();
 
+            sw.WriteLine("User present tasks reg start: " + DateTime.Now.ToString());
+            await BackTaskReg.UserPresentTaskReg(Convert.ToUInt32(localSettings.Values["BgUpdatePeriod"]));
+
             taskInstance.Canceled += new BackgroundTaskCanceledEventHandler(OnCanceled);
 
             // We assume that this following codes have a high probability of a successfull run
@@ -85,9 +88,6 @@ namespace TaqBackTask
                 // Tell Taq foreground app that data has been updated.
                 m.localSettings.Values["TaqBackTaskUpdated"] = true;
                 sw.WriteLine("Many calls end time: " + DateTime.Now.ToString());
-
-                sw.WriteLine("User present tasks reg start: " + DateTime.Now.ToString());
-                await BackTaskReg.UserPresentTaskReg(Convert.ToUInt32(localSettings.Values["BgUpdatePeriod"]));
             }
             catch (Exception ex)
             {
