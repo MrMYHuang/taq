@@ -316,13 +316,13 @@ namespace Taq
 
         public async Task<ISquare310x310TileNotificationContent> detailedLiveTiles(string siteName)
         {
-            var aqiStr = "AQI：" + mainSiteStrDict["AQI"];
-            var pm2_5_Str = "PM 2.5：" + mainSiteStrDict["PM2.5"];
-            var siteStr = "觀測站：" + mainSiteStrDict["SiteName"];
-            var timeStr = mainSiteStrDict["PublishTime"].Substring(11, 5);
+            var aqiStr = "AQI：" + sitesStrDict[siteName]["AQI"];
+            var pm2_5_Str = "PM 2.5：" + sitesStrDict[siteName]["PM2.5"];
+            var siteStr = "觀測站：" + sitesStrDict[siteName]["SiteName"];
+            var timeStr = sitesStrDict[siteName]["PublishTime"].Substring(11, 5);
             // get the XML content of one of the predefined tile templates, so that, you can customize it
             // Large template
-            var statusStr = StaticTaqModel.fieldNames["ShortStatus"] + "：" + mainSiteStrDict["ShortStatus"];
+            var statusStr = StaticTaqModel.fieldNames["Status"] + "：" + sitesStrDict[siteName]["Status"];
             var largeContent = TileContentFactory.CreateTileSquare310x310Text09();
             largeContent.TextHeadingWrap.Text = statusStr;
             largeContent.TextHeading1.Text = siteStr;

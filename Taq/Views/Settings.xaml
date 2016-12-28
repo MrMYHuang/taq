@@ -32,7 +32,7 @@
                 </StackPanel>
 
                 <TextBlock Style="{StaticResource secHeadSty}">動態磚</TextBlock>
-                <ToggleSwitch x:Name="tileClearStyToggle" Header="簡潔樣式" HorizontalAlignment="Left" Margin="0" IsOn="{x:Bind app.vm.TileClearSty, Mode=TwoWay}" Width="340" Height="67"/>
+                <ToggleSwitch x:Name="tileClearStyToggle" Header="特製樣式" HorizontalAlignment="Left" Margin="0" IsOn="{x:Bind app.vm.TileClearSty, Mode=TwoWay}" Width="340" Height="67"/>
 
                 <TextBlock Style="{StaticResource secHeadSty}" Width="300" HorizontalAlignment="Left">次要觀測站通知</TextBlock>
                 <ToggleSwitch x:Name="secSitNotifyToggle" HorizontalAlignment="Left" Margin="0" IsOn="{x:Bind app.vm.SecondSitesNotify, Mode=TwoWay}">

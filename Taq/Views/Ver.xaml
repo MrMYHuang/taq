@@ -23,6 +23,12 @@
                     * 列表頁作數值排序後會卡住幾秒。<LineBreak />
                 </TextBlock>
 
+                <TextBlock Style="{StaticResource secHeadSty}">Ver. 3.15.3</TextBlock>
+                <TextBlock Style="{StaticResource txtBlkSty1}" >
+                    * 修正內建樣式動態磚不顯示空汙資訊的問題。<LineBreak />
+                    * 修正內建樣式動態磚只顯示主觀測站資訊的問題。<LineBreak />
+                </TextBlock>
+
                 <TextBlock Style="{StaticResource secHeadSty}">Ver. 3.15.2</TextBlock>
                 <TextBlock Style="{StaticResource txtBlkSty1}" >
                     * 背景任務去除UserPresent與InternetAvailabe觸發，試圖解決crashes問題。<LineBreak />
