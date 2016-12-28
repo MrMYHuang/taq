@@ -11,7 +11,8 @@ namespace TaqBackTask
             // Update by timer.
             await timerBackUpdateReg(timerPeriod);
             // Update if the Internet is available.
-            //await backUpdateReg("HasNet", new SystemTrigger(SystemTriggerType.InternetAvailable, false));
+            await backUpdateReg("HasNet", new SystemTrigger(SystemTriggerType.InternetAvailable, false));
+            await backUpdateReg("UserPresent", new SystemTrigger(SystemTriggerType.UserPresent, false));
             return 0;
         }
 

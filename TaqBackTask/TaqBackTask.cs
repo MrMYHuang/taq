@@ -5,6 +5,7 @@ using Windows.ApplicationModel.Background;
 using Windows.Storage;
 using System.IO;
 using Windows.UI.Xaml.Media.Imaging;
+using System.Threading;
 
 namespace TaqBackTask
 {
@@ -19,6 +20,7 @@ namespace TaqBackTask
             // while asynchronous code is still running.
             deferral = taskInstance.GetDeferral();
 
+            Mutex tbm = new Mutex(false, "TaqBackMutex");
             try
             {
                 // tbtLog is used to not only log infos, but also act as an execution token. Multiple TaqBackTasks might be triggered at the same time, but only one of them has the token to execute the full Run.
@@ -27,6 +29,11 @@ namespace TaqBackTask
                 var s = await tbtLog.OpenStreamForWriteAsync();
                 var sw = new StreamWriter(s);
                 sw.WriteLine("Background task start time: " + DateTime.Now.ToString());
+                
+                if (!tbm.WaitOne())
+                {
+                    throw new Exception("Timeout.");
+                }
 
                 TaqModel m = new TaqModel();
 
@@ -98,6 +105,7 @@ namespace TaqBackTask
             }
             finally
             {
+                tbm.ReleaseMutex();
                 // Inform the system that the task is finished.
                 deferral.Complete();
             }
