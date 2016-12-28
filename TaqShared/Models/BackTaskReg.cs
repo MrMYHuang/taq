@@ -11,7 +11,7 @@ namespace TaqBackTask
             // Update by timer.
             await timerBackUpdateReg(timerPeriod);
             // Update if the Internet is available.
-            await backUpdateReg("HasNet", new SystemTrigger(SystemTriggerType.InternetAvailable, false));
+            //await backUpdateReg("HasNet", new SystemTrigger(SystemTriggerType.InternetAvailable, false));
             return 0;
         }
 
@@ -64,7 +64,7 @@ namespace TaqBackTask
                 taskBuilder.Name = taskName;
                 taskBuilder.TaskEntryPoint = taskEntryPoint;
                 taskBuilder.SetTrigger(trigger);
-                //taskBuilder.AddCondition(new SystemCondition(SystemConditionType.InternetAvailable));
+                taskBuilder.AddCondition(new SystemCondition(SystemConditionType.InternetAvailable));
                 try
                 {
                     var btr = taskBuilder.Register();

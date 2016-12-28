@@ -42,10 +42,12 @@ namespace TaqBackTask
                         task.Value.Unregister(true);
                     }
                 }
+                sw.WriteLine("Unregister old background tasks end: " + DateTime.Now.ToString());
 
                 sw.WriteLine("Register new background tasks start: " + DateTime.Now.ToString());
+                /*
                 await BackTaskReg.RegisterBackgroundTask("UserPresentBackTask", "TaqBackTask.UserPresentBackTask", new SystemTrigger(SystemTriggerType.UserPresent, false));
-                await BackTaskReg.RegisterBackgroundTask("UserAwayBackTask", "TaqBackTask.UserAwayBackTask", new SystemTrigger(SystemTriggerType.UserAway, false));
+                await BackTaskReg.RegisterBackgroundTask("UserAwayBackTask", "TaqBackTask.UserAwayBackTask", new SystemTrigger(SystemTriggerType.UserAway, false));*/
                 await BackTaskReg.UserPresentTaskReg(Convert.ToUInt32(localSettings.Values["BgUpdatePeriod"]));
                 sw.WriteLine("Register new background tasks end: " + DateTime.Now.ToString());
             }

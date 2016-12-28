@@ -23,6 +23,11 @@
                     * 列表頁作數值排序後會卡住幾秒。<LineBreak />
                 </TextBlock>
 
+                <TextBlock Style="{StaticResource secHeadSty}">Ver. 3.15.2</TextBlock>
+                <TextBlock Style="{StaticResource txtBlkSty1}" >
+                    * 背景任務去除UserPresent與InternetAvailabe觸發，試圖解決crashes問題。<LineBreak />
+                </TextBlock>
+
                 <TextBlock Style="{StaticResource secHeadSty}">Ver. 3.15.1</TextBlock>
                 <TextBlock Style="{StaticResource txtBlkSty1}" >
                     * UserPresent觸發背景任務改回XamlRenderingBackgroundTask。UserAway仍使用IBackgroundTask。改善動態磚幾乎不更新的問題。<LineBreak />
