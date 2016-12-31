@@ -38,7 +38,8 @@ namespace Taq
         public ApplicationDataContainer localSettings;
         // The AQ data XML filename.
         public const string dataXmlFile = "taqi.xml";
-        public Uri source = new Uri("https://YourTaqServerDomainName/" + dataXmlFile);
+        public static string uriHost = "https://YourTaqServerDomainName/";
+        public Uri source = new Uri(uriHost + dataXmlFile);
         public XDocument xd = new XDocument();
         public XDocument siteGeoXd = new XDocument();
         public Dictionary<string, GpsPoint> sitesGeoDict = new Dictionary<string, GpsPoint>();
@@ -517,7 +518,12 @@ namespace Taq
         public int getAqLevel(string siteName, string aqName)
         {
             var val = getAqVal(siteName, aqName);
-            var aqLevel = StaticTaqModel.aqLimits[aqName].FindIndex(x => val <= x);
+            return getAqLevel(aqName, val);
+        }
+
+        public int getAqLevel(string aqName, double aqVal)
+        {
+            var aqLevel = StaticTaqModel.aqLimits[aqName].FindIndex(x => aqVal <= x);
             if (aqLevel == -1)
             {
                 aqLevel = StaticTaqModel.aqLimits[aqName].Count;

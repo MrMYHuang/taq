@@ -19,7 +19,7 @@
     <PackageCertificateKeyFile>taq_StoreKey.pfx</PackageCertificateKeyFile>
     <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
     <AppxBundle>Always</AppxBundle>
-    <AppxBundlePlatforms>x86|x64|arm</AppxBundlePlatforms>
+    <AppxBundlePlatforms>x86</AppxBundlePlatforms>
     <PackageCertificateThumbprint>82F258310F7BD12F1410DC629DCC8BA91929359D</PackageCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
@@ -115,6 +115,9 @@
     </Compile>
     <Compile Include="Views\AqGridView.xaml.cs">
       <DependentUpon>AqGridView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\AqHistories.xaml.cs">
+      <DependentUpon>AqHistories.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\AqList.xaml.cs">
       <DependentUpon>AqList.xaml</DependentUpon>
@@ -330,6 +333,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\AqGridView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\AqHistories.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

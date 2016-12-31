@@ -149,10 +149,10 @@ namespace Taq
             // Create mode
             if (aqgvList.Count == 0)
             {
-                aqgvList.Add(new AqGridView(loadMainSite2dAqView(m.mainSiteStrDict["SiteName"])));
+                aqgvList.Add(new AqGridView(loadMainSite2dAqView(m.mainSiteStrDict["SiteName"]), m.mainSiteStrDict["SiteName"]));
                 foreach (var siteName in m.subscrSiteList)
                 {
-                    aqgvList.Add(new AqGridView(loadMainSite2dAqView(siteName)));
+                    aqgvList.Add(new AqGridView(loadMainSite2dAqView(siteName), siteName));
                 }
             }
             // Update mode.
@@ -186,7 +186,7 @@ namespace Taq
 
         public void addSecSiteAndAqView(string siteName)
         {
-            aqgvList.Add(new AqGridView(loadMainSite2dAqView(siteName)));
+            aqgvList.Add(new AqGridView(loadMainSite2dAqView(siteName), siteName));
         }
 
         public void delSecSiteAndAqView(string siteName)
