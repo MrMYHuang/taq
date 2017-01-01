@@ -63,7 +63,7 @@ namespace Taq
             loadSiteGeoXml();
         }
 
-        public async Task<int> downloadDataXml(int timeout = 10000)
+        public async Task<int> downloadAqData(int timeout = 10000)
         {
             // Download may fail, so we create a temp StorageFile.
             var dlFile = await ApplicationData.Current.LocalFolder.CreateFileAsync("Temp" + aqDbFile, CreationCollisionOption.ReplaceExisting);
@@ -96,21 +96,20 @@ namespace Taq
             }
 
             // file is downloaded in time
-
-            StorageFile dataXml;
+            StorageFile aqDbSf;
             try
             {
-                dataXml = await ApplicationData.Current.LocalFolder.GetFileAsync(aqDbFile);
-                // Backup old XML.
-                var oldDataXml = await ApplicationData.Current.LocalFolder.CreateFileAsync("Old" + aqDbFile, CreationCollisionOption.ReplaceExisting);
-                await dataXml.CopyAndReplaceAsync(oldDataXml);
+                aqDbSf = await ApplicationData.Current.LocalFolder.GetFileAsync(aqDbFile);
+                // Backup old file.
+                var oldAqDbSf = await ApplicationData.Current.LocalFolder.CreateFileAsync("Old" + aqDbFile, CreationCollisionOption.ReplaceExisting);
+                await aqDbSf.CopyAndReplaceAsync(oldAqDbSf);
             }
             catch (Exception ex)
             {
-                dataXml = await ApplicationData.Current.LocalFolder.CreateFileAsync(aqDbFile, CreationCollisionOption.ReplaceExisting);
+                aqDbSf = await ApplicationData.Current.LocalFolder.CreateFileAsync(aqDbFile, CreationCollisionOption.ReplaceExisting);
             }
             // Copy download file to aqDbFile.
-            await dlFile.CopyAndReplaceAsync(dataXml);
+            await dlFile.CopyAndReplaceAsync(aqDbSf);
             return 0;
         }
 

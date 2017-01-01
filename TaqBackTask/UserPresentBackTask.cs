@@ -44,7 +44,7 @@ namespace TaqBackTask
             {
                 sw.WriteLine("Download start time: " + DateTime.Now.ToString());
                 // Download the feed.
-                var res = await m.downloadDataXml();
+                var res = await m.downloadAqData();
             }
             catch (Exception ex)
             {

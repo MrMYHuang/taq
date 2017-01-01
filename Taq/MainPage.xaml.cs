@@ -142,7 +142,7 @@ namespace Taq
                 // Do nothing.
 #else
                 statusTextBlock.Text = "下載開始。";
-                await app.vm.m.downloadDataXml();
+                await app.vm.m.downloadAqData();
                 statusTextBlock.Text = DateTime.Now.ToString("HH:mm:ss tt") + "下載成功。";
 #endif
             }
