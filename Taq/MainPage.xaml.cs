@@ -157,7 +157,7 @@ namespace Taq
 
             try
             {
-                await app.vm.m.loadAqXml();
+                await app.vm.m.loadAq2Dict();
             }
             catch (Exception ex)
             {
@@ -177,7 +177,7 @@ namespace Taq
         {
             try
             {
-                await app.vm.m.loadAqXml();
+                await app.vm.m.loadAq2Dict();
             }
             catch (Exception ex)
             {
@@ -194,7 +194,7 @@ namespace Taq
             return 0;
         }
 
-        // Run after loadAqXml.
+        // Run after loadAq2Dict.
         public async Task<int> updateSitesData()
         {
             try

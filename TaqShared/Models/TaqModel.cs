@@ -33,13 +33,10 @@ namespace Taq
 
     }
 
-    public class TaqModel
+    abstract public class TaqModel
     {
         public ApplicationDataContainer localSettings;
-        // The AQ data XML filename.
-        public const string aqDbFile = "taqi.json";
-        public static string uriHost = "https://YourTaqServerDomainName/";
-        public Uri source = new Uri(uriHost + aqDbFile);
+        public Uri source = new Uri(Params.uriHost + Params.aqDbFile);
         public XDocument siteGeoXd = new XDocument();
         public Dictionary<string, GpsPoint> sitesGeoDict = new Dictionary<string, GpsPoint>();
         // Full sites AQ information in Dictionary. Converted from XML.
@@ -66,7 +63,7 @@ namespace Taq
         public async Task<int> downloadAqData(int timeout = 10000)
         {
             // Download may fail, so we create a temp StorageFile.
-            var dlFile = await ApplicationData.Current.LocalFolder.CreateFileAsync("Temp" + aqDbFile, CreationCollisionOption.ReplaceExisting);
+            var dlFile = await ApplicationData.Current.LocalFolder.CreateFileAsync("Temp" + Params.aqDbFile, CreationCollisionOption.ReplaceExisting);
 
             BackgroundDownloader downloader = new BackgroundDownloader();
             DownloadOperation download = downloader.CreateDownload(source, dlFile);
@@ -99,14 +96,14 @@ namespace Taq
             StorageFile aqDbSf;
             try
             {
-                aqDbSf = await ApplicationData.Current.LocalFolder.GetFileAsync(aqDbFile);
+                aqDbSf = await ApplicationData.Current.LocalFolder.GetFileAsync(Params.aqDbFile);
                 // Backup old file.
-                var oldAqDbSf = await ApplicationData.Current.LocalFolder.CreateFileAsync("Old" + aqDbFile, CreationCollisionOption.ReplaceExisting);
+                var oldAqDbSf = await ApplicationData.Current.LocalFolder.CreateFileAsync("Old" + Params.aqDbFile, CreationCollisionOption.ReplaceExisting);
                 await aqDbSf.CopyAndReplaceAsync(oldAqDbSf);
             }
             catch (Exception ex)
             {
-                aqDbSf = await ApplicationData.Current.LocalFolder.CreateFileAsync(aqDbFile, CreationCollisionOption.ReplaceExisting);
+                aqDbSf = await ApplicationData.Current.LocalFolder.CreateFileAsync(Params.aqDbFile, CreationCollisionOption.ReplaceExisting);
             }
             // Copy download file to aqDbFile.
             await dlFile.CopyAndReplaceAsync(aqDbSf);
@@ -120,53 +117,7 @@ namespace Taq
             return 0;
         }
 
-        // Reload air quality XML files.
-        public async Task<int> loadAqXml()
-        {
-            XDocument xd = new XDocument();
-            try
-            {
-                var dataXml = await ApplicationData.Current.LocalFolder.GetFileAsync(aqDbFile);
-                using (var s = await dataXml.OpenStreamForReadAsync())
-                {
-                    // Reload to xd.
-                    xd = XDocument.Load(s);
-                }
-            }
-            catch (Exception ex)
-            {
-                xd = XDocument.Load("Assets/" + aqDbFile);
-            }
-
-            var dataX = from data in xd.Descendants("Data")
-                        select data;
-            var geoDataX = from data in siteGeoXd.Descendants("Data")
-                           select data;
-
-            sitesStrDict.Clear();
-            sitesGeoDict.Clear();
-            foreach (var d in dataX.OrderBy(x => x.Element("County").Value))
-            {
-                var siteName = d.Descendants("SiteName").First().Value;
-                var geoD = from gd in geoDataX
-                           where gd.Descendants("SiteName").First().Value == siteName
-                           select gd;
-
-                var siteDict = d.Elements().ToDictionary(x => x.Name.LocalName, x => x.Value);
-                var geoDict = geoD.Elements().ToDictionary(x => x.Name.LocalName, x => x.Value);
-                siteDict.Add("TWD97Lat", geoDict["TWD97Lat"]);
-                siteDict.Add("TWD97Lon", geoDict["TWD97Lon"]);
-                sitesGeoDict.Add(siteName, new GpsPoint
-                {
-                    twd97Lat = double.Parse(siteDict["TWD97Lat"]),
-                    twd97Lon = double.Parse(siteDict["TWD97Lon"]),
-                });
-                // Shorten long status strings for map icons.
-                siteDict.Add("ShortStatus", StaticTaqModel.getShortStatus(siteDict["Status"]));
-                sitesStrDict.Add(siteName, siteDict);
-            }
-            return 0;
-        }
+        abstract public Task<int> loadAq2Dict();
 
         public async Task<int> loadMainSite(string newMainSite)
         {
@@ -174,7 +125,7 @@ namespace Taq
             XDocument loadOldXd = new XDocument();
             try
             {
-                var loadOldXml = await ApplicationData.Current.LocalFolder.GetFileAsync("Old" + aqDbFile);
+                var loadOldXml = await ApplicationData.Current.LocalFolder.GetFileAsync("Old" + Params.aqDbFile);
 
                 using (var s = await loadOldXml.OpenStreamForReadAsync())
                 {
@@ -183,7 +134,7 @@ namespace Taq
             }
             catch (Exception ex)
             {
-                loadOldXd = XDocument.Load("Assets/Old" + aqDbFile);
+                loadOldXd = XDocument.Load("Assets/Old" + Params.aqDbFile);
             }
 
             var oldDataX = from data in loadOldXd.Descendants("Data")

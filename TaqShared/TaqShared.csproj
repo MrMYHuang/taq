@@ -109,7 +109,9 @@
   <ItemGroup>
     <Compile Include="Models\BackTaskReg.cs" />
     <Compile Include="Models\GpsPoint.cs" />
+    <Compile Include="Models\Params.cs" />
     <Compile Include="Models\StaticTaqModel.cs" />
+    <Compile Include="Models\TaqXmlModel.cs" />
     <Compile Include="ModelViews\AqViewModel.cs" />
     <Compile Include="ModelViews\SiteViewModel.cs" />
     <Compile Include="ModelViews\StaticTaqModelView.cs" />

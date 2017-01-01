@@ -48,12 +48,12 @@ namespace TaqBackTask
 
                 try
                 {
-                    sw.WriteLine("loadAqXml time: " + DateTime.Now.ToString());
-                    await m.loadAqXml();
+                    sw.WriteLine("loadAq2Dict time: " + DateTime.Now.ToString());
+                    await m.loadAq2Dict();
                 }
                 catch (Exception ex)
                 {
-                    sw.WriteLine("loadAqXml fail time: " + DateTime.Now.ToString());
+                    sw.WriteLine("loadAq2Dict fail time: " + DateTime.Now.ToString());
                     // Ignore.
                 }
 
