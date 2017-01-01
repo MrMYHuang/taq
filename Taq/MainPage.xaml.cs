@@ -141,18 +141,15 @@ namespace Taq
 #if DEBU
                 // Do nothing.
 #else
+                await app.vm.m.loadSubscrSiteXml();
                 statusTextBlock.Text = "下載開始。";
                 await app.vm.m.downloadAqData();
                 statusTextBlock.Text = DateTime.Now.ToString("HH:mm:ss tt") + "下載成功。";
 #endif
             }
-            catch (DownloadException ex)
-            {
-                statusTextBlock.Text = "資料庫下載失敗。請檢查網路，再嘗試手動更新。";
-            }
             catch (Exception ex)
             {
-                statusTextBlock.Text = "錯誤，請嘗試手動更新。";
+                statusTextBlock.Text = "錯誤：" + ex.Message;
             }
 
             try
@@ -199,7 +196,7 @@ namespace Taq
         {
             try
             {
-                await app.vm.loadMainSiteAndAqView();
+                await app.vm.loadSiteAqViews();
                 // Force run loadDict2Sites by setting SelAqId to itself.
                 app.vm.SelAqId = app.vm.SelAqId;
             }

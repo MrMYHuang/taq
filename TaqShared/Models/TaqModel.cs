@@ -98,6 +98,9 @@ namespace Taq
                 subscrSiteList.Add(s.Value);
             }
 
+            // Insert MainSite.
+            subscrSiteList.Insert(0, (string)localSettings.Values["MainSite"]);
+
             return 0;
         }
 
@@ -134,7 +137,7 @@ namespace Taq
             // Create a new tile notification.
             updater.Update(new TileNotification(largeContent.GetXml()));
 
-            foreach (var siteName in subscrSiteList)
+            foreach (var siteName in subscrSiteList.GetRange(1, subscrSiteList.Count - 1))
             {
                 if (!SecondaryTile.Exists(siteName))
                 {
@@ -285,7 +288,7 @@ namespace Taq
             sendNotifications(mainSiteStrDict["SiteName"]);
             if ((bool)localSettings.Values["SecondSitesNotify"])
             {
-                foreach (var siteName in subscrSiteList)
+                foreach (var siteName in subscrSiteList.GetRange(1, subscrSiteList.Count - 1))
                 {
                     sendNotifications(siteName);
                 }

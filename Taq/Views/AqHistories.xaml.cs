@@ -11,6 +11,8 @@ using TaqShared.Models;
 using TaqShared.ModelViews;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Storage;
+using Windows.Storage.BulkAccess;
 using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -49,22 +51,68 @@ namespace Taq.Views
             sa.Header = aqName;
         }
 
+        // Return true if the file modified date is older for time renewTime.
+        public async Task<bool> checkFileOutOfDate(string file, TimeSpan renewTime)
+        {
+            try
+            {
+                var fsf = await ApplicationData.Current.LocalFolder.GetFileAsync(file);
+                var fbp = await fsf.GetBasicPropertiesAsync();
+                var fdm = fbp.DateModified;
+                var now = DateTimeOffset.Now;
+                return ((now - fdm) > renewTime);
+            }
+            // If file not exist.
+            catch (Exception ex)
+            {
+                return true;
+            }
+        }
+
+        string aqHistFile = "AqHist.json";
         public async Task<int> reqAqHistories()
         {
-            HttpWebRequest req = (HttpWebRequest)WebRequest.Create(Params.uriHost + Params.aqHistTabName + $"?siteName={siteName}");
-            var res = await req.GetResponseAsync();
+            JObject jTaqs;
 
-            using (var s = res.GetResponseStream())
+            string siteAqHistFile = siteName + aqHistFile;
+            // File too old. Update it.
+            if (await checkFileOutOfDate(siteAqHistFile, TimeSpan.FromMinutes(15)))
             {
-                using (var reader = new StreamReader(s))
+                HttpWebRequest req = (HttpWebRequest)WebRequest.Create(Params.uriHost + Params.aqHistTabName + $"?siteName={siteName}");
+                var res = await req.GetResponseAsync();
+
+                using (var s = res.GetResponseStream())
                 {
-                    var jTaqs = JObject.Parse(reader.ReadToEnd());
-                    var aqVals = ((JArray)jTaqs[aqName.Replace(".", "_")]).Select(v => (double)v).ToList();
-                    var updateHour = jTaqs["updateHour"].ToObject<int>();
-                    var updateDate = jTaqs["updateDate"].ToObject<string>();
-                    await aqVals2Coll(aqVals, updateHour, updateDate);
+                    // Write to file.
+                    var fsf = await ApplicationData.Current.LocalFolder.CreateFileAsync(siteAqHistFile, CreationCollisionOption.ReplaceExisting);
+                    using (var ws = await fsf.OpenStreamForWriteAsync())
+                    {
+                        s.CopyTo(ws);
+                        ws.Position = 0;
+                        using (var reader = new StreamReader(ws))
+                        {
+                            jTaqs = JObject.Parse(reader.ReadToEnd());
+                        }
+                    }
                 }
             }
+            // Open old file.
+            else
+            {
+                var fsf = await ApplicationData.Current.LocalFolder.GetFileAsync(siteAqHistFile);
+
+                using (var s = await fsf.OpenStreamForReadAsync())
+                {
+                    using (var reader = new StreamReader(s))
+                    {
+                        jTaqs = JObject.Parse(reader.ReadToEnd());
+                    }
+                }
+            }
+            var aqVals = ((JArray)jTaqs[aqName.Replace(".", "_")]).Select(v => (double)v).ToList();
+            var updateHour = jTaqs["updateHour"].ToObject<int>();
+            var updateDate = jTaqs["updateDate"].ToObject<string>();
+            await aqVals2Coll(aqVals, updateHour, updateDate);
             return 0;
         }
 
@@ -77,7 +125,7 @@ namespace Taq.Views
                 var rotHour = (24 + updateHour - h) % 24;
                 var aqVal = aqVals[rotHour];
                 // This ugly coding style comes from a problem that the chart doesn't update its Hour axis anymore after the first assignment to Hour.
-                if(rotHour == 0)
+                if (rotHour == 0)
                 {
                     aq24HrValColl.Add(new Aq24HrVal
                     {

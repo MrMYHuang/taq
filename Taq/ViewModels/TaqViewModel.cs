@@ -70,7 +70,7 @@ namespace Taq
         {
             await m.loadSubscrSiteXml();
             subscrSiteViews.Clear();
-            foreach (var siteName in m.subscrSiteList)
+            foreach (var siteName in m.subscrSiteList.GetRange(1, m.subscrSiteList.Count - 1))
             {
                 subscrSiteViews.Add(new SiteViewModel { siteName = siteName, CircleColor = "Green", CircleText = siteName, TextColor = new SolidColorBrush(Colors.White) });
             }
@@ -141,7 +141,7 @@ namespace Taq
         public ObservableCollection<AqGridView> aqgvList = new ObservableCollection<AqGridView>();
 
         // Has to be run by UI context!
-        public async Task<int> loadMainSiteAndAqView()
+        public async Task<int> loadSiteAqViews()
         {
             await m.loadMainSite((string)m.localSettings.Values["MainSite"]);
             loadMainSiteId();
@@ -149,7 +149,6 @@ namespace Taq
             // Create mode
             if (aqgvList.Count == 0)
             {
-                aqgvList.Add(new AqGridView(loadMainSite2dAqView(m.mainSiteStrDict["SiteName"]), m.mainSiteStrDict["SiteName"]));
                 foreach (var siteName in m.subscrSiteList)
                 {
                     aqgvList.Add(new AqGridView(loadMainSite2dAqView(siteName), siteName));
@@ -159,11 +158,9 @@ namespace Taq
             else
             {
                 var i = 0;
-                var sitesList = m.subscrSiteList.ToList();
-                sitesList.Insert(0, m.mainSiteStrDict["SiteName"]);
                 foreach (var aqgv in aqgvList)
                 {
-                    updateAqgv(sitesList[i], aqgv);
+                    updateAqgv(m.subscrSiteList[i], aqgv);
                     i++;
                 }
             }
@@ -191,11 +188,9 @@ namespace Taq
 
         public void delSecSiteAndAqView(string siteName)
         {
-            var sitesList = m.subscrSiteList.ToList();
-            sitesList.Insert(0, m.mainSiteStrDict["SiteName"]);
             // Main site is still possible to be the same as one secondary site
             // after auto positioning. If so, delete the secondary one.
-            var delId = sitesList.LastIndexOf(siteName);
+            var delId = m.subscrSiteList.LastIndexOf(siteName);
             Debug.Assert(delId != -1);
             aqgvList.RemoveAt(delId);
         }
@@ -312,7 +307,7 @@ namespace Taq
                     Package.Current.Id.Version.Build);
             }
         }
-        
+
         // Settings related properites.
         public bool TileClearSty
         {

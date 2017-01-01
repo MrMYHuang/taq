@@ -100,13 +100,11 @@ namespace Taq.Views
             {
                 app.tappedSiteName = app.vm.m.mainSiteStrDict["SiteName"];
             }
-            var sitesList = app.vm.m.subscrSiteList.ToList();
-            sitesList.Insert(0, app.vm.m.mainSiteStrDict["SiteName"]);
-            var tappedSnId = sitesList.IndexOf(app.tappedSiteName);
+            var tappedSnId = app.vm.m.subscrSiteList.IndexOf(app.tappedSiteName);
             // No necessary to consider tappedSnId == -1,
             // because fv.SelectedIndex accepts -1.
 
-            while (fv.Items.Count() != sitesList.Count())
+            while (fv.Items.Count() != app.vm.m.subscrSiteList.Count())
             {
                 await Task.Delay(100);
             }

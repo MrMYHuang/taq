@@ -19,6 +19,7 @@ namespace TaqBackTask
             taskInstance.Canceled += new BackgroundTaskCanceledEventHandler(OnCanceled);
             // We assume that this method has a high probability of a successfull run
             // after a failed run with exceptions. It means the success rate of a run is almost independent of the previous runs. So, we just catch exceptions and do nothing, so that this baskgroundtask won't crash and exit.
+            await m.loadSubscrSiteXml();
             try
             {
                 await m.loadAq2Dict();
@@ -31,7 +32,6 @@ namespace TaqBackTask
             try
             { 
                 await m.loadMainSite((string)m.localSettings.Values["MainSite"]);
-                await m.loadSubscrSiteXml();
 
                 // Update the live tile with the feed items.
                 await m.updateLiveTile();
