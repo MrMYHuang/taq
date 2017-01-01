@@ -9,7 +9,7 @@ namespace TaqShared.Models
     public static class Params
     {
         // The AQ data filename.
-        public const string aqDbFile = "aqJsonDb";
+        public const string aqDbFile = "taqi.json";
         public static string uriHost = "https://YourTaqServerDomainName/";
     }
 }

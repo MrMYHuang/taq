@@ -36,7 +36,7 @@ namespace Taq
     abstract public class TaqModel
     {
         public ApplicationDataContainer localSettings;
-        public Uri source = new Uri(Params.uriHost + Params.aqDbFile);
+        public Uri source = new Uri(Params.uriHost + "aqJsonDb");
         public XDocument siteGeoXd = new XDocument();
         public Dictionary<string, GpsPoint> sitesGeoDict = new Dictionary<string, GpsPoint>();
         // Full sites AQ information in Dictionary. Converted from XML.
