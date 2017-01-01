@@ -37,7 +37,7 @@ namespace TaqShared.Models
             }
             catch (Exception ex)
             {
-                var dataJson = await Package.Current.InstalledLocation.GetFileAsync("Assets/" + Params.aqDbFile);
+                var dataJson = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Assets/" + Params.aqDbFile));
                 jTaqDb = await readJObject(dataJson);
             }
 
@@ -81,7 +81,7 @@ namespace TaqShared.Models
             }
             catch (Exception ex)
             {
-                var dataJson = await Package.Current.InstalledLocation.GetFileAsync("Assets/Old" + Params.aqDbFile);
+                var dataJson = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Assets/Old" + Params.aqDbFile));
                 jTaqDb = await readJObject(dataJson);
             }
 
