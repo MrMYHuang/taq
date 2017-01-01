@@ -61,6 +61,14 @@ namespace Taq
         public async Task<int> downloadAqData(int timeout = 10000)
         {
             await StaticTaqModel.downloadAndBackup(source, Params.aqDbFile, timeout);
+            // Download AQ histories for subscribed sites.
+            foreach (var siteName in subscrSiteList)
+            {
+                await StaticTaqModel.downloadAndBackup(
+                    new Uri(Params.uriHost + Params.aqHistTabName + $"?siteName={siteName}"),
+                    siteName + Params.aqHistFile,
+                    timeout);
+            }
             return 0;
         }
 

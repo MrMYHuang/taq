@@ -191,5 +191,23 @@ namespace TaqShared.Models
             await dlFile.CopyAndReplaceAsync(dstSf);
             return 0;
         }
+        
+        // Return true if the file modified date is older for time renewTime.
+        public static async Task<bool> checkFileOutOfDate(string file, TimeSpan renewTime)
+        {
+            try
+            {
+                var fsf = await ApplicationData.Current.LocalFolder.GetFileAsync(file);
+                var fbp = await fsf.GetBasicPropertiesAsync();
+                var fdm = fbp.DateModified;
+                var now = DateTimeOffset.Now;
+                return ((now - fdm) > renewTime);
+            }
+            // If file not exist.
+            catch (Exception ex)
+            {
+                return true;
+            }
+        }
     }
 }

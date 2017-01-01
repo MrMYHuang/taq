@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" IgnorableNamespaces="uap mp">
-  <Identity Name="40522Meng-YuanHuang.TaiwanAirQuality" Publisher="CN=5190CF16-8C6F-4DE3-AD94-D8E3FBB2302B" Version="4.0.0.0" />
+  <Identity Name="40522Meng-YuanHuang.TaiwanAirQuality" Publisher="CN=5190CF16-8C6F-4DE3-AD94-D8E3FBB2302B" Version="4.0.1.0" />
   <mp:PhoneIdentity PhoneProductId="d4379ad0-0fc3-4a0a-86db-e00f6cd9fc70" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
     <DisplayName>Taiwan Air Quality</DisplayName>
@@ -26,7 +26,17 @@
         <uap:SplashScreen Image="Assets\logos\SplashScreen.png" />
       </uap:VisualElements>
       <Extensions>
-        <Extension Category="windows.backgroundTasks" EntryPoint="TaqBackTask.AfterUpdate">
+        <Extension Category="windows.backgroundTasks" EntryPoint="TaqBackTask.UserAwayBackTask">
+          <BackgroundTasks>
+            <Task Type="systemEvent" />
+          </BackgroundTasks>
+        </Extension>
+        <Extension Category="windows.backgroundTasks" EntryPoint="TaqBackTask.UserPresentBackTask">
+          <BackgroundTasks>
+            <Task Type="systemEvent" />
+          </BackgroundTasks>
+        </Extension>
+        <Extension Category="windows.backgroundTasks" EntryPoint="TaqBackTask.BackTaskUpdateTiles">
           <BackgroundTasks>
             <Task Type="systemEvent" />
           </BackgroundTasks>
@@ -37,17 +47,7 @@
             <Task Type="timer" />
           </BackgroundTasks>
         </Extension>
-        <Extension Category="windows.backgroundTasks" EntryPoint="TaqBackTask.BackTaskUpdateTiles">
-          <BackgroundTasks>
-            <Task Type="systemEvent" />
-          </BackgroundTasks>
-        </Extension>
-        <Extension Category="windows.backgroundTasks" EntryPoint="TaqBackTask.UserPresentBackTask">
-          <BackgroundTasks>
-            <Task Type="systemEvent" />
-          </BackgroundTasks>
-        </Extension>
-        <Extension Category="windows.backgroundTasks" EntryPoint="TaqBackTask.UserAwayBackTask">
+        <Extension Category="windows.backgroundTasks" EntryPoint="TaqBackTask.AfterUpdate">
           <BackgroundTasks>
             <Task Type="systemEvent" />
           </BackgroundTasks>

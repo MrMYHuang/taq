@@ -51,62 +51,27 @@ namespace Taq.Views
             sa.Header = aqName;
         }
 
-        // Return true if the file modified date is older for time renewTime.
-        public async Task<bool> checkFileOutOfDate(string file, TimeSpan renewTime)
-        {
-            try
-            {
-                var fsf = await ApplicationData.Current.LocalFolder.GetFileAsync(file);
-                var fbp = await fsf.GetBasicPropertiesAsync();
-                var fdm = fbp.DateModified;
-                var now = DateTimeOffset.Now;
-                return ((now - fdm) > renewTime);
-            }
-            // If file not exist.
-            catch (Exception ex)
-            {
-                return true;
-            }
-        }
-
-        string aqHistFile = "AqHist.json";
         public async Task<int> reqAqHistories()
         {
             JObject jTaqs;
-
-            string siteAqHistFile = siteName + aqHistFile;
-            // File too old. Update it.
-            if (await checkFileOutOfDate(siteAqHistFile, TimeSpan.FromMinutes(15)))
+            StorageFile fsf;
+            try
             {
-                HttpWebRequest req = (HttpWebRequest)WebRequest.Create(Params.uriHost + Params.aqHistTabName + $"?siteName={siteName}");
-                var res = await req.GetResponseAsync();
-
-                using (var s = res.GetResponseStream())
-                {
-                    // Write to file.
-                    var fsf = await ApplicationData.Current.LocalFolder.CreateFileAsync(siteAqHistFile, CreationCollisionOption.ReplaceExisting);
-                    using (var ws = await fsf.OpenStreamForWriteAsync())
-                    {
-                        s.CopyTo(ws);
-                        ws.Position = 0;
-                        using (var reader = new StreamReader(ws))
-                        {
-                            jTaqs = JObject.Parse(reader.ReadToEnd());
-                        }
-                    }
-                }
+                fsf = await ApplicationData.Current.LocalFolder.GetFileAsync(siteName + Params.aqHistFile);
             }
-            // Open old file.
-            else
+            catch(Exception ex)
             {
-                var fsf = await ApplicationData.Current.LocalFolder.GetFileAsync(siteAqHistFile);
-
-                using (var s = await fsf.OpenStreamForReadAsync())
+                // Download if not exist.
+                await StaticTaqModel.downloadAndBackup(
+                    new Uri(Params.uriHost + Params.aqHistTabName + $"?siteName={siteName}"),
+                    siteName + Params.aqHistFile);
+                fsf = await ApplicationData.Current.LocalFolder.GetFileAsync(siteName + Params.aqHistFile);
+            }
+            using (var s = await fsf.OpenStreamForReadAsync())
+            {
+                using (var reader = new StreamReader(s))
                 {
-                    using (var reader = new StreamReader(s))
-                    {
-                        jTaqs = JObject.Parse(reader.ReadToEnd());
-                    }
+                    jTaqs = JObject.Parse(reader.ReadToEnd());
                 }
             }
             var aqVals = ((JArray)jTaqs[aqName.Replace(".", "_")]).Select(v => (double)v).ToList();

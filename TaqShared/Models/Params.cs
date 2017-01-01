@@ -14,5 +14,7 @@ namespace TaqShared.Models
         public static string uriHost = "https://YourTaqServerDomainName/";
         // Table name of AQ histories.
         public static string aqHistTabName = "epatw";
+        // Download file name of AQ history.
+        public static string aqHistFile = "AqHist.json";
     }
 }
