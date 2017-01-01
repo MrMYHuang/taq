@@ -93,12 +93,12 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
-    <None Include="Assets\Oldtaqi.json">
+    <Content Include="Assets\Oldtaqi.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Assets\taqi.json">
+    </Content>
+    <Content Include="Assets\taqi.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    </Content>
     <None Include="project.json" />
     <None Include="Taq_StoreKey.pfx" />
     <None Include="Taq_TemporaryKey.pfx" />

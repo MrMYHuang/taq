@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Taq;
 using Windows.Storage;
 using System.Xml.Linq;
+using Windows.ApplicationModel;
 
 namespace TaqShared.Models
 {
@@ -36,7 +37,7 @@ namespace TaqShared.Models
             }
             catch (Exception ex)
             {
-                var dataJson = await StorageFile.GetFileFromPathAsync(@"ms-appx:///Assets" + Params.aqDbFile);
+                var dataJson = await Package.Current.InstalledLocation.GetFileAsync("Assets/" + Params.aqDbFile);
                 jTaqDb = await readJObject(dataJson);
             }
 
@@ -80,7 +81,7 @@ namespace TaqShared.Models
             }
             catch (Exception ex)
             {
-                var dataJson = await StorageFile.GetFileFromPathAsync(@"ms-appx:///Assets/Old" + Params.aqDbFile);
+                var dataJson = await Package.Current.InstalledLocation.GetFileAsync("Assets/Old" + Params.aqDbFile);
                 jTaqDb = await readJObject(dataJson);
             }
 
