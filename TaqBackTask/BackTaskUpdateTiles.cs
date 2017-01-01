@@ -1,5 +1,6 @@
 ﻿using System;
 using Taq;
+using TaqShared.Models;
 using Windows.ApplicationModel.Background;
 using Windows.UI.Xaml.Media.Imaging;
 
@@ -7,7 +8,7 @@ namespace TaqBackTask
 {
     public sealed class BackTaskUpdateTiles : XamlRenderingBackgroundTask
     {
-        private static TaqModel m = new TaqModel();
+        private static TaqModel m = new TaqJsonModel();
 
         protected async override void OnRun(IBackgroundTaskInstance taskInstance)
         {

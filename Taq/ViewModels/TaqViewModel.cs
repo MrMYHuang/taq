@@ -25,7 +25,7 @@ namespace Taq
 {
     public class TaqViewModel : BindableBase
     {
-        public TaqModel m = new TaqModel();
+        public TaqModel m = new TaqJsonModel();
         // Partial sites AQ information. Contain properties for data bindings (from AqView).
         public ObservableCollection<SiteViewModel> sites = new ObservableCollection<SiteViewModel>();
 

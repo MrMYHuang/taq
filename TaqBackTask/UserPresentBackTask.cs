@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Taq;
+using TaqShared.Models;
 using Windows.ApplicationModel.Background;
 using Windows.Storage;
 using Windows.UI.Xaml.Media.Imaging;
@@ -32,7 +33,7 @@ namespace TaqBackTask
             var tbtLog = await ApplicationData.Current.LocalFolder.CreateFileAsync("UserPresentBackTaskLog.txt", CreationCollisionOption.ReplaceExisting);
             var s = await tbtLog.OpenStreamForWriteAsync();
             var sw = new StreamWriter(s);
-            sw.WriteLine("Background task start time: " + DateTime.Now.ToString()); TaqModel m = new TaqModel();
+            sw.WriteLine("Background task start time: " + DateTime.Now.ToString()); TaqModel m = new TaqJsonModel();
 
             sw.WriteLine("User present tasks reg start: " + DateTime.Now.ToString());
             await BackTaskReg.UserPresentTaskReg(Convert.ToUInt32(localSettings.Values["BgUpdatePeriod"]));

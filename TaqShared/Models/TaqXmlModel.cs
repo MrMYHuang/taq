@@ -61,5 +61,39 @@ namespace TaqShared.Models
             }
             return 0;
         }
+
+        override public async Task<int> loadMainSite(string newMainSite)
+        {
+            // Load the old sites.
+            XDocument loadOldXd = new XDocument();
+            try
+            {
+                var loadOldXml = await ApplicationData.Current.LocalFolder.GetFileAsync("Old" + Params.aqDbFile);
+
+                using (var s = await loadOldXml.OpenStreamForReadAsync())
+                {
+                    loadOldXd = XDocument.Load(s);
+                }
+            }
+            catch (Exception ex)
+            {
+                loadOldXd = XDocument.Load("Assets/Old" + Params.aqDbFile);
+            }
+
+            var oldDataX = from data in loadOldXd.Descendants("Data")
+                           select data;
+            oldSitesStrDict.Clear();
+            foreach (var d in oldDataX.OrderBy(x => x.Element("County").Value))
+            {
+                var siteName = d.Descendants("SiteName").First().Value;
+                oldSitesStrDict.Add(siteName, d.Elements().ToDictionary(x => x.Name.LocalName, x => x.Value));
+            }
+
+            // Save new site to the setting.
+            localSettings.Values["MainSite"] = newMainSite;
+            mainSiteStrDict = sitesStrDict[newMainSite];
+
+            return 0;
+        }
     }
 }

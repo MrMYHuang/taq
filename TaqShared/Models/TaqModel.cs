@@ -53,6 +53,9 @@ namespace Taq
         // Don't replace it by aqLimits.Keys! Not all names are used in aqComboBox.
         public List<string> aqList = new List<string> { "ShortStatus", "AQI", "PM2.5", "PM2.5_AVG", "PM10", "PM10_AVG", "O3", "O3_8hr", "CO", "CO_8hr", "SO2", "NO2", "NOx", "NO", "WindSpeed", "WindDirec" };
 
+        // AQ name list for AqHistories.
+        public List<string> aqHistNames = new List<string> { "AQI", "PM2.5", "PM2.5_AVG", "PM10", "PM10_AVG", "O3", "O3_8hr", "CO", "CO_8hr", "SO2", "NO2", "NOx", "NO", "WindSpeed", "WindDirec" };
+
         public TaqModel()
         {
             localSettings =
@@ -119,39 +122,7 @@ namespace Taq
 
         abstract public Task<int> loadAq2Dict();
 
-        public async Task<int> loadMainSite(string newMainSite)
-        {
-            // Load the old sites.
-            XDocument loadOldXd = new XDocument();
-            try
-            {
-                var loadOldXml = await ApplicationData.Current.LocalFolder.GetFileAsync("Old" + Params.aqDbFile);
-
-                using (var s = await loadOldXml.OpenStreamForReadAsync())
-                {
-                    loadOldXd = XDocument.Load(s);
-                }
-            }
-            catch (Exception ex)
-            {
-                loadOldXd = XDocument.Load("Assets/Old" + Params.aqDbFile);
-            }
-
-            var oldDataX = from data in loadOldXd.Descendants("Data")
-                           select data;
-            oldSitesStrDict.Clear();
-            foreach (var d in oldDataX.OrderBy(x => x.Element("County").Value))
-            {
-                var siteName = d.Descendants("SiteName").First().Value;
-                oldSitesStrDict.Add(siteName, d.Elements().ToDictionary(x => x.Name.LocalName, x => x.Value));
-            }
-
-            // Save new site to the setting.
-            localSettings.Values["MainSite"] = newMainSite;
-            mainSiteStrDict = sitesStrDict[newMainSite];
-
-            return 0;
-        }
+        abstract public Task<int> loadMainSite(string newMainSite);
 
         private static string subscrSiteXml = "SubscrSites.xml";
         // Reload subscribed site XML files.
