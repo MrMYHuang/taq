@@ -43,6 +43,11 @@ namespace Taq.Views
 
         private void gv_Tapped(object sender, TappedRoutedEventArgs e)
         {
+            if (!(e.OriginalSource is TextBlock || e.OriginalSource is Border))
+            {
+                return;
+            }
+
             var aqName = StaticTaqModel.fieldNames.Keys.ToList()[gv.SelectedIndex];
             // Check whether the AQ name support history.
             if (app.vm.m.aqHistNames.FindIndex(v => v == aqName) == -1)
