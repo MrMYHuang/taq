@@ -17,13 +17,14 @@
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <ScrollViewer>
             <StackPanel Orientation="Vertical" HorizontalAlignment="Left" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" >
-                <TextBlock Style="{StaticResource secHeadSty}" Margin="0">已知問題</TextBlock>
+                <TextBlock Style="{StaticResource secHeadSty}" Margin="0">已知問題與限制</TextBlock>
                 <TextBlock Style="{StaticResource txtBlkSty1}" >
                     * 背景任務開啟裝置後會隨機crashes。<LineBreak />
                     * 列表頁作數值排序後會卡住幾秒。<LineBreak />
+                    * 指標24小時歷史記錄不支援離線查詢。<LineBreak />
                 </TextBlock>
 
-                <TextBlock Style="{StaticResource secHeadSty}">Ver. 4.00.00</TextBlock>
+                <TextBlock Style="{StaticResource secHeadSty}">Ver. 4.0.0</TextBlock>
                 <TextBlock Style="{StaticResource txtBlkSty1}" >
                     * 支援空氣品質指標24小時歷史記錄，點選首頁方塊即可查詢。<LineBreak />
                     * 更改TAQ server URL，不相容於舊版。<LineBreak />
