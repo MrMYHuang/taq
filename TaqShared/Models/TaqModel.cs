@@ -37,9 +37,9 @@ namespace Taq
     {
         public ApplicationDataContainer localSettings;
         // The AQ data XML filename.
-        public const string dataXmlFile = "taqi.xml";
+        public const string aqDbFile = "taqi.xml";
         public static string uriHost = "https://YourTaqServerDomainName/";
-        public Uri source = new Uri(uriHost + dataXmlFile);
+        public Uri source = new Uri(uriHost + aqDbFile);
         public XDocument xd = new XDocument();
         public XDocument siteGeoXd = new XDocument();
         public Dictionary<string, GpsPoint> sitesGeoDict = new Dictionary<string, GpsPoint>();
@@ -47,7 +47,7 @@ namespace Taq
         public Dictionary<string, Dictionary<string, string>> sitesStrDict = new Dictionary<string, Dictionary<string, string>>();
         // Current (subscribed) site information in Dictionary.
         public Dictionary<string, string> mainSiteStrDict;
-        // The previous mainSiteStrDict from previous download dataXmlFile.
+        // The previous mainSiteStrDict from previous download aqDbFile.
         public Dictionary<string, Dictionary<string, string>> oldSitesStrDict = new Dictionary<string, Dictionary<string, string>>();
 
         public List<string> subscrSiteList = new List<string>();
@@ -67,7 +67,7 @@ namespace Taq
         public async Task<int> downloadDataXml(int timeout = 10000)
         {
             // Download may fail, so we create a temp StorageFile.
-            var dlFile = await ApplicationData.Current.LocalFolder.CreateFileAsync("Temp" + dataXmlFile, CreationCollisionOption.ReplaceExisting);
+            var dlFile = await ApplicationData.Current.LocalFolder.CreateFileAsync("Temp" + aqDbFile, CreationCollisionOption.ReplaceExisting);
 
             BackgroundDownloader downloader = new BackgroundDownloader();
             DownloadOperation download = downloader.CreateDownload(source, dlFile);
@@ -101,16 +101,16 @@ namespace Taq
             StorageFile dataXml;
             try
             {
-                dataXml = await ApplicationData.Current.LocalFolder.GetFileAsync(dataXmlFile);
+                dataXml = await ApplicationData.Current.LocalFolder.GetFileAsync(aqDbFile);
                 // Backup old XML.
-                var oldDataXml = await ApplicationData.Current.LocalFolder.CreateFileAsync("Old" + dataXmlFile, CreationCollisionOption.ReplaceExisting);
+                var oldDataXml = await ApplicationData.Current.LocalFolder.CreateFileAsync("Old" + aqDbFile, CreationCollisionOption.ReplaceExisting);
                 await dataXml.CopyAndReplaceAsync(oldDataXml);
             }
             catch (Exception ex)
             {
-                dataXml = await ApplicationData.Current.LocalFolder.CreateFileAsync(dataXmlFile, CreationCollisionOption.ReplaceExisting);
+                dataXml = await ApplicationData.Current.LocalFolder.CreateFileAsync(aqDbFile, CreationCollisionOption.ReplaceExisting);
             }
-            // Copy download file to dataXmlFile.
+            // Copy download file to aqDbFile.
             await dlFile.CopyAndReplaceAsync(dataXml);
             return 0;
         }
@@ -127,7 +127,7 @@ namespace Taq
         {
             try
             {
-                var dataXml = await ApplicationData.Current.LocalFolder.GetFileAsync(dataXmlFile);
+                var dataXml = await ApplicationData.Current.LocalFolder.GetFileAsync(aqDbFile);
                 using (var s = await dataXml.OpenStreamForReadAsync())
                 {
                     // Reload to xd.
@@ -136,7 +136,7 @@ namespace Taq
             }
             catch (Exception ex)
             {
-                xd = XDocument.Load("Assets/" + dataXmlFile);
+                xd = XDocument.Load("Assets/" + aqDbFile);
                 throw new OldXmlException();
             }
 
@@ -182,7 +182,7 @@ namespace Taq
             XDocument loadOldXd = new XDocument();
             try
             {
-                var loadOldXml = await ApplicationData.Current.LocalFolder.GetFileAsync("Old" + dataXmlFile);
+                var loadOldXml = await ApplicationData.Current.LocalFolder.GetFileAsync("Old" + aqDbFile);
 
                 using (var s = await loadOldXml.OpenStreamForReadAsync())
                 {
@@ -191,7 +191,7 @@ namespace Taq
             }
             catch (Exception ex)
             {
-                loadOldXd = XDocument.Load("Assets/Old" + dataXmlFile);
+                loadOldXd = XDocument.Load("Assets/Old" + aqDbFile);
             }
 
             var oldDataX = from data in loadOldXd.Descendants("Data")
