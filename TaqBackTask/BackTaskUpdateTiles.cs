@@ -29,7 +29,6 @@ namespace TaqBackTask
             
             try
             { 
-                m.convertXDoc2Dict();
                 await m.loadMainSite((string)m.localSettings.Values["MainSite"]);
                 await m.loadSubscrSiteXml();
 

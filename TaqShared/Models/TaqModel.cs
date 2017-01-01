@@ -37,10 +37,9 @@ namespace Taq
     {
         public ApplicationDataContainer localSettings;
         // The AQ data XML filename.
-        public const string aqDbFile = "taqi.xml";
+        public const string aqDbFile = "taqi.json";
         public static string uriHost = "https://YourTaqServerDomainName/";
         public Uri source = new Uri(uriHost + aqDbFile);
-        public XDocument xd = new XDocument();
         public XDocument siteGeoXd = new XDocument();
         public Dictionary<string, GpsPoint> sitesGeoDict = new Dictionary<string, GpsPoint>();
         // Full sites AQ information in Dictionary. Converted from XML.
@@ -125,6 +124,7 @@ namespace Taq
         // Reload air quality XML files.
         public async Task<int> loadAqXml()
         {
+            XDocument xd = new XDocument();
             try
             {
                 var dataXml = await ApplicationData.Current.LocalFolder.GetFileAsync(aqDbFile);
@@ -137,14 +137,8 @@ namespace Taq
             catch (Exception ex)
             {
                 xd = XDocument.Load("Assets/" + aqDbFile);
-                throw new OldXmlException();
             }
 
-            return 0;
-        }
-
-        public int convertXDoc2Dict()
-        {
             var dataX = from data in xd.Descendants("Data")
                         select data;
             var geoDataX = from data in siteGeoXd.Descendants("Data")
@@ -172,7 +166,6 @@ namespace Taq
                 siteDict.Add("ShortStatus", StaticTaqModel.getShortStatus(siteDict["Status"]));
                 sitesStrDict.Add(siteName, siteDict);
             }
-
             return 0;
         }
 
@@ -219,7 +212,6 @@ namespace Taq
                 var dataXml = await ApplicationData.Current.LocalFolder.GetFileAsync(subscrSiteXml);
                 using (var s = await dataXml.OpenStreamForReadAsync())
                 {
-                    // Reload to xd.
                     subscrXd = XDocument.Load(s);
                 }
             }

@@ -199,7 +199,6 @@ namespace Taq
         {
             try
             {
-                app.vm.m.convertXDoc2Dict();
                 await app.vm.loadMainSiteAndAqView();
                 // Force run loadDict2Sites by setting SelAqId to itself.
                 app.vm.SelAqId = app.vm.SelAqId;

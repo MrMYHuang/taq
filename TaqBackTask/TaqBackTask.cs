@@ -60,7 +60,6 @@ namespace TaqBackTask
                 sw.WriteLine("Many calls start time: " + DateTime.Now.ToString());
                 try
                 {
-                    m.convertXDoc2Dict();
                     if ((bool)m.localSettings.Values["AutoPos"] && (bool)m.localSettings.Values["BgMainSiteAutoPos"])
                     {
                         await m.findNearestSite();
