@@ -23,11 +23,6 @@ using Windows.UI.Xaml.Media;
 
 namespace Taq
 {
-    public class DownloadException : Exception
-    {
-
-    }
-
     public class OldXmlException : Exception
     {
 
@@ -65,51 +60,7 @@ namespace Taq
 
         public async Task<int> downloadAqData(int timeout = 10000)
         {
-            // Download may fail, so we create a temp StorageFile.
-            var dlFile = await ApplicationData.Current.LocalFolder.CreateFileAsync("Temp" + Params.aqDbFile, CreationCollisionOption.ReplaceExisting);
-
-            BackgroundDownloader downloader = new BackgroundDownloader();
-            DownloadOperation download = downloader.CreateDownload(source, dlFile);
-
-            CancellationTokenSource cts = new CancellationTokenSource();
-            CancellationToken token = cts.Token;
-
-#if DEBUG
-            timeout = 3000;
-#endif
-
-            cts.CancelAfter(timeout);
-            try
-            {
-                // Pass the token to the task that listens for cancellation.
-                await download.StartAsync().AsTask(token);
-            }
-            catch (Exception ex)
-            {
-                // timeout is reached, downloadOperation is cancled
-                throw new DownloadException();
-            }
-            finally
-            {
-                // Releases all resources of cts
-                cts.Dispose();
-            }
-
-            // file is downloaded in time
-            StorageFile aqDbSf;
-            try
-            {
-                aqDbSf = await ApplicationData.Current.LocalFolder.GetFileAsync(Params.aqDbFile);
-                // Backup old file.
-                var oldAqDbSf = await ApplicationData.Current.LocalFolder.CreateFileAsync("Old" + Params.aqDbFile, CreationCollisionOption.ReplaceExisting);
-                await aqDbSf.CopyAndReplaceAsync(oldAqDbSf);
-            }
-            catch (Exception ex)
-            {
-                aqDbSf = await ApplicationData.Current.LocalFolder.CreateFileAsync(Params.aqDbFile, CreationCollisionOption.ReplaceExisting);
-            }
-            // Copy download file to aqDbFile.
-            await dlFile.CopyAndReplaceAsync(aqDbSf);
+            await StaticTaqModel.downloadAndBackup(source, Params.aqDbFile, timeout);
             return 0;
         }
 

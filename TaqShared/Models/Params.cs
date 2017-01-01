@@ -10,6 +10,9 @@ namespace TaqShared.Models
     {
         // The AQ data filename.
         public const string aqDbFile = "taqi.json";
+        // TAQ server URI.
         public static string uriHost = "https://YourTaqServerDomainName/";
+        // Table name of AQ histories.
+        public static string aqHistTabName = "epatw";
     }
 }

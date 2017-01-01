@@ -9,16 +9,19 @@
     mc:Ignorable="d">
 
     <ScrollViewer Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" HorizontalScrollMode="Enabled" HorizontalScrollBarVisibility="Auto">
-        <chart:SfChart x:Name="sfChart" ManipulationMode="System" MinWidth="900" Margin="10">
+        <chart:SfChart x:Name="sfChart" ManipulationMode="System" MinWidth="900" Margin="16, 10, 0, 0">
             <chart:SfChart.PrimaryAxis>
-                <chart:CategoryAxis ShowGridLines="False"/>
+                <chart:CategoryAxis x:Name="pa" Header="時間" FontSize="20" ShowGridLines="False"/>
             </chart:SfChart.PrimaryAxis>
 
             <chart:SfChart.SecondaryAxis>
-                <chart:NumericalAxis ShowGridLines="False"></chart:NumericalAxis>
+                <chart:NumericalAxis x:Name="sa" FontSize="20" ShowGridLines="False"/>
             </chart:SfChart.SecondaryAxis>
 
             <chart:ColumnSeries ItemsSource="{x:Bind aq24HrValColl, Mode=OneWay}" XBindingPath="Hour" YBindingPath="Val" Palette="Custom">
+                <chart:ColumnSeries.AdornmentsInfo>
+                    <chart:ChartAdornmentInfo LabelPosition="Outer" ShowLabel="True" FontSize="16"/>
+                </chart:ColumnSeries.AdornmentsInfo>
                 <chart:ColumnSeries.ColorModel>
                     <chart:ChartColorModel x:Name="ccm"/>
                 </chart:ColumnSeries.ColorModel>

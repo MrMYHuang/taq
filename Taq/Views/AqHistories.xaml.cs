@@ -8,6 +8,7 @@ using System.Net;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using TaqShared.Models;
+using TaqShared.ModelViews;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI;
@@ -45,11 +46,12 @@ namespace Taq.Views
             siteName = p[0].ToString();
             aqName = p[1].ToString();
             await reqAqHistories();
+            sa.Header = aqName;
         }
 
         public async Task<int> reqAqHistories()
         {
-            HttpWebRequest req = (HttpWebRequest)WebRequest.Create(Params.uriHost + $"epatw?siteName={siteName}");
+            HttpWebRequest req = (HttpWebRequest)WebRequest.Create(Params.uriHost + Params.aqHistTabName + $"?siteName={siteName}");
             var res = await req.GetResponseAsync();
 
             using (var s = res.GetResponseStream())
@@ -57,9 +59,10 @@ namespace Taq.Views
                 using (var reader = new StreamReader(s))
                 {
                     var jTaqs = JObject.Parse(reader.ReadToEnd());
-                    var aqVals = ((JArray)jTaqs[aqName.Replace(".", "_")]).Select(v => (double)v).ToArray();
+                    var aqVals = ((JArray)jTaqs[aqName.Replace(".", "_")]).Select(v => (double)v).ToList();
                     var updateHour = jTaqs["updateHour"].ToObject<int>();
-                    await aqVals2Coll(aqVals, updateHour);
+                    var updateDate = jTaqs["updateDate"].ToObject<string>();
+                    await aqVals2Coll(aqVals, updateHour, updateDate);
                 }
             }
             return 0;
@@ -67,32 +70,37 @@ namespace Taq.Views
 
         public ObservableCollection<Aq24HrVal> aq24HrValColl { get; set; }
         public List<Brush> aqColors { get; set; }
-        public async Task<int> aqVals2Coll(double[] aqVals, int updateHour)
+        public async Task<int> aqVals2Coll(List<double> aqVals, int updateHour, string updateDate)
         {
-            for (var i = 0; i < 24; i++)
+            for (var h = 0; h < 24; h++)
             {
-                var rotHour = (24 + updateHour - i) % 24;
+                var rotHour = (24 + updateHour - h) % 24;
                 var aqVal = aqVals[rotHour];
-                aq24HrValColl.Add(new Aq24HrVal
+                // This ugly coding style comes from a problem that the chart doesn't update its Hour axis anymore after the first assignment to Hour.
+                if(rotHour == 0)
                 {
-                    Hour = rotHour + "",
-                    Val = aqVal
-                });
+                    aq24HrValColl.Add(new Aq24HrVal
+                    {
+                        // Replace Hour 0 with date.
+                        Hour = updateDate.Replace("-", "/"),
+                        Val = aqVal
+                    });
+                }
+                else
+                {
+                    aq24HrValColl.Add(new Aq24HrVal
+                    {
+                        Hour = rotHour + "",
+                        Val = aqVal
+                    });
+                }
                 var aqLevel = app.vm.m.getAqLevel(aqName, aqVal);
-                aqColors.Add(new SolidColorBrush(html2RgbColor(StaticTaqModel.aqColors[aqName][aqLevel])));
+                //aq24HrValColl.Where(hv => hv.Hour == "0").First().Hour = updateDate.Replace("-", "/");
+                aqColors.Add(new SolidColorBrush(StaticTaqModelView.html2RgbColor(StaticTaqModel.aqColors[aqName][aqLevel])));
             }
             ccm.CustomBrushes = aqColors;
 
             return 0;
-        }
-
-        public Color html2RgbColor(string colorStr)
-        {
-            var colorStr2 = colorStr.Substring(1);
-            var r = (byte)Convert.ToUInt32(colorStr2.Substring(0, 2), 16);
-            var g = (byte)Convert.ToUInt32(colorStr2.Substring(2, 2), 16);
-            var b = (byte)Convert.ToUInt32(colorStr2.Substring(4, 2), 16);
-            return Color.FromArgb(0xff, r, g, b);
         }
     }
 

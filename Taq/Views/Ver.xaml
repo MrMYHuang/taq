@@ -24,6 +24,11 @@
                     * 指標24小時歷史記錄不支援離線查詢。<LineBreak />
                 </TextBlock>
 
+                <TextBlock Style="{StaticResource secHeadSty}">Ver. 4.0.1</TextBlock>
+                <TextBlock Style="{StaticResource txtBlkSty1}" >
+                    * 空氣品質指標24小時圖表加入x/y軸標籤。。<LineBreak />
+                </TextBlock>
+
                 <TextBlock Style="{StaticResource secHeadSty}">Ver. 4.0.0</TextBlock>
                 <TextBlock Style="{StaticResource txtBlkSty1}" >
                     * 支援空氣品質指標24小時歷史記錄，點選首頁方塊即可查詢。<LineBreak />

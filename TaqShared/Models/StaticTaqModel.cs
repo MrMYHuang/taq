@@ -2,7 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
+using Windows.Networking.BackgroundTransfer;
+using Windows.Storage;
 
 namespace TaqShared.Models
 {
@@ -141,6 +144,52 @@ namespace TaqShared.Models
         public static double posDist(GpsPoint p1, GpsPoint p2)
         {
             return Math.Pow(p1.twd97Lat - p2.twd97Lat, 2) + Math.Pow(p1.twd97Lon - p2.twd97Lon, 2);
+        }
+
+        public static async Task<int> downloadAndBackup(Uri source, string dstFile, int timeout = 10000)
+        {
+            // Download may fail, so we create a temp StorageFile.
+            var dlFile = await ApplicationData.Current.LocalFolder.CreateFileAsync("Temp" + dstFile, CreationCollisionOption.ReplaceExisting);
+
+            BackgroundDownloader downloader = new BackgroundDownloader();
+            DownloadOperation download = downloader.CreateDownload(source, dlFile);
+
+            CancellationTokenSource cts = new CancellationTokenSource();
+            CancellationToken token = cts.Token;
+
+            cts.CancelAfter(timeout);
+            try
+            {
+                // Pass the token to the task that listens for cancellation.
+                await download.StartAsync().AsTask(token);
+            }
+            catch (Exception ex)
+            {
+                // timeout is reached, downloadOperation is cancled
+                throw new Exception("Download timeout.");
+            }
+            finally
+            {
+                // Releases all resources of cts
+                cts.Dispose();
+            }
+
+            // file is downloaded in time
+            StorageFile dstSf;
+            try
+            {
+                dstSf = await ApplicationData.Current.LocalFolder.GetFileAsync(dstFile);
+                // Backup old file.
+                var oldAqDbSf = await ApplicationData.Current.LocalFolder.CreateFileAsync("Old" + dstFile, CreationCollisionOption.ReplaceExisting);
+                await dstSf.CopyAndReplaceAsync(oldAqDbSf);
+            }
+            catch (Exception ex)
+            {
+                dstSf = await ApplicationData.Current.LocalFolder.CreateFileAsync(dstFile, CreationCollisionOption.ReplaceExisting);
+            }
+            // Copy download file to dstFile.
+            await dlFile.CopyAndReplaceAsync(dstSf);
+            return 0;
         }
     }
 }

@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using TaqShared.Models;
+using TaqShared.ModelViews;
 using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -51,7 +52,7 @@ namespace Taq
             for (var i = 0; i < 7; i++)
             {
                 var sbs = new StackingColumn100Series();
-                sbs.Interior = new SolidColorBrush(html2RgbColor(StaticTaqModel.aqiBgColors[i]));
+                sbs.Interior = new SolidColorBrush(StaticTaqModelView.html2RgbColor(StaticTaqModel.aqiBgColors[i]));
 
                 sbs.XBindingPath = "Name";
                 sbs.YBindingPath = "Diffs[" + i + "]";
@@ -83,15 +84,6 @@ namespace Taq
             }
 
             this.DataContext = this;
-        }
-
-        public Color html2RgbColor(string colorStr)
-        {
-            var colorStr2 = colorStr.Substring(1);
-            var r = (byte)Convert.ToUInt32(colorStr2.Substring(0, 2), 16);
-            var g = (byte)Convert.ToUInt32(colorStr2.Substring(2, 2), 16);
-            var b = (byte)Convert.ToUInt32(colorStr2.Substring(4, 2), 16);
-            return Color.FromArgb(0xff, r, g, b);
         }
     }
 

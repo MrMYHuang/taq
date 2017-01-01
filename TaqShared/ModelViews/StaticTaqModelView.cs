@@ -36,6 +36,15 @@ namespace TaqShared.ModelViews
             return saveFile;
         }
 
+        public static Color html2RgbColor(string colorStr)
+        {
+            var colorStr2 = colorStr.Substring(1);
+            var r = (byte)Convert.ToUInt32(colorStr2.Substring(0, 2), 16);
+            var g = (byte)Convert.ToUInt32(colorStr2.Substring(2, 2), 16);
+            var b = (byte)Convert.ToUInt32(colorStr2.Substring(4, 2), 16);
+            return Color.FromArgb(0xff, r, g, b);
+        }
+
         public static SolidColorBrush getTextColor(int aqLevel)
         {
             return aqLevel > StaticTaqModel.aqTextColorLimit ? new SolidColorBrush(Colors.White) : new SolidColorBrush(Colors.Black);
