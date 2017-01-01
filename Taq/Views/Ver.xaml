@@ -23,6 +23,13 @@
                     * 列表頁作數值排序後會卡住幾秒。<LineBreak />
                 </TextBlock>
 
+                <TextBlock Style="{StaticResource secHeadSty}">Ver. 4.00.00</TextBlock>
+                <TextBlock Style="{StaticResource txtBlkSty1}" >
+                    * 支援空氣品質指標24小時歷史記錄，點選首頁方塊即可查詢。<LineBreak />
+                    * 更改TAQ server URL，不相容於舊版。<LineBreak />
+                    * 程式資料存取一部分由XML改為JSON。<LineBreak />
+                </TextBlock>
+
                 <TextBlock Style="{StaticResource secHeadSty}">Ver. 3.15.3</TextBlock>
                 <TextBlock Style="{StaticResource txtBlkSty1}" >
                     * 修正內建樣式動態磚不顯示空汙資訊的問題。<LineBreak />

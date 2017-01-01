@@ -49,7 +49,7 @@ namespace Taq.Views
 
         public async Task<int> reqAqHistories()
         {
-            HttpWebRequest req = (HttpWebRequest)WebRequest.Create($"http://localhost:1337/epatw?siteName={siteName}");
+            HttpWebRequest req = (HttpWebRequest)WebRequest.Create(Params.uriHost + $"epatw?siteName={siteName}");
             var res = await req.GetResponseAsync();
 
             using (var s = res.GetResponseStream())
