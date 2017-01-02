@@ -21,7 +21,11 @@
                 <TextBlock Style="{StaticResource txtBlkSty1}" >
                     * 背景任務開啟裝置後會隨機crashes。<LineBreak />
                     * 列表頁作數值排序後會卡住幾秒。<LineBreak />
-                    * 指標24小時歷史記錄不支援離線查詢。<LineBreak />
+                </TextBlock>
+
+                <TextBlock Style="{StaticResource secHeadSty}">Ver. 4.0.3</TextBlock>
+                <TextBlock Style="{StaticResource txtBlkSty1}" >
+                    * 24小時歷史記錄支援離線查詢。<LineBreak />
                 </TextBlock>
 
                 <TextBlock Style="{StaticResource secHeadSty}">Ver. 4.0.2</TextBlock>

@@ -32,9 +32,14 @@ namespace Taq.Views
     public sealed partial class AqHistories : Page
     {
         public App app;
+        public Frame rootFrame;
+        public MainPage mainPage;
         public AqHistories()
         {
             app = App.Current as App;
+            rootFrame = Window.Current.Content as Frame;
+            mainPage = rootFrame.Content as MainPage;
+            // New bound data before InitializeComponent of binding UIs!
             aq24HrValColl = new ObservableCollection<Aq24HrVal>();
             aqColors = new List<Brush>();
             this.InitializeComponent();
@@ -53,6 +58,9 @@ namespace Taq.Views
 
         public async Task<int> reqAqHistories()
         {
+            aq24HrValColl.Clear();
+            aqColors.Clear();
+
             JObject jTaqs;
             StorageFile fsf;
             try
@@ -61,12 +69,11 @@ namespace Taq.Views
             }
             catch(Exception ex)
             {
-                // Download if not exist.
-                await StaticTaqModel.downloadAndBackup(
-                    new Uri(Params.uriHost + Params.aqHistTabName + $"?siteName={siteName}"),
-                    siteName + Params.aqHistFile);
-                fsf = await ApplicationData.Current.LocalFolder.GetFileAsync(siteName + Params.aqHistFile);
+                // The AQ history data might haven't been download after adding a new subscribed site.
+                mainPage.statusTextBlock.Text = "錯誤：開啟歷史資料失敗，請嘗試手動更新解決問題。";
+                return 1;
             }
+
             using (var s = await fsf.OpenStreamForReadAsync())
             {
                 using (var reader = new StreamReader(s))
