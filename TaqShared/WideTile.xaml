@@ -23,7 +23,7 @@
 
     <Border x:FieldModifier="public" x:Name="border" VerticalAlignment="Center" Background="Green" Height="150" Width="310">
         <StackPanel Orientation="Vertical">
-            <TextBlock x:FieldModifier="public" x:Name="topTxt" Style="{StaticResource tbSty}" Foreground="{x:Bind TextColor}" Text="平鎮 12:34"/>
+            <TextBlock x:FieldModifier="public" x:Name="topTxt" Style="{StaticResource tbSty}" Foreground="{x:Bind TextColor}" Text="平鎮-01/01-12:34"/>
             <StackPanel Orientation="Horizontal">
                 <StackPanel Orientation="Vertical" Style="{StaticResource spSty}">
                     <TextBlock x:FieldModifier="public" x:Name="medTxt1" Style="{StaticResource tbSty}" Foreground="{x:Bind TextColor}" Text="AQI"/>

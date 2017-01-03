@@ -23,6 +23,11 @@
                     * 列表頁作數值排序後會卡住幾秒。<LineBreak />
                 </TextBlock>
 
+                <TextBlock Style="{StaticResource secHeadSty}">Ver. 4.0.4</TextBlock>
+                <TextBlock Style="{StaticResource txtBlkSty1}" >
+                    * 特製寬、大磚加入日期資訊。<LineBreak />
+                </TextBlock>
+
                 <TextBlock Style="{StaticResource secHeadSty}">Ver. 4.0.3</TextBlock>
                 <TextBlock Style="{StaticResource txtBlkSty1}" >
                     * 24小時歷史記錄支援離線查詢。<LineBreak />

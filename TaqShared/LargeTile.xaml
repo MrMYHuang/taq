@@ -35,8 +35,8 @@
                     <TextBlock x:FieldModifier="public" x:Name="val2" Style="{StaticResource tbSty}" Foreground="{x:Bind TextColor}">良好</TextBlock>
                 </StackPanel>
                 <StackPanel Orientation="Vertical" Style="{StaticResource spSty}">
-                    <TextBlock Style="{StaticResource tbSty}" Foreground="{x:Bind TextColor}">時間</TextBlock>
-                    <TextBlock x:FieldModifier="public" x:Name="val3" Style="{StaticResource tbSty}" Foreground="{x:Bind TextColor}">12:34</TextBlock>
+                    <TextBlock x:FieldModifier="public" x:Name="val3_1" Style="{StaticResource tbSty}" Foreground="{x:Bind TextColor}">01/01</TextBlock>
+                    <TextBlock x:FieldModifier="public" x:Name="val3_2" Style="{StaticResource tbSty}" Foreground="{x:Bind TextColor}">12:34</TextBlock>
                 </StackPanel>
             </StackPanel>
 

@@ -244,6 +244,7 @@ namespace Taq
             var textColor = StaticTaqModelView.getTextColor(aqLevel);
 
             // Extract time.
+            var dateStr = sitesStrDict[siteName]["PublishTime"].Substring(5, 5).Replace("-", "/");
             var timeStr = sitesStrDict[siteName]["PublishTime"].Substring(11, 5);
             var aqiStr = sitesStrDict[siteName]["AQI"];
             var pm2_5_Str = sitesStrDict[siteName]["PM2.5"];
@@ -265,7 +266,7 @@ namespace Taq
 
             // Wide tile
             var wideTile = new WideTile(textColor);
-            wideTile.topTxt.Text = siteName + " " + timeStr;
+            wideTile.topTxt.Text = siteName + "-" + dateStr + "-" + timeStr;
             wideTile.medVal1.Text = aqiStr;
             wideTile.medVal2.Text = pm2_5_Str;
             wideTile.medVal3.Text = pm10_Str;
@@ -275,7 +276,8 @@ namespace Taq
             var largeTile = new LargeTile(textColor);
             largeTile.val1.Text = siteName;
             largeTile.val2.Text = sitesStrDict[siteName]["ShortStatus"];
-            largeTile.val3.Text = timeStr;
+            largeTile.val3_1.Text = dateStr;
+            largeTile.val3_2.Text = timeStr;
             largeTile.val4.Text = aqiStr;
             largeTile.val5.Text = pm2_5_Str;
             largeTile.val6.Text = pm10_Str;
