@@ -395,17 +395,7 @@ namespace Taq
         public int getAqLevel(string siteName, string aqName)
         {
             var val = getAqVal(siteName, aqName);
-            return getAqLevel(aqName, val);
-        }
-
-        public int getAqLevel(string aqName, double aqVal)
-        {
-            var aqLevel = StaticTaqModel.aqLimits[aqName].FindIndex(x => aqVal <= x);
-            if (aqLevel == -1)
-            {
-                aqLevel = StaticTaqModel.aqLimits[aqName].Count;
-            }
-            return aqLevel;
+            return StaticTaqModel.getAqLevel(aqName, val);
         }
 
         public GeolocationAccessStatus locAccStat;

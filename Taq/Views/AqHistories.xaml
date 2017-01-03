@@ -9,6 +9,10 @@
     mc:Ignorable="d"
     NavigationCacheMode="Enabled">
 
+    <Page.Resources>
+        <local:AdornTextColor x:Key="atc"/>
+    </Page.Resources>
+
     <ScrollViewer Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" HorizontalScrollMode="Enabled" HorizontalScrollBarVisibility="Auto">
         <chart:SfChart x:Name="sfChart" ManipulationMode="System" MinWidth="900" Margin="16, 10, 0, 0">
             <chart:SfChart.PrimaryAxis>
@@ -21,7 +25,13 @@
 
             <chart:ColumnSeries ItemsSource="{x:Bind aq24HrValColl, Mode=OneWay}" XBindingPath="Hour" YBindingPath="Val" Palette="Custom">
                 <chart:ColumnSeries.AdornmentsInfo>
-                    <chart:ChartAdornmentInfo LabelPosition="Outer" ShowLabel="True" FontSize="16"/>
+                    <chart:ChartAdornmentInfo LabelPosition="Inner" ShowLabel="True" FontSize="16">
+                        <chart:ChartAdornmentInfo.LabelTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding}" Foreground="{Binding Converter={StaticResource atc}}"></TextBlock>
+                            </DataTemplate>
+                        </chart:ChartAdornmentInfo.LabelTemplate>
+                    </chart:ChartAdornmentInfo>
                 </chart:ColumnSeries.AdornmentsInfo>
                 <chart:ColumnSeries.ColorModel>
                     <chart:ChartColorModel x:Name="ccm"/>

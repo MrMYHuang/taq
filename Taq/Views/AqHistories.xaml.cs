@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json.Linq;
+using Syncfusion.UI.Xaml.Charts;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -29,6 +30,13 @@ namespace Taq.Views
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
+    /// 
+
+    public static class AqHistShared
+    {
+        public static string aqName;
+    }
+
     public sealed partial class AqHistories : Page
     {
         public App app;
@@ -46,14 +54,13 @@ namespace Taq.Views
         }
 
         string siteName;
-        string aqName;
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
             var p = e.Parameter as object[];
             siteName = p[0].ToString();
-            aqName = p[1].ToString();
+            AqHistShared.aqName = p[1].ToString();
             await reqAqHistories();
-            sa.Header = aqName;
+            sa.Header = AqHistShared.aqName;
         }
 
         public async Task<int> reqAqHistories()
@@ -67,7 +74,7 @@ namespace Taq.Views
             {
                 fsf = await ApplicationData.Current.LocalFolder.GetFileAsync(siteName + Params.aqHistFile);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 // The AQ history data might haven't been download after adding a new subscribed site.
                 mainPage.statusTextBlock.Text = "錯誤：開啟歷史資料失敗，請嘗試手動更新解決問題。";
@@ -81,7 +88,7 @@ namespace Taq.Views
                     jTaqs = JObject.Parse(reader.ReadToEnd());
                 }
             }
-            var aqVals = ((JArray)jTaqs[aqName.Replace(".", "_")]).Select(v => (double)v).ToList();
+            var aqVals = ((JArray)jTaqs[AqHistShared.aqName.Replace(".", "_")]).Select(v => app.vm.m.getValidAqVal((string)v)).ToList();
             var updateHour = jTaqs["updateHour"].ToObject<int>();
             var updateDate = jTaqs["updateDate"].ToObject<string>();
             await aqVals2Coll(aqVals, updateHour, updateDate);
@@ -114,9 +121,9 @@ namespace Taq.Views
                         Val = aqVal
                     });
                 }
-                var aqLevel = app.vm.m.getAqLevel(aqName, aqVal);
+                var aqLevel = StaticTaqModel.getAqLevel(AqHistShared.aqName, aqVal);
                 //aq24HrValColl.Where(hv => hv.Hour == "0").First().Hour = updateDate.Replace("-", "/");
-                aqColors.Add(new SolidColorBrush(StaticTaqModelView.html2RgbColor(StaticTaqModel.aqColors[aqName][aqLevel])));
+                aqColors.Add(new SolidColorBrush(StaticTaqModelView.html2RgbColor(StaticTaqModel.aqColors[AqHistShared.aqName][aqLevel])));
             }
             ccm.CustomBrushes = aqColors;
 
@@ -128,5 +135,20 @@ namespace Taq.Views
     {
         public string Hour { get; set; }
         public double Val { get; set; }
+    }
+
+    public class AdornTextColor : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, string culture)
+        {
+            var aqLevel = StaticTaqModel.getAqLevel(AqHistShared.aqName, double.Parse((string)value));
+            return StaticTaqModelView.getTextColor(aqLevel);
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, string culture)
+        {
+            return value;
+        }
+
     }
 }

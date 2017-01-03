@@ -88,6 +88,16 @@ namespace TaqShared.Models
         public static List<double> so2Limits = new List<double> { 35, 75, 185, 304, 604, 804, 1004 };
         public static List<double> no2Limits = new List<double> { 53, 100, 360, 649, 1249, 1649, 2049 };
 
+        public static int getAqLevel(string aqName, double aqVal)
+        {
+            var aqLevel = aqLimits[aqName].FindIndex(x => aqVal <= x);
+            if (aqLevel == -1)
+            {
+                aqLevel = aqLimits[aqName].Count;
+            }
+            return aqLevel;
+        }
+
         // Combine color lists into Dictinoary.
         public static Dictionary<string, List<string>> aqColors = new Dictionary<string, List<string>>
         {
