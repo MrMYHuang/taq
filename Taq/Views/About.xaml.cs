@@ -1,5 +1,6 @@
 ﻿using Syncfusion.UI.Xaml.Charts;
 using System.Reflection;
+using TaqShared.Models;
 using Windows.UI.Xaml.Controls;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
@@ -33,6 +34,14 @@ namespace Taq.Views
             get
             {
                 return typeof(SfChart).GetTypeInfo().Assembly.GetName().Version.ToString();
+            }
+        }
+
+        public string MapPrivacyUri
+        {
+            get
+            {
+                return Params.uriHost + "MapPrivacy.html";
             }
         }
     }

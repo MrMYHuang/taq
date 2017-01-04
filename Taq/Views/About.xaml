@@ -48,7 +48,7 @@
 
             <TextBlock Style="{StaticResource secHeadSty}">隱私政策</TextBlock>
             <TextBlock Style="{StaticResource txtBlkSty1}">
-            <Hyperlink NavigateUri="http://YourTaqServerDomainName/MapPrivacy.html">隱私政策</Hyperlink><LineBreak/>
+            <Hyperlink NavigateUri="{x:Bind MapPrivacyUri}">隱私政策</Hyperlink><LineBreak/>
             </TextBlock>
         </StackPanel>
     </ScrollViewer>

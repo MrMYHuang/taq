@@ -26,6 +26,7 @@
                 <TextBlock Style="{StaticResource secHeadSty}">Ver. 4.0.6</TextBlock>
                 <TextBlock Style="{StaticResource txtBlkSty1}" >
                     * 優化24小時圖表顯示速度。<LineBreak />
+                    * 修正"隱私政策"連結。
                 </TextBlock>
 
                 <TextBlock Style="{StaticResource secHeadSty}">Ver. 4.0.5</TextBlock>
