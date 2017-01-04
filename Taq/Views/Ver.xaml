@@ -23,9 +23,15 @@
                     * 列表頁作數值排序後會卡住幾秒。<LineBreak />
                 </TextBlock>
 
+                <TextBlock Style="{StaticResource secHeadSty}">Ver. 4.0.6</TextBlock>
+                <TextBlock Style="{StaticResource txtBlkSty1}" >
+                    * 優化24小時圖表顯示速度。<LineBreak />
+                </TextBlock>
+
                 <TextBlock Style="{StaticResource secHeadSty}">Ver. 4.0.5</TextBlock>
                 <TextBlock Style="{StaticResource txtBlkSty1}" >
                     * 特製寬、大磚加入日期資訊。<LineBreak />
+                    * 優化24小時圖表顯示速度。<LineBreak />
                     * 24小時歷史數值標籤依數值上色、並顯示於直條內。<LineBreak />
                 </TextBlock>
 

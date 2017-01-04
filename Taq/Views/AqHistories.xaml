@@ -14,16 +14,17 @@
     </Page.Resources>
 
     <ScrollViewer Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" HorizontalScrollMode="Enabled" HorizontalScrollBarVisibility="Auto">
-        <chart:SfChart x:Name="sfChart" ManipulationMode="System" MinWidth="900" Margin="16, 10, 0, 0">
+        <chart:SfChart x:Name="sfChart" ManipulationMode="System" MinWidth="900" Margin="0, 0, 10, 0" Header="標題" FontSize="20">
+
             <chart:SfChart.PrimaryAxis>
-                <chart:CategoryAxis x:Name="pa" Header="時間" FontSize="20" ShowGridLines="False"/>
+                <chart:CategoryAxis x:Name="pa" Header="時間 (時)" FontSize="20" ShowGridLines="True"/>
             </chart:SfChart.PrimaryAxis>
 
             <chart:SfChart.SecondaryAxis>
-                <chart:NumericalAxis x:Name="sa" FontSize="20" ShowGridLines="False"/>
+                <chart:NumericalAxis x:Name="sa" Header="指標" FontSize="20" ShowGridLines="True"/>
             </chart:SfChart.SecondaryAxis>
 
-            <chart:ColumnSeries ItemsSource="{x:Bind aq24HrValColl, Mode=OneWay}" XBindingPath="Hour" YBindingPath="Val" Palette="Custom">
+            <chart:ColumnSeries x:Name="cs" XBindingPath="Hour" YBindingPath="Val" Palette="Custom">
                 <chart:ColumnSeries.AdornmentsInfo>
                     <chart:ChartAdornmentInfo LabelPosition="Inner" ShowLabel="True" FontSize="16">
                         <chart:ChartAdornmentInfo.LabelTemplate>

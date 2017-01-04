@@ -47,9 +47,6 @@ namespace Taq.Views
             app = App.Current as App;
             rootFrame = Window.Current.Content as Frame;
             mainPage = rootFrame.Content as MainPage;
-            // New bound data before InitializeComponent of binding UIs!
-            aq24HrValColl = new ObservableCollection<Aq24HrVal>();
-            aqColors = new List<Brush>();
             this.InitializeComponent();
         }
 
@@ -61,12 +58,17 @@ namespace Taq.Views
             AqHistShared.aqName = p[1].ToString();
             await reqAqHistories();
             sa.Header = AqHistShared.aqName;
+            sfChart.Header = siteName;
+            // Don't use data binding for chart series items source.
+            // Instead, assign items source to chart series after items source is ready.
+            // Otherwise, the changing source might result in bad drawing performances in low end devices.
+            cs.ItemsSource = aq24HrValColl;
         }
 
         public async Task<int> reqAqHistories()
         {
-            aq24HrValColl.Clear();
-            aqColors.Clear();
+            aq24HrValColl = new ObservableCollection<Aq24HrVal>();
+            aqColors = new List<Brush>();
 
             JObject jTaqs;
             StorageFile fsf;
