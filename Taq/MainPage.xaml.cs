@@ -42,6 +42,10 @@ namespace Taq
             initAux();
             initBackTask();
             DataTransferManager.GetForCurrentView().DataRequested += MainPage_DataRequested;
+
+            SystemNavigationManager.GetForCurrentView().BackRequested += App_BackRequested;
+            SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility =
+           AppViewBackButtonVisibility.Visible;
         }
 
         // This auxiliary method is used to wait for app.vm ready,
@@ -131,6 +135,17 @@ namespace Taq
             finally
             {
                 deferral.Complete();
+            }
+        }
+
+        private void App_BackRequested(object sender, Windows.UI.Core.BackRequestedEventArgs e)
+        {
+            // Navigate back if possible, and if the event has not 
+            // already been handled .
+            if (frame.CanGoBack && e.Handled == false)
+            {
+                e.Handled = true;
+                frame.GoBack();
             }
         }
 
