@@ -57,8 +57,8 @@ namespace Taq.Views
             siteName = p[0].ToString();
             AqHistShared.aqName = p[1].ToString();
             await reqAqHistories();
-            sa.Header = AqHistShared.aqName;
-            sfChart.Header = siteName;
+            //sa.Header = AqHistShared.aqName;
+            sfChart.Header = siteName + AqHistShared.aqName;
             // Don't use data binding for chart series items source.
             // Instead, assign items source to chart series after items source is ready.
             // Otherwise, the changing source might result in bad drawing performances in low end devices.

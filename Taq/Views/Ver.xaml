@@ -23,6 +23,11 @@
                     * 列表頁作數值排序後會卡住幾秒。<LineBreak />
                 </TextBlock>
 
+                <TextBlock Style="{StaticResource secHeadSty}">Ver. 4.1.1</TextBlock>
+                <TextBlock Style="{StaticResource txtBlkSty1}" >
+                    * 24小時空汙圖調整位置、字型大小。<LineBreak />
+                </TextBlock>
+
                 <TextBlock Style="{StaticResource secHeadSty}">Ver. 4.1.0</TextBlock>
                 <TextBlock Style="{StaticResource txtBlkSty1}" >
                     * 實作"上一頁"功能。<LineBreak />
