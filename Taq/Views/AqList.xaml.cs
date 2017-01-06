@@ -39,7 +39,7 @@ namespace Taq.Views
         private void aqCol_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
         {
             Func<SiteViewModel, double> getSortElem;
-            if (aqComboBox.SelectedValue.ToString() == "Status")
+            if (aqComboBox.SelectedValue.ToString() == "ShortStatus")
             {
                 getSortElem = (svm => ((SiteViewModel)svm).aqi);
             }

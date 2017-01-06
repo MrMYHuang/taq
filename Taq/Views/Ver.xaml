@@ -27,6 +27,7 @@
                 <TextBlock Style="{StaticResource txtBlkSty1}" >
                     * 設定頁新增"動態磚特製樣式色彩依據"。<LineBreak />
                     * 24小時空汙圖調整位置、字型大小，去除縱軸。<LineBreak />
+                    * 修正列表頁中選擇ShortStatus時無法排序的問題。<LineBreak />
                 </TextBlock>
 
                 <TextBlock Style="{StaticResource secHeadSty}">Ver. 4.1.0</TextBlock>
