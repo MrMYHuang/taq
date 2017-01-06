@@ -130,11 +130,14 @@ namespace Taq
 
             set
             {
-                if (value != -1)
+                if (value != selAqId)
                 {
-                    loadDict2Sites(m.aqList[value]);
+                    if (value != -1)
+                    {
+                        loadDict2Sites(m.aqList[value]);
+                    }
+                    SetProperty(ref selAqId, value);
                 }
-                SetProperty(ref selAqId, value);
             }
         }
 
@@ -223,7 +226,10 @@ namespace Taq
             }
             set
             {
-                SetProperty(ref mainSiteId, value);
+                if (value != mainSiteId)
+                {
+                    SetProperty(ref mainSiteId, value);
+                }
             }
         }
 
@@ -252,8 +258,11 @@ namespace Taq
             }
             set
             {
-                SetProperty(ref bgUpdatePeriodId, value);
-                m.localSettings.Values["BgUpdatePeriod"] = bgUpdatePeriods[value];
+                if (value != bgUpdatePeriodId)
+                {
+                    m.localSettings.Values["BgUpdatePeriod"] = bgUpdatePeriods[value];
+                    SetProperty(ref bgUpdatePeriodId, value);
+                }
             }
         }
 
@@ -318,8 +327,11 @@ namespace Taq
 
             set
             {
-                m.localSettings.Values["TileClearSty"] = value;
-                OnPropertyChanged("TileClearSty");
+                if (value != (bool)m.localSettings.Values["TileClearSty"])
+                {
+                    m.localSettings.Values["TileClearSty"] = value;
+                    OnPropertyChanged("TileClearSty");
+                }
             }
         }
 
@@ -332,7 +344,7 @@ namespace Taq
 
             set
             {
-                if(value != (int)m.localSettings.Values["TileBackColorAqId"])
+                if (value != (int)m.localSettings.Values["TileBackColorAqId"])
                 {
                     m.localSettings.Values["TileBackColorAqId"] = value;
                     OnPropertyChanged("TileBackColorAqId");
@@ -349,8 +361,11 @@ namespace Taq
 
             set
             {
-                m.localSettings.Values["SecondSitesNotify"] = value;
-                OnPropertyChanged("SecondSitesNotify");
+                if (value != (bool)m.localSettings.Values["SecondSitesNotify"])
+                {
+                    m.localSettings.Values["SecondSitesNotify"] = value;
+                    OnPropertyChanged("SecondSitesNotify");
+                }
             }
         }
 
@@ -363,8 +378,11 @@ namespace Taq
 
             set
             {
-                m.localSettings.Values["WarnStateChangeMode"] = value;
-                OnPropertyChanged("WarnStateChangeMode");
+                if (value != (bool)m.localSettings.Values["WarnStateChangeMode"])
+                {
+                    m.localSettings.Values["WarnStateChangeMode"] = value;
+                    OnPropertyChanged("WarnStateChangeMode");
+                }
             }
         }
 
@@ -377,8 +395,11 @@ namespace Taq
 
             set
             {
-                m.localSettings.Values["MapColor"] = value;
-                OnPropertyChanged("MapColor");
+                if (value != (bool)m.localSettings.Values["MapColor"])
+                {
+                    m.localSettings.Values["MapColor"] = value;
+                    OnPropertyChanged("MapColor");
+                }
             }
         }
 
@@ -438,8 +459,11 @@ namespace Taq
 
             set
             {
-                m.localSettings.Values["MapAutoPos"] = value;
-                OnPropertyChanged("MapAutoPos");
+                if (value != (bool)m.localSettings.Values["MapAutoPos"])
+                {
+                    m.localSettings.Values["MapAutoPos"] = value;
+                    OnPropertyChanged("MapAutoPos");
+                }
             }
         }
 
@@ -452,8 +476,11 @@ namespace Taq
 
             set
             {
-                m.localSettings.Values["BgMainSiteAutoPos"] = value;
-                OnPropertyChanged("BgMainSiteAutoPos");
+                if (value != (bool)m.localSettings.Values["BgMainSiteAutoPos"])
+                {
+                    m.localSettings.Values["BgMainSiteAutoPos"] = value;
+                    OnPropertyChanged("BgMainSiteAutoPos");
+                }
             }
         }
     }

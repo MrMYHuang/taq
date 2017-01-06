@@ -15,7 +15,10 @@ namespace TaqShared.ModelViews
             }
             set
             {
-                SetProperty(ref circleColor, value);
+                if (value != circleColor)
+                {
+                    SetProperty(ref circleColor, value);
+                }
             }
         }
 
@@ -28,7 +31,10 @@ namespace TaqShared.ModelViews
             }
             set
             {
-                SetProperty(ref circleText, value);
+                if (value != circleText)
+                {
+                    SetProperty(ref circleText, value);
+                }
             }
         }
 
@@ -41,7 +47,10 @@ namespace TaqShared.ModelViews
             }
             set
             {
-                SetProperty(ref listText, value);
+                if (value != listText)
+                {
+                    SetProperty(ref listText, value);
+                }
             }
         }
 
@@ -54,7 +63,10 @@ namespace TaqShared.ModelViews
             }
             set
             {
-                SetProperty(ref textColor, value);
+                if (value != textColor)
+                {
+                    SetProperty(ref textColor, value);
+                }
             }
         }
     }

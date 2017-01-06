@@ -38,7 +38,10 @@ namespace Taq.Views
 
             set
             {
-                localSettings.Values["AppTheme"] = value;
+                if (value != (bool)localSettings.Values["AppTheme"])
+                {
+                    localSettings.Values["AppTheme"] = value;
+                }
             }
         }
 
@@ -51,8 +54,11 @@ namespace Taq.Views
 
             set
             {
-                localSettings.Values["AQI_Limit"] = value;
-                NotifyPropertyChanged();
+                if (value != (double)localSettings.Values["AQI_Limit"])
+                {
+                    localSettings.Values["AQI_Limit"] = value;
+                    NotifyPropertyChanged();
+                }
             }
         }
 
@@ -65,8 +71,11 @@ namespace Taq.Views
 
             set
             {
-                localSettings.Values["PM2.5_Limit"] = value;
-                NotifyPropertyChanged();
+                if (value != (double)localSettings.Values["PM2.5_Limit"])
+                {
+                    localSettings.Values["PM2.5_Limit"] = value;
+                    NotifyPropertyChanged();
+                }
             }
         }
 
