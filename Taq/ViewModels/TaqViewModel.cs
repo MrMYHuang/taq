@@ -323,6 +323,23 @@ namespace Taq
             }
         }
 
+        public int TileBackColorAqId
+        {
+            get
+            {
+                return (int)m.localSettings.Values["TileBackColorAqId"];
+            }
+
+            set
+            {
+                if(value != (int)m.localSettings.Values["TileBackColorAqId"])
+                {
+                    m.localSettings.Values["TileBackColorAqId"] = value;
+                    OnPropertyChanged("TileBackColorAqId");
+                }
+            }
+        }
+
         public bool SecondSitesNotify
         {
             get

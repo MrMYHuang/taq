@@ -164,12 +164,12 @@ namespace Taq
         public async Task<ISquare310x310TileNotificationContent> clearLiveTiles(string siteName)
         {
             await genTileImages(siteName);
-            // not implemented.
+            // Large tile.
             var largeContent = TileContentFactory.CreateTileSquare310x310Image();
             largeContent.Image.Src = $"ms-appdata:///local/{siteName}LargeTile.png";
             largeContent.Branding = NotificationsExtensions.TileContent.TileBranding.None;
 
-            // not implemented.
+            // Wide tile.
             var wideContent = TileContentFactory.CreateTileWide310x150Image();
             wideContent.Image.Src = $"ms-appdata:///local/{siteName}WideTile.png";
             wideContent.Branding = NotificationsExtensions.TileContent.TileBranding.None;
@@ -233,7 +233,7 @@ namespace Taq
         public async Task<int> genTileImages(string siteName)
         {
             // Get colors by AQI.
-            var aqName = "AQI";
+            var aqName = aqHistNames[(int)localSettings.Values["TileBackColorAqId"]];
             var aqLevel = getAqLevel(siteName, aqName);
             // Remove '#'.
             var rectColorStr = StaticTaqModel.aqColors[aqName][aqLevel].Substring(1);

@@ -23,9 +23,10 @@
                     * 列表頁作數值排序後會卡住幾秒。<LineBreak />
                 </TextBlock>
 
-                <TextBlock Style="{StaticResource secHeadSty}">Ver. 4.1.1</TextBlock>
+                <TextBlock Style="{StaticResource secHeadSty}">Ver. 4.2.0</TextBlock>
                 <TextBlock Style="{StaticResource txtBlkSty1}" >
-                    * 24小時空汙圖調整位置、字型大小。<LineBreak />
+                    * 設定頁新增"動態磚特製樣式色彩依據"。<LineBreak />
+                    * 24小時空汙圖調整位置、字型大小，去除縱軸。<LineBreak />
                 </TextBlock>
 
                 <TextBlock Style="{StaticResource secHeadSty}">Ver. 4.1.0</TextBlock>

@@ -33,6 +33,15 @@
 
                 <TextBlock Style="{StaticResource secHeadSty}">動態磚</TextBlock>
                 <ToggleSwitch x:Name="tileClearStyToggle" Header="特製樣式" HorizontalAlignment="Left" Margin="0" IsOn="{x:Bind app.vm.TileClearSty, Mode=TwoWay}" Width="340" Height="67"/>
+                <ComboBox
+                    x:Name="tileBackColorCb"
+                    HorizontalAlignment="Left"
+                    Margin="0"
+                    ItemsSource="{x:Bind app.vm.m.aqHistNames, Mode=OneWay}" 
+                    SelectedIndex="{x:Bind app.vm.TileBackColorAqId, Mode=TwoWay}"
+                    Width="265"
+                    Header="特製樣式色彩依據">
+                </ComboBox>
 
                 <TextBlock Style="{StaticResource secHeadSty}" Width="300" HorizontalAlignment="Left">次要觀測站通知</TextBlock>
                 <ToggleSwitch x:Name="secSitNotifyToggle" HorizontalAlignment="Left" Margin="0" IsOn="{x:Bind app.vm.SecondSitesNotify, Mode=TwoWay}">

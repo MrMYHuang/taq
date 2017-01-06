@@ -57,6 +57,11 @@ namespace Taq
             {
                 localSettings.Values["TileClearSty"] = true;
             }
+
+            if (localSettings.Values["TileBackColorAqId"] == null)
+            {
+                localSettings.Values["TileBackColorAqId"] = 0;
+            }
             if (localSettings.Values["MapColor"] == null)
             {
                 localSettings.Values["MapColor"] = true;
