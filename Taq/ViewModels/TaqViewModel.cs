@@ -120,7 +120,7 @@ namespace Taq
             isUpdateCompleted = true;
         }
 
-        private int selAqId;
+        private int selAqId = 0;
         public int SelAqId
         {
             get
@@ -132,10 +132,6 @@ namespace Taq
             {
                 if (value != selAqId)
                 {
-                    if (value != -1)
-                    {
-                        loadDict2Sites(m.aqList[value]);
-                    }
                     SetProperty(ref selAqId, value);
                 }
             }

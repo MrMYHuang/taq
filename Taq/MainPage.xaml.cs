@@ -213,7 +213,7 @@ namespace Taq
             {
                 await app.vm.loadSiteAqViews();
                 // Force run loadDict2Sites by setting SelAqId to itself.
-                app.vm.SelAqId = app.vm.SelAqId;
+                app.vm.loadDict2Sites(app.vm.m.aqList[app.vm.SelAqId]);
             }
             catch (Exception ex)
             {
@@ -231,6 +231,7 @@ namespace Taq
                 return;
             }
             app.vm.SelAqId = selAqId;
+            app.vm.loadDict2Sites(app.vm.m.aqList[app.vm.SelAqId]);
         }
 
         // Trivial codes
