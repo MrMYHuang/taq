@@ -25,11 +25,11 @@ namespace TaqShared.Models
             { "Pollutant", "污染指標物"},
             { "County", "縣市"},
 
-            { "PM2.5", "PM 2.5"},
-            { "PM2.5_AVG", "PM2.5_AVG"},
+            { "PM2.5", "即時PM2.5"},
+            { "PM2.5_AVG", "平均PM2.5"},
 
-            { "PM10", "PM 10"},
-            { "PM10_AVG", "PM10_AVG"},
+            { "PM10", "即時PM10"},
+            { "PM10_AVG", "平均PM10"},
 
             { "O3", "O3"},
             { "O3_8hr", "O3_8hr"},
