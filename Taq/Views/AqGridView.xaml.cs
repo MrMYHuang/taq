@@ -29,14 +29,14 @@ namespace Taq.Views
         public Frame rootFrame;
         public MainPage mainPage;
         public ObservableCollection<AqViewModel> aqvms = new ObservableCollection<AqViewModel>();
-        private string siteName;
+        public int id;
 
-        public AqGridView(ObservableCollection<AqViewModel> _aqvms, string _siteName)
+        public AqGridView(ObservableCollection<AqViewModel> _aqvms, int _id)
         {
             app = App.Current as App;
             rootFrame = Window.Current.Content as Frame;
             mainPage = rootFrame.Content as MainPage;
-            siteName = _siteName;
+            id = _id;
             aqvms = _aqvms;
             this.InitializeComponent();
         }
@@ -57,7 +57,7 @@ namespace Taq.Views
 
             var p = new object[]
             {
-                siteName,
+                app.vm.m.subscrSiteList[id],
                 aqName
             };
             mainPage.frame.Navigate(typeof(AqHistories), p);

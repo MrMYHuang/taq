@@ -63,7 +63,7 @@ namespace Taq.Views
             if (app.vm.m.localSettings.Values["TaqBackTaskUpdated"] == null || (bool)app.vm.m.localSettings.Values["TaqBackTaskUpdated"] == false)
             {
                 await app.vm.m.loadMainSite(selSite.siteName);
-                app.vm.updateAqgv(selSite.siteName, app.vm.aqgvList[0]);
+                app.vm.updateAqgv(0);
                 await app.vm.backTaskUpdateTiles();
             }
             // SelectionChanged is triggered by TaqBackTask updating.
@@ -76,7 +76,7 @@ namespace Taq.Views
         private async void umiButton_Tapped(object sender, TappedRoutedEventArgs e)
         {
             await app.vm.m.findNearestSite();
-            await app.vm.m.loadMainSite(app.vm.m.nearestSite);
+            app.vm.m.localSettings.Values["MainSite"] = app.vm.m.nearestSite;
             app.vm.loadMainSiteId();
         }
 

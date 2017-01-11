@@ -78,7 +78,6 @@ namespace Taq
             return 0;
         }
 
-
         public async Task<int> addSubscrSite(string siteName)
         {
             m.subscrXd.Root.Add(new XElement("SiteName", siteName));
@@ -148,26 +147,30 @@ namespace Taq
             // Create mode
             if (aqgvList.Count == 0)
             {
+                var id = 0;
                 foreach (var siteName in m.subscrSiteList)
                 {
-                    aqgvList.Add(new AqGridView(loadMainSite2dAqView(siteName), siteName));
+                    aqgvList.Add(new AqGridView(loadMainSite2dAqView(siteName), id));
+                    id++;
                 }
             }
             // Update mode.
             else
-            {
-                var i = 0;
-                foreach (var aqgv in aqgvList)
+            {                
+                for (var id = 0; id < aqgvList.Count; id++)
                 {
-                    updateAqgv(m.subscrSiteList[i], aqgv);
-                    i++;
+                    updateAqgv(id);
                 }
             }
             return 0;
         }
 
-        public void updateAqgv(string siteName, AqGridView aqgv)
+        // id == 0 stands for main site aqgv.
+        public void updateAqgv(int id)
         {
+            var siteName = m.subscrSiteList[id];
+            var aqgv = aqgvList[id];
+
             var i = 0;
             foreach (var k in StaticTaqModel.fieldNames.Keys)
             {
@@ -182,7 +185,7 @@ namespace Taq
 
         public void addSecSiteAndAqView(string siteName)
         {
-            aqgvList.Add(new AqGridView(loadMainSite2dAqView(siteName), siteName));
+            aqgvList.Add(new AqGridView(loadMainSite2dAqView(siteName), aqgvList.Count));
         }
 
         public void delSecSiteAndAqView(string siteName)

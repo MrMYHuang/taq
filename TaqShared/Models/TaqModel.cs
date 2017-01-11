@@ -38,7 +38,7 @@ namespace Taq
         public Dictionary<string, Dictionary<string, string>> sitesStrDict = new Dictionary<string, Dictionary<string, string>>();
         // The previous siteStrDict from previous download aqDbFile.
         public Dictionary<string, Dictionary<string, string>> oldSitesStrDict = new Dictionary<string, Dictionary<string, string>>();
-
+        // Subscribed sites list. subscrSiteList[0] stands for MainSite!
         public List<string> subscrSiteList = new List<string>();
         public XDocument subscrXd;
 
@@ -107,6 +107,12 @@ namespace Taq
             // Insert MainSite.
             subscrSiteList.Insert(0, (string)localSettings.Values["MainSite"]);
 
+            return 0;
+        }
+
+        public async Task<int> updateSubscrSiteListByMainSite(string newMainSite)
+        {
+            subscrSiteList[0] = newMainSite;
             return 0;
         }
 

@@ -96,6 +96,7 @@ namespace TaqShared.Models
 
             // Save new site to the setting.
             localSettings.Values["MainSite"] = newMainSite;
+            updateSubscrSiteListByMainSite(newMainSite);
 
             return 0;
         }
