@@ -195,6 +195,11 @@ namespace Taq
             var delId = m.subscrSiteList.LastIndexOf(siteName);
             Debug.Assert(delId != -1);
             aqgvList.RemoveAt(delId);
+            // Update IDs after delID.
+            for(var id = delId; id < aqgvList.Count; id++)
+            {
+                aqgvList[id].id = id;
+            }
         }
 
         public ObservableCollection<AqViewModel> loadMainSite2dAqView(string siteName)

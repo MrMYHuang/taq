@@ -23,7 +23,7 @@
                     * 列表頁作數值排序後會卡住幾秒。<LineBreak />
                 </TextBlock>
 
-                <TextBlock Style="{StaticResource secHeadSty}">Ver. 4.2.1</TextBlock>
+                <TextBlock Style="{StaticResource secHeadSty}">Ver. 4.2.2</TextBlock>
                 <TextBlock Style="{StaticResource txtBlkSty1}" >
                     * 修正首頁主站定位後，開啟之24小時歷史為舊站的問題。<LineBreak />
                     * 首頁項目順序調整。<LineBreak />
