@@ -23,6 +23,11 @@
                     * 列表頁作數值排序後會卡住幾秒。<LineBreak />
                 </TextBlock>
 
+                <TextBlock Style="{StaticResource secHeadSty}">Ver. 4.2.1</TextBlock>
+                <TextBlock Style="{StaticResource txtBlkSty1}" >
+                    * 首頁項目順序調整。<LineBreak />
+                </TextBlock>
+
                 <TextBlock Style="{StaticResource secHeadSty}">Ver. 4.2.0</TextBlock>
                 <TextBlock Style="{StaticResource txtBlkSty1}" >
                     * 設定頁新增"動態磚特製樣式色彩依據"。<LineBreak />

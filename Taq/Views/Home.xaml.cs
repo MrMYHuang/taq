@@ -98,7 +98,7 @@ namespace Taq.Views
             }
             if (app.tappedSiteName == "App")
             {
-                app.tappedSiteName = app.vm.m.mainSiteStrDict["SiteName"];
+                app.tappedSiteName = app.vm.m.subscrSiteList[0];
             }
             var tappedSnId = app.vm.m.subscrSiteList.IndexOf(app.tappedSiteName);
             // No necessary to consider tappedSnId == -1,

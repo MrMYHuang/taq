@@ -36,9 +36,7 @@ namespace Taq
         public Dictionary<string, GpsPoint> sitesGeoDict = new Dictionary<string, GpsPoint>();
         // Full sites AQ information in Dictionary. Converted from XML.
         public Dictionary<string, Dictionary<string, string>> sitesStrDict = new Dictionary<string, Dictionary<string, string>>();
-        // Current (subscribed) site information in Dictionary.
-        public Dictionary<string, string> mainSiteStrDict;
-        // The previous mainSiteStrDict from previous download aqDbFile.
+        // The previous siteStrDict from previous download aqDbFile.
         public Dictionary<string, Dictionary<string, string>> oldSitesStrDict = new Dictionary<string, Dictionary<string, string>>();
 
         public List<string> subscrSiteList = new List<string>();
@@ -141,7 +139,7 @@ namespace Taq
             {
                 lts = new LiveTileSty(detailedLiveTiles);
             }
-            largeContent = await lts(mainSiteStrDict["SiteName"]);
+            largeContent = await lts(subscrSiteList[0]);
             // Create a new tile notification.
             updater.Update(new TileNotification(largeContent.GetXml()));
 
@@ -218,7 +216,7 @@ namespace Taq
 
             // create the square template and attach it to the wide template
             var squareContent = TileContentFactory.CreateTileSquare150x150Text01();
-            squareContent.TextHeading.Text = "AQI：" + mainSiteStrDict["AQI"];
+            squareContent.TextHeading.Text = aqiStr;
             squareContent.TextBody1.Text = pm2_5_Str;
             squareContent.TextBody2.Text = siteStr;
             squareContent.TextBody3.Text = "時間：" + timeStr;
@@ -295,7 +293,7 @@ namespace Taq
 
         public void sendSubscrSitesNotifications()
         {
-            sendNotifications(mainSiteStrDict["SiteName"]);
+            sendNotifications(subscrSiteList[0]);
             if ((bool)localSettings.Values["SecondSitesNotify"])
             {
                 foreach (var siteName in subscrSiteList.GetRange(1, subscrSiteList.Count - 1))

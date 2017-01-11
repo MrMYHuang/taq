@@ -91,7 +91,6 @@ namespace TaqShared.Models
 
             // Save new site to the setting.
             localSettings.Values["MainSite"] = newMainSite;
-            mainSiteStrDict = sitesStrDict[newMainSite];
 
             return 0;
         }

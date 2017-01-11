@@ -17,13 +17,13 @@ namespace TaqShared.Models
         public static Dictionary<string, string> fieldNames = new Dictionary<string, string>
         {
             { "SiteName", "觀測站" },
+            { "County", "縣市"},
+
             { "PublishTime", "發佈時間"},
+            { "Pollutant", "污染指標物"},
 
             { "Status", "狀態"},
             { "AQI", "空氣品質指標"},
-
-            { "Pollutant", "污染指標物"},
-            { "County", "縣市"},
 
             { "PM2.5", "即時PM2.5"},
             { "PM2.5_AVG", "平均PM2.5"},
