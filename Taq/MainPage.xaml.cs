@@ -122,8 +122,9 @@ namespace Taq
         {
             await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
             {
-                statusTextBlock.Text = DateTime.Now.ToString("HH:mm:ss tt") + "更新完成。";
                 await ReloadXmlAndSitesData();
+                app.vm.m.lastUpdateTime = DateTime.Now;
+                statusTextBlock.Text = app.vm.m.getLastUpdateTime() + "更新完成。";
             });
         }
 
@@ -175,7 +176,6 @@ namespace Taq
                 await app.vm.m.loadSubscrSiteXml();
                 statusTextBlock.Text = "下載開始...";
                 await app.vm.m.downloadAqData();
-                statusTextBlock.Text = DateTime.Now.ToString("HH:mm:ss tt") + "下載完成。";
 #endif
             }
             catch (Exception ex)
@@ -198,6 +198,9 @@ namespace Taq
             app.vm.m.sendSubscrSitesNotifications();
             //#endif
             await app.vm.backTaskUpdateTiles();
+
+            app.vm.m.lastUpdateTime = DateTime.Now;
+            statusTextBlock.Text = app.vm.m.getLastUpdateTime() + "更新完成。";
             return 0;
         }
 

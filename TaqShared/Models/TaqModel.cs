@@ -37,6 +37,7 @@ namespace Taq
         // Subscribed sites list. subscrSiteList[0] stands for MainSite!
         public List<string> subscrSiteList = new List<string>();
         public XDocument subscrXd;
+        public DateTime lastUpdateTime;
 
         // AQ name list for MainPage aqComboBox.
         // Don't replace it by aqLimits.Keys! Not all names are used in aqComboBox.
@@ -424,6 +425,11 @@ namespace Taq
                 throw new Exception("定位最近觀測站失敗！");
             }
             return 0;
+        }
+
+        public string getLastUpdateTime()
+        {
+            return lastUpdateTime.ToString("HH:mm:ss tt");
         }
     }
 }
