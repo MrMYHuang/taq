@@ -5,6 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:Maps="using:Windows.UI.Xaml.Controls.Maps"
+    xmlns:shared="using:TaqShared.Models"
     x:Class="Taq.Views.AqSiteMap"
     mc:Ignorable="d"
     NavigationCacheMode="Enabled" Loaded="Page_Loaded">
@@ -15,7 +16,7 @@
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Maps:MapControl x:Name="map"
-            MapServiceToken="YourBingMapToken" Margin="0" DataContext="app" ColorScheme="{x:Bind app.vm.MapColor, Converter={StaticResource b2mcc}, Mode=OneWay}" Canvas.ZIndex="0">
+            MapServiceToken="{x:Bind MapToken}" Margin="0" DataContext="app" ColorScheme="{x:Bind app.vm.MapColor, Converter={StaticResource b2mcc}, Mode=OneWay}" Canvas.ZIndex="0">
         </Maps:MapControl>
 
         <AutoSuggestBox x:FieldModifier="public" x:Name="asb" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="130" Height="37" QueryIcon="Find" TextChanged="asb_TextChanged" QuerySubmitted="asb_QuerySubmitted" SuggestionChosen="asb_SuggestionChosen" GotFocus="asb_GotFocus" Loaded="asb_Loaded" Canvas.ZIndex="3" />

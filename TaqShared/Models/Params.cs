@@ -17,5 +17,6 @@ namespace TaqShared.Models
         // Download file name of AQ history.
         public static string aqHistFile = "AqHist.json";
         public static string hockeyAppId = "YourHockeyAppId";
+        public static string bingMapToken = "YourBingMapToken";
     }
 }

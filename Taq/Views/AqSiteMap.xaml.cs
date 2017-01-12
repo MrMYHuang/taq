@@ -10,6 +10,7 @@ using Windows.UI.Xaml.Controls.Maps;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Shapes;
 using System.Linq;
+using TaqShared.Models;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -218,6 +219,14 @@ namespace Taq.Views
         private void asb_GotFocus(object sender, RoutedEventArgs e)
         {
             asb.IsSuggestionListOpen = true;
+        }
+
+        public string MapToken
+        {
+            get
+            {
+                return Params.bingMapToken;
+            }
         }
     }
 
