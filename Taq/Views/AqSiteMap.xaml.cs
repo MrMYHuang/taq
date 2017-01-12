@@ -84,6 +84,7 @@ namespace Taq.Views
                 var pos = await app.vm.m.geoLoc.GetGeopositionAsync();
                 var p = pos.Coordinate.Point;
                 await posUmi(p);
+                mainPage.statusTextBlock.Text = "定位完成。";
             }
             catch (Exception ex)
             {

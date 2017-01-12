@@ -81,7 +81,7 @@ namespace Taq.Views
                 await app.vm.m.findNearestSite();
                 app.vm.m.localSettings.Values["MainSite"] = app.vm.m.nearestSite;
                 app.vm.loadMainSiteId();
-                mainPage.statusTextBlock.Text = "最近觀測站定位完成！";
+                mainPage.statusTextBlock.Text = "定位最近觀測站完成。";
             }
             catch (Exception ex)
             {
