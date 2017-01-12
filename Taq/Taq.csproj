@@ -21,6 +21,7 @@
     <AppxBundle>Always</AppxBundle>
     <AppxBundlePlatforms>x86|x64|arm</AppxBundlePlatforms>
     <PackageCertificateThumbprint>82F258310F7BD12F1410DC629DCC8BA91929359D</PackageCertificateThumbprint>
+    <HockeyAppResourceId>YourHockeyAppId</HockeyAppResourceId>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
@@ -99,6 +100,7 @@
     <Content Include="Assets\taqi.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Include="Connected Services\HockeyApp\ConnectedService.json" />
     <None Include="project.json" />
     <None Include="Taq_StoreKey.pfx" />
     <None Include="Taq_TemporaryKey.pfx" />
@@ -387,6 +389,9 @@
     <Reference Include="Syncfusion.SfChart.UWP">
       <HintPath>..\..\..\..\..\..\..\..\Program Files (x86)\Syncfusion\Essential Studio\14.3.0.52\Assemblies for Universal Windows\10.0\Syncfusion.SfChart.UWP.dll</HintPath>
     </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

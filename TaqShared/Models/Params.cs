@@ -16,5 +16,6 @@ namespace TaqShared.Models
         public static string aqHistTabName = "epatw";
         // Download file name of AQ history.
         public static string aqHistFile = "AqHist.json";
+        public static string hockeyAppId = "YourHockeyAppId";
     }
 }
