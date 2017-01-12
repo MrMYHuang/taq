@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
-using Taq;
 using TaqShared.Models;
 using Windows.Graphics.Display;
 using Windows.Graphics.Imaging;

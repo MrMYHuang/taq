@@ -3,22 +3,18 @@ using Microsoft.Toolkit.Uwp.Notifications;
 using NotificationsExtensions.TileContent;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using TaqShared;
 using TaqShared.Models;
 using TaqShared.ModelViews;
 using Windows.Devices.Geolocation;
-using Windows.Networking.BackgroundTransfer;
 using Windows.Storage;
 using Windows.UI;
 using Windows.UI.Notifications;
 using Windows.UI.StartScreen;
-using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 
 namespace Taq

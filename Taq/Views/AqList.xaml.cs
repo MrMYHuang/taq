@@ -1,9 +1,7 @@
-﻿using System.Collections.ObjectModel;
-using TaqShared.ModelViews;
+﻿using TaqShared.ModelViews;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using System.Linq;
-using System.Collections.Generic;
 using System;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238

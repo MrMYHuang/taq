@@ -2,20 +2,16 @@
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
-using System.Linq;
 using Taq.Views;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 using System.Collections.Generic;
 using Windows.System;
 using System.Threading.Tasks;
-using Windows.System.Threading;
 using Windows.UI.Core;
 using Windows.Devices.Geolocation;
 using TaqShared.ModelViews;
-using TaqShared.Models;
 using Windows.ApplicationModel.Background;
-using Windows.ApplicationModel.Core;
 using TaqBackTask;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409

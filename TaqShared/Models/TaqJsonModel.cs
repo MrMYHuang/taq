@@ -2,13 +2,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.IO;
 using System.Threading.Tasks;
 using Taq;
 using Windows.Storage;
 using System.Xml.Linq;
-using Windows.ApplicationModel;
 
 namespace TaqShared.Models
 {

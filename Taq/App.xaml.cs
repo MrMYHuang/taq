@@ -5,9 +5,7 @@ using Windows.ApplicationModel.Activation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
-using Windows.System;
 using Windows.Storage;
-using System.Threading.Tasks;
 using Taq.Views;
 using Microsoft.QueryStringDotNET;
 using TaqShared.Models;
@@ -28,7 +26,7 @@ namespace Taq
         public ApplicationDataContainer localSettings;
         public App()
         {
-            Microsoft.HockeyApp.HockeyClient.Current.Configure(Params.hockeyAppId);
+            HockeyClient.Current.Configure(Params.hockeyAppId);
             initLocalSettings();
             // Fox Xbox One gamepad XY focus navigation. Not tested.
             //this.RequiresPointerMode =
