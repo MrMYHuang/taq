@@ -92,7 +92,7 @@ namespace Taq.Views
         {
             var selId = ((ComboBox)sender).SelectedIndex;
             app.vm.BgUpdatePeriodId = selId;
-            await BackTaskReg.UserPresentTaskReg(Convert.ToUInt32(localSettings.Values["BgUpdatePeriod"]));
+            await mainPage.UserPresentTaskReg(Convert.ToUInt32(localSettings.Values["BgUpdatePeriod"]));
         }
     }
 }

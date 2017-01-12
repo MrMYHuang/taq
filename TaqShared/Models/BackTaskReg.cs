@@ -9,34 +9,17 @@ namespace TaqBackTask
         public async static Task<int> UserPresentTaskReg(uint timerPeriod)
         {
             // Update by timer.
-            await timerBackUpdateReg(timerPeriod);
+            await backUpdateReg("Timer", new TimeTrigger(timerPeriod, false));
             // Update if the Internet is available.
             //await backUpdateReg("HasNet", new SystemTrigger(SystemTriggerType.InternetAvailable, false));
             return 0;
         }
 
-        public async static Task<int> timerBackUpdateReg(uint timerPeriod)
-        {
-            await backUpdateReg("Timer", new TimeTrigger(timerPeriod, false));
-            return 0;
-        }
-
-        public async static Task<int> backUpdateReg(string name, IBackgroundTrigger trigger)
+        public async static Task<BackgroundTaskRegistration> backUpdateReg(string name, IBackgroundTrigger trigger)
         {
             var btr = await BackTaskReg.RegisterBackgroundTask(name + "TaqBackTask", "TaqBackTask.TaqBackTask", trigger);
-            //btr.Completed += Btr_Completed;
-            return 0;
+            return btr;
         }
-
-        /*
-        private async static void Btr_Completed(BackgroundTaskRegistration sender, BackgroundTaskCompletedEventArgs args)
-        {
-            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
-            {
-                statusTextBlock.Text = DateTime.Now.ToString("HH:mm:ss tt") + "更新";
-                await ReloadXmlAndSitesData();
-            });
-        }*/
 
         public static int unregisterBackTask(string taskName)
         {

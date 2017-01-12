@@ -77,6 +77,7 @@ namespace Taq.Views
         {
             try
             {
+                mainPage.statusTextBlock.Text = "定位中...";
                 // Subscribe to the PositionChanged event to get location updates.
                 //geoLoc.PositionChanged += OnPositionChanged;
                 app.vm.m.geoLoc = new Geolocator { ReportInterval = 2000 };
@@ -86,6 +87,7 @@ namespace Taq.Views
             }
             catch (Exception ex)
             {
+                mainPage.statusTextBlock.Text = "定位失敗！";
             }
             return 0;
         }

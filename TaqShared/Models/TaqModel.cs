@@ -403,18 +403,26 @@ namespace Taq
         public string nearestSite;
         public async Task<int> findNearestSite()
         {
-            geoLoc = new Geolocator { ReportInterval = 2000 };
-            var pos = await geoLoc.GetGeopositionAsync();
-            var p = pos.Coordinate.Point;
-            var gpsPos = new GpsPoint { twd97Lat = p.Position.Latitude, twd97Lon = p.Position.Longitude };
-
-            var dists = new List<double>();
-            foreach (var s in sitesGeoDict)
+            try
             {
-                dists.Add(StaticTaqModel.posDist(gpsPos, s.Value));
+
+                geoLoc = new Geolocator { ReportInterval = 2000 };
+                var pos = await geoLoc.GetGeopositionAsync();
+                var p = pos.Coordinate.Point;
+                var gpsPos = new GpsPoint { twd97Lat = p.Position.Latitude, twd97Lon = p.Position.Longitude };
+
+                var dists = new List<double>();
+                foreach (var s in sitesGeoDict)
+                {
+                    dists.Add(StaticTaqModel.posDist(gpsPos, s.Value));
+                }
+                var minId = dists.FindIndex(v => v == dists.Min());
+                nearestSite = sitesGeoDict.Keys.ToList()[minId];
             }
-            var minId = dists.FindIndex(v => v == dists.Min());
-            nearestSite = sitesGeoDict.Keys.ToList()[minId];
+            catch (Exception ex)
+            {
+                throw new Exception("定位最近觀測站失敗！");
+            }
             return 0;
         }
     }

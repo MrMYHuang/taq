@@ -75,9 +75,18 @@ namespace Taq.Views
         }
         private async void umiButton_Tapped(object sender, TappedRoutedEventArgs e)
         {
-            await app.vm.m.findNearestSite();
-            app.vm.m.localSettings.Values["MainSite"] = app.vm.m.nearestSite;
-            app.vm.loadMainSiteId();
+            try
+            {
+                mainPage.statusTextBlock.Text = "定位最近觀測站中...";
+                await app.vm.m.findNearestSite();
+                app.vm.m.localSettings.Values["MainSite"] = app.vm.m.nearestSite;
+                app.vm.loadMainSiteId();
+                mainPage.statusTextBlock.Text = "最近觀測站定位完成！";
+            }
+            catch (Exception ex)
+            {
+                mainPage.statusTextBlock.Text = ex.Message;
+            }
         }
 
         private void Page_Loaded(object sender, RoutedEventArgs e)

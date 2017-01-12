@@ -13,6 +13,7 @@ using Windows.Devices.Geolocation;
 using TaqShared.ModelViews;
 using Windows.ApplicationModel.Background;
 using TaqBackTask;
+using Windows.ApplicationModel.Core;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -103,8 +104,27 @@ namespace Taq
             //await BackTaskReg.RegisterBackgroundTask("UserPresentBackTask", "TaqBackTask.UserPresentBackTask", new SystemTrigger(SystemTriggerType.UserPresent, false));
             // Update if user aways.
             //await BackTaskReg.RegisterBackgroundTask("UserAwayBackTask", "TaqBackTask.UserAwayBackTask", new SystemTrigger(SystemTriggerType.UserAway, false));
-            await BackTaskReg.UserPresentTaskReg(Convert.ToUInt32(localSettings.Values["BgUpdatePeriod"]));
+            await UserPresentTaskReg(Convert.ToUInt32(localSettings.Values["BgUpdatePeriod"]));
             return 0;
+        }
+
+        public async Task<int> UserPresentTaskReg(uint timerPeriod)
+        {
+            // Update by timer.
+            var btr = await BackTaskReg.backUpdateReg("Timer", new TimeTrigger(timerPeriod, false));
+            btr.Completed += Btr_Completed;
+            // Update if the Internet is available.
+            //await backUpdateReg("HasNet", new SystemTrigger(SystemTriggerType.InternetAvailable, false));
+            return 0;
+        }
+
+        private async void Btr_Completed(BackgroundTaskRegistration sender, BackgroundTaskCompletedEventArgs args)
+        {
+            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+            {
+                statusTextBlock.Text = DateTime.Now.ToString("HH:mm:ss tt") + "更新";
+                await ReloadXmlAndSitesData();
+            });
         }
 
         async void MainPage_DataRequested(DataTransferManager sender, DataRequestedEventArgs args)
@@ -153,14 +173,14 @@ namespace Taq
                 // Do nothing.
 #else
                 await app.vm.m.loadSubscrSiteXml();
-                statusTextBlock.Text = "下載開始。";
+                statusTextBlock.Text = "下載開始...";
                 await app.vm.m.downloadAqData();
-                statusTextBlock.Text = DateTime.Now.ToString("HH:mm:ss tt") + "下載成功。";
+                statusTextBlock.Text = DateTime.Now.ToString("HH:mm:ss tt") + "下載成功！";
 #endif
             }
             catch (Exception ex)
             {
-                statusTextBlock.Text = "錯誤：" + ex.Message;
+                statusTextBlock.Text = ex.Message;
             }
 
             try

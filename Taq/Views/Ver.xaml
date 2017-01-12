@@ -23,6 +23,12 @@
                     * 列表頁作數值排序後會卡住幾秒。<LineBreak />
                 </TextBlock>
 
+                <TextBlock Style="{StaticResource secHeadSty}">Ver. 4.2.3</TextBlock>
+                <TextBlock Style="{StaticResource txtBlkSty1}" >
+                    * 背景更新後會觸發前景更新。<LineBreak />
+                    * 狀態列提供更多訊息。<LineBreak />
+                </TextBlock>
+
                 <TextBlock Style="{StaticResource secHeadSty}">Ver. 4.2.2</TextBlock>
                 <TextBlock Style="{StaticResource txtBlkSty1}" >
                     * 修正首頁主站定位後，開啟之24小時歷史為舊站的問題。<LineBreak />

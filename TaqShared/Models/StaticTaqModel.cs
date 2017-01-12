@@ -174,7 +174,7 @@ namespace TaqShared.Models
             catch (Exception ex)
             {
                 // timeout is reached, downloadOperation is cancled
-                throw new Exception("Download timeout.");
+                throw new Exception("錯誤，下載逾時！");
             }
             finally
             {
