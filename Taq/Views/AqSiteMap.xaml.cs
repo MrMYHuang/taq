@@ -84,11 +84,11 @@ namespace Taq.Views
                 var pos = await app.vm.m.geoLoc.GetGeopositionAsync();
                 var p = pos.Coordinate.Point;
                 await posUmi(p);
-                mainPage.statusTextBlock.Text = "定位完成。上次資料更新日期：" + app.vm.m.getLastUpdateTime();
+                mainPage.statusTextBlock.Text = "定位完成。上次資料更新：" + app.vm.m.getLastUpdateTime();
             }
             catch (Exception ex)
             {
-                mainPage.statusTextBlock.Text = "定位失敗！上次資料更新日期：" + app.vm.m.getLastUpdateTime();
+                mainPage.statusTextBlock.Text = "定位失敗！上次資料更新：" + app.vm.m.getLastUpdateTime();
             }
             return 0;
         }
