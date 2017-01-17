@@ -9,6 +9,5 @@
 *.user
 .vs
 taqServ
-Taq/taq_StoreKey.pfx
-Taq/Taq_TemporaryKey.pfx
-Taq/Package.StoreAssociation.xml
+*.pfx
+Taq.Uwp/Package.StoreAssociation.xml
