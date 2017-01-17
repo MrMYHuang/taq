@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26020.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Taq.Uwp", "Taq\Taq.Uwp.csproj", "{8327966A-F896-48A1-8C79-C1EA1184ED00}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Taq.Uwp", "Taq.Uwp\Taq.Uwp.csproj", "{8327966A-F896-48A1-8C79-C1EA1184ED00}"
 	ProjectSection(ProjectDependencies) = postProject
 		{8FB7A433-0882-4D35-BFB3-CA92E4C3CF45} = {8FB7A433-0882-4D35-BFB3-CA92E4C3CF45}
 		{FCBC23AD-DCFB-49A7-882C-88330E21456B} = {FCBC23AD-DCFB-49A7-882C-88330E21456B}
