@@ -7,9 +7,10 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Xml.Linq;
-using TaqShared;
-using TaqShared.Models;
-using TaqShared.ModelViews;
+using Taq.Shared;
+using Taq.Shared.Models;
+using Taq.Shared.ModelViews;
+using Taq.Shared.Views;
 using Windows.Devices.Geolocation;
 using Windows.Storage;
 using Windows.UI;
@@ -17,7 +18,7 @@ using Windows.UI.Notifications;
 using Windows.UI.StartScreen;
 using Windows.UI.Xaml.Media;
 
-namespace Taq
+namespace Taq.Shared.Models
 {
     public class OldXmlException : Exception
     {

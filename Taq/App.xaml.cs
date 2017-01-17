@@ -8,7 +8,7 @@ using Windows.UI.Xaml.Navigation;
 using Windows.Storage;
 using Taq.Views;
 using Microsoft.QueryStringDotNET;
-using TaqShared.Models;
+using Taq.Shared.Models;
 
 namespace Taq
 {

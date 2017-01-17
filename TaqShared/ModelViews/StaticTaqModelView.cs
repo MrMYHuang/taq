@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
-using TaqShared.Models;
+using Taq.Shared.Models;
 using Windows.Graphics.Display;
 using Windows.Graphics.Imaging;
 using Windows.Storage;
@@ -12,7 +12,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 
-namespace TaqShared.ModelViews
+namespace Taq.Shared.ModelViews
 {
     public static class StaticTaqModelView
     {

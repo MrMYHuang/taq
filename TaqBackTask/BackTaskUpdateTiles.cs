@@ -1,10 +1,10 @@
 ﻿using System;
 using Taq;
-using TaqShared.Models;
+using Taq.Shared.Models;
 using Windows.ApplicationModel.Background;
 using Windows.UI.Xaml.Media.Imaging;
 
-namespace TaqBackTask
+namespace Taq.BackTask
 {
     public sealed class BackTaskUpdateTiles : XamlRenderingBackgroundTask
     {

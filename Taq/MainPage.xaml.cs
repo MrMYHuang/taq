@@ -10,10 +10,11 @@ using Windows.System;
 using System.Threading.Tasks;
 using Windows.UI.Core;
 using Windows.Devices.Geolocation;
-using TaqShared.ModelViews;
+using Taq.Shared.ModelViews;
 using Windows.ApplicationModel.Background;
-using TaqBackTask;
+using Taq.BackTask;
 using Windows.ApplicationModel.Core;
+using Taq.Shared.Models;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -100,10 +101,10 @@ namespace Taq
             {
                 localSettings.Values["BgMainSiteAutoPos"] = false;
             }
-            await BackTaskReg.RegisterBackgroundTask("AfterUpdateBackTask", "TaqBackTask.AfterUpdate", new SystemTrigger(SystemTriggerType.ServicingComplete, false));
-            //await BackTaskReg.RegisterBackgroundTask("UserPresentBackTask", "TaqBackTask.UserPresentBackTask", new SystemTrigger(SystemTriggerType.UserPresent, false));
+            await BackTaskReg.RegisterBackgroundTask("AfterUpdateBackTask", "Taq.BackTask.AfterUpdate", new SystemTrigger(SystemTriggerType.ServicingComplete, false));
+            //await BackTaskReg.RegisterBackgroundTask("UserPresentBackTask", "Taq.BackTask.UserPresentBackTask", new SystemTrigger(SystemTriggerType.UserPresent, false));
             // Update if user aways.
-            //await BackTaskReg.RegisterBackgroundTask("UserAwayBackTask", "TaqBackTask.UserAwayBackTask", new SystemTrigger(SystemTriggerType.UserAway, false));
+            //await BackTaskReg.RegisterBackgroundTask("UserAwayBackTask", "Taq.BackTask.UserAwayBackTask", new SystemTrigger(SystemTriggerType.UserAway, false));
             await UserPresentTaskReg(Convert.ToUInt32(localSettings.Values["BgUpdatePeriod"]));
             return 0;
         }

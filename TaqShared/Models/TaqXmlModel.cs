@@ -6,7 +6,7 @@ using System.Xml.Linq;
 using Taq;
 using Windows.Storage;
 
-namespace TaqShared.Models
+namespace Taq.Shared.Models
 {
     public class TaqXmlModel : TaqModel
     {

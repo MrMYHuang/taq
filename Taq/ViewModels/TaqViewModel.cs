@@ -7,8 +7,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using Taq.Views;
-using TaqShared.Models;
-using TaqShared.ModelViews;
+using Taq.Shared.Models;
+using Taq.Shared.ModelViews;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Background;
 using Windows.Devices.Geolocation;
@@ -104,7 +104,7 @@ namespace Taq
             {
                 isUpdateCompleted = false;
                 ApplicationTrigger trigger = new ApplicationTrigger();
-                var btr = await RegisterBackgroundTask("BackTaskUpdateTiles", "TaqBackTask.BackTaskUpdateTiles", trigger);
+                var btr = await RegisterBackgroundTask("BackTaskUpdateTiles", "Taq.BackTask.BackTaskUpdateTiles", trigger);
                 btr.Completed += Btr_Completed;
                 var result = await trigger.RequestAsync();
             }

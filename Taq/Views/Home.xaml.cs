@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
-using TaqShared.ModelViews;
+using Taq.Shared.ModelViews;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
@@ -15,7 +15,7 @@ namespace Taq.Views
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    // For updating UI after TaqBackTask downloads a new XML.
+    // For updating UI after Taq.BackTask downloads a new XML.
 
     public sealed partial class Home : Page
     {
@@ -60,17 +60,17 @@ namespace Taq.Views
         {
             var selSite = (SiteViewModel)((ComboBox)sender).SelectedItem;
             // SelectionChanged is triggered by changing selected item by, e.g., tapping.
-            if (app.vm.m.localSettings.Values["TaqBackTaskUpdated"] == null || (bool)app.vm.m.localSettings.Values["TaqBackTaskUpdated"] == false)
+            if (app.vm.m.localSettings.Values["Taq.BackTaskUpdated"] == null || (bool)app.vm.m.localSettings.Values["Taq.BackTaskUpdated"] == false)
             {
                 await app.vm.m.loadMainSite(selSite.siteName);
                 app.vm.updateAqgv(0);
                 await app.vm.backTaskUpdateTiles();
             }
-            // SelectionChanged is triggered by TaqBackTask updating.
+            // SelectionChanged is triggered by Taq.BackTask updating.
             // Do nothing but set this:
             else
             {
-                app.vm.m.localSettings.Values["TaqBackTaskUpdated"] = false;
+                app.vm.m.localSettings.Values["Taq.BackTaskUpdated"] = false;
             }
         }
         private async void umiButton_Tapped(object sender, TappedRoutedEventArgs e)

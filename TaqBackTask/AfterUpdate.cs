@@ -1,9 +1,10 @@
 ﻿using System;
 using System.IO;
+using Taq.Shared.Models;
 using Windows.ApplicationModel.Background;
 using Windows.Storage;
 
-namespace TaqBackTask
+namespace Taq.BackTask
 {
     public sealed class AfterUpdate : IBackgroundTask
     {
@@ -41,8 +42,8 @@ namespace TaqBackTask
 
                 sw.WriteLine("Register new background tasks start: " + DateTime.Now.ToString());
                 /*
-                await BackTaskReg.RegisterBackgroundTask("UserPresentBackTask", "TaqBackTask.UserPresentBackTask", new SystemTrigger(SystemTriggerType.UserPresent, false));
-                await BackTaskReg.RegisterBackgroundTask("UserAwayBackTask", "TaqBackTask.UserAwayBackTask", new SystemTrigger(SystemTriggerType.UserAway, false));*/
+                await BackTaskReg.RegisterBackgroundTask("UserPresentBackTask", "Taq.BackTask.UserPresentBackTask", new SystemTrigger(SystemTriggerType.UserPresent, false));
+                await BackTaskReg.RegisterBackgroundTask("UserAwayBackTask", "Taq.BackTask.UserAwayBackTask", new SystemTrigger(SystemTriggerType.UserAway, false));*/
                 await BackTaskReg.UserPresentTaskReg(Convert.ToUInt32(localSettings.Values["BgUpdatePeriod"]));
                 sw.WriteLine("Register new background tasks end: " + DateTime.Now.ToString());
             }

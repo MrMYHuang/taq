@@ -1,7 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
-using TaqShared.Models;
-using TaqShared.ModelViews;
+using Taq.Shared.Models;
+using Taq.Shared.ModelViews;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;

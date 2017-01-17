@@ -376,13 +376,13 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\TaqBackTask\TaqBackTask.csproj">
+    <ProjectReference Include="..\TaqBackTask\Taq.BackTask.csproj">
       <Project>{8fb7a433-0882-4d35-bfb3-ca92e4c3cf45}</Project>
-      <Name>TaqBackTask</Name>
+      <Name>Taq.BackTask</Name>
     </ProjectReference>
-    <ProjectReference Include="..\TaqShared\TaqShared.csproj">
+    <ProjectReference Include="..\TaqShared\Taq.Shared.csproj">
       <Project>{fcbc23ad-dcfb-49a7-882c-88330e21456b}</Project>
-      <Name>TaqShared</Name>
+      <Name>Taq.Shared</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

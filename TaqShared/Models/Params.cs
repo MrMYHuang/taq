@@ -1,4 +1,4 @@
-﻿namespace TaqShared.Models
+﻿namespace Taq.Shared.Models
 {
     public static class Params
     {

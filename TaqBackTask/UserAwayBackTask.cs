@@ -1,9 +1,10 @@
 ﻿using System;
 using System.IO;
+using Taq.Shared.Models;
 using Windows.ApplicationModel.Background;
 using Windows.Storage;
 
-namespace TaqBackTask
+namespace Taq.BackTask
 {
     public sealed class UserAwayBackTask : IBackgroundTask
     {
@@ -24,8 +25,8 @@ namespace TaqBackTask
             try
             {
                 sw.WriteLine("Unregister all background tasks start: " + DateTime.Now.ToString());
-                BackTaskReg.unregisterBackTask("TimerTaqBackTask");
-                BackTaskReg.unregisterBackTask("HasNetTaqBackTask");
+                BackTaskReg.unregisterBackTask("TimerTaq.BackTask");
+                BackTaskReg.unregisterBackTask("HasNetTaq.BackTask");
                 sw.WriteLine("Unregister all background tasks end: " + DateTime.Now.ToString());
             }
             catch (Exception ex)

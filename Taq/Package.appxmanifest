@@ -26,28 +26,28 @@
         <uap:SplashScreen Image="Assets\logos\SplashScreen.png" />
       </uap:VisualElements>
       <Extensions>
-        <Extension Category="windows.backgroundTasks" EntryPoint="TaqBackTask.AfterUpdate">
+        <Extension Category="windows.backgroundTasks" EntryPoint="Taq.BackTask.AfterUpdate">
           <BackgroundTasks>
             <Task Type="systemEvent" />
           </BackgroundTasks>
         </Extension>
-        <Extension Category="windows.backgroundTasks" EntryPoint="TaqBackTask.TaqBackTask">
+        <Extension Category="windows.backgroundTasks" EntryPoint="Taq.BackTask.Taq.BackTask">
           <BackgroundTasks>
             <Task Type="systemEvent" />
             <Task Type="timer" />
           </BackgroundTasks>
         </Extension>
-        <Extension Category="windows.backgroundTasks" EntryPoint="TaqBackTask.BackTaskUpdateTiles">
+        <Extension Category="windows.backgroundTasks" EntryPoint="Taq.BackTask.BackTaskUpdateTiles">
           <BackgroundTasks>
             <Task Type="systemEvent" />
           </BackgroundTasks>
         </Extension>
-        <Extension Category="windows.backgroundTasks" EntryPoint="TaqBackTask.UserPresentBackTask">
+        <Extension Category="windows.backgroundTasks" EntryPoint="Taq.BackTask.UserPresentBackTask">
           <BackgroundTasks>
             <Task Type="systemEvent" />
           </BackgroundTasks>
         </Extension>
-        <Extension Category="windows.backgroundTasks" EntryPoint="TaqBackTask.UserAwayBackTask">
+        <Extension Category="windows.backgroundTasks" EntryPoint="Taq.BackTask.UserAwayBackTask">
           <BackgroundTasks>
             <Task Type="systemEvent" />
           </BackgroundTasks>

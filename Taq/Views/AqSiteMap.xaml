@@ -5,7 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:Maps="using:Windows.UI.Xaml.Controls.Maps"
-    xmlns:shared="using:TaqShared.Models"
+    xmlns:shared="using:Taq.Shared.Models"
     x:Class="Taq.Views.AqSiteMap"
     mc:Ignorable="d"
     NavigationCacheMode="Enabled" Loaded="Page_Loaded">

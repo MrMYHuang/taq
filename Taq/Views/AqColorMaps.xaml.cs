@@ -2,8 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using TaqShared.Models;
-using TaqShared.ModelViews;
+using Taq.Shared.Models;
+using Taq.Shared.ModelViews;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Data;

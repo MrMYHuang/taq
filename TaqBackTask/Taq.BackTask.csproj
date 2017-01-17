@@ -7,8 +7,8 @@
     <ProjectGuid>{8FB7A433-0882-4D35-BFB3-CA92E4C3CF45}</ProjectGuid>
     <OutputType>winmdobj</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TaqBackTask</RootNamespace>
-    <AssemblyName>TaqBackTask</AssemblyName>
+    <RootNamespace>Taq.BackTask</RootNamespace>
+    <AssemblyName>Taq.BackTask</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
     <TargetPlatformVersion>10.0.14393.0</TargetPlatformVersion>
@@ -116,9 +116,9 @@
     <Compile Include="UserPresentBackTask.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\taqShared\TaqShared.csproj">
+    <ProjectReference Include="..\TaqShared\Taq.Shared.csproj">
       <Project>{fcbc23ad-dcfb-49a7-882c-88330e21456b}</Project>
-      <Name>TaqShared</Name>
+      <Name>Taq.Shared</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">

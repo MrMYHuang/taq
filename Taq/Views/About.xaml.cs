@@ -1,6 +1,6 @@
 ﻿using Syncfusion.UI.Xaml.Charts;
 using System.Reflection;
-using TaqShared.Models;
+using Taq.Shared.Models;
 using Windows.UI.Xaml.Controls;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238

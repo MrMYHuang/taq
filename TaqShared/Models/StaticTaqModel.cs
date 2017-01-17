@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Windows.Networking.BackgroundTransfer;
 using Windows.Storage;
 
-namespace TaqShared.Models
+namespace Taq.Shared.Models
 {
     public static class StaticTaqModel
     {

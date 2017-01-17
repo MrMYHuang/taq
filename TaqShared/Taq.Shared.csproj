@@ -7,8 +7,8 @@
     <ProjectGuid>{FCBC23AD-DCFB-49A7-882C-88330E21456B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TaqShared</RootNamespace>
-    <AssemblyName>TaqShared</AssemblyName>
+    <RootNamespace>Taq.Shared</RootNamespace>
+    <AssemblyName>Taq.Shared</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
     <TargetPlatformVersion>10.0.14393.0</TargetPlatformVersion>
@@ -116,16 +116,16 @@
     <Compile Include="ModelViews\AqViewModel.cs" />
     <Compile Include="ModelViews\SiteViewModel.cs" />
     <Compile Include="ModelViews\StaticTaqModelView.cs" />
-    <Compile Include="SmallTile.xaml.cs">
+    <Compile Include="Views\SmallTile.xaml.cs">
       <DependentUpon>SmallTile.xaml</DependentUpon>
     </Compile>
-    <Compile Include="LargeTile.xaml.cs">
+    <Compile Include="Views\LargeTile.xaml.cs">
       <DependentUpon>LargeTile.xaml</DependentUpon>
     </Compile>
-    <Compile Include="WideTile.xaml.cs">
+    <Compile Include="Views\WideTile.xaml.cs">
       <DependentUpon>WideTile.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MedTile.xaml.cs">
+    <Compile Include="Views\MedTile.xaml.cs">
       <DependentUpon>MedTile.xaml</DependentUpon>
     </Compile>
     <Compile Include="Models\TaqModel.cs" />
@@ -133,19 +133,19 @@
     <EmbeddedResource Include="Properties\TaqShared.rd.xml" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="SmallTile.xaml">
+    <Page Include="Views\SmallTile.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="LargeTile.xaml">
+    <Page Include="Views\LargeTile.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="WideTile.xaml">
+    <Page Include="Views\WideTile.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="MedTile.xaml">
+    <Page Include="Views\MedTile.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

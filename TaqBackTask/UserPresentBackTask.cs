@@ -1,12 +1,12 @@
 ﻿using System;
 using System.IO;
 using Taq;
-using TaqShared.Models;
+using Taq.Shared.Models;
 using Windows.ApplicationModel.Background;
 using Windows.Storage;
 using Windows.UI.Xaml.Media.Imaging;
 
-namespace TaqBackTask
+namespace Taq.BackTask
 {
     public sealed class UserPresentBackTask : XamlRenderingBackgroundTask
     {
@@ -81,7 +81,7 @@ namespace TaqBackTask
                 m.sendSubscrSitesNotifications();
 
                 // Tell Taq foreground app that data has been updated.
-                m.localSettings.Values["TaqBackTaskUpdated"] = true;
+                m.localSettings.Values["Taq.BackTaskUpdated"] = true;
                 sw.WriteLine("Many calls end time: " + DateTime.Now.ToString());
             }
             catch (Exception ex)

@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Background;
 
-namespace TaqBackTask
+namespace Taq.Shared.Models
 {
     public static class BackTaskReg
     {
@@ -17,7 +17,7 @@ namespace TaqBackTask
 
         public async static Task<BackgroundTaskRegistration> backUpdateReg(string name, IBackgroundTrigger trigger)
         {
-            var btr = await BackTaskReg.RegisterBackgroundTask(name + "TaqBackTask", "TaqBackTask.TaqBackTask", trigger);
+            var btr = await BackTaskReg.RegisterBackgroundTask(name + "Taq.BackTask", "Taq.BackTask.Taq.BackTask", trigger);
             return btr;
         }
 

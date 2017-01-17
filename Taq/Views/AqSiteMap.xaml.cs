@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
-using TaqShared.ModelViews;
+using Taq.Shared.ModelViews;
 using Windows.Devices.Geolocation;
 using Windows.Foundation;
 using Windows.Storage;
@@ -10,7 +10,7 @@ using Windows.UI.Xaml.Controls.Maps;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Shapes;
 using System.Linq;
-using TaqShared.Models;
+using Taq.Shared.Models;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 

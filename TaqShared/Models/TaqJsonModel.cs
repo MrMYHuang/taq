@@ -8,7 +8,7 @@ using Taq;
 using Windows.Storage;
 using System.Xml.Linq;
 
-namespace TaqShared.Models
+namespace Taq.Shared.Models
 {
     public class TaqJsonModel : TaqModel
     {
