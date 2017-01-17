@@ -2,7 +2,7 @@
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
-using Taq.Views;
+using Taq.Uwp.Views;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 using System.Collections.Generic;
@@ -18,7 +18,7 @@ using Taq.Shared.Models;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
-namespace Taq
+namespace Taq.Uwp
 {
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.

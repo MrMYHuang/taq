@@ -6,11 +6,12 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using Windows.Storage;
-using Taq.Views;
+using Taq.Uwp.Views;
 using Microsoft.QueryStringDotNET;
 using Taq.Shared.Models;
+using Taq.Uwp.ViewModels;
 
-namespace Taq
+namespace Taq.Uwp
 {
     /// <summary>
     /// Provides application-specific behavior to supplement the default Application class.

@@ -5,7 +5,7 @@ using Windows.UI.Xaml.Media;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
-namespace Taq.Views
+namespace Taq.Uwp.Views
 {
     public sealed partial class UserMapIcon : UserControl
     {

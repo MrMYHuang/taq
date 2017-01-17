@@ -6,7 +6,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Xml.Linq;
-using Taq.Views;
+using Taq.Uwp.Views;
 using Taq.Shared.Models;
 using Taq.Shared.ModelViews;
 using Windows.ApplicationModel;
@@ -18,7 +18,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 
-namespace Taq
+namespace Taq.Uwp.ViewModels
 {
     public class TaqViewModel : BindableBase
     {

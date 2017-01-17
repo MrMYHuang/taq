@@ -7,8 +7,8 @@
     <ProjectGuid>{8327966A-F896-48A1-8C79-C1EA1184ED00}</ProjectGuid>
     <OutputType>AppContainerExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Taq</RootNamespace>
-    <AssemblyName>Taq</AssemblyName>
+    <RootNamespace>Taq.Uwp</RootNamespace>
+    <AssemblyName>Taq.Uwp</AssemblyName>
     <DefaultLanguage>en-us</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
     <TargetPlatformVersion>10.0.14393.0</TargetPlatformVersion>
@@ -376,11 +376,11 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\TaqBackTask\Taq.BackTask.csproj">
+    <ProjectReference Include="..\Taq.BackTask\Taq.BackTask.csproj">
       <Project>{8fb7a433-0882-4d35-bfb3-ca92e4c3cf45}</Project>
       <Name>Taq.BackTask</Name>
     </ProjectReference>
-    <ProjectReference Include="..\TaqShared\Taq.Shared.csproj">
+    <ProjectReference Include="..\Taq.Shared\Taq.Shared.csproj">
       <Project>{fcbc23ad-dcfb-49a7-882c-88330e21456b}</Project>
       <Name>Taq.Shared</Name>
     </ProjectReference>

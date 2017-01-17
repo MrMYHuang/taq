@@ -116,7 +116,7 @@
     <Compile Include="UserPresentBackTask.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\TaqShared\Taq.Shared.csproj">
+    <ProjectReference Include="..\Taq.Shared\Taq.Shared.csproj">
       <Project>{fcbc23ad-dcfb-49a7-882c-88330e21456b}</Project>
       <Name>Taq.Shared</Name>
     </ProjectReference>

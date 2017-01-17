@@ -1,7 +1,8 @@
 ﻿<ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:Taq">
+    xmlns:local="using:Taq.Uwp"
+    xmlns:views="using:Taq.Uwp.Views">
 
     <Style x:Key="normTxtSty" TargetType="TextBlock">
         <Setter Property="IsTextSelectionEnabled" Value="True" />
@@ -19,5 +20,5 @@
         <Setter Property="FontSize" Value="36" />
     </Style>
 
-    <local:convert x:Key="con"></local:convert>
+    <views:convert x:Key="con"></views:convert>
 </ResourceDictionary>
