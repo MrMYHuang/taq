@@ -250,7 +250,7 @@ namespace Taq.Uwp.ViewModels
         }
 
         public List<int> bgUpdatePeriods = new List<int> { 15, 20, 30, 60 };
-        private int bgUpdatePeriodId;
+        private int bgUpdatePeriodId = -1;
         public int BgUpdatePeriodId
         {
             get

@@ -21,7 +21,7 @@
                 <TextBlock Style="{StaticResource secHeadSty}">地圖</TextBlock>
                 <StackPanel Orientation="Vertical">
                     <ToggleSwitch Header="暗色" x:Name="mapColorToggle" HorizontalAlignment="Left" Margin="0" IsOn="{x:Bind app.vm.MapColor, Mode=TwoWay}" />
-                    <ToggleSwitch Header="定位" x:FieldModifier="public" x:Name="mapAutoPosToggle" HorizontalAlignment="Left" Margin="0" IsOn="{x:Bind app.vm.MapAutoPos, Mode=TwoWay}" />
+                    <ToggleSwitch Header="自動定位" x:FieldModifier="public" x:Name="mapAutoPosToggle" HorizontalAlignment="Left" Margin="0" IsOn="{x:Bind app.vm.MapAutoPos, Mode=TwoWay}" />
                 </StackPanel>
 
                 <TextBlock Style="{StaticResource secHeadSty}">背景更新</TextBlock>

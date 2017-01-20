@@ -25,6 +25,7 @@
 
                 <TextBlock Style="{StaticResource secHeadSty}">Ver. 4.2.6</TextBlock>
                 <TextBlock Style="{StaticResource txtBlkSty1}" >
+                    * 修正全新安裝TAQ後，開啟設定頁會閃退的bug。<LineBreak />
                     * 修正下載成功/失敗的狀態列訊息。<LineBreak />
                 </TextBlock>
 
