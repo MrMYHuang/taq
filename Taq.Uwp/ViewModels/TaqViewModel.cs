@@ -250,6 +250,7 @@ namespace Taq.Uwp.ViewModels
         }
 
         public List<int> bgUpdatePeriods = new List<int> { 15, 20, 30, 60 };
+        // Init to -1 such that assign BgUpdatePeriodId to 0 will init localSettings.Values["BgUpdatePeriod"].
         private int bgUpdatePeriodId = -1;
         public int BgUpdatePeriodId
         {
