@@ -100,6 +100,9 @@
     <Content Include="Assets\taqi.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <PRIResource Include="..\Taq.Shared\Strings\zh-TW\Resources.resw">
+      <Link>Strings\zh-TW\Resources.resw</Link>
+    </PRIResource>
     <None Include="Connected Services\HockeyApp\ConnectedService.json" />
     <None Include="project.json" />
     <None Include="Taq_StoreKey.pfx" />

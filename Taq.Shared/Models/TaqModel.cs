@@ -11,11 +11,13 @@ using Taq.Shared;
 using Taq.Shared.Models;
 using Taq.Shared.ModelViews;
 using Taq.Shared.Views;
+using Windows.ApplicationModel.Resources;
 using Windows.Devices.Geolocation;
 using Windows.Storage;
 using Windows.UI;
 using Windows.UI.Notifications;
 using Windows.UI.StartScreen;
+using Windows.UI.ViewManagement;
 using Windows.UI.Xaml.Media;
 
 namespace Taq.Shared.Models

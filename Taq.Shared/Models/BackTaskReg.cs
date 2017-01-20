@@ -17,7 +17,7 @@ namespace Taq.Shared.Models
 
         public async static Task<BackgroundTaskRegistration> backUpdateReg(string name, IBackgroundTrigger trigger)
         {
-            var btr = await BackTaskReg.RegisterBackgroundTask(name + "Taq.BackTask", "Taq.BackTask.Taq.BackTask", trigger);
+            var btr = await BackTaskReg.RegisterBackgroundTask(name + "BackTask", "Taq.BackTask.TaqBackTask", trigger);
             return btr;
         }
 

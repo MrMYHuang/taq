@@ -23,6 +23,11 @@
                     * 列表頁作數值排序後會卡住幾秒。<LineBreak />
                 </TextBlock>
 
+                <TextBlock Style="{StaticResource secHeadSty}">Ver. 4.2.7</TextBlock>
+                <TextBlock Style="{StaticResource txtBlkSty1}" >
+                    * 修正上一版因為程式碼refactor所引入的背景更新bug。<LineBreak />
+                </TextBlock>
+
                 <TextBlock Style="{StaticResource secHeadSty}">Ver. 4.2.6</TextBlock>
                 <TextBlock Style="{StaticResource txtBlkSty1}" >
                     * 修正全新安裝TAQ後，開啟設定頁會閃退的bug。<LineBreak />

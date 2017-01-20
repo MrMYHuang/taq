@@ -105,6 +105,9 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
+    <PRIResource Include="..\Taq.Shared\Strings\zh-TW\Resources.resw">
+      <Link>Strings\zh-TW\Resources.resw</Link>
+    </PRIResource>
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>

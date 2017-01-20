@@ -70,7 +70,7 @@ namespace Taq.Uwp.Views
             catch (Exception ex)
             {
                 // The AQ history data might haven't been download after adding a new subscribed site.
-                mainPage.statusTextBlock.Text = "錯誤：開啟歷史資料失敗，請嘗試手動更新解決問題。";
+                mainPage.statusTextBlock.Text = app.vm.resLoader.GetString("aqHistOpenErr");
                 return 1;
             }
 

@@ -6,6 +6,7 @@ using Windows.Storage;
 using System.IO;
 using Windows.UI.Xaml.Media.Imaging;
 using Taq.Shared.Models;
+using Windows.ApplicationModel.Resources;
 
 namespace Taq.BackTask
 {
@@ -30,6 +31,7 @@ namespace Taq.BackTask
                 sw.WriteLine("Background task start time: " + DateTime.Now.ToString());
 
                 TaqModel m = new TaqJsonModel();
+//                var resLoader = new ResourceLoader();
 
                 taskInstance.Canceled += new BackgroundTaskCanceledEventHandler(OnCanceled);
 

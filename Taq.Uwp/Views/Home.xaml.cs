@@ -77,11 +77,11 @@ namespace Taq.Uwp.Views
         {
             try
             {
-                mainPage.statusTextBlock.Text = "定位最近觀測站中...";
+                mainPage.statusTextBlock.Text = app.vm.resLoader.GetString("positioningNearestSite");
                 await app.vm.m.findNearestSite();
                 app.vm.m.localSettings.Values["MainSite"] = app.vm.m.nearestSite;
                 app.vm.loadMainSiteId();
-                mainPage.statusTextBlock.Text = "定位最近觀測站完成。";
+                mainPage.statusTextBlock.Text = app.vm.resLoader.GetString("positioningNearestSiteFinish");
             }
             catch (Exception ex)
             {

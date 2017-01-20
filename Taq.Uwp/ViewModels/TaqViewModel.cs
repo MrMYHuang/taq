@@ -17,6 +17,7 @@ using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
+using Windows.ApplicationModel.Resources;
 
 namespace Taq.Uwp.ViewModels
 {
@@ -27,6 +28,8 @@ namespace Taq.Uwp.ViewModels
         public ObservableCollection<SiteViewModel> sites = new ObservableCollection<SiteViewModel>();
 
         public ObservableCollection<SiteViewModel> subscrSiteViews = new ObservableCollection<SiteViewModel>();
+
+        public ResourceLoader resLoader = new ResourceLoader();
 
         public TaqViewModel()
         {
@@ -428,8 +431,8 @@ namespace Taq.Uwp.ViewModels
                             m.localSettings.Values["AutoPos"] = true;
                             break;
                         default:
-                            var cd = new ContentDialog { Title = "啟動定位失敗！" };
-                            var txt = new TextBlock { Text = "您曾拒絕TAQ存取您的位置資訊。必須去系統設定修改准許TAQ存取，然後重啟TAQ。按下確認鈕將開啟系統位置設定頁面。", TextWrapping = TextWrapping.Wrap };
+                            var cd = new ContentDialog { Title = resLoader.GetString("enableGpsFail")};
+                            var txt = new TextBlock { Text = resLoader.GetString("enableGpsFailMsg"), TextWrapping = TextWrapping.Wrap };
                             cd.Content = txt;
                             cd.PrimaryButtonText = "OK";
                             cd.PrimaryButtonClick += (sender, e) =>
@@ -437,9 +440,7 @@ namespace Taq.Uwp.ViewModels
                                 Launcher.LaunchUriAsync(new Uri("ms-settings:privacy-location"));
                             };
                             cd.ShowAsync();
-                            //var md = new Windows.UI.Popups.MessageDialog("您曾拒絕TAQ存取您的位置資訊。必須去系統設定修改准許TAQ存取，然後重啟TAQ。若找不到該設定，可以嘗試重新安裝TAQ解決。", "啟動定位失敗！");
 
-                            //md.ShowAsync();
                             m.localSettings.Values["AutoPos"] = false;
                             break;
                     }

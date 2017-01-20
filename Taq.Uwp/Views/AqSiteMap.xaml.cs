@@ -77,18 +77,18 @@ namespace Taq.Uwp.Views
         {
             try
             {
-                mainPage.statusTextBlock.Text = "定位中...";
+                mainPage.statusTextBlock.Text = app.vm.resLoader.GetString("positioning");
                 // Subscribe to the PositionChanged event to get location updates.
                 //geoLoc.PositionChanged += OnPositionChanged;
                 app.vm.m.geoLoc = new Geolocator { ReportInterval = 2000 };
                 var pos = await app.vm.m.geoLoc.GetGeopositionAsync();
                 var p = pos.Coordinate.Point;
                 await posUmi(p);
-                mainPage.statusTextBlock.Text = "定位完成。上次資料更新：" + app.vm.m.getLastUpdateTime();
+                mainPage.statusTextBlock.Text = app.vm.resLoader.GetString("positioningFinish") + app.vm.resLoader.GetString("lastDataUpdateTime") + "：" + app.vm.m.getLastUpdateTime();
             }
             catch (Exception ex)
             {
-                mainPage.statusTextBlock.Text = "定位失敗！上次資料更新：" + app.vm.m.getLastUpdateTime();
+                mainPage.statusTextBlock.Text = app.vm.resLoader.GetString("positioningFail") + app.vm.resLoader.GetString("lastDataUpdateTime") + "：" + app.vm.m.getLastUpdateTime();
             }
             return 0;
         }
