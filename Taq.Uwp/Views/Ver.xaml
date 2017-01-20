@@ -23,6 +23,11 @@
                     * 列表頁作數值排序後會卡住幾秒。<LineBreak />
                 </TextBlock>
 
+                <TextBlock Style="{StaticResource secHeadSty}">Ver. 4.2.6</TextBlock>
+                <TextBlock Style="{StaticResource txtBlkSty1}" >
+                    * 修正下載成功/失敗的狀態列訊息。<LineBreak />
+                </TextBlock>
+
                 <TextBlock Style="{StaticResource secHeadSty}">Ver. 4.2.5</TextBlock>
                 <TextBlock Style="{StaticResource txtBlkSty1}" >
                     * 狀態列提供更多訊息。<LineBreak />

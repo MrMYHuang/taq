@@ -169,6 +169,7 @@ namespace Taq.Uwp
 
         public async Task<int> downloadAndReload()
         {
+            bool downloadSuccess = false;
             try
             {
 #if DEBU
@@ -177,6 +178,7 @@ namespace Taq.Uwp
                 await app.vm.m.loadSubscrSiteXml();
                 statusTextBlock.Text = "下載開始...";
                 await app.vm.m.downloadAqData();
+                downloadSuccess = true;
 #endif
             }
             catch (Exception ex)
@@ -200,8 +202,11 @@ namespace Taq.Uwp
             //#endif
             await app.vm.backTaskUpdateTiles();
 
-            app.vm.m.lastUpdateTime = DateTime.Now;
-            statusTextBlock.Text = app.vm.m.getLastUpdateTime() + "更新完成。";
+            if (downloadSuccess)
+            {
+                app.vm.m.lastUpdateTime = DateTime.Now;
+                statusTextBlock.Text = app.vm.m.getLastUpdateTime() + "更新完成。";
+            }
             return 0;
         }
 
