@@ -77,18 +77,18 @@ namespace Taq.Uwp.Views
         {
             try
             {
-                mainPage.statusTextBlock.Text = app.vm.resLoader.GetString("positioning");
+                mainPage.statusTextBlock.Text = app.vm.m.resLoader.GetString("positioning");
                 // Subscribe to the PositionChanged event to get location updates.
                 //geoLoc.PositionChanged += OnPositionChanged;
                 app.vm.m.geoLoc = new Geolocator { ReportInterval = 2000 };
                 var pos = await app.vm.m.geoLoc.GetGeopositionAsync();
                 var p = pos.Coordinate.Point;
                 await posUmi(p);
-                mainPage.statusTextBlock.Text = app.vm.resLoader.GetString("positioningFinish") + app.vm.resLoader.GetString("lastDataUpdateTime") + "：" + app.vm.m.getLastUpdateTime();
+                mainPage.statusTextBlock.Text = app.vm.m.resLoader.GetString("positioningFinish") + " " + app.vm.m.resLoader.GetString("lastDataUpdateTime") + ":" + app.vm.m.getLastUpdateTime();
             }
             catch (Exception ex)
             {
-                mainPage.statusTextBlock.Text = app.vm.resLoader.GetString("positioningFail") + app.vm.resLoader.GetString("lastDataUpdateTime") + "：" + app.vm.m.getLastUpdateTime();
+                mainPage.statusTextBlock.Text = app.vm.m.resLoader.GetString("positioningFail") + " " + app.vm.m.resLoader.GetString("lastDataUpdateTime") + ":" + app.vm.m.getLastUpdateTime();
             }
             return 0;
         }

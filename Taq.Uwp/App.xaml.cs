@@ -10,6 +10,8 @@ using Taq.Uwp.Views;
 using Microsoft.QueryStringDotNET;
 using Taq.Shared.Models;
 using Taq.Uwp.ViewModels;
+using Windows.Globalization;
+using System.Text.RegularExpressions;
 
 namespace Taq.Uwp
 {
@@ -43,8 +45,14 @@ namespace Taq.Uwp
             {
                 localSettings.Values["AppTheme"] = true;
             }
-
             this.RequestedTheme = (bool)localSettings.Values["AppTheme"] ? ApplicationTheme.Dark : ApplicationTheme.Light;
+
+
+            if (localSettings.Values["LangId"] == null)
+            {
+                localSettings.Values["LangId"] = vm.m.langList.FindIndex(l => Regex.IsMatch(ApplicationLanguages.Languages[0], l.Substring(0, 2)));
+            }
+
             if (localSettings.Values["TileClearSty"] == null)
             {
                 localSettings.Values["TileClearSty"] = true;

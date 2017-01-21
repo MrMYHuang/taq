@@ -37,7 +37,7 @@ namespace Taq.Uwp.Views
             
             if(app.vm.m.subscrSiteList.IndexOf(siteName) != -1)
             {
-                var md = new Windows.UI.Popups.MessageDialog(app.vm.resLoader.GetString("duplicateSubscrSiteErrorMsg"), app.vm.resLoader.GetString("error"));
+                var md = new Windows.UI.Popups.MessageDialog(app.vm.m.resLoader.GetString("duplicateSubscrSiteErrorMsg"), app.vm.m.resLoader.GetString("error"));
                 await md.ShowAsync();
                 return;
             }

@@ -431,8 +431,8 @@ namespace Taq.Uwp.ViewModels
                             m.localSettings.Values["AutoPos"] = true;
                             break;
                         default:
-                            var cd = new ContentDialog { Title = resLoader.GetString("enableGpsFail")};
-                            var txt = new TextBlock { Text = resLoader.GetString("enableGpsFailMsg"), TextWrapping = TextWrapping.Wrap };
+                            var cd = new ContentDialog { Title = m.resLoader.GetString("enableGpsFail")};
+                            var txt = new TextBlock { Text = m.resLoader.GetString("enableGpsFailMsg"), TextWrapping = TextWrapping.Wrap };
                             cd.Content = txt;
                             cd.PrimaryButtonText = "OK";
                             cd.PrimaryButtonClick += (sender, e) =>

@@ -20,9 +20,9 @@
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <StackPanel Orientation="Horizontal" Margin="0, 5, 0, 0">
-            <TextBlock Text="觀測站" Style="{StaticResource txtBlkSty1}" VerticalAlignment="Top"/>
-            <TextBlock Text="縣市" Style="{StaticResource txtBlkSty1}" VerticalAlignment="Top"/>
-            <TextBlock Text="數值" Style="{StaticResource txtBlkSty1}" VerticalAlignment="Top" Tapped="aqCol_Tapped"/>
+            <TextBlock x:Uid="aqListSite" Style="{StaticResource txtBlkSty1}" VerticalAlignment="Top"/>
+            <TextBlock x:Uid="aqListCounty" Style="{StaticResource txtBlkSty1}" VerticalAlignment="Top"/>
+            <TextBlock x:Uid="aqListVal" Style="{StaticResource txtBlkSty1}" VerticalAlignment="Top" Tapped="aqCol_Tapped"/>
         </StackPanel>
         <ListView
                 ItemsSource="{x:Bind app.vm.sites, Mode=OneWay}"
@@ -51,6 +51,6 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-        <ComboBox x:Name="aqComboBox" ItemsSource="{x:Bind app.vm.m.aqList, Mode=OneWay}" HorizontalAlignment="Left" VerticalAlignment="Bottom" SelectedIndex="{x:Bind app.vm.SelAqId, Mode=OneWay}" SelectionChanged="aqComboBox_SelectionChanged" Width="230" Height="65" Header="空汙指標" Margin="10,0,0,0" />
+        <ComboBox x:Name="aqComboBox" x:Uid="aqComboBox" ItemsSource="{x:Bind app.vm.m.aqList, Mode=OneWay}" HorizontalAlignment="Left" VerticalAlignment="Bottom" SelectedIndex="{x:Bind app.vm.SelAqId, Mode=OneWay}" SelectionChanged="aqComboBox_SelectionChanged" Width="230" Height="65" Margin="10,0,0,0" />
     </Grid>
 </Page>

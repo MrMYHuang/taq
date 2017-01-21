@@ -41,6 +41,10 @@ namespace Taq.Shared.Models
         public List<string> subscrSiteList = new List<string>();
         public XDocument subscrXd;
         public DateTime lastUpdateTime;
+        public ResourceLoader resLoader = new ResourceLoader();
+
+        // Supported languages.
+        public List<string> langList = new List<string> { "zh-TW", "en-US" };
 
         // AQ name list for MainPage aqComboBox.
         // Don't replace it by aqLimits.Keys! Not all names are used in aqComboBox.
@@ -425,7 +429,7 @@ namespace Taq.Shared.Models
             }
             catch (Exception ex)
             {
-                throw new Exception("定位最近觀測站失敗！");
+                throw new Exception(resLoader.GetString("positioningNearestSiteFail"));
             }
             return 0;
         }

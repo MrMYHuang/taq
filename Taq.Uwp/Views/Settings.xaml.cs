@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using Taq.BackTask;
+using Windows.Globalization;
 using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -40,6 +41,23 @@ namespace Taq.Uwp.Views
                 if (value != (bool)localSettings.Values["AppTheme"])
                 {
                     localSettings.Values["AppTheme"] = value;
+                }
+            }
+        }
+
+        public int LangId
+        {
+            get
+            {
+                return (int)localSettings.Values["LangId"];
+            }
+
+            set
+            {
+                if (value != (int)localSettings.Values["LangId"])
+                {
+                    localSettings.Values["LangId"] = value;
+                    ApplicationLanguages.PrimaryLanguageOverride = app.vm.m.langList[value];
                 }
             }
         }

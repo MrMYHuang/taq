@@ -103,6 +103,9 @@
     <PRIResource Include="..\Taq.Shared\Strings\zh-TW\Resources.resw">
       <Link>Strings\zh-TW\Resources.resw</Link>
     </PRIResource>
+    <PRIResource Include="..\Taq.Shared\Strings\en-US\Resources.resw">
+      <Link>Strings\en-US\Resources.resw</Link>
+    </PRIResource>
     <None Include="Connected Services\HockeyApp\ConnectedService.json" />
     <None Include="project.json" />
     <None Include="Taq_StoreKey.pfx" />

@@ -47,69 +47,69 @@
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
 
-        <SplitView x:Name="MySplitView" DisplayMode="CompactOverlay" IsPaneOpen="False" CompactPaneLength="60" OpenPaneLength="150"  Margin="0,0,0,50">
+        <SplitView x:Name="MySplitView" DisplayMode="CompactOverlay" IsPaneOpen="False" CompactPaneLength="60" OpenPaneLength="300"  Margin="0,0,0,50">
             <SplitView.Pane>
                 <ListView VerticalAlignment="Bottom">
                     <ListViewItem Tapped="setButton_Click" KeyUp="setButton_KeyUp">
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="&#xE713;" Style="{StaticResource txtBlkSty1}" />
-                            <TextBlock Text="設定" Style="{StaticResource txtBlkSty2}" />
+                            <TextBlock x:Uid="setTb" Style="{StaticResource txtBlkSty2}" />
                         </StackPanel>
                     </ListViewItem>
 
                     <ListViewItem Tapped="verButton_Click" KeyUp="verButton_KeyUp">
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="&#xE81C;" Style="{StaticResource txtBlkSty1}" />
-                            <TextBlock Text="版本" Style="{StaticResource txtBlkSty2}" />
+                            <TextBlock x:Uid="verTb" Style="{StaticResource txtBlkSty2}" />
                         </StackPanel>
                     </ListViewItem>
 
                     <ListViewItem Tapped="aboutButton_Click" KeyUp="aboutButton_KeyUp">
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="&#xE897;" Style="{StaticResource txtBlkSty1}" />
-                            <TextBlock Text="關於" Style="{StaticResource txtBlkSty2}" />
+                            <TextBlock x:Uid="aboutTb" Style="{StaticResource txtBlkSty2}" />
                         </StackPanel>
                     </ListViewItem>
 
                     <ListViewItem Tapped="colorMapsButton_Click" KeyUp="colorMapsButton_KeyUp">
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="&#xE2B1;" Style="{StaticResource txtBlkSty1}" />
-                            <TextBlock Text="顏色" Style="{StaticResource txtBlkSty2}" />
+                            <TextBlock x:Uid="colorTb" Style="{StaticResource txtBlkSty2}" />
                         </StackPanel>
                     </ListViewItem>
 
                     <ListViewItem Tapped="shareBtn_Click" KeyUp="shareButton_KeyUp">
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="&#xE72D;" Style="{StaticResource txtBlkSty1}" />
-                            <TextBlock Text="分享" Style="{StaticResource txtBlkSty2}" />
+                            <TextBlock x:Uid="shareTb" Style="{StaticResource txtBlkSty2}" />
                         </StackPanel>
                     </ListViewItem>
 
                     <ListViewItem Tapped="refreshButton_Click" KeyUp="refreshButton_KeyUp">
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="&#xE895;" Style="{StaticResource txtBlkSty1}" />
-                            <TextBlock Text="更新" Style="{StaticResource txtBlkSty2}" />
+                            <TextBlock x:Uid="refreshTb" Style="{StaticResource txtBlkSty2}" />
                         </StackPanel>
                     </ListViewItem>
 
                     <ListViewItem Tapped="listButton_Click" KeyUp="listButton_KeyUp">
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="&#xE8FD;" Style="{StaticResource txtBlkSty1}" />
-                            <TextBlock Text="列表" Style="{StaticResource txtBlkSty2}" />
+                            <TextBlock x:Uid="listTb" Style="{StaticResource txtBlkSty2}" />
                         </StackPanel>
                     </ListViewItem>
 
                     <ListViewItem Tapped="mapButton_Click" KeyUp="mapButton_KeyUp">
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="&#xE707;" Style="{StaticResource txtBlkSty1}" />
-                            <TextBlock Text="地圖" Style="{StaticResource txtBlkSty2}" />
+                            <TextBlock x:Uid="mapTb" Style="{StaticResource txtBlkSty2}" />
                         </StackPanel>
                     </ListViewItem>
 
                     <ListViewItem Tapped="homeButton_Click" KeyUp="homeButton_KeyUp">
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="&#xE80F;" Style="{StaticResource txtBlkSty1}" />
-                            <TextBlock Text="首頁" Style="{StaticResource txtBlkSty2}" />
+                            <TextBlock x:Uid="homeTb" Style="{StaticResource txtBlkSty2}" />
                         </StackPanel>
                     </ListViewItem>
                 </ListView>
@@ -124,7 +124,7 @@
             </Button.ContentTemplate>
         </Button>
         <ScrollViewer HorizontalScrollBarVisibility="Auto" HorizontalScrollMode="Enabled" VerticalScrollBarVisibility="Disabled" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="65,0,0,10" Height="32">
-            <TextBlock x:FieldModifier="public" x:Name="statusTextBlock" Text="訊息" FontSize="20" />
+            <TextBlock x:FieldModifier="public" x:Name="statusTextBlock" x:Uid="statusTb" FontSize="20" />
         </ScrollViewer>
     </Grid>
 </Page>

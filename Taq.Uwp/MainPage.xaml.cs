@@ -125,7 +125,7 @@ namespace Taq.Uwp
             {
                 await ReloadXmlAndSitesData();
                 app.vm.m.lastUpdateTime = DateTime.Now;
-                statusTextBlock.Text = app.vm.m.getLastUpdateTime() + app.vm.resLoader.GetString("updateFinish");
+                statusTextBlock.Text = app.vm.m.getLastUpdateTime() + " " + app.vm.m.resLoader.GetString("updateFinish");
             });
         }
 
@@ -176,7 +176,7 @@ namespace Taq.Uwp
                 // Do nothing.
 #else
                 await app.vm.m.loadSubscrSiteXml();
-                statusTextBlock.Text = app.vm.resLoader.GetString("downloading");
+                statusTextBlock.Text = app.vm.m.resLoader.GetString("downloading");
                 await app.vm.m.downloadAqData();
                 downloadSuccess = true;
 #endif
@@ -205,7 +205,7 @@ namespace Taq.Uwp
             if (downloadSuccess)
             {
                 app.vm.m.lastUpdateTime = DateTime.Now;
-                statusTextBlock.Text = app.vm.m.getLastUpdateTime() + app.vm.resLoader.GetString("updateFinish");
+                statusTextBlock.Text = app.vm.m.getLastUpdateTime() + " " + app.vm.m.resLoader.GetString("updateFinish");
             }
             return 0;
         }
@@ -218,7 +218,7 @@ namespace Taq.Uwp
             }
             catch (Exception ex)
             {
-                statusTextBlock.Text = app.vm.resLoader.GetString("updateFailTryManualUpdate");
+                statusTextBlock.Text = app.vm.m.resLoader.GetString("updateFailTryManualUpdate");
             }
 
             try
@@ -242,7 +242,7 @@ namespace Taq.Uwp
             }
             catch (Exception ex)
             {
-                statusTextBlock.Text = app.vm.resLoader.GetString("updateFailTryManualUpdate");
+                statusTextBlock.Text = app.vm.m.resLoader.GetString("updateFailTryManualUpdate");
             }
             return 0;
         }

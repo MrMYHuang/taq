@@ -14,10 +14,10 @@
     </Page.Resources>
 
     <ScrollViewer Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" HorizontalScrollMode="Enabled" HorizontalScrollBarVisibility="Auto">
-        <chart:SfChart x:Name="sfChart" ManipulationMode="System" MinWidth="1000" Margin="0, 0, 10, 10" Header="標題" FontSize="20">
+        <chart:SfChart x:Name="sfChart" ManipulationMode="System" MinWidth="1000" Margin="0, 0, 10, 10" Header="Title" FontSize="20">
 
             <chart:SfChart.PrimaryAxis>
-                <chart:CategoryAxis x:Name="pa" Header="時間 (小時)" FontSize="16" ShowGridLines="True"/>
+                <chart:CategoryAxis x:Name="pa" x:Uid="aqHistPriAxis" FontSize="16" ShowGridLines="True"/>
             </chart:SfChart.PrimaryAxis>
 
             <chart:SfChart.SecondaryAxis>

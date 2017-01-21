@@ -118,177 +118,177 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="aboutTb.Text" xml:space="preserve">
-    <value>關於</value>
+    <value>About</value>
   </data>
   <data name="aqComboBox.Header" xml:space="preserve">
-    <value>空汙指標</value>
+    <value>AQ Index</value>
   </data>
   <data name="aqHistOpenErr" xml:space="preserve">
-    <value>錯誤：開啟歷史資料失敗，請嘗試手動更新解決問題。</value>
+    <value>Error: Fail to open 24-hours history data. Please try to solve the problem by manually refreshing.</value>
   </data>
   <data name="aqHistPriAxis.Header" xml:space="preserve">
-    <value>時間 (小時)</value>
+    <value>Time (Hour)</value>
   </data>
   <data name="aqiWarnMsg.Header" xml:space="preserve">
-    <value>AQI指標 (預設50)</value>
+    <value>AQI (Default: 50)</value>
   </data>
   <data name="aqListCounty.Text" xml:space="preserve">
-    <value>縣市</value>
+    <value>County</value>
   </data>
   <data name="aqListSite.Text" xml:space="preserve">
-    <value>觀測站</value>
+    <value>Site</value>
   </data>
   <data name="aqListVal.Text" xml:space="preserve">
-    <value>數值</value>
+    <value>Value</value>
   </data>
   <data name="aqWarnMsgTb.Text" xml:space="preserve">
-    <value>超過警報值則發通知。</value>
+    <value>Send notifications if a value is greater than or equal to its limit.</value>
   </data>
   <data name="aqWarnTb.Text" xml:space="preserve">
-    <value>指標警報值</value>
+    <value>Index Warning Limits</value>
   </data>
   <data name="autoPosUi.Header" xml:space="preserve">
-    <value>自動定位</value>
+    <value>Auto Positioning</value>
   </data>
   <data name="backTaskTb.Text" xml:space="preserve">
-    <value>背景更新</value>
+    <value>Bacground Update</value>
   </data>
   <data name="bgMainSiteAutoPosToggle.Header" xml:space="preserve">
-    <value>主要觀測站定位</value>
+    <value>Main Site Positioning</value>
   </data>
   <data name="bgUpdateComboBox.Header" xml:space="preserve">
-    <value>週期(分鐘)</value>
+    <value>Period (minutes)</value>
   </data>
   <data name="colorTb.Text" xml:space="preserve">
-    <value>顏色</value>
+    <value>Color</value>
   </data>
   <data name="downloading" xml:space="preserve">
-    <value>下載中...</value>
+    <value>Downloading...</value>
   </data>
   <data name="duplicateSubscrSiteErrorMsg" xml:space="preserve">
-    <value>不可與已訂閱之主要/次要站重複！</value>
+    <value>Can not add a subscription site which has been subscribed as either a main site or a secondary site.</value>
   </data>
   <data name="enableGpsFail" xml:space="preserve">
-    <value>啟動定位失敗！</value>
+    <value>Enable location service failed!</value>
   </data>
   <data name="enableGpsFailMsg" xml:space="preserve">
-    <value>您曾拒絕TAQ存取您的位置資訊。必須去系統設定修改准許TAQ存取，然後重啟TAQ。按下確認鈕將開啟系統位置設定頁面。</value>
+    <value>You have denied TAQ to access your location service. You have to modify your one OS setting to allow TAQ to access and restart TAQ. Pressing the OK button will invoke the OS setting page for location service.</value>
   </data>
   <data name="error" xml:space="preserve">
-    <value>錯誤</value>
+    <value>Error</value>
   </data>
   <data name="homeTb.Text" xml:space="preserve">
-    <value>首頁</value>
-  </data>
-  <data name="langComboBox.Header" xml:space="preserve">
-    <value>重新啟動app後生效</value>
+    <value>Home</value>
   </data>
   <data name="lastDataUpdateTime" xml:space="preserve">
-    <value>上次資料更新</value>
+    <value>Last Data Update Time</value>
   </data>
   <data name="listTb.Text" xml:space="preserve">
-    <value>列表</value>
+    <value>List</value>
   </data>
   <data name="liveTileTb.Text" xml:space="preserve">
-    <value>動態磚</value>
+    <value>Live Tile</value>
   </data>
   <data name="mainSiteComboBox.Header" xml:space="preserve">
-    <value>主要觀測站</value>
+    <value>Main Site</value>
   </data>
   <data name="mapTb.Text" xml:space="preserve">
-    <value>地圖</value>
+    <value>Map</value>
   </data>
   <data name="nightTheme.Text" xml:space="preserve">
-    <value>夜晚主題</value>
+    <value>Night Theme</value>
   </data>
   <data name="nightUi.Header" xml:space="preserve">
-    <value>暗色</value>
+    <value>Night Color</value>
   </data>
   <data name="pinLiveTileButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>釘選動態磚</value>
+    <value>Pin Live Tile</value>
   </data>
   <data name="pm2_5WarnMsg.Header" xml:space="preserve">
-    <value>PM 2.5濃度 (預設15)</value>
+    <value>PM2.5 (Default: 15)</value>
   </data>
   <data name="positioning" xml:space="preserve">
-    <value>定位中...</value>
+    <value>Positioning...</value>
   </data>
   <data name="positioningFail" xml:space="preserve">
-    <value>定位失敗！</value>
+    <value>Positioning failed!</value>
   </data>
   <data name="positioningFinish" xml:space="preserve">
-    <value>定位完成。</value>
+    <value>Positioning finish.</value>
   </data>
   <data name="positioningNearestSite" xml:space="preserve">
-    <value>定位最近觀測站中...</value>
+    <value>Positioning the nearest site...</value>
   </data>
   <data name="positioningNearestSiteFail" xml:space="preserve">
-    <value>定位最近觀測站失敗！</value>
+    <value>Positioning the nearest site failed!</value>
   </data>
   <data name="positioningNearestSiteFinish" xml:space="preserve">
-    <value>定位最近觀測站完成。</value>
+    <value>Positioning the nearest site finished.</value>
   </data>
   <data name="posMainSwitch.Header" xml:space="preserve">
-    <value>總開關</value>
+    <value>Main Switch</value>
   </data>
   <data name="posNearestSiteButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>定位找最近站</value>
+    <value>Positioning the nearest site</value>
   </data>
   <data name="posTb.Text" xml:space="preserve">
-    <value>定位</value>
+    <value>Positioning</value>
   </data>
   <data name="refreshTb.Text" xml:space="preserve">
-    <value>更新</value>
+    <value>Refresh</value>
   </data>
   <data name="secSiteNotifyTb.Text" xml:space="preserve">
-    <value>次要觀測站通知</value>
+    <value>Notifications for Subscribed Secondary Sites</value>
   </data>
   <data name="setTb.Text" xml:space="preserve">
-    <value>設定</value>
+    <value>Settings</value>
   </data>
   <data name="shareTb.Text" xml:space="preserve">
-    <value>分享</value>
+    <value>Share</value>
   </data>
   <data name="statusTb.Text" xml:space="preserve">
-    <value>狀態訊息</value>
+    <value>Status messages</value>
   </data>
   <data name="subscrAddButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>新增訂閱</value>
+    <value>Add Subscription</value>
   </data>
   <data name="subscrButton.Content" xml:space="preserve">
-    <value>次要觀測站</value>
+    <value>2nd Sites</value>
   </data>
   <data name="subscrComboBox.Header" xml:space="preserve">
-    <value>訂閱次要觀測站</value>
+    <value>Secondary Sites</value>
   </data>
   <data name="subscrDelButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>移除訂閱</value>
+    <value>Delete Subscription</value>
   </data>
   <data name="themeToggle.Header" xml:space="preserve">
-    <value>重新啟動app後生效</value>
+    <value>Restarting app to take effect.</value>
   </data>
   <data name="tileBackColorCb.Header" xml:space="preserve">
-    <value>特製樣式色彩依據</value>
+    <value>Custom Style Coloring by</value>
   </data>
   <data name="tileCustomStyle.Header" xml:space="preserve">
-    <value>特製樣式</value>
+    <value>Custom Style</value>
   </data>
   <data name="umi.ToolTipService.ToolTip" xml:space="preserve">
-    <value>定位</value>
+    <value>Positioning</value>
   </data>
   <data name="updateFailTryManualUpdate" xml:space="preserve">
-    <value>更新失敗。請嘗試手動更新。</value>
+    <value>Update Failed. Please try the manual update.</value>
   </data>
   <data name="updateFinish" xml:space="preserve">
-    <value>更新完成。</value>
+    <value>Update Finished.</value>
   </data>
   <data name="verTb.Text" xml:space="preserve">
-    <value>版本</value>
+    <value>Versions</value>
   </data>
   <data name="warnStateChangeMsgTb.Text" xml:space="preserve">
-    <value>減少一段時間內空汙超標的通知，只有在警報狀態有改變才發通知。例如，一波超標空汙在某地區停留8小時，舊的警報通知會發出8則。若啟用新的轉態通知模式，則只會在空汙一開始來臨超標時與結束未超標時各發1則通知。</value>
+    <value>For reducing number of warning notifications in one time interval. Sending a notification only if a warning state changes. For example, if a wave of one over-limit air pollution stays in one location for 8 hours, the original warning mode will send 8 notifications. However, if the warning state change mode is turned on, TAQ sends each one notification for the starting of the air pollution value greater than the warning limit and the end of air pollution value smaller than the warning limit.</value>
   </data>
   <data name="warnStateChangeTb.Text" xml:space="preserve">
-    <value>警報轉態通知模式</value>
+    <value>Changing State Warning Mode</value>
+  </data>
+  <data name="langComboBox.Header" xml:space="preserve">
+    <value>Restarting app to take effect.</value>
   </data>
 </root>

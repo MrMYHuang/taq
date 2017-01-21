@@ -31,7 +31,6 @@ namespace Taq.BackTask
                 sw.WriteLine("Background task start time: " + DateTime.Now.ToString());
 
                 TaqModel m = new TaqJsonModel();
-//                var resLoader = new ResourceLoader();
 
                 taskInstance.Canceled += new BackgroundTaskCanceledEventHandler(OnCanceled);
 

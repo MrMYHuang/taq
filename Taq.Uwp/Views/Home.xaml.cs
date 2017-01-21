@@ -77,11 +77,11 @@ namespace Taq.Uwp.Views
         {
             try
             {
-                mainPage.statusTextBlock.Text = app.vm.resLoader.GetString("positioningNearestSite");
+                mainPage.statusTextBlock.Text = app.vm.m.resLoader.GetString("positioningNearestSite");
                 await app.vm.m.findNearestSite();
                 app.vm.m.localSettings.Values["MainSite"] = app.vm.m.nearestSite;
                 app.vm.loadMainSiteId();
-                mainPage.statusTextBlock.Text = app.vm.resLoader.GetString("positioningNearestSiteFinish");
+                mainPage.statusTextBlock.Text = app.vm.m.resLoader.GetString("positioningNearestSiteFinish");
             }
             catch (Exception ex)
             {
