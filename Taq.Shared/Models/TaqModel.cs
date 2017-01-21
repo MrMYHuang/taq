@@ -97,7 +97,7 @@ namespace Taq.Shared.Models
                     subscrXd = XDocument.Load(s);
                 }
             }
-            catch (Exception ex)
+            catch
             {
                 subscrXd = XDocument.Load("Assets/" + subscrSiteXml);
             }
@@ -114,7 +114,7 @@ namespace Taq.Shared.Models
             return 0;
         }
 
-        public async Task<int> updateSubscrSiteListByMainSite(string newMainSite)
+        public int updateSubscrSiteListByMainSite(string newMainSite)
         {
             subscrSiteList[0] = newMainSite;
             return 0;
@@ -427,7 +427,7 @@ namespace Taq.Shared.Models
                 var minId = dists.FindIndex(v => v == dists.Min());
                 nearestSite = sitesGeoDict.Keys.ToList()[minId];
             }
-            catch (Exception ex)
+            catch
             {
                 throw new Exception(resLoader.GetString("positioningNearestSiteFail"));
             }

@@ -7,6 +7,7 @@ using System.IO;
 using Windows.UI.Xaml.Media.Imaging;
 using Taq.Shared.Models;
 using Windows.ApplicationModel.Resources;
+using System.Diagnostics;
 
 namespace Taq.BackTask
 {
@@ -47,6 +48,7 @@ namespace Taq.BackTask
                 {
                     sw.WriteLine("Download fail time: " + DateTime.Now.ToString());
                     // Ignore.
+                    Debug.WriteLine(ex.Message);
                 }
 
                 try
@@ -56,7 +58,7 @@ namespace Taq.BackTask
                 }
                 catch (Exception ex)
                 {
-                    sw.WriteLine("loadAq2Dict fail time: " + DateTime.Now.ToString());
+                    sw.WriteLine("loadAq2Dict fail time: " + DateTime.Now.ToString() + ex.Message);
                     // Ignore.
                 }
 
@@ -86,6 +88,7 @@ namespace Taq.BackTask
                 catch (Exception ex)
                 {
                     // Do nothing.
+                    Debug.WriteLine(ex.Message);
                 }
                 finally
                 {
@@ -96,6 +99,7 @@ namespace Taq.BackTask
             }
             catch (Exception ex)
             {
+                Debug.WriteLine(ex.Message);
             }
             finally
             {
@@ -104,7 +108,7 @@ namespace Taq.BackTask
             }
         }
 
-        volatile bool _cancelRequested = false;
+        //volatile bool _cancelRequested = false;
         private async void OnCanceled(IBackgroundTaskInstance sender, BackgroundTaskCancellationReason reason)
         {
 #if LOG_STEP
@@ -120,7 +124,7 @@ namespace Taq.BackTask
             //
             // Indicate that the background task is canceled.
             //
-            _cancelRequested = true;
+            //_cancelRequested = true;
             deferral.Complete();
         }
     }

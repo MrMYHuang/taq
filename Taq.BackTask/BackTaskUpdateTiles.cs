@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using Taq;
 using Taq.Shared.Models;
 using Windows.ApplicationModel.Background;
@@ -27,6 +28,7 @@ namespace Taq.BackTask
             catch (Exception ex)
             {
                 // Ignore.
+                Debug.WriteLine(ex.Message);
             }
             
             try
@@ -38,6 +40,7 @@ namespace Taq.BackTask
             }
             catch (Exception ex)
             {
+                Debug.WriteLine(ex.Message);
                 // Do nothing.
             }
             finally
@@ -48,13 +51,13 @@ namespace Taq.BackTask
             }
         }
 
-        volatile bool _cancelRequested = false;
+        //volatile bool _cancelRequested = false;
         private void OnCanceled(IBackgroundTaskInstance sender, BackgroundTaskCancellationReason reason)
         {
             //
             // Indicate that the background task is canceled.
             //
-            _cancelRequested = true;
+            //_cancelRequested = true;
         }
     }
 }

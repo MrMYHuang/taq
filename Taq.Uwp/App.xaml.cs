@@ -47,7 +47,6 @@ namespace Taq.Uwp
             }
             this.RequestedTheme = (bool)localSettings.Values["AppTheme"] ? ApplicationTheme.Dark : ApplicationTheme.Light;
 
-
             if (localSettings.Values["LangId"] == null)
             {
                 localSettings.Values["LangId"] = vm.m.langList.FindIndex(l => Regex.IsMatch(ApplicationLanguages.Languages[0], l.Substring(0, 2)));

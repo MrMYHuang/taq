@@ -107,7 +107,7 @@ namespace Taq.Uwp.ViewModels
             {
                 isUpdateCompleted = false;
                 ApplicationTrigger trigger = new ApplicationTrigger();
-                var btr = await RegisterBackgroundTask("BackTaskUpdateTiles", "Taq.BackTask.BackTaskUpdateTiles", trigger);
+                var btr = await BackTaskReg.RegisterBackgroundTask("BackTaskUpdateTiles", "Taq.BackTask.BackTaskUpdateTiles", trigger);
                 btr.Completed += Btr_Completed;
                 var result = await trigger.RequestAsync();
             }
@@ -269,46 +269,6 @@ namespace Taq.Uwp.ViewModels
                     SetProperty(ref bgUpdatePeriodId, value);
                 }
             }
-        }
-
-        public int unregisterBackTask(string taskName)
-        {
-            foreach (var task in BackgroundTaskRegistration.AllTasks)
-            {
-                if (task.Value.Name == taskName)
-                {
-                    task.Value.Unregister(true);
-                }
-            }
-            return 0;
-        }
-
-        public async Task<BackgroundTaskRegistration> RegisterBackgroundTask(string taskName, string taskEntryPoint, IBackgroundTrigger trigger)
-        {
-            var backgroundAccessStatus = await BackgroundExecutionManager.RequestAccessAsync();
-            if (backgroundAccessStatus == BackgroundAccessStatus.AllowedMayUseActiveRealTimeConnectivity ||
-                backgroundAccessStatus == BackgroundAccessStatus.AllowedWithAlwaysOnRealTimeConnectivity ||
-                backgroundAccessStatus == BackgroundAccessStatus.AllowedSubjectToSystemPolicy ||
-                backgroundAccessStatus == BackgroundAccessStatus.AlwaysAllowed)
-            {
-                unregisterBackTask(taskName);
-
-                BackgroundTaskBuilder taskBuilder = new BackgroundTaskBuilder();
-                taskBuilder.Name = taskName;
-                taskBuilder.TaskEntryPoint = taskEntryPoint;
-                taskBuilder.SetTrigger(trigger);
-                //taskBuilder.AddCondition(new SystemCondition(SystemConditionType.InternetAvailable));
-                try
-                {
-                    var btr = taskBuilder.Register();
-                    return btr;
-                }
-                catch (Exception ex)
-                {
-                    return null;
-                }
-            }
-            return null;
         }
 
         public string Version

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Networking.BackgroundTransfer;
@@ -173,6 +174,7 @@ namespace Taq.Shared.Models
             }
             catch (Exception ex)
             {
+                Debug.WriteLine(ex.Message);
                 // timeout is reached, downloadOperation is cancled
                 throw new Exception("錯誤，下載逾時！");
             }
@@ -193,6 +195,7 @@ namespace Taq.Shared.Models
             }
             catch (Exception ex)
             {
+                Debug.WriteLine(ex.Message);
                 dstSf = await ApplicationData.Current.LocalFolder.CreateFileAsync(dstFile, CreationCollisionOption.ReplaceExisting);
             }
             // Copy download file to dstFile.
@@ -214,6 +217,7 @@ namespace Taq.Shared.Models
             // If file not exist.
             catch (Exception ex)
             {
+                Debug.WriteLine(ex.Message);
                 return true;
             }
         }

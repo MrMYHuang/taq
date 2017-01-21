@@ -15,6 +15,7 @@ using Windows.ApplicationModel.Background;
 using Taq.BackTask;
 using Windows.ApplicationModel.Core;
 using Taq.Shared.Models;
+using System.Diagnostics;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -69,6 +70,7 @@ namespace Taq.Uwp
             }
             catch (Exception ex)
             {
+                Debug.WriteLine(ex.Message);
                 // Ignore.
             }
 
@@ -148,6 +150,7 @@ namespace Taq.Uwp
             }
             catch (Exception ex)
             {
+                Debug.WriteLine(ex.Message);
                 // Ignore.
             }
             finally
@@ -192,6 +195,7 @@ namespace Taq.Uwp
             }
             catch (Exception ex)
             {
+                Debug.WriteLine(ex.Message);
                 // Ignore.
             }
 
@@ -216,7 +220,7 @@ namespace Taq.Uwp
             {
                 await app.vm.m.loadAq2Dict();
             }
-            catch (Exception ex)
+            catch
             {
                 statusTextBlock.Text = app.vm.m.resLoader.GetString("updateFailTryManualUpdate");
             }
@@ -227,6 +231,7 @@ namespace Taq.Uwp
             }
             catch (Exception ex)
             {
+                Debug.WriteLine(ex.Message);
             }
             return 0;
         }
@@ -240,7 +245,7 @@ namespace Taq.Uwp
                 // Force run loadDict2Sites by setting SelAqId to itself.
                 app.vm.loadDict2Sites(app.vm.m.aqList[app.vm.SelAqId]);
             }
-            catch (Exception ex)
+            catch
             {
                 statusTextBlock.Text = app.vm.m.resLoader.GetString("updateFailTryManualUpdate");
             }

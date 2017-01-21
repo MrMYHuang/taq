@@ -23,7 +23,7 @@ namespace Taq.Shared.Models
                     xd = XDocument.Load(s);
                 }
             }
-            catch (Exception ex)
+            catch
             {
                 xd = XDocument.Load("Assets/" + Params.aqDbFile);
             }
@@ -71,7 +71,7 @@ namespace Taq.Shared.Models
                     loadOldXd = XDocument.Load(s);
                 }
             }
-            catch (Exception ex)
+            catch
             {
                 loadOldXd = XDocument.Load("Assets/Old" + Params.aqDbFile);
             }

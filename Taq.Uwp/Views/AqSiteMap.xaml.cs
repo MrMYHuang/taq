@@ -86,7 +86,7 @@ namespace Taq.Uwp.Views
                 await posUmi(p);
                 mainPage.statusTextBlock.Text = app.vm.m.resLoader.GetString("positioningFinish") + " " + app.vm.m.resLoader.GetString("lastDataUpdateTime") + ":" + app.vm.m.getLastUpdateTime();
             }
-            catch (Exception ex)
+            catch
             {
                 mainPage.statusTextBlock.Text = app.vm.m.resLoader.GetString("positioningFail") + " " + app.vm.m.resLoader.GetString("lastDataUpdateTime") + ":" + app.vm.m.getLastUpdateTime();
             }

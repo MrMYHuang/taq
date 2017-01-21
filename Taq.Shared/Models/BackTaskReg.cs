@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Background;
 
@@ -55,6 +56,7 @@ namespace Taq.Shared.Models
                 }
                 catch (Exception ex)
                 {
+                    Debug.WriteLine(ex.Message);
                     return null;
                 }
             }

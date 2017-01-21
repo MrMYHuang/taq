@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using Taq;
 using Taq.Shared.Models;
@@ -48,6 +49,7 @@ namespace Taq.BackTask
             {
                 sw.WriteLine("Download fail time: " + DateTime.Now.ToString());
                 // Ignore.
+                Debug.WriteLine(ex.Message);
             }
 
             try
@@ -57,7 +59,7 @@ namespace Taq.BackTask
             }
             catch (Exception ex)
             {
-                sw.WriteLine("loadAq2Dict fail time: " + DateTime.Now.ToString());
+                sw.WriteLine("loadAq2Dict fail time: " + DateTime.Now.ToString() + ex.Message);
                 // Ignore.
             }
 
@@ -86,6 +88,7 @@ namespace Taq.BackTask
             }
             catch (Exception ex)
             {
+                Debug.WriteLine(ex.Message);
                 // Do nothing.
             }
             finally
@@ -98,8 +101,8 @@ namespace Taq.BackTask
             }
         }
 
-        volatile bool _cancelRequested = false;
-        private async void OnCanceled(IBackgroundTaskInstance sender, BackgroundTaskCancellationReason reason)
+        //volatile bool _cancelRequested = false;
+        private void OnCanceled(IBackgroundTaskInstance sender, BackgroundTaskCancellationReason reason)
         {
 #if LOG_STEP
             var tbtLogC = await ApplicationData.Current.LocalFolder.CreateFileAsync("TbtCancelled.txt", CreationCollisionOption.ReplaceExisting);
@@ -114,7 +117,7 @@ namespace Taq.BackTask
             //
             // Indicate that the background task is canceled.
             //
-            _cancelRequested = true;
+            //_cancelRequested = true;
             deferral.Complete();
         }
     }

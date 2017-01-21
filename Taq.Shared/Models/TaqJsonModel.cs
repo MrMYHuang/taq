@@ -33,7 +33,7 @@ namespace Taq.Shared.Models
                 var dataJson = await ApplicationData.Current.LocalFolder.GetFileAsync(Params.aqDbFile);
                 jTaqDb = await readJObject(dataJson);
             }
-            catch (Exception ex)
+            catch
             {
                 var dataJson = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Assets/" + Params.aqDbFile));
                 jTaqDb = await readJObject(dataJson);
@@ -77,7 +77,7 @@ namespace Taq.Shared.Models
                 var dataJson = await ApplicationData.Current.LocalFolder.GetFileAsync("Old" + Params.aqDbFile);
                 jTaqDb = await readJObject(dataJson);
             }
-            catch (Exception ex)
+            catch
             {
                 var dataJson = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Assets/Old" + Params.aqDbFile));
                 jTaqDb = await readJObject(dataJson);

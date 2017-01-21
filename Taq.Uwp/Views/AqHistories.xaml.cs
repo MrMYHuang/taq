@@ -67,7 +67,7 @@ namespace Taq.Uwp.Views
             {
                 fsf = await ApplicationData.Current.LocalFolder.GetFileAsync(siteName + Params.aqHistFile);
             }
-            catch (Exception ex)
+            catch
             {
                 // The AQ history data might haven't been download after adding a new subscribed site.
                 mainPage.statusTextBlock.Text = app.vm.m.resLoader.GetString("aqHistOpenErr");
@@ -84,13 +84,13 @@ namespace Taq.Uwp.Views
             var aqVals = ((JArray)jTaqs[AqHistShared.aqName.Replace(".", "_")]).Select(v => app.vm.m.getValidAqVal((string)v)).ToList();
             var updateHour = jTaqs["updateHour"].ToObject<int>();
             var updateDate = jTaqs["updateDate"].ToObject<string>();
-            await aqVals2Coll(aqVals, updateHour, updateDate);
+            aqVals2Coll(aqVals, updateHour, updateDate);
             return 0;
         }
 
         public ObservableCollection<Aq24HrVal> aq24HrValColl { get; set; }
         public List<Brush> aqColors { get; set; }
-        public async Task<int> aqVals2Coll(List<double> aqVals, int updateHour, string updateDate)
+        public int aqVals2Coll(List<double> aqVals, int updateHour, string updateDate)
         {
             for (var h = 0; h < 24; h++)
             {
