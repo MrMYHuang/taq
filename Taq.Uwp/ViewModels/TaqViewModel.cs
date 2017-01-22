@@ -152,7 +152,7 @@ namespace Taq.Uwp.ViewModels
                 var id = 0;
                 foreach (var siteName in m.subscrSiteList)
                 {
-                    aqgvList.Add(new AqGridView(loadMainSite2dAqView(siteName), id));
+                    aqgvList.Add(new AqGridView(loadSite2dAqvm(siteName), id));
                     id++;
                 }
             }
@@ -187,7 +187,7 @@ namespace Taq.Uwp.ViewModels
 
         public void addSecSiteAndAqView(string siteName)
         {
-            aqgvList.Add(new AqGridView(loadMainSite2dAqView(siteName), aqgvList.Count));
+            aqgvList.Add(new AqGridView(loadSite2dAqvm(siteName), aqgvList.Count));
         }
 
         public void delSecSiteAndAqView(string siteName)
@@ -204,10 +204,10 @@ namespace Taq.Uwp.ViewModels
                 aqgvList[id].id = id;
             }
         }
-        
-        public ObservableCollection<UIElement> loadMainSite2dAqView(string siteName)
+
+        // Convert site info to AqViewModel for for data bindings.
+        public ObservableCollection<UIElement> loadSite2dAqvm(string siteName)
         {
-            // Current site info converted to for data bindings through AqView.
             var aqvms = new ObservableCollection<AqViewModel>();
             var aqgvis = new ObservableCollection<UIElement>();
 
