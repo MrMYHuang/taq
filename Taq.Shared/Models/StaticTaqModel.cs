@@ -13,6 +13,7 @@ namespace Taq.Shared.Models
         // XML AQ names to ordinary AQ names.
         // The order of keys is meaningful!
         // The display order of AQ items in Home.xaml follows this order of keys.
+        // Please check function loadMainSite2dAqView for the usage of this variable!
         public static Dictionary<string, string> fieldNames = new Dictionary<string, string>
         {
             { "SiteName", "觀測站" },
@@ -34,7 +35,7 @@ namespace Taq.Shared.Models
             { "O3_8hr", "8hr"},
 
             { "CO", ""},
-            { "CO_8hr", ""},
+            { "CO_8hr", "平均"},
 
             { "SO2", ""},
             { "NO2", ""},

@@ -23,6 +23,11 @@
                     * 列表頁作數值排序後會卡住幾秒。<LineBreak />
                 </TextBlock>
 
+                <TextBlock Style="{StaticResource secHeadSty}">Ver. 4.4.1</TextBlock>
+                <TextBlock Style="{StaticResource txtBlkSty1}" >
+                    * 修正首頁"CO平均"漏字的問題。<LineBreak />
+                </TextBlock>
+
                 <TextBlock Style="{StaticResource secHeadSty}">Ver. 4.4.0</TextBlock>
                 <TextBlock Style="{StaticResource txtBlkSty1}" >
                     * 首頁空汙指標加入單位。<LineBreak />
