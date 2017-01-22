@@ -24,7 +24,7 @@ namespace Taq.Uwp.Views
         string aqName;
         string subscript;
         string unit;
-        public Grid1(AqViewModel _aqvm, string _aqName, string _subscript, string _unit = "")
+        public Grid1(AqViewModel _aqvm, string _aqName, string _subscript, string _unit)
         {
             aqvm = _aqvm;
             aqName = _aqName;

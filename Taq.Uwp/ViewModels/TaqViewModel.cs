@@ -222,6 +222,8 @@ namespace Taq.Uwp.ViewModels
                     TextColor = textColor
                 };
                 aqvms.Add(aqvm);
+
+                // Create UIElement for GridViewItem by k value.
                 switch(k)
                 {
                     case "PM2.5":
@@ -268,7 +270,7 @@ namespace Taq.Uwp.ViewModels
                         break;
 
                     default:
-                        aqgvis.Add(new Grid1(aqvm, "", ""));
+                        aqgvis.Add(new Grid1(aqvm, "", "", ""));
                         break;
                 }
             }
