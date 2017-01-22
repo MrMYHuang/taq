@@ -142,8 +142,17 @@
     <Compile Include="Views\CircleText.xaml.cs">
       <DependentUpon>CircleText.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Grid1.xaml.cs">
+      <DependentUpon>Grid1.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GridPm10.xaml.cs">
+      <DependentUpon>GridPm10.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Home.xaml.cs">
       <DependentUpon>Home.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GridPm2_5.xaml.cs">
+      <DependentUpon>GridPm2_5.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Settings.xaml.cs">
       <DependentUpon>Settings.xaml</DependentUpon>
@@ -360,7 +369,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\Grid1.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\GridPm10.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\Home.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\GridPm2_5.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -138,6 +138,8 @@ namespace Taq.Uwp.ViewModels
 
         public ObservableCollection<AqGridView> aqgvList = new ObservableCollection<AqGridView>();
 
+        public ObservableCollection<ObservableCollection<AqViewModel>> aqvmsList = new ObservableCollection<ObservableCollection<AqViewModel>>();
+
         // Has to be run by UI context!
         public async Task<int> loadSiteAqViews()
         {
@@ -169,16 +171,16 @@ namespace Taq.Uwp.ViewModels
         public void updateAqgv(int id)
         {
             var siteName = m.subscrSiteList[id];
-            var aqgv = aqgvList[id];
+            var aqvms = aqvmsList[id];
 
             var i = 0;
             foreach (var k in StaticTaqModel.fieldNames.Keys)
             {
                 var aqLevel = m.getAqLevel(siteName, k);
                 var textColor = StaticTaqModelView.getTextColor(aqLevel);
-                aqgv.aqvms[i].CircleColor = StaticTaqModel.aqColors[k][aqLevel];
-                aqgv.aqvms[i].CircleText = StaticTaqModel.fieldNames[k] + "\n" + m.sitesStrDict[siteName][k];
-                aqgv.aqvms[i].TextColor = textColor;
+                aqvms[i].CircleColor = StaticTaqModel.aqColors[k][aqLevel];
+                aqvms[i].CircleText = StaticTaqModel.fieldNames[k] + "\n" + m.sitesStrDict[siteName][k];
+                aqvms[i].TextColor = textColor;
                 i++;
             }
         }
@@ -195,30 +197,83 @@ namespace Taq.Uwp.ViewModels
             var delId = m.subscrSiteList.LastIndexOf(siteName);
             Debug.Assert(delId != -1);
             aqgvList.RemoveAt(delId);
+            aqvmsList.RemoveAt(delId);
             // Update IDs after delID.
-            for(var id = delId; id < aqgvList.Count; id++)
+            for (var id = delId; id < aqgvList.Count; id++)
             {
                 aqgvList[id].id = id;
             }
         }
-
-        public ObservableCollection<AqViewModel> loadMainSite2dAqView(string siteName)
+        
+        public ObservableCollection<UIElement> loadMainSite2dAqView(string siteName)
         {
             // Current site info converted to for data bindings through AqView.
-            ObservableCollection<AqViewModel> aqvms = new ObservableCollection<AqViewModel>();
+            var aqvms = new ObservableCollection<AqViewModel>();
+            var aqgvis = new ObservableCollection<UIElement>();
 
             foreach (var k in StaticTaqModel.fieldNames.Keys)
             {
                 var aqLevel = m.getAqLevel(siteName, k);
                 var textColor = StaticTaqModelView.getTextColor(aqLevel);
-                aqvms.Add(new AqViewModel
+                var aqvm = new AqViewModel
                 {
                     CircleColor = StaticTaqModel.aqColors[k][aqLevel], // default border background color
                     CircleText = StaticTaqModel.fieldNames[k] + "\n" + m.sitesStrDict[siteName][k],
                     TextColor = textColor
-                });
+                };
+                aqvms.Add(aqvm);
+                switch(k)
+                {
+                    case "PM2.5":
+                    case "PM2.5_AVG":
+                        aqgvis.Add(new GridPm2_5(aqvm));
+                        break;
+                    case "PM10":
+                    case "PM10_AVG":
+                        aqgvis.Add(new GridPm10(aqvm));
+                        break;
+
+                    case "O3":
+                    case "O3_8hr":
+                        aqgvis.Add(new Grid1(aqvm, "O", "3", "ppb"));
+                        break;
+
+                    case "CO":
+                    case "CO_8hr":
+                        aqgvis.Add(new Grid1(aqvm, "CO", "", "ppm"));
+                        break;
+
+                    case "SO2":
+                        aqgvis.Add(new Grid1(aqvm, "SO", "2", "ppb"));
+                        break;
+
+                    case "NO2":
+                        aqgvis.Add(new Grid1(aqvm, "NO", "2", "ppb"));
+                        break;
+
+                    case "NOx":
+                        aqgvis.Add(new Grid1(aqvm, "NO", "x", "ppb"));
+                        break;
+
+                    case "NO":
+                        aqgvis.Add(new Grid1(aqvm, "NO", "", "ppb"));
+                        break;
+
+                    case "WindSpeed":
+                        aqgvis.Add(new Grid1(aqvm, "", "", "m/s"));
+                        break;
+
+                    case "WindDirec":
+                        aqgvis.Add(new Grid1(aqvm, "", "", "°"));
+                        break;
+
+                    default:
+                        aqgvis.Add(new Grid1(aqvm, "", ""));
+                        break;
+                }
             }
-            return aqvms;
+            aqvmsList.Add(aqvms);
+            return aqgvis;
         }
 
         private int mainSiteId;

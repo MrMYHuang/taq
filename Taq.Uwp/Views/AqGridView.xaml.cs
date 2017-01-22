@@ -18,16 +18,16 @@ namespace Taq.Uwp.Views
         public App app;
         public Frame rootFrame;
         public MainPage mainPage;
-        public ObservableCollection<AqViewModel> aqvms = new ObservableCollection<AqViewModel>();
+        public ObservableCollection<UIElement> aqgvis = new ObservableCollection<UIElement>();
         public int id;
 
-        public AqGridView(ObservableCollection<AqViewModel> _aqvms, int _id)
+        public AqGridView(ObservableCollection<UIElement> _aqgvis, int _id)
         {
             app = App.Current as App;
             rootFrame = Window.Current.Content as Frame;
             mainPage = rootFrame.Content as MainPage;
             id = _id;
-            aqvms = _aqvms;
+            aqgvis = _aqgvis;
             this.InitializeComponent();
         }
 
