@@ -1,6 +1,6 @@
 **/bin/**/*.*
 **/obj/**/*.*
-**/Assets/**/*.*
+Taq.Uwp/Assets/logo/*
 **/AppPackages/**/*.*
 **/*.lock.json
 *.txt
