@@ -24,7 +24,7 @@
                 </DataTemplate>
             </ComboBox.ItemTemplate>
         </ComboBox>
-        <Button x:Name="subscrButton" x:Uid="subscrButton" Height="35" Tapped="subscrButton_Tapped" Margin="145,0,0,40" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="95">Secondary Site</Button>
+        <Button x:Name="subscrButton" x:Uid="subscrButton" Height="35" Tapped="subscrButton_Tapped" Margin="145,0,0,40" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="95">2nd Site</Button>
         <!-- Viewbox is used to scale up UserMapIcon. -->
         <Viewbox VerticalAlignment="Bottom" Margin="240,0,0,0" Height="35" HorizontalAlignment="Left" Width="35">
             <!-- Don't bind UserMapIcon's IsEnabled to AutoPos. Otherwise, IsEnabledChanged event is not triggered. A UWP bug? -->

@@ -30,7 +30,7 @@
                     <ToggleSwitch x:Uid="autoPosUi" x:FieldModifier="public" x:Name="mapAutoPosToggle" HorizontalAlignment="Left" Margin="0" IsOn="{x:Bind app.vm.MapAutoPos, Mode=TwoWay}" />
                 </StackPanel>
 
-                <TextBlock x:Uid="backTaskTb" Style="{StaticResource secHeadSty}"></TextBlock>
+                <TextBlock x:Uid="backTaskTb" Style="{StaticResource secHeadSty}">Background Update</TextBlock>
                 <StackPanel Orientation="Vertical">
                     <ComboBox x:Name="bgUpdateComboBox" x:Uid="bgUpdateComboBox" HorizontalAlignment="Left" Width="265" ItemsSource="{x:Bind app.vm.bgUpdatePeriods}" IsTapEnabled="True" SelectedIndex="{x:Bind app.vm.BgUpdatePeriodId, Mode=OneWay}" SelectionChanged="bgUpdateComboBox_SelectionChanged">
                     </ComboBox>
@@ -50,7 +50,7 @@
                     Header="Custom Coloring by">
                 </ComboBox>
 
-                <TextBlock x:Uid="secSiteNotifyTb" Style="{StaticResource secHeadSty}" Width="300" HorizontalAlignment="Left"></TextBlock>
+                <TextBlock x:Uid="secSiteNotifyTb" Style="{StaticResource secHeadSty}">Notifications for Subscribed Secondary Sites</TextBlock>
                 <ToggleSwitch x:Name="secSitNotifyToggle" HorizontalAlignment="Left" Margin="0" IsOn="{x:Bind app.vm.SecondSitesNotify, Mode=TwoWay}">
                 </ToggleSwitch>
 

@@ -139,7 +139,7 @@
     <value>Site</value>
   </data>
   <data name="aqListVal.Text" xml:space="preserve">
-    <value>Value</value>
+    <value>Value (Sort)</value>
   </data>
   <data name="aqWarnMsgTb.Text" xml:space="preserve">
     <value>Send notifications if a value is greater than or equal to its limit.</value>

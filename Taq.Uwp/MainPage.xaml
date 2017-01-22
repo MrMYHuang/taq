@@ -47,7 +47,7 @@
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
 
-        <SplitView x:Name="MySplitView" DisplayMode="CompactOverlay" IsPaneOpen="False" CompactPaneLength="60" OpenPaneLength="300"  Margin="0,0,0,50">
+        <SplitView x:Name="MySplitView" DisplayMode="CompactOverlay" IsPaneOpen="False" CompactPaneLength="60" OpenPaneLength="250"  Margin="0,0,0,50">
             <SplitView.Pane>
                 <ListView VerticalAlignment="Bottom">
                     <ListViewItem Tapped="setButton_Click" KeyUp="setButton_KeyUp">

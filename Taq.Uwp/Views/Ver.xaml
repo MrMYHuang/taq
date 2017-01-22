@@ -23,6 +23,12 @@
                     * 列表頁作數值排序後會卡住幾秒。<LineBreak />
                 </TextBlock>
 
+                <TextBlock Style="{StaticResource secHeadSty}">Ver. 4.3.1</TextBlock>
+                <TextBlock Style="{StaticResource txtBlkSty1}" >
+                    * 修改部分文字。<LineBreak />
+                    * 修正部分文字被截掉的問題。<LineBreak />
+                </TextBlock>
+
                 <TextBlock Style="{StaticResource secHeadSty}">Ver. 4.3.0</TextBlock>
                 <TextBlock Style="{StaticResource txtBlkSty1}" >
                     * 設定頁新增"語言"。<LineBreak />

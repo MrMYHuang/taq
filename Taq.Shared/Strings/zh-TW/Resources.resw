@@ -139,7 +139,7 @@
     <value>觀測站</value>
   </data>
   <data name="aqListVal.Text" xml:space="preserve">
-    <value>數值</value>
+    <value>數值 (排序)</value>
   </data>
   <data name="aqWarnMsgTb.Text" xml:space="preserve">
     <value>超過警報值則發通知。</value>
