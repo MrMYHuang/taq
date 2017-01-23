@@ -314,11 +314,7 @@ namespace Taq.Shared.Models
             // Quiet hours spand between two days.
             if ((quietEndTime - quietStartTime) < zeroTime)
             {
-                var quietEndTimePlus = quietEndTime + TimeSpan.FromDays(1);
-                var quietStartTimeMinus = quietStartTime - TimeSpan.FromDays(1);
-                var isQuietTime1 = quietStartTimeMinus <= nowHm && nowHm < quietEndTime;
-                var isQuietTime2 = quietStartTime <= nowHm && nowHm < quietEndTimePlus;
-                isQuietTime = isQuietTime1 || isQuietTime2;
+                isQuietTime = quietStartTime <= nowHm || nowHm < quietEndTime;
             }
             else
             {
