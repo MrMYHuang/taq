@@ -342,6 +342,7 @@ namespace Taq.Shared.Models
             return 0;
         }
 
+        // Try to send all AQ notifications.
         public void sendNotifications(string siteName)
         {
             var warnStateChangeMode = (bool)localSettings.Values["WarnStateChangeMode"];
@@ -351,10 +352,11 @@ namespace Taq.Shared.Models
                 var currAqi = getValidAqVal(sitesStrDict[siteName][aqName]);
                 var oldAqi = getValidAqVal(oldSitesStrDict[siteName][aqName]);
 
-                var isAqiOverWarnLevel = (oldAqi != currAqi && currAqi > aqi_Limit);
-
-                var isWarnStateChanged = (oldAqi <= aqi_Limit && aqi_Limit < currAqi) ||
-                    (oldAqi > aqi_Limit && aqi_Limit >= currAqi);
+                var isAqiOverWarnLevel = (oldAqi != currAqi && aqi_Limit < currAqi);
+                // "oldAqi != 0" and "currAqi != 0" conditions filter the cases that numbers comes from NaN. It could filter the case that numbers are real 0, however, we assume that the probability is low.
+                var isWarnTransition = (oldAqi <= aqi_Limit && aqi_Limit < currAqi && oldAqi != 0);
+                var isSafeTransition = (oldAqi > aqi_Limit && aqi_Limit >= currAqi && currAqi != 0);
+                var isWarnStateChanged = isWarnTransition || isSafeTransition;
 
                 if ((!warnStateChangeMode && isAqiOverWarnLevel) || (warnStateChangeMode && isWarnStateChanged))
                 {

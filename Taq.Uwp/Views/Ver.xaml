@@ -26,6 +26,7 @@
                 <TextBlock Style="{StaticResource secHeadSty}">Ver. 4.5.0</TextBlock>
                 <TextBlock Style="{StaticResource txtBlkSty1}" >
                     * 設定頁新增"勿擾時段"。<LineBreak />
+                    * 修改轉態通知演算法，排除無效空汙值所引發的通知。<LineBreak />
                     * 修正首頁"CO平均"漏字的問題。<LineBreak />
                 </TextBlock>
 
