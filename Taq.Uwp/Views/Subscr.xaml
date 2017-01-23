@@ -9,7 +9,7 @@
     mc:Ignorable="d"
     NavigationCacheMode="Enabled">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <ScrollViewer Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <StackPanel Orientation="Vertical">
             <GridView x:Name="subscrGridView" ItemsSource="{x:Bind app.vm.subscrSiteViews, Mode=OneWay}" 
                 SelectionMode="Multiple" IsMultiSelectCheckBoxEnabled="True" Margin="0,10,0,0">
@@ -33,6 +33,13 @@
                 <Button x:Name="delButton" x:Uid="subscrDelButton" Style="{StaticResource buttonSty}" Tapped="delButton_Tapped">&#xE711;</Button>
                 <Button x:Name="pinButton" x:Uid="pinLiveTileButton" Style="{StaticResource buttonSty}" Tapped="genSecondLiveTiles">&#xE718;</Button>
             </StackPanel>
+            <RichTextBlock>
+                <Paragraph>This page is used to subscribe secondary sites' air quality (AQ) information. Basically, a subscription of a site provides: 1. grids of AQs in Home page, 2. live tile, and 3. warning notification. However, you can optionally use live tile and notification of a subscription.
+                </Paragraph>
+                <Paragraph>
+                    TAQ has a special and always-on subscription called main site. Main site has the similar capabilities as secondary sites. However, main site's live tile is displayed on the TAQ's app icon. You have to pin it to Start from Windows 10's All App List, not here. Additionally, main site also supports auto-positioning of the nearest site. Find more site-related settings in Settings page.
+                </Paragraph>
+            </RichTextBlock>
         </StackPanel>
-    </Grid>
+    </ScrollViewer>
 </Page>
