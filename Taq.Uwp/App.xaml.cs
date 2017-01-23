@@ -82,6 +82,16 @@ namespace Taq.Uwp
                 localSettings.Values["WarnStateChangeMode"] = false;
             }
 
+            if (localSettings.Values["QuietStartTime"] == null)
+            {
+                localSettings.Values["QuietStartTime"] = new TimeSpan(22, 0, 0);
+            }
+
+            if (localSettings.Values["QuietEndTime"] == null)
+            {
+                localSettings.Values["QuietEndTime"] = new TimeSpan(7, 0, 0);
+            }
+
             if (localSettings.Values["AQI_Limit"] == null)
             {
                 localSettings.Values["AQI_Limit"] = 50.0;

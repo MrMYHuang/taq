@@ -23,8 +23,9 @@
                     * 列表頁作數值排序後會卡住幾秒。<LineBreak />
                 </TextBlock>
 
-                <TextBlock Style="{StaticResource secHeadSty}">Ver. 4.4.1</TextBlock>
+                <TextBlock Style="{StaticResource secHeadSty}">Ver. 4.5.0</TextBlock>
                 <TextBlock Style="{StaticResource txtBlkSty1}" >
+                    * 設定頁新增"勿擾時段"。<LineBreak />
                     * 修正首頁"CO平均"漏字的問題。<LineBreak />
                 </TextBlock>
 

@@ -240,8 +240,8 @@
   <data name="refreshTb.Text" xml:space="preserve">
     <value>更新</value>
   </data>
-  <data name="secSiteNotifyTb.Text" xml:space="preserve">
-    <value>次要觀測站通知</value>
+  <data name="secSiteNotify.Header" xml:space="preserve">
+    <value>次要觀測站</value>
   </data>
   <data name="setTb.Text" xml:space="preserve">
     <value>設定</value>
@@ -290,5 +290,17 @@
   </data>
   <data name="warnStateChangeTb.Text" xml:space="preserve">
     <value>警報轉態通知模式</value>
+  </data>
+  <data name="endTime.Header" xml:space="preserve">
+    <value>結束時間</value>
+  </data>
+  <data name="notifyTb.Text" xml:space="preserve">
+    <value>通知</value>
+  </data>
+  <data name="quietHoursTb.Text" xml:space="preserve">
+    <value>勿擾時段 (設相同時間可關閉)</value>
+  </data>
+  <data name="startTime.Header" xml:space="preserve">
+    <value>啟始時間</value>
   </data>
 </root>

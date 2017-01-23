@@ -301,9 +301,37 @@ namespace Taq.Shared.Models
             return 0;
         }
 
-        public void sendSubscrSitesNotifications()
+        public int sendSubscrSitesNotifications()
         {
+            var quietStartTime = (TimeSpan)localSettings.Values["QuietStartTime"];
+            var quietEndTime = (TimeSpan)localSettings.Values["QuietEndTime"];
+
+            // Quiet hours checking.
+            var zeroTime = new TimeSpan(0, 0, 0);
+            var now = DateTime.Now;
+            var nowHm = new TimeSpan(now.Hour, now.Minute, 0);
+            bool isQuietTime = false;
+            // Quiet hours spand between two days.
+            if ((quietEndTime - quietStartTime) < zeroTime)
+            {
+                var quietEndTimePlus = quietEndTime + TimeSpan.FromDays(1);
+                var quietStartTimeMinus = quietStartTime - TimeSpan.FromDays(1);
+                var isQuietTime1 = quietStartTimeMinus <= nowHm && nowHm < quietEndTime;
+                var isQuietTime2 = quietStartTime <= nowHm && nowHm < quietEndTimePlus;
+                isQuietTime = isQuietTime1 || isQuietTime2;
+            }
+            else
+            {
+                isQuietTime = quietStartTime <= nowHm && nowHm < quietEndTime;
+            }
+
+            if (isQuietTime)
+            {
+                return 1;
+            }
+
             sendNotifications(subscrSiteList[0]);
+
             if ((bool)localSettings.Values["SecondSitesNotify"])
             {
                 foreach (var siteName in subscrSiteList.GetRange(1, subscrSiteList.Count - 1))
@@ -311,6 +339,7 @@ namespace Taq.Shared.Models
                     sendNotifications(siteName);
                 }
             }
+            return 0;
         }
 
         public void sendNotifications(string siteName)

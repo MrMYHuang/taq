@@ -237,8 +237,8 @@
   <data name="refreshTb.Text" xml:space="preserve">
     <value>Refresh</value>
   </data>
-  <data name="secSiteNotifyTb.Text" xml:space="preserve">
-    <value>Notifications for Subscribed Secondary Sites</value>
+  <data name="secSiteNotify.Header" xml:space="preserve">
+    <value>Subscribed Secondary Sites</value>
   </data>
   <data name="setTb.Text" xml:space="preserve">
     <value>Settings</value>
@@ -290,5 +290,17 @@
   </data>
   <data name="langComboBox.Header" xml:space="preserve">
     <value>Restarting app to take effect.</value>
+  </data>
+  <data name="endTime.Header" xml:space="preserve">
+    <value>End Time</value>
+  </data>
+  <data name="notifyTb.Text" xml:space="preserve">
+    <value>Notifications</value>
+  </data>
+  <data name="quietHoursTb.Text" xml:space="preserve">
+    <value>Quiet Hours (set same times to disable)</value>
+  </data>
+  <data name="startTime.Header" xml:space="preserve">
+    <value>Start Time</value>
   </data>
 </root>

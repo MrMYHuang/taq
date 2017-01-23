@@ -24,7 +24,7 @@
                 <TextBlock x:Uid="posTb" Style="{StaticResource secHeadSty}"></TextBlock>
                 <ToggleSwitch x:Uid="posMainSwitch" Header="Main Switch" x:FieldModifier="public" x:Name="autoPosToggle" HorizontalAlignment="Left" Margin="0" IsOn="{x:Bind app.vm.AutoPos, Mode=TwoWay}" />
 
-                <TextBlock x:Uid="mapTb" Style="{StaticResource secHeadSty}"></TextBlock>
+                <TextBlock x:Uid="mapTb" Style="{StaticResource secHeadSty}">Map</TextBlock>
                 <StackPanel Orientation="Vertical">
                     <ToggleSwitch x:Uid="nightUi" x:Name="mapColorToggle" HorizontalAlignment="Left" Margin="0" IsOn="{x:Bind app.vm.MapColor, Mode=TwoWay}" />
                     <ToggleSwitch x:Uid="autoPosUi" x:FieldModifier="public" x:Name="mapAutoPosToggle" HorizontalAlignment="Left" Margin="0" IsOn="{x:Bind app.vm.MapAutoPos, Mode=TwoWay}" />
@@ -50,8 +50,11 @@
                     Header="Custom Coloring by">
                 </ComboBox>
 
-                <TextBlock x:Uid="secSiteNotifyTb" Style="{StaticResource secHeadSty}">Notifications for Subscribed Secondary Sites</TextBlock>
-                <ToggleSwitch x:Name="secSitNotifyToggle" HorizontalAlignment="Left" Margin="0" IsOn="{x:Bind app.vm.SecondSitesNotify, Mode=TwoWay}">
+                <TextBlock x:Uid="notifyTb" Style="{StaticResource secHeadSty}">Notifications</TextBlock>
+                <TextBlock x:Uid="quietHoursTb">Quiet Hours</TextBlock>
+                <TimePicker x:Uid="startTime" HorizontalAlignment="Left" Time="{x:Bind QuietStartTime, Mode=TwoWay}" MinuteIncrement="10"/>
+                <TimePicker x:Uid="endTime" HorizontalAlignment="Left" Time="{x:Bind QuietEndTime, Mode=TwoWay}" MinuteIncrement="10"/>
+                <ToggleSwitch x:Name="secSitNotifyToggle"  x:Uid="secSiteNotify" HorizontalAlignment="Left" Margin="0" IsOn="{x:Bind app.vm.SecondSitesNotify, Mode=TwoWay}">
                 </ToggleSwitch>
 
                 <TextBlock x:Uid="warnStateChangeTb" Style="{StaticResource secHeadSty}" Width="300" HorizontalAlignment="Left"></TextBlock>

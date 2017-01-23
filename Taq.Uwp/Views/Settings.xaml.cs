@@ -62,6 +62,40 @@ namespace Taq.Uwp.Views
             }
         }
 
+        public TimeSpan QuietStartTime
+        {
+            get
+            {
+                return (TimeSpan)localSettings.Values["QuietStartTime"];
+            }
+
+            set
+            {
+                if (value != (TimeSpan)localSettings.Values["QuietStartTime"])
+                {
+                    localSettings.Values["QuietStartTime"] = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
+
+        public TimeSpan QuietEndTime
+        {
+            get
+            {
+                return (TimeSpan)localSettings.Values["QuietEndTime"];
+            }
+
+            set
+            {
+                if (value != (TimeSpan)localSettings.Values["QuietEndTime"])
+                {
+                    localSettings.Values["QuietEndTime"] = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
+
         public double Aqi_Limit
         {
             get
