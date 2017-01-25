@@ -41,6 +41,11 @@ namespace Taq.Uwp
         private void initLocalSettings()
         {
             localSettings = ApplicationData.Current.LocalSettings;
+            if (localSettings.Values["FbLongToken"] == null)
+            {
+                localSettings.Values["FbLongToken"] = "";
+            }
+
             if (localSettings.Values["AppTheme"] == null)
             {
                 localSettings.Values["AppTheme"] = true;
