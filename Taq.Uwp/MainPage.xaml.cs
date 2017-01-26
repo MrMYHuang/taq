@@ -117,7 +117,10 @@ namespace Taq.Uwp
             var btr = await BackTaskReg.backUpdateReg("Timer", new TimeTrigger(timerPeriod, false));
             btr.Completed += Btr_Completed;
             // Update if the Internet is available.
-            //await backUpdateReg("HasNet", new SystemTrigger(SystemTriggerType.InternetAvailable, false));
+            var btr2 = await BackTaskReg.backUpdateReg("HasNet", new SystemTrigger(SystemTriggerType.InternetAvailable, false));
+            btr2.Completed += Btr_Completed;
+            var btr3 = await BackTaskReg.backUpdateReg("UserPresent", new SystemTrigger(SystemTriggerType.UserPresent, false));
+            btr3.Completed += Btr_Completed;
             return 0;
         }
 
