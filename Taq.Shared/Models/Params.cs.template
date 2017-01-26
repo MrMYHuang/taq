@@ -1,4 +1,6 @@
-﻿namespace Taq.Shared.Models
+﻿using System.Text.RegularExpressions;
+using Windows.Security.Authentication.Web;
+namespace Taq.Shared.Models
 {
     public static class Params
     {
@@ -6,11 +8,16 @@
         public const string aqDbFile = "taqi.json";
         // TAQ server URI.
         public static string uriHost = "https://YourTaqServerDomainName/";
+        //public static string uriHost = "http://localhost:1337/";
         // Table name of AQ histories.
         public static string aqHistTabName = "epatw";
         // Download file name of AQ history.
         public static string aqHistFile = "AqHist.json";
         public static string hockeyAppId = "YourHockeyAppId";
         public static string bingMapToken = "YourBingMapToken";
+		// facebook app ID.
+        public static string FBAppId = "YourFacebookAppId";
+        public static string pkgSid = new Regex("ms-app://(.*)/").Replace(WebAuthenticationBroker.GetCurrentApplicationCallbackUri().ToString(), "$1")
+
     }
 }

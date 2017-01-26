@@ -303,4 +303,19 @@
   <data name="startTime.Header" xml:space="preserve">
     <value>啟始時間</value>
   </data>
+  <data name="loginSuccess" xml:space="preserve">
+    <value>Facebook登入成功。</value>
+  </data>
+  <data name="loginFail" xml:space="preserve">
+    <value>登入失敗！</value>
+  </data>
+  <data name="logining" xml:space="preserve">
+    <value>登入中...</value>
+  </data>
+  <data name="noLogin" xml:space="preserve">
+    <value>未登入facebook帳號，無法更新！</value>
+  </data>
+  <data name="registration.Text" xml:space="preserve">
+    <value>註冊</value>
+  </data>
 </root>

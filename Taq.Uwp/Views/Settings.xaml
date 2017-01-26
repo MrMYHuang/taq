@@ -11,12 +11,16 @@
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <ScrollViewer Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" DataContext="{x:Bind}">
             <StackPanel Orientation="Vertical">
-                <TextBlock Style="{StaticResource secHeadSty}"  Margin="0">Language / 語言</TextBlock>
+                <TextBlock Style="{StaticResource secHeadSty}" Margin="0">Language / 語言</TextBlock>
                 <ComboBox x:Name="langComboBox" x:Uid="langComboBox"
                           HorizontalAlignment="Left" Width="265"
                           ItemsSource="{x:Bind app.vm.m.langList}"
                           SelectedIndex="{x:Bind LangId, Mode=TwoWay}">
                 </ComboBox>
+
+                <TextBlock x:Uid="registration" Style="{StaticResource secHeadSty}">Registration</TextBlock>
+                <ToggleSwitch x:Name="fbToggle" x:Uid="fbToggle" HorizontalAlignment="Left" IsOn="{x:Bind app.vm.FbLoggined, Mode=TwoWay}">Facebook Login</ToggleSwitch>
+                <TextBlock Text="{x:Bind app.vm.UserName, Mode=OneWay}" />
 
                 <TextBlock x:Uid="nightTheme" Style="{StaticResource secHeadSty}" />
                 <ToggleSwitch x:Name="themeToggle" x:Uid="themeToggle" HorizontalAlignment="Left" Margin="0" IsOn="{x:Bind AppTheme, Mode=TwoWay}" Width="340" Height="67"/>

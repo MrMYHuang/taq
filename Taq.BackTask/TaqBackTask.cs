@@ -51,8 +51,7 @@ namespace Taq.BackTask
                         }
                         catch (Exception ex)
                         {
-                            sw.WriteLine("Download fail time: " + DateTime.Now.ToString());
-                            // Ignore.
+                            sw.WriteLine("Download fail time: " + DateTime.Now.ToString() + "\n" + ex.Message);
                             Debug.WriteLine(ex.Message);
                         }
 

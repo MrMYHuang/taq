@@ -118,9 +118,6 @@
     <Compile Include="ModelViews\AqViewModel.cs" />
     <Compile Include="ModelViews\SiteViewModel.cs" />
     <Compile Include="ModelViews\StaticTaqModelView.cs" />
-    <Compile Include="Views\Login.xaml.cs">
-      <DependentUpon>Login.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\SmallTile.xaml.cs">
       <DependentUpon>SmallTile.xaml</DependentUpon>
     </Compile>
@@ -138,10 +135,6 @@
     <EmbeddedResource Include="Properties\TaqShared.rd.xml" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="Views\Login.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Views\SmallTile.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

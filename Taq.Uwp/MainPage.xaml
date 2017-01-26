@@ -50,13 +50,6 @@
         <SplitView x:Name="MySplitView" DisplayMode="CompactOverlay" IsPaneOpen="False" CompactPaneLength="60" OpenPaneLength="250"  Margin="0,0,0,50">
             <SplitView.Pane>
                 <ListView VerticalAlignment="Bottom">
-                    <ListViewItem Tapped="loginButton_Click">
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="&#xE713;" Style="{StaticResource txtBlkSty1}" />
-                            <TextBlock x:Uid="setTb" Style="{StaticResource txtBlkSty2}" />
-                        </StackPanel>
-                    </ListViewItem>
-
                     <ListViewItem Tapped="setButton_Click" KeyUp="setButton_KeyUp">
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="&#xE713;" Style="{StaticResource txtBlkSty1}" />

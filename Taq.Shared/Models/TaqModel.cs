@@ -1,10 +1,17 @@
 ﻿using Microsoft.QueryStringDotNET;
 using Microsoft.Toolkit.Uwp.Notifications;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using NotificationsExtensions.TileContent;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using Taq.Shared;
@@ -12,6 +19,7 @@ using Taq.Shared.Models;
 using Taq.Shared.ModelViews;
 using Taq.Shared.Views;
 using Windows.ApplicationModel.Resources;
+using Windows.Data.Json;
 using Windows.Devices.Geolocation;
 using Windows.Storage;
 using Windows.UI;
@@ -62,16 +70,105 @@ namespace Taq.Shared.Models
 
         public async Task<int> downloadAqData(int timeout = 10000)
         {
-            await StaticTaqModel.downloadAndBackup(source, Params.aqDbFile, timeout);
+            await downloadAndBackup(source, Params.aqDbFile, timeout);
             // Download AQ histories for subscribed sites.
             foreach (var siteName in subscrSiteList)
             {
-                await StaticTaqModel.downloadAndBackup(
+                await downloadAndBackup(
                     new Uri(Params.uriHost + Params.aqHistTabName + $"?siteName={siteName}"),
                     siteName + Params.aqHistFile,
                     timeout);
             }
             return 0;
+        }
+
+        public async Task<int> downloadAndBackup(Uri source, string dstFile, int timeout = 10000)
+        {
+            HttpResponseMessage resMsg;
+            CancellationTokenSource cts = new CancellationTokenSource();
+            CancellationToken token = cts.Token;
+            cts.CancelAfter(timeout);
+            try
+            {
+                // Pass the token to the task that listens for cancellation.
+                resMsg = await httpClientPost(source, getUidPwdJson(), token);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+                // timeout is reached, downloadOperation is cancled
+                throw new Exception("錯誤，下載逾時！");
+            }
+            finally
+            {
+                // Releases all resources of cts
+                cts.Dispose();
+            }
+
+            // file is downloaded in time, save to temp file.
+            StorageFile tempSf;
+            using (var r = await resMsg.Content.ReadAsStreamAsync())
+            {
+                var sr = new StreamReader(r);
+                var resStr = sr.ReadToEnd();
+                var jRes = JsonValue.Parse(resStr).GetObject();
+                var err = jRes["error"].GetString();
+                if (err != "")
+                {
+                    throw new Exception(err);
+                }
+                else
+                {
+                    tempSf = await ApplicationData.Current.LocalFolder.CreateFileAsync("Temp" + dstFile, CreationCollisionOption.ReplaceExisting);
+                    // Write download data to dstSf.
+                    using (var s = await tempSf.OpenStreamForWriteAsync())
+                    {
+                        using (var sw = new StreamWriter(s))
+                        {
+                            sw.Write(resStr);
+                        }
+                    }
+                }
+            }
+
+            // Backup old file and copy temp file.
+            StorageFile dstSf;
+            try
+            {
+                dstSf = await ApplicationData.Current.LocalFolder.GetFileAsync(dstFile);
+                // Backup old file.
+                var oldAqDbSf = await ApplicationData.Current.LocalFolder.CreateFileAsync("Old" + dstFile, CreationCollisionOption.ReplaceExisting);
+                await dstSf.CopyAndReplaceAsync(oldAqDbSf);
+            }
+            catch (Exception ex)
+            {
+                // Original file not exist.
+                Debug.WriteLine(ex.Message);
+                dstSf = await ApplicationData.Current.LocalFolder.CreateFileAsync(dstFile, CreationCollisionOption.ReplaceExisting);
+            }
+            // Copy download file to dstFile.
+            await tempSf.CopyAndReplaceAsync(dstSf);
+            return 0;
+        }
+
+        public JObject getUidPwdJson()
+        {
+            var jo = new JObject();
+            jo.Add("uid", (string)localSettings.Values["UserId"]);
+            jo.Add("pwd", (string)localSettings.Values["UserPwd"]);
+            return jo;
+        }
+
+        public async Task<HttpResponseMessage> httpClientPost(Uri uri, JObject jPost, CancellationToken ct)
+        {
+            var hc = new HttpClient();
+            hc.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            hc.DefaultRequestHeaders.AcceptEncoding.Add(new StringWithQualityHeaderValue("utf-8"));
+            var content = new StringContent(JsonConvert.SerializeObject(jPost), Encoding.UTF8, "application/json");
+            return await hc.PostAsync(uri, content, ct);
+            /*
+            var resContentStr = await resMsg.Content.ReadAsStringAsync();
+            return JsonValue.Parse(resContentStr).GetObject();*/
         }
 
         private int loadSiteGeoXml()

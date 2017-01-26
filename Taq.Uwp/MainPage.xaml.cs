@@ -30,13 +30,11 @@ namespace Taq.Uwp
     public sealed partial class MainPage : Page
     {
         public App app;
-        public ApplicationDataContainer localSettings;
 
         public MainPage()
         {
             BackgroundExecutionManager.RemoveAccess();
             app = App.Current as App;
-            localSettings = ApplicationData.Current.LocalSettings;
 
             this.InitializeComponent();
             initAux();
@@ -92,23 +90,23 @@ namespace Taq.Uwp
 
         async Task<int> initBackTask()
         {
-            if (localSettings.Values["BgUpdatePeriod"] == null)
+            if (app.vm.m.localSettings.Values["BgUpdatePeriod"] == null)
             {
                 app.vm.BgUpdatePeriodId = 0;
             }
             else
             {
-                app.vm.BgUpdatePeriodId = app.vm.bgUpdatePeriods.FindIndex(x => x == (int)localSettings.Values["BgUpdatePeriod"]);
+                app.vm.BgUpdatePeriodId = app.vm.bgUpdatePeriods.FindIndex(x => x == (int)app.vm.m.localSettings.Values["BgUpdatePeriod"]);
             }
-            if (localSettings.Values["BgMainSiteAutoPos"] == null)
+            if (app.vm.m.localSettings.Values["BgMainSiteAutoPos"] == null)
             {
-                localSettings.Values["BgMainSiteAutoPos"] = false;
+                app.vm.m.localSettings.Values["BgMainSiteAutoPos"] = false;
             }
             await BackTaskReg.RegisterBackgroundTask("AfterUpdateBackTask", "Taq.BackTask.AfterUpdate", new SystemTrigger(SystemTriggerType.ServicingComplete, false));
             //await BackTaskReg.RegisterBackgroundTask("UserPresentBackTask", "Taq.BackTask.UserPresentBackTask", new SystemTrigger(SystemTriggerType.UserPresent, false));
             // Update if user aways.
             //await BackTaskReg.RegisterBackgroundTask("UserAwayBackTask", "Taq.BackTask.UserAwayBackTask", new SystemTrigger(SystemTriggerType.UserAway, false));
-            await UserPresentTaskReg(Convert.ToUInt32(localSettings.Values["BgUpdatePeriod"]));
+            await UserPresentTaskReg(Convert.ToUInt32(app.vm.m.localSettings.Values["BgUpdatePeriod"]));
             return 0;
         }
 
@@ -183,6 +181,14 @@ namespace Taq.Uwp
                 // Do nothing.
 #else
                 await app.vm.m.loadSubscrSiteXml();
+
+                if ((string)app.vm.m.localSettings.Values["UserPwd"] == "")
+                {
+                    statusTextBlock.Text = app.vm.m.resLoader.GetString("logining");
+                    await app.vm.fbLogin();
+                    statusTextBlock.Text = app.vm.m.resLoader.GetString("loginSuccess");
+                }
+
                 statusTextBlock.Text = app.vm.m.resLoader.GetString("downloading");
                 await app.vm.m.downloadAqData();
                 downloadSuccess = true;
@@ -395,12 +401,7 @@ namespace Taq.Uwp
                 MySplitView.IsPaneOpen = false;
             }
         }
-
-        private void loginButton_Click(object sender, TappedRoutedEventArgs e)
-        {
-            frame.Navigate(typeof(Login));
-        }
-
+        
         private async void refreshButton_Click(object sender, TappedRoutedEventArgs e)
         {
             MySplitView.IsPaneOpen = false;

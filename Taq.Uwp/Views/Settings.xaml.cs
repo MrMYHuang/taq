@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using Taq.BackTask;
+using Taq.Uwp.ViewModels;
 using Windows.Globalization;
 using Windows.Storage;
 using Windows.UI.Xaml;
@@ -130,6 +131,13 @@ namespace Taq.Uwp.Views
             }
         }
 
+        private async void bgUpdateComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var selId = ((ComboBox)sender).SelectedIndex;
+            app.vm.BgUpdatePeriodId = selId;
+            await mainPage.UserPresentTaskReg(Convert.ToUInt32(localSettings.Values["BgUpdatePeriod"]));
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
@@ -138,13 +146,6 @@ namespace Taq.Uwp.Views
             {
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
             }
-        }
-
-        private async void bgUpdateComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            var selId = ((ComboBox)sender).SelectedIndex;
-            app.vm.BgUpdatePeriodId = selId;
-            await mainPage.UserPresentTaskReg(Convert.ToUInt32(localSettings.Values["BgUpdatePeriod"]));
         }
     }
 }

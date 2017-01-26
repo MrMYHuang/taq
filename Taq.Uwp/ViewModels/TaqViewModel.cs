@@ -1,5 +1,6 @@
 ﻿using Microsoft.Practices.Prism.Mvvm;
 using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
@@ -18,6 +19,21 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 using Windows.ApplicationModel.Resources;
+using Windows.Security.Authentication.Web;
+//using System.Net.Http;
+using Windows.Data.Json;
+//using System.Net.Http.Headers;
+using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
+//using System.Text;
+using Windows.Storage;
+using System.Threading;
+using Windows.Web.Http;
+using Windows.Web.Http.Headers;
+using Windows.Web.Http.Filters;
+using Windows.Storage.Streams;
+using Windows.Security.Authentication.Web.Core;
+using winsdkfb;
 
 namespace Taq.Uwp.ViewModels
 {
@@ -34,6 +50,164 @@ namespace Taq.Uwp.ViewModels
         public TaqViewModel()
         {
 
+        }
+
+        public bool FbLoggined
+        {
+            get
+            {
+                return (bool)m.localSettings.Values["FbLoggined"];
+            }
+
+            set
+            {
+                if (value != (bool)m.localSettings.Values["FbLoggined"])
+                {
+                    if (value == true)
+                    {
+                        fbLogin();
+                    }
+                    else
+                    {
+                        fbLogout();
+                    }
+                }
+            }
+        }
+
+        public async Task<int> fbLogin()
+        {
+            var fbLogginedTemp = false;
+            try
+            {
+                var res = await fbLoginAux();
+
+                if (res.Succeeded)
+                {
+                    await extractFbAuthResData();
+                }
+                else
+                {
+                    throw new Exception(m.resLoader.GetString("loginFail"));
+                }
+                fbLogginedTemp = true;
+            }
+            finally
+            {
+                m.localSettings.Values["FbLoggined"] = fbLogginedTemp;
+                OnPropertyChanged("FbLoggined");
+            }
+            return 0;
+        }
+
+        //string redirectUri = WebAuthenticationBroker.GetCurrentApplicationCallbackUri().ToString();
+        public async Task<FBResult> fbLoginAux()
+        {
+            FBSession sess = FBSession.ActiveSession;
+            sess.FBAppId = Params.FBAppId;
+            sess.WinAppId = Params.pkgSid;
+            List<String> permissionList = new List<String>();
+            permissionList.Add("public_profile");
+            FBPermissions permissions = new FBPermissions(permissionList);
+
+            // Login to Facebook
+            return await sess.LoginAsync(permissions);
+            /*
+        var requestUri = new Uri($"https://www.facebook.com/v2.8/dialog/oauth?client_id={Params.FBAppId}&display=popup&response_type=token&redirect_uri=" + redirectUri);
+    Uri endUri = new Uri(redirectUri, UriKind.Absolute);
+    return await WebAuthenticationBroker.AuthenticateAsync(wao, requestUri, endUri);*/
+        }
+
+        public async void fbLogout()
+        {
+            FBSession sess = FBSession.ActiveSession;
+            // Clear login infos.
+            UserName = "";
+            m.localSettings.Values["UserPwd"] = "";
+            await sess.LogoutAsync();
+            m.localSettings.Values["FbLoggined"] = false;
+            OnPropertyChanged("FbLoggined");
+            /*
+            HttpBaseProtocolFilter filter = new HttpBaseProtocolFilter();
+            HttpCookieManager cookieManager = filter.CookieManager;
+            HttpCookieCollection cookiesJar = cookieManager.GetCookies(new Uri("https://www.facebook.com/"));
+            foreach (var cookie in cookiesJar)
+            {
+                cookieManager.DeleteCookie(cookie);
+            }*/
+        }
+
+        private async Task extractFbAuthResData()
+        {
+            FBSession sess = FBSession.ActiveSession;
+            /*
+            if (.Contains("error"))
+            {
+                throw new Exception(m.resLoader.GetString("loginFail"));
+            }
+            */
+            //Get Access Token first
+            /*
+            string responseData = webAuthResultResponseData.Substring(webAuthResultResponseData.IndexOf("access_token"));
+            String[] keyValPairs = responseData.Split('&');
+            string access_token = null;
+            for (int i = 0; i < keyValPairs.Length; i++)
+            {
+                String[] splits = keyValPairs[i].Split('=');
+                switch (splits[0])
+                {
+                    case "access_token":
+                        access_token = splits[1];
+                        break;
+                }
+            }*/
+            string access_token = sess.AccessTokenData.AccessToken;
+
+            /*
+            //Request User info.
+            HttpClient httpClient = new HttpClient();
+            string response = await httpClient.GetStringAsync(new Uri("https://graph.facebook.com/me?fields=name,email&access_token=" + access_token));
+            var value = JsonValue.Parse(response).GetObject();
+            var email = value.GetNamedString("email");*/
+            var email = sess.User.Email;
+
+            // Register at TAQ server.
+            var taqHttpClient = new HttpClient();
+            //            taqHttpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            //            taqHttpClient.DefaultRequestHeaders.AcceptEncoding.Add(new StringWithQualityHeaderValue("utf-8"));
+            var jTaqReq = new JObject();
+            jTaqReq.Add("userToken", access_token);
+            jTaqReq.Add("email", email);
+            var content = new HttpStringContent(JsonConvert.SerializeObject(jTaqReq), UnicodeEncoding.Utf8, "application/json");
+            var taqRegResMsg = await taqHttpClient.PostAsync(new Uri(Params.uriHost + "userReg"), content);
+            var taqResStr = await taqRegResMsg.Content.ReadAsStringAsync();
+            var jTaqRegRes = JsonValue.Parse(taqResStr).GetObject();
+            var err = jTaqRegRes.GetNamedString("error");
+            if (err != "")
+            {
+                throw new Exception(err);
+            }
+            //UserName = value.GetNamedString("name");
+            UserName = sess.User.Name;
+            m.localSettings.Values["UserId"] = sess.User.Id;
+            m.localSettings.Values["UserPwd"] = jTaqRegRes.GetNamedString("pwd");
+        }
+
+        public string UserName
+        {
+            get
+            {
+                return (string)m.localSettings.Values["UserName"];
+            }
+
+            set
+            {
+                if (value != (string)m.localSettings.Values["UserName"])
+                {
+                    m.localSettings.Values["UserName"] = value;
+                    OnPropertyChanged("UserName");
+                }
+            }
         }
 
         // Has to be run by UI context!
@@ -158,7 +332,7 @@ namespace Taq.Uwp.ViewModels
             }
             // Update mode.
             else
-            {                
+            {
                 for (var id = 0; id < aqgvList.Count; id++)
                 {
                     updateAqgv(id);
@@ -224,7 +398,7 @@ namespace Taq.Uwp.ViewModels
                 aqvms.Add(aqvm);
 
                 // Create UIElement for GridViewItem by k value.
-                switch(k)
+                switch (k)
                 {
                     case "PM2.5":
                     case "PM2.5_AVG":
@@ -448,7 +622,7 @@ namespace Taq.Uwp.ViewModels
                             m.localSettings.Values["AutoPos"] = true;
                             break;
                         default:
-                            var cd = new ContentDialog { Title = m.resLoader.GetString("enableGpsFail")};
+                            var cd = new ContentDialog { Title = m.resLoader.GetString("enableGpsFail") };
                             var txt = new TextBlock { Text = m.resLoader.GetString("enableGpsFailMsg"), TextWrapping = TextWrapping.Wrap };
                             cd.Content = txt;
                             cd.PrimaryButtonText = "OK";

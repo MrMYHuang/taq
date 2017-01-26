@@ -41,9 +41,16 @@ namespace Taq.Uwp
         private void initLocalSettings()
         {
             localSettings = ApplicationData.Current.LocalSettings;
-            if (localSettings.Values["FbLongToken"] == null)
+            if (localSettings.Values["UserId"] == null)
             {
-                localSettings.Values["FbLongToken"] = "";
+                localSettings.Values["UserName"] = "";
+                localSettings.Values["UserId"] = "";
+                localSettings.Values["UserPwd"] = "";
+            }
+
+            if (localSettings.Values["FbLoggined"] == null)
+            {
+                localSettings.Values["FbLoggined"] = false;
             }
 
             if (localSettings.Values["AppTheme"] == null)
