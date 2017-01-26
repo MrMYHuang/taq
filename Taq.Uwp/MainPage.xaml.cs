@@ -16,6 +16,7 @@ using Taq.BackTask;
 using Windows.ApplicationModel.Core;
 using Taq.Shared.Models;
 using System.Diagnostics;
+using Taq.Shared.Views;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -391,7 +392,13 @@ namespace Taq.Uwp
             if (e.Key == VirtualKey.Enter || e.Key == VirtualKey.Space)
             {
                 frame.Navigate(typeof(AqColorMaps));
+                MySplitView.IsPaneOpen = false;
             }
+        }
+
+        private void loginButton_Click(object sender, TappedRoutedEventArgs e)
+        {
+            frame.Navigate(typeof(Login));
         }
 
         private async void refreshButton_Click(object sender, TappedRoutedEventArgs e)
