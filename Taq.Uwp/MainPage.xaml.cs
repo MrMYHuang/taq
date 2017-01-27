@@ -175,6 +175,7 @@ namespace Taq.Uwp
 
         public async Task<int> downloadAndReload()
         {
+            // Because the function continues even if downloadAqData throw an exceptions, we have to record the download failure state by a variable.
             bool downloadSuccess = false;
             try
             {
@@ -206,7 +207,7 @@ namespace Taq.Uwp
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex.Message);
+                statusTextBlock.Text = ex.Message;
                 // Ignore.
             }
 
@@ -242,7 +243,7 @@ namespace Taq.Uwp
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex.Message);
+                statusTextBlock.Text = "updateSitesData failed:" + ex.Message;
             }
             return 0;
         }

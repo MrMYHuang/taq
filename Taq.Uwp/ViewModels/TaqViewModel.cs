@@ -214,6 +214,7 @@ namespace Taq.Uwp.ViewModels
         // Has to be run by UI context!
         public void loadDict2Sites(string aqName)
         {
+            // sites is uninitialized.
             var isSiteUninit = sites.Count() == 0;
             if (isSiteUninit)
             {
