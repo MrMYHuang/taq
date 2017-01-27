@@ -108,6 +108,7 @@ namespace Taq.Uwp.ViewModels
             sess.WinAppId = Params.pkgSid;
             List<String> permissionList = new List<String>();
             permissionList.Add("public_profile");
+            permissionList.Add("email");
             FBPermissions permissions = new FBPermissions(permissionList);
 
             // Login to Facebook
