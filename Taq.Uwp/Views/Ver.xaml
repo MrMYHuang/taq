@@ -24,6 +24,11 @@
                     * facebook登入後會卡住幾秒。<LineBreak />
                 </TextBlock>
 
+                <TextBlock Style="{StaticResource secHeadSty}">Ver. 5.0.2</TextBlock>
+                <TextBlock Style="{StaticResource txtBlkSty1}" >
+                    * 修正環保署原始資料出現"設備維護"值時，TAQ運作異常的問題。<LineBreak />
+                </TextBlock>
+
                 <TextBlock Style="{StaticResource secHeadSty}">Ver. 5.0.1</TextBlock>
                 <TextBlock Style="{StaticResource txtBlkSty1}" >
                     * 修正facebook登入未取得E-mail權限的bug。<LineBreak />
