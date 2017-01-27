@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net.Http;
@@ -58,13 +59,15 @@ namespace Taq.Shared.Models
             { "對敏感族群不良", "敏感"},
             { "對所有族群不良", "所有"},
             { "非常不良", "非常"},
+            { "設備維護", "維護"},
         };
 
         public static string getShortStatus(string statusStr)
         {
-            if (statusStr.Length > 2)
+            var key = StaticTaqModel.shortStatusDict.Keys.Where(k => k == statusStr);
+            if (key.Count() != 0)
             {
-                return StaticTaqModel.shortStatusDict[statusStr];
+                return StaticTaqModel.shortStatusDict[key.First()];
             }
             return statusStr;
         }
