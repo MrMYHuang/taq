@@ -48,9 +48,9 @@ namespace Taq.Uwp
                 localSettings.Values["UserPwd"] = "";
             }
 
-            if (localSettings.Values["FbLoggined"] == null)
+            if (localSettings.Values["Loggined"] == null)
             {
-                localSettings.Values["FbLoggined"] = false;
+                localSettings.Values["Loggined"] = false;
             }
 
             if (localSettings.Values["AppTheme"] == null)

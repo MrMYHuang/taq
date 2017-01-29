@@ -187,7 +187,7 @@ namespace Taq.Uwp
                 if ((string)app.vm.m.localSettings.Values["UserPwd"] == "")
                 {
                     statusTextBlock.Text = app.vm.m.resLoader.GetString("logining");
-                    await app.vm.fbLogin();
+                    await app.vm.authLogin();
                     statusTextBlock.Text = app.vm.m.resLoader.GetString("loginSuccess");
                 }
 

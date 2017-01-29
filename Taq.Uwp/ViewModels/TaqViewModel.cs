@@ -33,7 +33,7 @@ using Windows.Web.Http.Headers;
 using Windows.Web.Http.Filters;
 using Windows.Storage.Streams;
 using Windows.Security.Authentication.Web.Core;
-using winsdkfb;
+using Auth0.LoginClient;
 
 namespace Taq.Uwp.ViewModels
 {
@@ -52,82 +52,66 @@ namespace Taq.Uwp.ViewModels
 
         }
 
-        public bool FbLoggined
+        public bool Loggined
         {
             get
             {
-                return (bool)m.localSettings.Values["FbLoggined"];
+                return (bool)m.localSettings.Values["Loggined"];
             }
 
             set
             {
-                if (value != (bool)m.localSettings.Values["FbLoggined"])
+                if (value != (bool)m.localSettings.Values["Loggined"])
                 {
                     if (value == true)
                     {
-                        fbLogin();
+                        authLogin();
                     }
                     else
                     {
-                        fbLogout();
+                        authLogout();
                     }
                 }
             }
         }
 
-        public async Task<int> fbLogin()
+        public async Task<int> authLogin()
         {
-            var fbLogginedTemp = false;
+            var logginedTemp = false;
             try
             {
-                var res = await fbLoginAux();
-
-                if (res.Succeeded)
-                {
-                    await extractFbAuthResData();
-                }
-                else
-                {
-                    throw new Exception(m.resLoader.GetString("loginFail"));
-                }
-                fbLogginedTemp = true;
+                var auth0User = await authLoginAux();
+                await extractFbAuthResData(auth0User);
+                logginedTemp = true;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(m.resLoader.GetString("loginFail") + ": " + ex.Message);
             }
             finally
             {
-                m.localSettings.Values["FbLoggined"] = fbLogginedTemp;
-                OnPropertyChanged("FbLoggined");
+                m.localSettings.Values["Loggined"] = logginedTemp;
+                OnPropertyChanged("Loggined");
             }
             return 0;
         }
 
         //string redirectUri = WebAuthenticationBroker.GetCurrentApplicationCallbackUri().ToString();
-        public async Task<FBResult> fbLoginAux()
+        public async Task<Auth0User> authLoginAux()
         {
-            FBSession sess = FBSession.ActiveSession;
-            sess.FBAppId = Params.FBAppId;
-            sess.WinAppId = Params.pkgSid;
-            List<String> permissionList = new List<String>();
-            permissionList.Add("public_profile");
-            permissionList.Add("email");
-            FBPermissions permissions = new FBPermissions(permissionList);
-
-            // Login to Facebook
-            return await sess.LoginAsync(permissions);
-            /*
-        var requestUri = new Uri($"https://www.facebook.com/v2.8/dialog/oauth?client_id={Params.FBAppId}&display=popup&response_type=token&redirect_uri=" + redirectUri);
-    Uri endUri = new Uri(redirectUri, UriKind.Absolute);
-    return await WebAuthenticationBroker.AuthenticateAsync(wao, requestUri, endUri);*/
+            var auth0 = new Auth0Client(Params.auth0Domain, Params.auth0ClientId);
+            return await auth0.LoginAsync();
         }
 
-        public async void fbLogout()
+        public async void authLogout()
         {
-            FBSession sess = FBSession.ActiveSession;
             // Clear login infos.
             UserName = "";
             m.localSettings.Values["UserPwd"] = "";
-            await sess.LogoutAsync();
-            m.localSettings.Values["FbLoggined"] = false;
-            OnPropertyChanged("FbLoggined");
+            var auth0 = new Auth0Client(Params.auth0Domain, Params.auth0ClientId);
+            auth0.Logout();
+            m.localSettings.Values["Loggined"] = false;
+            OnPropertyChanged("Loggined");
             /*
             HttpBaseProtocolFilter filter = new HttpBaseProtocolFilter();
             HttpCookieManager cookieManager = filter.CookieManager;
@@ -138,39 +122,10 @@ namespace Taq.Uwp.ViewModels
             }*/
         }
 
-        private async Task extractFbAuthResData()
+        private async Task extractFbAuthResData(Auth0User u)
         {
-            FBSession sess = FBSession.ActiveSession;
-            /*
-            if (.Contains("error"))
-            {
-                throw new Exception(m.resLoader.GetString("loginFail"));
-            }
-            */
-            //Get Access Token first
-            /*
-            string responseData = webAuthResultResponseData.Substring(webAuthResultResponseData.IndexOf("access_token"));
-            String[] keyValPairs = responseData.Split('&');
-            string access_token = null;
-            for (int i = 0; i < keyValPairs.Length; i++)
-            {
-                String[] splits = keyValPairs[i].Split('=');
-                switch (splits[0])
-                {
-                    case "access_token":
-                        access_token = splits[1];
-                        break;
-                }
-            }*/
-            string access_token = sess.AccessTokenData.AccessToken;
-
-            /*
-            //Request User info.
-            HttpClient httpClient = new HttpClient();
-            string response = await httpClient.GetStringAsync(new Uri("https://graph.facebook.com/me?fields=name,email&access_token=" + access_token));
-            var value = JsonValue.Parse(response).GetObject();
-            var email = value.GetNamedString("email");*/
-            var email = sess.User.Email;
+            string access_token = u.Auth0AccessToken;
+            var email = u.Profile["email"].ToString();
 
             // Register at TAQ server.
             var taqHttpClient = new HttpClient();
@@ -188,9 +143,8 @@ namespace Taq.Uwp.ViewModels
             {
                 throw new Exception(err);
             }
-            //UserName = value.GetNamedString("name");
-            UserName = sess.User.Name;
-            m.localSettings.Values["UserId"] = sess.User.Id;
+            UserName = u.Profile["name"].ToString();
+            m.localSettings.Values["UserId"] = u.Profile["user_id"].Id;
             m.localSettings.Values["UserPwd"] = jTaqRegRes.GetNamedString("pwd");
         }
 

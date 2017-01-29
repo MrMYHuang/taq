@@ -19,7 +19,7 @@
                 </ComboBox>
 
                 <TextBlock x:Uid="registration" Style="{StaticResource secHeadSty}">Registration</TextBlock>
-                <ToggleSwitch x:Name="fbToggle" x:Uid="fbToggle" HorizontalAlignment="Left" IsOn="{x:Bind app.vm.FbLoggined, Mode=TwoWay}">Facebook Login</ToggleSwitch>
+                <ToggleSwitch x:Name="fbToggle" x:Uid="fbToggle" HorizontalAlignment="Left" IsOn="{x:Bind app.vm.Loggined, Mode=TwoWay}">Facebook Login</ToggleSwitch>
                 <TextBlock Text="{x:Bind app.vm.UserName, Mode=OneWay}" />
 
                 <TextBlock x:Uid="nightTheme" Style="{StaticResource secHeadSty}" />
