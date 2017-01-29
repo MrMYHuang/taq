@@ -318,4 +318,7 @@
   <data name="registration.Text" xml:space="preserve">
     <value>Registration</value>
   </data>
+  <data name="fbToggle.Header" xml:space="preserve">
+    <value>Login</value>
+  </data>
 </root>

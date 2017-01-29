@@ -21,7 +21,11 @@
                 <TextBlock Style="{StaticResource txtBlkSty1}" >
                     * 背景任務開啟裝置後會隨機crashes。<LineBreak />
                     * 列表頁作數值排序後會卡住幾秒。<LineBreak />
-                    * facebook登入後會卡住幾秒。<LineBreak />
+                </TextBlock>
+
+                <TextBlock Style="{StaticResource secHeadSty}">Ver. 6.0.0</TextBlock>
+                <TextBlock Style="{StaticResource txtBlkSty1}" >
+                    * 改用Auth0登入服務。<LineBreak />
                 </TextBlock>
 
                 <TextBlock Style="{StaticResource secHeadSty}">Ver. 5.0.2</TextBlock>

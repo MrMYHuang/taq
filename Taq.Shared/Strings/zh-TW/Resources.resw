@@ -318,4 +318,7 @@
   <data name="registration.Text" xml:space="preserve">
     <value>註冊</value>
   </data>
+  <data name="fbToggle.Header" xml:space="preserve">
+    <value>登入</value>
+  </data>
 </root>
