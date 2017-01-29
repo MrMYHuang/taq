@@ -7,8 +7,11 @@ namespace Taq.Shared.Models
         // The AQ data filename.
         public const string aqDbFile = "taqi.json";
         // TAQ server URI.
-        public static string uriHost = "https://YourTaqServerDomainName/";
-        //public static string uriHost = "http://localhost:1337/";
+#if DEBUG
+        public static string uriHost = "http://localhost:1337/";
+#else
+        public static string uriHost = "https://YourTaqServerIp/";
+#endif
         // Table name of AQ histories.
         public static string aqHistTabName = "epatw";
         // Download file name of AQ history.
@@ -16,8 +19,8 @@ namespace Taq.Shared.Models
         public static string hockeyAppId = "YourHockeyAppId";
         public static string bingMapToken = "YourBingMapToken";
 		// facebook app ID.
-        public static string FBAppId = "YourFacebookAppId";
-        public static string pkgSid = new Regex("ms-app://(.*)/").Replace(WebAuthenticationBroker.GetCurrentApplicationCallbackUri().ToString(), "$1")
+        public static string auth0Domain = "YourAuth0Domain";
+        public static string auth0ClientId = "YourAuth0ClientId";
 
     }
 }

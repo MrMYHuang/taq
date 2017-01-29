@@ -100,7 +100,10 @@ namespace Taq.Uwp.ViewModels
         public async Task<Auth0User> authLoginAux()
         {
             var auth0 = new Auth0Client(Params.auth0Domain, Params.auth0ClientId);
-            return await auth0.LoginAsync();
+            var user = await auth0.LoginAsync();
+            if (user == null)
+                throw new Exception("Authentication cancelled!");
+            return user;
         }
 
         public async void authLogout()
@@ -122,10 +125,21 @@ namespace Taq.Uwp.ViewModels
             }*/
         }
 
+        public string getUserProfile(JObject profile, string field)
+        {
+            JToken t;
+            profile.TryGetValue(field, out t);
+            if (t == null)
+            {
+                return "";
+            }
+            return t.ToString();
+        }
+
         private async Task extractFbAuthResData(Auth0User u)
         {
             string access_token = u.Auth0AccessToken;
-            var email = u.Profile["email"].ToString();
+            var email = getUserProfile(u.Profile, "email");
 
             // Register at TAQ server.
             var taqHttpClient = new HttpClient();
@@ -143,8 +157,8 @@ namespace Taq.Uwp.ViewModels
             {
                 throw new Exception(err);
             }
-            UserName = u.Profile["name"].ToString();
-            m.localSettings.Values["UserId"] = u.Profile["user_id"].ToString();
+            UserName = getUserProfile(u.Profile, "name");
+            m.localSettings.Values["UserId"] = getUserProfile(u.Profile, "user_id");
             m.localSettings.Values["UserPwd"] = jTaqRegRes.GetNamedString("pwd");
         }
 
