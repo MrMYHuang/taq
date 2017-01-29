@@ -144,7 +144,7 @@ namespace Taq.Uwp.ViewModels
                 throw new Exception(err);
             }
             UserName = u.Profile["name"].ToString();
-            m.localSettings.Values["UserId"] = u.Profile["user_id"].Id;
+            m.localSettings.Values["UserId"] = u.Profile["user_id"].ToString();
             m.localSettings.Values["UserPwd"] = jTaqRegRes.GetNamedString("pwd");
         }
 
