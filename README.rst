@@ -10,14 +10,15 @@ The built app basically supports these Windows 10 devices: Windows 10 Desktop, W
 
 Requirements
 =========
-The following lists requirements to run all functions of TAQ app.
-* Visual Studio 2017 or above is strongly recommanded.
-* Windows 10 SDK 10.0.14393.0 is recommanded.
-* Syncfusion Essential Studio for Universal Windows. The version 14.3.0.52 is used.
-* HockeyApp ID.
-* Bing Maps service token.
-* Auth0 domain and client ID.
-* TAQ server app: not open source yet due to security considerations. The author will open it after all security considerations are solved.
+The following lists requirements to run all functions of TAQ app:
+
+- Visual Studio 2017 or above is strongly recommanded.
+- Windows 10 SDK 10.0.14393.0 is recommanded.
+- Syncfusion Essential Studio for Universal Windows. The version 14.3.0.52 is used.
+- HockeyApp ID.
+- Bing Maps service token.
+- Auth0 domain and client ID.
+- TAQ server app: not open source yet due to security considerations. The author will open it after all security considerations are solved.
 
 Quick Start
 ==========
