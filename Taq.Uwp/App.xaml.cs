@@ -79,6 +79,11 @@ namespace Taq.Uwp
                 localSettings.Values["MapColor"] = true;
             }
 
+            if (localSettings.Values["AutoPos"] == null)
+            {
+                localSettings.Values["AutoPos"] = false;
+            }
+
             if (localSettings.Values["MapAutoPos"] == null)
             {
                 localSettings.Values["MapAutoPos"] = true;

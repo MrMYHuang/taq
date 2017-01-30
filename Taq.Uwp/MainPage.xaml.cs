@@ -53,41 +53,10 @@ namespace Taq.Uwp
         {
             await downloadAndReload();
 
-            // * Must be called after this.InitializeComponent!
-            // * Must be called by async, not sync. Otherwise,
-            // the app can't pass Windows App Cert Kit!
-            await initPos();
             frame.Navigate(typeof(Home), app.tappedSiteName);
             return 0;
         }
-
-        async Task<int> initPos()
-        {
-            try
-            {
-                app.vm.m.locAccStat = await Geolocator.RequestAccessAsync().AsTask().ConfigureAwait(false);
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.Message);
-                // Ignore.
-            }
-
-            // The first time to set Values["AutoPos"] on a device.
-            if (app.vm.m.localSettings.Values["AutoPos"] == null)
-            {
-                if (app.vm.m.locAccStat == GeolocationAccessStatus.Allowed)
-                {
-                    app.vm.AutoPos = true;
-                }
-                else
-                {
-                    app.vm.AutoPos = false;
-                }
-            }
-            return 0;
-        }
-
+        
         async Task<int> initBackTask()
         {
             if (app.vm.m.localSettings.Values["BgUpdatePeriod"] == null)

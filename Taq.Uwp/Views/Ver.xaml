@@ -23,6 +23,11 @@
                     * 列表頁作數值排序後會卡住幾秒。<LineBreak />
                 </TextBlock>
 
+                <TextBlock Style="{StaticResource secHeadSty}">Ver. 6.0.1</TextBlock>
+                <TextBlock Style="{StaticResource txtBlkSty1}" >
+                    * 改善定位設定穩定度，試圖解決一些閃退。<LineBreak />
+                </TextBlock>
+
                 <TextBlock Style="{StaticResource secHeadSty}">Ver. 6.0.0</TextBlock>
                 <TextBlock Style="{StaticResource txtBlkSty1}" >
                     * 改用Auth0登入服務。<LineBreak />

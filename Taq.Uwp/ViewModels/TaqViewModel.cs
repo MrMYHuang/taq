@@ -573,45 +573,60 @@ namespace Taq.Uwp.ViewModels
         {
             get
             {
-                if (m.localSettings.Values["AutoPos"] == null)
-                {
-                    return false;
-                }
                 return (bool)m.localSettings.Values["AutoPos"];
             }
 
             set
             {
+                if (value == (bool)m.localSettings.Values["AutoPos"])
+                    return;
+
                 if (value == true)
                 {
-                    switch (m.locAccStat)
-                    {
-                        case GeolocationAccessStatus.Allowed:
-                            // Subscribe to the PositionChanged event to get location updates.
-                            //geoLoc.PositionChanged += OnPositionChanged;
-                            m.localSettings.Values["AutoPos"] = true;
-                            break;
-                        default:
-                            var cd = new ContentDialog { Title = m.resLoader.GetString("enableGpsFail") };
-                            var txt = new TextBlock { Text = m.resLoader.GetString("enableGpsFailMsg"), TextWrapping = TextWrapping.Wrap };
-                            cd.Content = txt;
-                            cd.PrimaryButtonText = "OK";
-                            cd.PrimaryButtonClick += (sender, e) =>
-                            {
-                                Launcher.LaunchUriAsync(new Uri("ms-settings:privacy-location"));
-                            };
-                            cd.ShowAsync();
-
-                            m.localSettings.Values["AutoPos"] = false;
-                            break;
-                    }
+                    // Can not and do not await in a property!
+                    reqLocAccessAsync();
                 }
                 else
                 {
-                    m.localSettings.Values["AutoPos"] = value;
+                    m.localSettings.Values["AutoPos"] = false;
+                    OnPropertyChanged("AutoPos");
                 }
-                OnPropertyChanged("AutoPos");
             }
+        }
+
+        async Task<int> reqLocAccessAsync()
+        {
+            try
+            {
+                m.locAccStat = await Geolocator.RequestAccessAsync();
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+                // Ignore.
+            }
+
+            switch (m.locAccStat)
+            {
+                case GeolocationAccessStatus.Allowed:
+                    m.localSettings.Values["AutoPos"] = true;
+                    break;
+                default:
+                    var cd = new ContentDialog { Title = m.resLoader.GetString("enableGpsFail") };
+                    var txt = new TextBlock { Text = m.resLoader.GetString("enableGpsFailMsg"), TextWrapping = TextWrapping.Wrap };
+                    cd.Content = txt;
+                    cd.PrimaryButtonText = "OK";
+                    cd.PrimaryButtonClick += async (sender, e) =>
+                    {
+                        await Launcher.LaunchUriAsync(new Uri("ms-settings:privacy-location"));
+                    };
+                    await cd.ShowAsync();
+
+                    m.localSettings.Values["AutoPos"] = false;
+                    break;
+            }
+            OnPropertyChanged("AutoPos");
+            return 0;
         }
 
         public bool MapAutoPos
