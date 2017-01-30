@@ -17,7 +17,7 @@ The following lists requirements to run all functions of TAQ app.
 * HockeyApp ID.
 * Bing Maps service token.
 * Auth0 domain and client ID.
-* TAQ server app: not open source yet due to security considerations.
+* TAQ server app: not open source yet due to security considerations. The author will open it after all security considerations are solved.
 
 Quick Start
 ==========
