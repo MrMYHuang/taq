@@ -152,7 +152,7 @@ namespace Taq.Uwp.ViewModels
             var taqRegResMsg = await taqHttpClient.PostAsync(new Uri(Params.uriHost + "userReg"), content);
             var taqResStr = await taqRegResMsg.Content.ReadAsStringAsync();
             if (!taqRegResMsg.IsSuccessStatusCode)
-                throw new Exception("TAQ server error! Please contact the developer. Error message: " + taqResStr);
+                throw new Exception(m.resLoader.GetString("taqServerDown") + taqResStr);
             var jTaqRegRes = JsonValue.Parse(taqResStr).GetObject();
             var err = jTaqRegRes.GetNamedString("error");
             if (err != "")

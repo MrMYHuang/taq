@@ -85,6 +85,7 @@ namespace Taq.Shared.Models
         public async Task<int> downloadAndBackup(Uri source, string dstFile, int timeout = 10000)
         {
             HttpResponseMessage resMsg;
+            string resStr;
             CancellationTokenSource cts = new CancellationTokenSource();
             CancellationToken token = cts.Token;
             cts.CancelAfter(timeout);
@@ -105,28 +106,32 @@ namespace Taq.Shared.Models
                 cts.Dispose();
             }
 
-            // file is downloaded in time, save to temp file.
-            StorageFile tempSf;
             using (var r = await resMsg.Content.ReadAsStreamAsync())
             {
                 var sr = new StreamReader(r);
-                var resStr = sr.ReadToEnd();
-                var jRes = JsonValue.Parse(resStr).GetObject();
-                var err = jRes["error"].GetString();
-                if (err != "")
+                resStr = sr.ReadToEnd();
+
+            }
+            if (!resMsg.IsSuccessStatusCode)
+                throw new Exception(resLoader.GetString("taqServerDown") + resStr);
+
+            // file is downloaded in time, save to temp file.
+            StorageFile tempSf;
+            var jRes = JsonValue.Parse(resStr).GetObject();
+            var err = jRes["error"].GetString();
+            if (err != "")
+            {
+                throw new Exception(err);
+            }
+            else
+            {
+                tempSf = await ApplicationData.Current.LocalFolder.CreateFileAsync("Temp" + dstFile, CreationCollisionOption.ReplaceExisting);
+                // Write download data to dstSf.
+                using (var s = await tempSf.OpenStreamForWriteAsync())
                 {
-                    throw new Exception(err);
-                }
-                else
-                {
-                    tempSf = await ApplicationData.Current.LocalFolder.CreateFileAsync("Temp" + dstFile, CreationCollisionOption.ReplaceExisting);
-                    // Write download data to dstSf.
-                    using (var s = await tempSf.OpenStreamForWriteAsync())
+                    using (var sw = new StreamWriter(s))
                     {
-                        using (var sw = new StreamWriter(s))
-                        {
-                            sw.Write(resStr);
-                        }
+                        sw.Write(resStr);
                     }
                 }
             }

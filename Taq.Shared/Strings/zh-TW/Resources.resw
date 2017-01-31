@@ -321,4 +321,7 @@
   <data name="fbToggle.Header" xml:space="preserve">
     <value>登入</value>
   </data>
+  <data name="taqServerDown" xml:space="preserve">
+    <value>TAQ伺服器錯誤！請聯絡開發者。錯誤訊息：</value>
+  </data>
 </root>
