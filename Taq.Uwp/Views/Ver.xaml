@@ -23,6 +23,17 @@
                     * 列表頁作數值排序後會卡住幾秒。<LineBreak />
                 </TextBlock>
 
+                <TextBlock Style="{StaticResource secHeadSty}">Ver. 6.0.2</TextBlock>
+                <TextBlock Style="{StaticResource txtBlkSty1}" >
+                    * 若TAQ server當機，會顯示錯誤訊息。<LineBreak />
+                    * 修正更新後，列表短狀態排序不正確的bug。<LineBreak />
+                </TextBlock>
+
+                <TextBlock Style="{StaticResource secHeadSty}">Ver. 6.0.1</TextBlock>
+                <TextBlock Style="{StaticResource txtBlkSty1}" >
+                    * 改善定位設定穩定度，試圖解決一些閃退。<LineBreak />
+                </TextBlock>
+
                 <TextBlock Style="{StaticResource secHeadSty}">Ver. 6.0.1</TextBlock>
                 <TextBlock Style="{StaticResource txtBlkSty1}" >
                     * 改善定位設定穩定度，試圖解決一些閃退。<LineBreak />
