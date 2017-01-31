@@ -151,6 +151,8 @@ namespace Taq.Uwp.ViewModels
             var content = new HttpStringContent(JsonConvert.SerializeObject(jTaqReq), UnicodeEncoding.Utf8, "application/json");
             var taqRegResMsg = await taqHttpClient.PostAsync(new Uri(Params.uriHost + "userReg"), content);
             var taqResStr = await taqRegResMsg.Content.ReadAsStringAsync();
+            if (!taqRegResMsg.IsSuccessStatusCode)
+                throw new Exception("TAQ server error! Please contact the developer. Error message: " + taqResStr);
             var jTaqRegRes = JsonValue.Parse(taqResStr).GetObject();
             var err = jTaqRegRes.GetNamedString("error");
             if (err != "")
@@ -182,8 +184,8 @@ namespace Taq.Uwp.ViewModels
         // Has to be run by UI context!
         public void loadDict2Sites(string aqName)
         {
-            // sites is uninitialized.
             var isSiteUninit = sites.Count() == 0;
+            // if sites is uninitialized.
             if (isSiteUninit)
             {
                 foreach (var s in m.sitesStrDict)
@@ -193,7 +195,6 @@ namespace Taq.Uwp.ViewModels
                     {
                         siteName = s.Key,
                         county = s.Value["County"],
-                        aqi = m.getValidAqVal(siteDict["AQI"]),
                         twd97Lat = double.Parse(siteDict["TWD97Lat"]),
                         twd97Lon = double.Parse(siteDict["TWD97Lon"]),
                     });
@@ -203,6 +204,7 @@ namespace Taq.Uwp.ViewModels
             foreach (var site in sites)
             {
                 var aqLevel = m.getAqLevel(site.siteName, aqName);
+                site.aqi = m.getValidAqVal(m.sitesStrDict[site.siteName]["AQI"]);
                 site.CircleColor = StaticTaqModel.aqColors[aqName][aqLevel];
                 site.CircleText = site.siteName + "\n" + m.sitesStrDict[site.siteName][aqName];
                 site.ListText = m.sitesStrDict[site.siteName][aqName];
