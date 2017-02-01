@@ -65,7 +65,14 @@ namespace Taq.Uwp.ViewModels
                 {
                     if (value == true)
                     {
-                        authLogin();
+                        try
+                        {
+                            authLogin();
+                        }
+                        catch (Exception ex)
+                        {
+                            Debug.WriteLine(ex.Message);
+                        }
                     }
                     else
                     {
@@ -95,8 +102,7 @@ namespace Taq.Uwp.ViewModels
             }
             return 0;
         }
-
-        //string redirectUri = WebAuthenticationBroker.GetCurrentApplicationCallbackUri().ToString();
+        
         public async Task<Auth0User> authLoginAux()
         {
             var auth0 = new Auth0Client(Params.auth0Domain, Params.auth0ClientId);
@@ -115,14 +121,6 @@ namespace Taq.Uwp.ViewModels
             auth0.Logout();
             m.localSettings.Values["Loggined"] = false;
             OnPropertyChanged("Loggined");
-            /*
-            HttpBaseProtocolFilter filter = new HttpBaseProtocolFilter();
-            HttpCookieManager cookieManager = filter.CookieManager;
-            HttpCookieCollection cookiesJar = cookieManager.GetCookies(new Uri("https://www.facebook.com/"));
-            foreach (var cookie in cookiesJar)
-            {
-                cookieManager.DeleteCookie(cookie);
-            }*/
         }
 
         public string getUserProfile(JObject profile, string field)
@@ -585,8 +583,15 @@ namespace Taq.Uwp.ViewModels
 
                 if (value == true)
                 {
-                    // Can not and do not await in a property!
-                    reqLocAccessAsync();
+                    try
+                    {
+                        // Can not and do not await in a property!
+                        reqLocAccessAsync();
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.WriteLine(ex.Message);
+                    }
                 }
                 else
                 {
