@@ -8,9 +8,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Text;
+using Windows.Web.Http;
+using Windows.Web.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Xml.Linq;
@@ -27,6 +26,7 @@ using Windows.UI.Notifications;
 using Windows.UI.StartScreen;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml.Media;
+using Windows.Storage.Streams;
 
 namespace Taq.Shared.Models
 {
@@ -38,6 +38,7 @@ namespace Taq.Shared.Models
     abstract public class TaqModel
     {
         public ApplicationDataContainer localSettings;
+        public HttpClient hc = new HttpClient();
         public Uri source = new Uri(Params.uriHost + "aqJsonDb");
         public XDocument siteGeoXd = new XDocument();
         public Dictionary<string, GpsPoint> sitesGeoDict = new Dictionary<string, GpsPoint>();
@@ -63,8 +64,11 @@ namespace Taq.Shared.Models
 
         public TaqModel()
         {
-            localSettings =
-       ApplicationData.Current.LocalSettings;
+            localSettings = ApplicationData.Current.LocalSettings;
+
+            hc.DefaultRequestHeaders.Accept.Add(new HttpMediaTypeWithQualityHeaderValue("application/json"));
+            hc.DefaultRequestHeaders.AcceptEncoding.Add(new HttpContentCodingWithQualityHeaderValue("utf-8"));
+
             loadSiteGeoXml();
         }
 
@@ -106,9 +110,9 @@ namespace Taq.Shared.Models
                 cts.Dispose();
             }
 
-            using (var r = await resMsg.Content.ReadAsStreamAsync())
+            using (var r = await resMsg.Content.ReadAsInputStreamAsync())
             {
-                var sr = new StreamReader(r);
+                var sr = new StreamReader(r.AsStreamForRead());
                 resStr = sr.ReadToEnd();
 
             }
@@ -166,11 +170,8 @@ namespace Taq.Shared.Models
 
         public async Task<HttpResponseMessage> httpClientPost(Uri uri, JObject jPost, CancellationToken ct)
         {
-            var hc = new HttpClient();
-            hc.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            hc.DefaultRequestHeaders.AcceptEncoding.Add(new StringWithQualityHeaderValue("utf-8"));
-            var content = new StringContent(JsonConvert.SerializeObject(jPost), Encoding.UTF8, "application/json");
-            return await hc.PostAsync(uri, content, ct);
+            var content = new HttpStringContent(JsonConvert.SerializeObject(jPost), UnicodeEncoding.Utf8, "application/json");
+            return await hc.PostAsync(uri, content).AsTask(ct);
             /*
             var resContentStr = await resMsg.Content.ReadAsStringAsync();
             return JsonValue.Parse(resContentStr).GetObject();*/

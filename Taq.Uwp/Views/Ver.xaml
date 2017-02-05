@@ -25,6 +25,7 @@
 
                 <TextBlock Style="{StaticResource secHeadSty}">Ver. 6.0.4</TextBlock>
                 <TextBlock Style="{StaticResource txtBlkSty1}" >
+                    * 改進連線TAQ server效能。<LineBreak />
                     * 修正若下載失敗，可能會發送多餘的警報通知的問題。<LineBreak />
                 </TextBlock>
 

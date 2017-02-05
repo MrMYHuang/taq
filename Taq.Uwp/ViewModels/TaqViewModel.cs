@@ -20,12 +20,9 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 using Windows.ApplicationModel.Resources;
 using Windows.Security.Authentication.Web;
-//using System.Net.Http;
 using Windows.Data.Json;
-//using System.Net.Http.Headers;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
-//using System.Text;
 using Windows.Storage;
 using System.Threading;
 using Windows.Web.Http;
@@ -140,14 +137,16 @@ namespace Taq.Uwp.ViewModels
             var email = getUserProfile(u.Profile, "email");
 
             // Register at TAQ server.
-            var taqHttpClient = new HttpClient();
-            //            taqHttpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            //            taqHttpClient.DefaultRequestHeaders.AcceptEncoding.Add(new StringWithQualityHeaderValue("utf-8"));
             var jTaqReq = new JObject();
             jTaqReq.Add("userToken", access_token);
             jTaqReq.Add("email", email);
             var content = new HttpStringContent(JsonConvert.SerializeObject(jTaqReq), UnicodeEncoding.Utf8, "application/json");
-            var taqRegResMsg = await taqHttpClient.PostAsync(new Uri(Params.uriHost + "userReg"), content);
+
+            var cts = new CancellationTokenSource();
+            var ct = cts.Token;
+            cts.CancelAfter(10000);
+
+            var taqRegResMsg = await m.hc.PostAsync(new Uri(Params.uriHost + "userReg"), content).AsTask(ct);
             var taqResStr = await taqRegResMsg.Content.ReadAsStringAsync();
             if (!taqRegResMsg.IsSuccessStatusCode)
                 throw new Exception(m.resLoader.GetString("taqServerDown") + taqResStr);
