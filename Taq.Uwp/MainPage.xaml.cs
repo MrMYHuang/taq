@@ -181,14 +181,11 @@ namespace Taq.Uwp
             }
 
             await updateSitesData();
-            /*#if DEBUG
-            #else*/
-            app.vm.m.sendSubscrSitesNotifications();
-            //#endif
             await app.vm.backTaskUpdateTiles();
 
             if (downloadSuccess)
             {
+                app.vm.m.sendSubscrSitesNotifications();
                 app.vm.m.lastUpdateTime = DateTime.Now;
                 statusTextBlock.Text = app.vm.m.getLastUpdateTime() + " " + app.vm.m.resLoader.GetString("updateFinish");
             }

@@ -23,6 +23,11 @@
                     * 列表頁作數值排序後會卡住幾秒。<LineBreak />
                 </TextBlock>
 
+                <TextBlock Style="{StaticResource secHeadSty}">Ver. 6.0.4</TextBlock>
+                <TextBlock Style="{StaticResource txtBlkSty1}" >
+                    * 修正若下載失敗，可能會發送多餘的警報通知的問題。<LineBreak />
+                </TextBlock>
+
                 <TextBlock Style="{StaticResource secHeadSty}">Ver. 6.0.3</TextBlock>
                 <TextBlock Style="{StaticResource txtBlkSty1}" >
                     * 試圖避免一些閃退問題。<LineBreak />
