@@ -123,7 +123,7 @@ namespace Taq.BackTask
         }
 
         //volatile bool _cancelRequested = false;
-        private async void OnCanceled(IBackgroundTaskInstance sender, BackgroundTaskCancellationReason reason)
+        private void OnCanceled(IBackgroundTaskInstance sender, BackgroundTaskCancellationReason reason)
         {
 #if LOG_STEP
             var tbtLogC = await ApplicationData.Current.LocalFolder.CreateFileAsync("TbtCancelled.txt", CreationCollisionOption.ReplaceExisting);
