@@ -304,7 +304,7 @@
     <value>Start Time</value>
   </data>
   <data name="loginSuccess" xml:space="preserve">
-    <value>Facebook login success.</value>
+    <value>Login success.</value>
   </data>
   <data name="loginFail" xml:space="preserve">
     <value>Login failed!</value>
@@ -313,7 +313,7 @@
     <value>Logining...</value>
   </data>
   <data name="noLogin" xml:space="preserve">
-    <value>No login facebook. Can not refresh!</value>
+    <value>No login. Can not refresh air quality data!</value>
   </data>
   <data name="registration.Text" xml:space="preserve">
     <value>Registration</value>

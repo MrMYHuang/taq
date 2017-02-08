@@ -64,11 +64,13 @@ namespace Taq.Uwp.ViewModels
                     {
                         try
                         {
+                            StatusText = m.resLoader.GetString("logining");
                             authLogin();
+                            StatusText = m.resLoader.GetString("loginSuccess");
                         }
                         catch (Exception ex)
                         {
-                            Debug.WriteLine(ex.Message);
+                            StatusText = ex.Message;
                         }
                     }
                     else
@@ -100,7 +102,7 @@ namespace Taq.Uwp.ViewModels
             return 0;
         }
         
-        public async Task<Auth0User> authLoginAux()
+        async Task<Auth0User> authLoginAux()
         {
             var auth0 = new Auth0Client(Params.auth0Domain, Params.auth0ClientId);
             var user = await auth0.LoginAsync();
@@ -589,7 +591,7 @@ namespace Taq.Uwp.ViewModels
                     }
                     catch (Exception ex)
                     {
-                        Debug.WriteLine(ex.Message);
+                        StatusText = ex.Message;
                     }
                 }
                 else
@@ -608,8 +610,7 @@ namespace Taq.Uwp.ViewModels
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex.Message);
-                // Ignore.
+                StatusText = ex.Message;
             }
 
             switch (m.locAccStat)
@@ -667,6 +668,24 @@ namespace Taq.Uwp.ViewModels
                     OnPropertyChanged("BgMainSiteAutoPos");
                 }
             }
+        }
+
+        string statusText = "";
+        public string StatusText
+        {
+            get
+            {
+                return statusText;
+            }
+
+            set
+            {
+                if (value != statusText)
+                {
+                    SetProperty(ref statusText, value);
+                }
+            }
+
         }
     }
 }

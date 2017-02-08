@@ -70,7 +70,7 @@ namespace Taq.Uwp.Views
             catch
             {
                 // The AQ history data might haven't been download after adding a new subscribed site.
-                mainPage.statusTextBlock.Text = app.vm.m.resLoader.GetString("aqHistOpenErr");
+                app.vm.StatusText = app.vm.m.resLoader.GetString("aqHistOpenErr");
                 return 1;
             }
 

@@ -124,7 +124,7 @@
             </Button.ContentTemplate>
         </Button>
         <ScrollViewer HorizontalScrollBarVisibility="Auto" HorizontalScrollMode="Enabled" VerticalScrollBarVisibility="Disabled" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="65,0,0,10" Height="32">
-            <TextBlock x:FieldModifier="public" x:Name="statusTextBlock" x:Uid="statusTb" FontSize="20" />
+            <TextBlock x:FieldModifier="public" x:Name="statusTextBlock" x:Uid="statusTb" Text="{x:Bind app.vm.StatusText, Mode=OneWay}" FontSize="20" IsTextSelectionEnabled="True" />
         </ScrollViewer>
     </Grid>
 </Page>

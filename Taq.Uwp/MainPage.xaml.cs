@@ -99,7 +99,7 @@ namespace Taq.Uwp
             {
                 await ReloadXmlAndSitesData();
                 app.vm.m.lastUpdateTime = DateTime.Now;
-                statusTextBlock.Text = app.vm.m.getLastUpdateTime() + " " + app.vm.m.resLoader.GetString("updateFinish");
+                app.vm.StatusText = app.vm.m.getLastUpdateTime() + " " + app.vm.m.resLoader.GetString("updateFinish");
             });
         }
 
@@ -148,26 +148,24 @@ namespace Taq.Uwp
             bool downloadSuccess = false;
             try
             {
-#if DEBU
-                // Do nothing.
-#else
                 await app.vm.m.loadSubscrSiteXml();
 
-                if ((string)app.vm.m.localSettings.Values["UserPwd"] == "")
+                if (app.vm.Loggined == false)
                 {
-                    statusTextBlock.Text = app.vm.m.resLoader.GetString("logining");
+                    // Try to login.
                     await app.vm.authLogin();
-                    statusTextBlock.Text = app.vm.m.resLoader.GetString("loginSuccess");
                 }
 
-                statusTextBlock.Text = app.vm.m.resLoader.GetString("downloading");
-                await app.vm.m.downloadAqData();
-                downloadSuccess = true;
-#endif
+                if (app.vm.Loggined == true)
+                {
+                    app.vm.StatusText = app.vm.m.resLoader.GetString("downloading");
+                    await app.vm.m.downloadAqData();
+                    downloadSuccess = true;
+                }
             }
             catch (Exception ex)
             {
-                statusTextBlock.Text = ex.Message;
+                app.vm.StatusText = ex.Message;
             }
 
             try
@@ -176,7 +174,7 @@ namespace Taq.Uwp
             }
             catch (Exception ex)
             {
-                statusTextBlock.Text = ex.Message;
+                app.vm.StatusText = ex.Message;
                 // Ignore.
             }
 
@@ -187,7 +185,7 @@ namespace Taq.Uwp
             {
                 app.vm.m.sendSubscrSitesNotifications();
                 app.vm.m.lastUpdateTime = DateTime.Now;
-                statusTextBlock.Text = app.vm.m.getLastUpdateTime() + " " + app.vm.m.resLoader.GetString("updateFinish");
+                app.vm.StatusText = app.vm.m.getLastUpdateTime() + " " + app.vm.m.resLoader.GetString("updateFinish");
             }
             return 0;
         }
@@ -200,7 +198,7 @@ namespace Taq.Uwp
             }
             catch
             {
-                statusTextBlock.Text = app.vm.m.resLoader.GetString("updateFailTryManualUpdate");
+                app.vm.StatusText = app.vm.m.resLoader.GetString("updateFailTryManualUpdate");
             }
 
             try
@@ -209,7 +207,7 @@ namespace Taq.Uwp
             }
             catch (Exception ex)
             {
-                statusTextBlock.Text = "updateSitesData failed:" + ex.Message;
+                app.vm.StatusText = "updateSitesData failed:" + ex.Message;
             }
             return 0;
         }
@@ -225,7 +223,7 @@ namespace Taq.Uwp
             }
             catch
             {
-                statusTextBlock.Text = app.vm.m.resLoader.GetString("updateFailTryManualUpdate");
+                app.vm.StatusText = app.vm.m.resLoader.GetString("updateFailTryManualUpdate");
             }
             return 0;
         }
