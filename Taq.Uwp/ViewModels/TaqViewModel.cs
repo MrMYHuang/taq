@@ -62,16 +62,7 @@ namespace Taq.Uwp.ViewModels
                 {
                     if (value == true)
                     {
-                        try
-                        {
-                            StatusText = m.resLoader.GetString("logining");
-                            authLogin();
-                            StatusText = m.resLoader.GetString("loginSuccess");
-                        }
-                        catch (Exception ex)
-                        {
-                            StatusText = ex.Message;
-                        }
+                        authLogin();
                     }
                     else
                     {
@@ -83,25 +74,26 @@ namespace Taq.Uwp.ViewModels
 
         public async Task<int> authLogin()
         {
-            var logginedTemp = false;
             try
             {
+                StatusText = m.resLoader.GetString("logining");
                 var auth0User = await authLoginAux();
                 await extractFbAuthResData(auth0User);
-                logginedTemp = true;
+                m.localSettings.Values["Loggined"] = true;
+                StatusText = m.resLoader.GetString("loginSuccess");
             }
             catch (Exception ex)
             {
-                throw new Exception(m.resLoader.GetString("loginFail") + ": " + ex.Message);
+                m.localSettings.Values["Loggined"] = false;
+                StatusText = m.resLoader.GetString("loginFail") + ": " + ex.Message;
             }
             finally
             {
-                m.localSettings.Values["Loggined"] = logginedTemp;
                 OnPropertyChanged("Loggined");
             }
             return 0;
         }
-        
+
         async Task<Auth0User> authLoginAux()
         {
             var auth0 = new Auth0Client(Params.auth0Domain, Params.auth0ClientId);
@@ -111,7 +103,7 @@ namespace Taq.Uwp.ViewModels
             return user;
         }
 
-        public async void authLogout()
+        public void authLogout()
         {
             // Clear login infos.
             UserName = "";
@@ -584,15 +576,8 @@ namespace Taq.Uwp.ViewModels
 
                 if (value == true)
                 {
-                    try
-                    {
-                        // Can not and do not await in a property!
-                        reqLocAccessAsync();
-                    }
-                    catch (Exception ex)
-                    {
-                        StatusText = ex.Message;
-                    }
+                    // Can not and do not await in a property!
+                    reqLocAccessAsync();
                 }
                 else
                 {

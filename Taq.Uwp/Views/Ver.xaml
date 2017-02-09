@@ -23,6 +23,11 @@
                     * 列表頁作數值排序後會卡住幾秒。<LineBreak />
                 </TextBlock>
 
+                <TextBlock Style="{StaticResource secHeadSty}">Ver. 6.0.6</TextBlock>
+                <TextBlock Style="{StaticResource txtBlkSty1}" >
+                    * 修正一些try/catch async函式呼叫的不良coding style，它會導致exception通常無法被catch。<LineBreak />
+                </TextBlock>
+
                 <TextBlock Style="{StaticResource secHeadSty}">Ver. 6.0.5</TextBlock>
                 <TextBlock Style="{StaticResource txtBlkSty1}" >
                     * 狀態列文字改為可選取、複製。<LineBreak />
