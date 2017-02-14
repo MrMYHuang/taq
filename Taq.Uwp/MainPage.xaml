@@ -2,7 +2,6 @@
     x:Class="Taq.Uwp.MainPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:Taq"
     xmlns:tsmv="using:Taq.Shared.ModelViews"
     xmlns:tsm="using:Taq.Shared.Models"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"

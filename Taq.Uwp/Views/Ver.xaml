@@ -19,8 +19,13 @@
             <StackPanel Orientation="Vertical" HorizontalAlignment="Left" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" >
                 <TextBlock Style="{StaticResource secHeadSty}" Margin="0">已知問題與限制</TextBlock>
                 <TextBlock Style="{StaticResource txtBlkSty1}" >
-                    * 背景任務開啟裝置後會隨機crashes。<LineBreak />
                     * 列表頁作數值排序後會卡住幾秒。<LineBreak />
+                </TextBlock>
+
+                <TextBlock Style="{StaticResource secHeadSty}">Ver. 6.0.7</TextBlock>
+                <TextBlock Style="{StaticResource txtBlkSty1}" >
+                    * 關閉24小時歷史頁的快取設定，以改善待機一段時間後，開啟24小時歷史頁緩慢的問題。<LineBreak />
+                    * 背景任務crash的問題確定是因多重觸發造成，已在5.0.0修正。<LineBreak />
                 </TextBlock>
 
                 <TextBlock Style="{StaticResource secHeadSty}">Ver. 6.0.6</TextBlock>

@@ -55,7 +55,7 @@ namespace Taq.Uwp.Views
                 };
                 mainPage.frame.Navigate(typeof(AqHistories), p);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 app.vm.StatusText = ex.Message;
             }
