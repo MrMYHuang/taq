@@ -102,7 +102,7 @@ namespace Taq.Shared.Models
             {
                 Debug.WriteLine(ex.Message);
                 // timeout is reached, downloadOperation is cancled
-                throw new Exception("錯誤，下載逾時！");
+                throw new Exception(resLoader.GetString("downloadTimeout"));
             }
             finally
             {

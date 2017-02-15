@@ -324,4 +324,7 @@
   <data name="taqServerDown" xml:space="preserve">
     <value>TAQ伺服器錯誤！請聯絡開發者。錯誤訊息：</value>
   </data>
+  <data name="downloadTimeout" xml:space="preserve">
+    <value>錯誤！下載逾時。</value>
+  </data>
 </root>
