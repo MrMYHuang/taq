@@ -1,6 +1,9 @@
+Taiwan Air Quality (TAQ) Client App for Universal Windows Platform (UWP)
+----------
+
 Read Me
 ==========
-This document is very incomplete. The author will complete it at his free time.
+Taiwan Air Quality (TAQ) client app fetches air quality data from TAQ server and presents them in several ways, e.g., info grids, map icons, lists to user. This document is very incomplete. The author will complete it at his free time.
 
 Download Built App
 ==========
