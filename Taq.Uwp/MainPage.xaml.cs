@@ -196,9 +196,9 @@ namespace Taq.Uwp
             {
                 await app.vm.m.loadAq2Dict();
             }
-            catch
+            catch(Exception ex)
             {
-                app.vm.StatusText = app.vm.m.resLoader.GetString("updateFailTryManualUpdate");
+                app.vm.StatusText = app.vm.m.resLoader.GetString("updateFailTryManualUpdate") + ": " + ex.Message;
             }
 
             try
@@ -221,9 +221,9 @@ namespace Taq.Uwp
                 // Force run loadDict2Sites by setting SelAqId to itself.
                 app.vm.loadDict2Sites(app.vm.m.aqList[app.vm.SelAqId]);
             }
-            catch
+            catch(Exception ex)
             {
-                app.vm.StatusText = app.vm.m.resLoader.GetString("updateFailTryManualUpdate");
+                app.vm.StatusText = app.vm.m.resLoader.GetString("updateFailTryManualUpdate") + ": " + ex.Message;
             }
             return 0;
         }
