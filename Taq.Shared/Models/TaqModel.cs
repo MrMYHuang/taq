@@ -27,6 +27,7 @@ using Windows.UI.StartScreen;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml.Media;
 using Windows.Storage.Streams;
+using Windows.Services.Maps;
 
 namespace Taq.Shared.Models
 {
@@ -567,6 +568,19 @@ namespace Taq.Shared.Models
         public string getLastUpdateTime()
         {
             return lastUpdateTime.ToString("HH:mm:ss tt");
+        }
+
+        public async Task<MapLocationFinderResult> findGeoLoc(string addressToGeocode)
+        {
+            // Geocode the specified address, using the specified reference point
+            // as a query hint. Return no more than 3 results.
+            var result = await MapLocationFinder.FindLocationsAsync(
+                addressToGeocode,
+                // Hint point.
+                StaticTaqModel.twCenterLoc,
+                3);
+
+            return result;
         }
     }
 }

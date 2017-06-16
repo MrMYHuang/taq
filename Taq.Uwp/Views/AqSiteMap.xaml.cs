@@ -38,15 +38,6 @@ namespace Taq.Uwp.Views
             //map.Loaded += initPos;
         }
 
-        // (near) center on Taiwan     
-        Geopoint twCenter =
-            new Geopoint(new BasicGeoposition()
-            {
-                Latitude = 23.6,
-                Longitude = 120.982024
-
-            });
-
         private async void initPos()
         {
             addMapIcons();
@@ -109,7 +100,7 @@ namespace Taq.Uwp.Views
         private void mapCenterOnTw()
         {
             // Center map on Taiwan center.
-            map.Scene = MapScene.CreateFromLocation(twCenter);
+            map.Scene = MapScene.CreateFromLocation(StaticTaqModel.twCenterLoc);
             map.ZoomLevel = 7.5;
         }
 
@@ -181,13 +172,22 @@ namespace Taq.Uwp.Views
             asb.ItemsSource = app.vm.m.sitesStrDict.Keys;
         }
 
-        private void asb_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
+        private async void asb_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
         {
             if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
             {
-                var siteNames = app.vm.m.sitesStrDict.Keys;
+                var siteNames = app.vm.m.sitesStrDict.Keys.Where(sn => sn.Contains(asb.Text)).ToList();
 
-                asb.ItemsSource = siteNames.Where(sn => sn.Contains(asb.Text));
+                if (siteNames.Count() == 0)
+                {
+                    var findLocs = await app.vm.m.findGeoLoc(asb.Text);
+                    foreach(var loc in findLocs.Locations)
+                    {
+                        siteNames.Add(loc.Description);
+                    }
+                }
+
+                asb.ItemsSource = siteNames;
             }
         }
 

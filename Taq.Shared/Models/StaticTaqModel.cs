@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using Windows.Data.Json;
 using Windows.Networking.BackgroundTransfer;
 using Windows.Storage;
+using Windows.Devices.Geolocation;
 
 namespace Taq.Shared.Models
 {
@@ -158,6 +159,13 @@ namespace Taq.Shared.Models
             { "WindSpeed", defaultLimits},
             { "WindDirec", defaultLimits},
         };
+
+        // (near) center on Taiwan     
+        public static Geopoint twCenterLoc = new Geopoint(new BasicGeoposition()
+        {
+            Latitude = 23.6,
+            Longitude = 120.982024
+        });
 
         // Squared Euclidean distance.
         public static double posDist(GpsPoint p1, GpsPoint p2)
