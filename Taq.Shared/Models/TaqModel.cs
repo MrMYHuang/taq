@@ -122,7 +122,8 @@ namespace Taq.Shared.Models
 
             // file is downloaded in time, save to temp file.
             StorageFile tempSf;
-            var jRes = JsonValue.Parse(resStr).GetObject();
+            var jVal = JsonValue.Parse(resStr);
+            var jRes = jVal.GetObject();
             var err = jRes["error"].GetString();
             if (err != "")
             {

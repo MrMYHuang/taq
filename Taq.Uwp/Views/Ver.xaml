@@ -22,6 +22,11 @@
                     * 列表頁作數值排序後會卡住幾秒。<LineBreak />
                 </TextBlock>
 
+                <TextBlock Style="{StaticResource secHeadSty}">Ver. 6.0.8</TextBlock>
+                <TextBlock Style="{StaticResource txtBlkSty1}" >
+                    * 使用Win 10 SDK build 16299重新編譯。<LineBreak />
+                </TextBlock>
+
                 <TextBlock Style="{StaticResource secHeadSty}">Ver. 6.0.7</TextBlock>
                 <TextBlock Style="{StaticResource txtBlkSty1}" >
                     * 關閉24小時歷史頁的快取設定，以改善待機一段時間後，開啟24小時歷史頁緩慢的問題。<LineBreak />
