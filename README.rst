@@ -29,6 +29,6 @@ git clone taq
 Generate assets:
 taq.png
 
-What's Template Files?
+Notices
 ==========
-Notice, you can not build TAQ app immediately after you clone this repo, because the author removes sensitive information, e.g., Bing Map service token, out of this repo by *template* files. These template files come from removing sensitive information of original source files and then appending ".template" to them. For example, an original source file, Params.cs, has a variable bingMapToken, which stores a Bing Map token used by AqSiteMap.xaml.cs. However, Params.cs is not tracked by the Git repo. Instead, Params.cs is copied to Params.cs.template and sensitive information removed. This template file is the real file tracked by the Git repo. Thus, you can safely modify the original source, Params.cs, without accidentally commiting sensitive information to the Git repo. If you want to add new variables to the parameter settings, you shall add them to both the original source file and the template file, e.g., Params.cs and Params.cs.template. It seems to be troublesome that you have to maintain two versions of parameter settings. Actually, it is more convenient than you track / untrack only the original source files, e.g., Params.cs. If you tracked only the original source files, you would have to untrack them before you add sensitive information to them. And if you added new variables to them, you would have to remove all sensitive information from them before commiting them to the repo! Very troublesome process.
+The author removes sensitive information, e.g., Bing Map service token, out of these files Taq.Shared/Models/Params.cs and Taq.Uwp/Taq.Uwp.csproj. Please modify these files before buildind and running this app.
