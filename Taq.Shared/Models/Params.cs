@@ -1,5 +1,6 @@
 ﻿﻿using System.Text.RegularExpressions;
 using Windows.Security.Authentication.Web;
+
 namespace Taq.Shared.Models
 {
     public static class Params

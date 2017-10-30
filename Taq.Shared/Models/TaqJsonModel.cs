@@ -18,7 +18,7 @@ namespace Taq.Shared.Models
             {
                 using (var reader = new StreamReader(s))
                 {
-                    var jo =  JObject.Parse(reader.ReadToEnd());
+                    var jo = JObject.Parse(reader.ReadToEnd());
                     return jo;
                 }
             }
@@ -49,13 +49,25 @@ namespace Taq.Shared.Models
             {
                 var siteDict = d.ToObject<Dictionary<string, string>>();
                 var siteName = siteDict["SiteName"];
-                var geoD = from gd in geoDataX
+                    var geoD = from gd in geoDataX
                            where gd.Descendants("SiteName").First().Value == siteName
                            select gd;
-                
+
                 var geoDict = geoD.Elements().ToDictionary(x => x.Name.LocalName, x => x.Value);
-                siteDict.Add("TWD97Lat", geoDict["TWD97Lat"]);
-                siteDict.Add("TWD97Lon", geoDict["TWD97Lon"]);
+                string latStr, lonStr;
+                // No site geo info in SiteGeo.xml!!!
+                if(geoDict.Count == 0)
+                {
+                    latStr = "0";
+                    lonStr = "0";
+                }
+                else
+                {
+                    latStr = geoDict["TWD97Lat"];
+                    lonStr = geoDict["TWD97Lon"];
+                }
+                siteDict.Add("TWD97Lat", latStr);
+                siteDict.Add("TWD97Lon", lonStr);
                 sitesGeoDict.Add(siteName, new GpsPoint
                 {
                     twd97Lat = double.Parse(siteDict["TWD97Lat"]),

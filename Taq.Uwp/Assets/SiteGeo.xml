@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
 <AQXSite>
   <Data>
     <SiteName>臺東</SiteName>
@@ -6,7 +6,7 @@
     <AreaName>花東空品區</AreaName>
     <County>臺東縣</County>
     <Township>臺東市</Township>
-    <SiteAddress>臺東市中山路276號</SiteAddress>
+    <SiteAddress>臺東縣臺東市中山路276號</SiteAddress>
     <TWD97Lon>121.1504500000</TWD97Lon>
     <TWD97Lat>22.7553580000</TWD97Lat>
     <SiteType>一般測站</SiteType>
@@ -53,7 +53,7 @@
     <SiteAddress>臺東縣關山鎮自強路66號</SiteAddress>
     <TWD97Lon>121.1619330000</TWD97Lon>
     <TWD97Lat>23.0450830000</TWD97Lat>
-    <SiteType>其它測站</SiteType>
+    <SiteType>其他測站</SiteType>
   </Data>
   <Data>
     <SiteName>豐原</SiteName>
@@ -83,7 +83,7 @@
     <AreaName>竹苗空品區</AreaName>
     <County>苗栗縣</County>
     <Township>頭份鎮</Township>
-    <SiteAddress>苗栗縣頭份鎮文化街20號</SiteAddress>
+    <SiteAddress>苗栗縣頭份市文化街20號</SiteAddress>
     <TWD97Lon>120.8985720000</TWD97Lon>
     <TWD97Lat>24.6969690000</TWD97Lat>
     <SiteType>工業測站</SiteType>
@@ -105,7 +105,7 @@
     <AreaName>中部空品區</AreaName>
     <County>彰化縣</County>
     <Township>線西鄉</Township>
-    <SiteAddress>彰化縣線西鄉寓埔村中央路二段145號</SiteAddress>
+    <SiteAddress>彰化縣線西鄉中央路2段145號</SiteAddress>
     <TWD97Lon>120.4690610000</TWD97Lon>
     <TWD97Lat>24.1316720000</TWD97Lat>
     <SiteType>工業測站</SiteType>
@@ -116,7 +116,7 @@
     <AreaName>高屏空品區</AreaName>
     <County>屏東縣</County>
     <Township>潮州鎮</Township>
-    <SiteAddress>屏東縣潮州鎮九塊里復興路66號</SiteAddress>
+    <SiteAddress>屏東縣潮州鎮復興路66號</SiteAddress>
     <TWD97Lon>120.5611750000</TWD97Lon>
     <TWD97Lat>22.5231080000</TWD97Lat>
     <SiteType>一般測站</SiteType>
@@ -237,7 +237,7 @@
     <AreaName>竹苗空品區</AreaName>
     <County>新竹市</County>
     <Township>東區</Township>
-    <SiteAddress>新竹市民族路33號</SiteAddress>
+    <SiteAddress>新竹市東區民族路33號</SiteAddress>
     <TWD97Lon>120.9720750000</TWD97Lon>
     <TWD97Lat>24.8056190000</TWD97Lat>
     <SiteType>一般測站</SiteType>
@@ -325,7 +325,7 @@
     <AreaName>雲嘉南空品區</AreaName>
     <County>雲林縣</County>
     <Township>崙背鄉</Township>
-    <SiteAddress>雲林縣崙背鄉南陽村大成路91號</SiteAddress>
+    <SiteAddress>雲林縣崙背鄉大成路91號</SiteAddress>
     <TWD97Lon>120.3487420000</TWD97Lon>
     <TWD97Lat>23.7575470000</TWD97Lat>
     <SiteType>一般測站</SiteType>
@@ -336,7 +336,7 @@
     <AreaName>北部空品區</AreaName>
     <County>基隆市</County>
     <Township>信義區</Township>
-    <SiteAddress>基隆市東信路324號</SiteAddress>
+    <SiteAddress>基隆市信義區東信路324號</SiteAddress>
     <TWD97Lon>121.7600560000</TWD97Lon>
     <TWD97Lat>25.1291670000</TWD97Lat>
     <SiteType>一般測站</SiteType>
@@ -369,7 +369,7 @@
     <AreaName>北部空品區</AreaName>
     <County>桃園市</County>
     <Township>桃園區</Township>
-    <SiteAddress>桃園市桃園區成功路二段144號</SiteAddress>
+    <SiteAddress>桃園市桃園區成功路2段144號</SiteAddress>
     <TWD97Lon>121.3199640000</TWD97Lon>
     <TWD97Lat>24.9947890000</TWD97Lat>
     <SiteType>一般測站</SiteType>
@@ -380,10 +380,10 @@
     <AreaName>中部空品區</AreaName>
     <County>南投縣</County>
     <Township>埔里鎮</Township>
-    <SiteAddress>南投縣埔里鎮西安路一段193號</SiteAddress>
+    <SiteAddress>南投縣埔里鎮西安路1段193號</SiteAddress>
     <TWD97Lon>120.9679030000</TWD97Lon>
     <TWD97Lat>23.9688420000</TWD97Lat>
-    <SiteType>其它測站</SiteType>
+    <SiteType>其他測站</SiteType>
   </Data>
   <Data>
     <SiteName>苗栗</SiteName>
@@ -391,7 +391,7 @@
     <AreaName>竹苗空品區</AreaName>
     <County>苗栗縣</County>
     <Township>苗栗市</Township>
-    <SiteAddress>苗栗市縣府路100號</SiteAddress>
+    <SiteAddress>苗栗縣苗栗市縣府路100號</SiteAddress>
     <TWD97Lon>120.8202000000</TWD97Lon>
     <TWD97Lat>24.5652690000</TWD97Lat>
     <SiteType>一般測站</SiteType>
@@ -402,7 +402,7 @@
     <AreaName>高屏空品區</AreaName>
     <County>高雄市</County>
     <Township>美濃區</Township>
-    <SiteAddress>高雄市美濃區中壇里忠孝路19號</SiteAddress>
+    <SiteAddress>高雄市美濃區忠孝路19號</SiteAddress>
     <TWD97Lon>120.5305420000</TWD97Lon>
     <TWD97Lat>22.8835830000</TWD97Lat>
     <SiteType>一般測站</SiteType>
@@ -424,7 +424,7 @@
     <AreaName>高屏空品區</AreaName>
     <County>屏東縣</County>
     <Township>屏東市</Township>
-    <SiteAddress>屏東市蘇州街75號</SiteAddress>
+    <SiteAddress>屏東縣屏東市蘇州街75號</SiteAddress>
     <TWD97Lon>120.4880330000</TWD97Lon>
     <TWD97Lat>22.6730810000</TWD97Lat>
     <SiteType>一般測站</SiteType>
@@ -435,7 +435,7 @@
     <AreaName>中部空品區</AreaName>
     <County>南投縣</County>
     <Township>南投市</Township>
-    <SiteAddress>南投市南陽路269號</SiteAddress>
+    <SiteAddress>南投縣南投市南陽路269號</SiteAddress>
     <TWD97Lon>120.6853060000</TWD97Lon>
     <TWD97Lat>23.9130000000</TWD97Lat>
     <SiteType>一般測站</SiteType>
@@ -479,7 +479,7 @@
     <AreaName>花東空品區</AreaName>
     <County>花蓮縣</County>
     <Township>花蓮市</Township>
-    <SiteAddress>花蓮市中正路210號</SiteAddress>
+    <SiteAddress>花蓮縣花蓮市中正路210號</SiteAddress>
     <TWD97Lon>121.5997690000</TWD97Lon>
     <TWD97Lat>23.9713060000</TWD97Lat>
     <SiteType>一般測站</SiteType>
@@ -490,7 +490,7 @@
     <AreaName>北部空品區</AreaName>
     <County>臺北市</County>
     <Township>松山區</Township>
-    <SiteAddress>臺北市松山區八德路四段746號</SiteAddress>
+    <SiteAddress>臺北市松山區八德路4段746號</SiteAddress>
     <TWD97Lon>121.5786110000</TWD97Lon>
     <TWD97Lat>25.0500000000</TWD97Lat>
     <SiteType>一般測站</SiteType>
@@ -501,7 +501,7 @@
     <AreaName>北部空品區</AreaName>
     <County>新北市</County>
     <Township>板橋區</Township>
-    <SiteAddress>新北市板橋區文化路一段25號</SiteAddress>
+    <SiteAddress>新北市板橋區文化路1段25號</SiteAddress>
     <TWD97Lon>121.4586670000</TWD97Lon>
     <TWD97Lat>25.0129720000</TWD97Lat>
     <SiteType>一般測站</SiteType>
@@ -523,9 +523,9 @@
     <AreaName>北部空品區</AreaName>
     <County>新北市</County>
     <Township>林口區</Township>
-    <SiteAddress>新北市林口區民治路25號</SiteAddress>
-    <TWD97Lon>121.3768690000</TWD97Lon>
-    <TWD97Lat>25.0771970000</TWD97Lat>
+    <SiteAddress>新北市林口區文化北路1段425號</SiteAddress>
+    <TWD97Lon>121.3657030000</TWD97Lon>
+    <TWD97Lat>25.0785700000</TWD97Lat>
     <SiteType>一般測站</SiteType>
   </Data>
   <Data>
@@ -534,7 +534,7 @@
     <AreaName>中部空品區</AreaName>
     <County>臺中市</County>
     <Township>南屯區</Township>
-    <SiteAddress>臺中市南屯區公益路二段296號</SiteAddress>
+    <SiteAddress>臺中市南屯區公益路2段296號</SiteAddress>
     <TWD97Lon>120.6410920000</TWD97Lon>
     <TWD97Lat>24.1519580000</TWD97Lat>
     <SiteType>一般測站</SiteType>
@@ -600,9 +600,9 @@
     <AreaName>北部空品區</AreaName>
     <County>新北市</County>
     <Township>汐止區</Township>
-    <SiteAddress>新北市汐止區樟樹一路141巷2號</SiteAddress>
-    <TWD97Lon>121.6423000000</TWD97Lon>
-    <TWD97Lat>25.0671310000</TWD97Lat>
+    <SiteAddress>新北市汐止區樟樹一路137巷26號</SiteAddress>
+    <TWD97Lon>121.6408000000</TWD97Lon>
+    <TWD97Lat>25.0656690000</TWD97Lat>
     <SiteType>一般測站</SiteType>
   </Data>
   <Data>
@@ -622,9 +622,9 @@
     <AreaName>雲嘉南空品區</AreaName>
     <County>臺南市</County>
     <Township>安南區</Township>
-    <SiteAddress>臺南市安南區安和路三段193號</SiteAddress>
-    <TWD97Lon>120.2175000000</TWD97Lon>
-    <TWD97Lat>23.0481970000</TWD97Lat>
+    <SiteAddress>臺南市安南區安和路3段193號</SiteAddress>
+    <TWD97Lon>120.2183330000</TWD97Lon>
+    <TWD97Lat>23.0483330000</TWD97Lat>
     <SiteType>一般測站</SiteType>
   </Data>
   <Data>
@@ -633,7 +633,7 @@
     <AreaName>北部空品區</AreaName>
     <County>新北市</County>
     <Township>永和區</Township>
-    <SiteAddress>新北市永和區永和路光復路交口</SiteAddress>
+    <SiteAddress>新北市永和區永和路與光復路交口</SiteAddress>
     <TWD97Lon>121.5163060000</TWD97Lon>
     <TWD97Lat>25.0170000000</TWD97Lat>
     <SiteType>交通測站</SiteType>
@@ -666,7 +666,7 @@
     <AreaName>北部空品區</AreaName>
     <County>臺北市</County>
     <Township>大安區</Township>
-    <SiteAddress>臺北市大安區羅斯福路三段153號</SiteAddress>
+    <SiteAddress>臺北市大安區羅斯福路3段153號</SiteAddress>
     <TWD97Lon>121.5295560000</TWD97Lon>
     <TWD97Lat>25.0206080000</TWD97Lat>
     <SiteType>一般測站</SiteType>
@@ -677,7 +677,7 @@
     <AreaName>宜蘭空品區</AreaName>
     <County>宜蘭縣</County>
     <Township>冬山鄉</Township>
-    <SiteAddress>宜蘭縣冬山鄉南興村照安路26號</SiteAddress>
+    <SiteAddress>宜蘭縣冬山鄉照安路26號</SiteAddress>
     <TWD97Lon>121.7929280000</TWD97Lon>
     <TWD97Lat>24.6322030000</TWD97Lat>
     <SiteType>一般測站</SiteType>
@@ -699,7 +699,7 @@
     <AreaName>高屏空品區</AreaName>
     <County>高雄市</County>
     <Township>仁武區</Township>
-    <SiteAddress>高雄市仁武區八卦里永仁街555號</SiteAddress>
+    <SiteAddress>高雄市仁武區永仁街555號</SiteAddress>
     <TWD97Lon>120.3326310000</TWD97Lon>
     <TWD97Lat>22.6890560000</TWD97Lat>
     <SiteType>一般測站</SiteType>
@@ -744,8 +744,8 @@
     <County>高雄市</County>
     <Township>大寮區</Township>
     <SiteAddress>高雄市大寮區潮寮路61號</SiteAddress>
-    <TWD97Lon>120.4250810000</TWD97Lon>
-    <TWD97Lat>22.5657470000</TWD97Lat>
+    <TWD97Lon>120.4253110000</TWD97Lon>
+    <TWD97Lat>22.5641360000</TWD97Lat>
     <SiteType>一般測站</SiteType>
   </Data>
   <Data>
@@ -776,7 +776,7 @@
     <AreaName>北部空品區</AreaName>
     <County>臺北市</County>
     <Township>大同區</Township>
-    <SiteAddress>臺北市大同區重慶北路三段2號</SiteAddress>
+    <SiteAddress>臺北市大同區重慶北路3段2號</SiteAddress>
     <TWD97Lon>121.5133110000</TWD97Lon>
     <TWD97Lat>25.0632000000</TWD97Lat>
     <SiteType>交通測站</SiteType>
@@ -798,7 +798,7 @@
     <AreaName>北部空品區</AreaName>
     <County>新北市</County>
     <Township>土城區</Township>
-    <SiteAddress>新北市土城區學府路一段241號</SiteAddress>
+    <SiteAddress>新北市土城區學府路1段241號</SiteAddress>
     <TWD97Lon>121.4518610000</TWD97Lon>
     <TWD97Lat>24.9825280000</TWD97Lat>
     <SiteType>一般測站</SiteType>
@@ -820,7 +820,7 @@
     <AreaName>北部空品區</AreaName>
     <County>新北市</County>
     <Township>三重區</Township>
-    <SiteAddress>新北市三重區三和路重陽路交口</SiteAddress>
+    <SiteAddress>新北市三重區三和路與重陽路交口</SiteAddress>
     <TWD97Lon>121.4938060000</TWD97Lon>
     <TWD97Lat>25.0726110000</TWD97Lat>
     <SiteType>交通測站</SiteType>
@@ -831,7 +831,7 @@
     <AreaName>中部空品區</AreaName>
     <County>彰化縣</County>
     <Township>二林鎮</Township>
-    <SiteAddress>彰化縣二林鎮萬合里江山巷1號</SiteAddress>
+    <SiteAddress>彰化縣二林鎮江山巷1號</SiteAddress>
     <TWD97Lon>120.4096530000</TWD97Lon>
     <TWD97Lat>23.9251750000</TWD97Lat>
     <SiteType>一般測站</SiteType>
