@@ -57,9 +57,9 @@ namespace Taq.Shared.Models
 
         public static Dictionary<string, string> shortStatusDict = new Dictionary<string, string>
         {
-            { "對敏感族群不良", "敏感"},
-            { "對所有族群不良", "所有"},
-            { "非常不良", "非常"},
+            { "對敏感族群不健康", "敏感"},
+            { "對所有族群不健康", "所有"},
+            { "非常不健康", "非常"},
             { "設備維護", "維護"},
         };
 
