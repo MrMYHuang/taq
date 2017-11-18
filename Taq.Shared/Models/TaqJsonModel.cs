@@ -55,7 +55,7 @@ namespace Taq.Shared.Models
 
                 var geoDict = geoD.Elements().ToDictionary(x => x.Name.LocalName, x => x.Value);
                 string latStr, lonStr;
-                // No site geo info in SiteGeo.xml!!!
+                // No corresponding site geo info in SiteGeo.xml!!!
                 if(geoDict.Count == 0)
                 {
                     latStr = "0";
@@ -68,6 +68,7 @@ namespace Taq.Shared.Models
                 }
                 siteDict.Add("TWD97Lat", latStr);
                 siteDict.Add("TWD97Lon", lonStr);
+
                 sitesGeoDict.Add(siteName, new GpsPoint
                 {
                     twd97Lat = double.Parse(siteDict["TWD97Lat"]),
@@ -75,6 +76,13 @@ namespace Taq.Shared.Models
                 });
                 // Shorten long status strings for map icons.
                 siteDict.Add("ShortStatus", StaticTaqModel.getShortStatus(siteDict["Status"]));
+                if(siteDict["ShortStatus"] == "維護")
+                {
+                    foreach(var f in aqHistNames)
+                    {
+                        siteDict[f] = "N/A";
+                    }
+                }
                 sitesStrDict.Add(siteName, siteDict);
             }
             return 0;

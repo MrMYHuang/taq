@@ -519,6 +519,10 @@ namespace Taq.Shared.Models
         public double getValidAqVal(string aqValStr)
         {
             double val = 0;
+            if(aqValStr == "N/A")
+            {
+                return -1;
+            }
             double.TryParse(aqValStr, out val);
             return val;
         }

@@ -76,7 +76,7 @@ namespace Taq.Shared.Models
         // Limit of color of texts on the corresponding AQ background color.
         // <= aqTextColorLimit: black
         // > aqTextColorLimit: white
-        public static int aqTextColorLimit = 2;
+        public static int aqTextColorLimit = 3;
 
         // AQ level limits and corresponding colors lists.
         // Notice: a color list has one more element than a limit list!
@@ -85,18 +85,18 @@ namespace Taq.Shared.Models
 
         public static List<string> dirtyColors = new List<string> { "#C0C0C0", "#C0C0C0" };
 
-        public static List<double> aqiLimits = new List<double> { 50, 100, 150, 200, 300, 400, 500 };
+        public static List<double> aqiLimits = new List<double> { -1, 50, 100, 150, 200, 300, 400, 500 };
         // From https://www3.epa.gov/airnow/aqi_brochure_02_14.pdf
-        public static List<string> aqiBgColors = new List<string> { "#a6ce39", "#fff200", "#f7901e", "#ed1d24", "#a2064a", "#891a1c", "#891a1c", "#891a1c" };
+        public static List<string> aqiBgColors = new List<string> { "#C0C0C0", "#a6ce39", "#fff200", "#f7901e", "#ed1d24", "#a2064a", "#891a1c", "#891a1c", "#891a1c" };
 
-        public static List<double> pm2_5Limits = new List<double> { 15.4, 35.4, 54.4, 150.4, 250.4, 350.4, 500.4 };
-        public static List<double> pm10Limits = new List<double> { 54, 125, 254, 354, 424, 504, 604 };
-        public static List<double> o3Limits = new List<double> { 60, 125, 164, 204, 404, 504, 604 };
+        public static List<double> pm2_5Limits = new List<double> {-1, 15.4, 35.4, 54.4, 150.4, 250.4, 350.4, 500.4 };
+        public static List<double> pm10Limits = new List<double> {-1, 54, 125, 254, 354, 424, 504, 604 };
+        public static List<double> o3Limits = new List<double> {-1, 60, 125, 164, 204, 404, 504, 604 };
         // 201, 202, ...
-        public static List<double> o3_8hrLimits = new List<double> { 54, 70, 85, 105, 200, 201, 202 };
-        public static List<double> coLimits = new List<double> { 4.4, 9.4, 12.4, 15.4, 30.4, 40.4, 50.4 };
-        public static List<double> so2Limits = new List<double> { 35, 75, 185, 304, 604, 804, 1004 };
-        public static List<double> no2Limits = new List<double> { 53, 100, 360, 649, 1249, 1649, 2049 };
+        public static List<double> o3_8hrLimits = new List<double> {-1, 54, 70, 85, 105, 200, 201, 202 };
+        public static List<double> coLimits = new List<double> {-1, 4.4, 9.4, 12.4, 15.4, 30.4, 40.4, 50.4 };
+        public static List<double> so2Limits = new List<double> {-1, 35, 75, 185, 304, 604, 804, 1004 };
+        public static List<double> no2Limits = new List<double> {-1, 53, 100, 360, 649, 1249, 1649, 2049 };
 
         public static int getAqLevel(string aqName, double aqVal)
         {
