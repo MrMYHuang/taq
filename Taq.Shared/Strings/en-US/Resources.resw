@@ -310,7 +310,7 @@
     <value>Login failed!</value>
   </data>
   <data name="logining" xml:space="preserve">
-    <value>Logining...</value>
+    <value>Please login for updating air quality data!</value>
   </data>
   <data name="noLogin" xml:space="preserve">
     <value>No login. Can not refresh air quality data!</value>

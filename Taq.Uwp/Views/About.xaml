@@ -43,7 +43,7 @@
 
             <TextBlock Style="{StaticResource secHeadSty}">問題與回報</TextBlock>
             <TextBlock Style="{StaticResource txtBlkSty1}">
-                FB粉絲頁：<Hyperlink NavigateUri="http://fb.com/TaqUwp">http://fb.com/TaqUwp</Hyperlink><LineBreak/>
+                FB粉絲頁：<Hyperlink NavigateUri="http://fb.me/MyhApps">http://fb.me/MyhApps</Hyperlink><LineBreak/>
                 作者信箱：<Hyperlink NavigateUri="{Binding mailUri}">myhDev@live.com</Hyperlink><LineBreak/>
                 作者：Meng-Yuan Huang<LineBreak/>
             </TextBlock>

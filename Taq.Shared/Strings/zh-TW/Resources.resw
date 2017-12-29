@@ -310,7 +310,7 @@
     <value>登入失敗！</value>
   </data>
   <data name="logining" xml:space="preserve">
-    <value>登入中...</value>
+    <value>請登入以取得空氣品質資料更新！</value>
   </data>
   <data name="noLogin" xml:space="preserve">
     <value>未登入帳號，無法更新空氣品質資料！</value>

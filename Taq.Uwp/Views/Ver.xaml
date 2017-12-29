@@ -22,6 +22,11 @@
                     * 列表頁作數值排序後會卡住幾秒。<LineBreak />
                 </TextBlock>
 
+                <TextBlock Style="{StaticResource secHeadSty}">Ver. 6.0.12</TextBlock>
+                <TextBlock Style="{StaticResource txtBlkSty1}" >
+                    * 更新粉絲頁網址。<LineBreak />
+                </TextBlock>
+
                 <TextBlock Style="{StaticResource secHeadSty}">Ver. 6.0.11</TextBlock>
                 <TextBlock Style="{StaticResource txtBlkSty1}" >
                     * 設備維護中的站台的空汙指標顏色改為灰色。<LineBreak />
