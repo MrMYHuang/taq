@@ -83,7 +83,9 @@ namespace Taq.Shared.Models
                         siteDict[f] = "N/A";
                     }
                 }
-                sitesStrDict.Add(siteName, siteDict);
+                // Skip duplicate keys as possible.
+                if(!sitesStrDict.ContainsKey(siteName))
+                    sitesStrDict.Add(siteName, siteDict);
             }
             return 0;
         }
@@ -109,7 +111,9 @@ namespace Taq.Shared.Models
             {
                 var siteDict = d.ToObject<Dictionary<string, string>>();
                 var siteName = siteDict["SiteName"];
-                oldSitesStrDict.Add(siteName, siteDict);
+                // Skip duplicate keys as possible.
+                if(!oldSitesStrDict.ContainsKey(siteName))
+                    oldSitesStrDict.Add(siteName, siteDict);
             }
 
             // Save new site to the setting.

@@ -22,6 +22,11 @@
                     * 列表頁作數值排序後會卡住幾秒。<LineBreak />
                 </TextBlock>
 
+                <TextBlock Style="{StaticResource secHeadSty}">Ver. 6.0.13</TextBlock>
+                <TextBlock Style="{StaticResource txtBlkSty1}" >
+                    * 修正原始AQI資料包函重複站台資訊導致TAQ異常的情況。<LineBreak />
+                </TextBlock>
+
                 <TextBlock Style="{StaticResource secHeadSty}">Ver. 6.0.12</TextBlock>
                 <TextBlock Style="{StaticResource txtBlkSty1}" >
                     * 更新粉絲頁網址。<LineBreak />
