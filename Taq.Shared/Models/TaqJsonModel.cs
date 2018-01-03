@@ -49,14 +49,18 @@ namespace Taq.Shared.Models
             {
                 var siteDict = d.ToObject<Dictionary<string, string>>();
                 var siteName = siteDict["SiteName"];
-                    var geoD = from gd in geoDataX
+                // Skip duplicate keys as possible.
+                if (sitesStrDict.ContainsKey(siteName))
+                    continue;
+
+                var geoD = from gd in geoDataX
                            where gd.Descendants("SiteName").First().Value == siteName
                            select gd;
 
                 var geoDict = geoD.Elements().ToDictionary(x => x.Name.LocalName, x => x.Value);
                 string latStr, lonStr;
                 // No corresponding site geo info in SiteGeo.xml!!!
-                if(geoDict.Count == 0)
+                if (geoDict.Count == 0)
                 {
                     latStr = "0";
                     lonStr = "0";
@@ -76,16 +80,14 @@ namespace Taq.Shared.Models
                 });
                 // Shorten long status strings for map icons.
                 siteDict.Add("ShortStatus", StaticTaqModel.getShortStatus(siteDict["Status"]));
-                if(siteDict["ShortStatus"] == "維護")
+                if (siteDict["ShortStatus"] == "維護")
                 {
-                    foreach(var f in aqHistNames)
+                    foreach (var f in aqHistNames)
                     {
                         siteDict[f] = "N/A";
                     }
                 }
-                // Skip duplicate keys as possible.
-                if(!sitesStrDict.ContainsKey(siteName))
-                    sitesStrDict.Add(siteName, siteDict);
+                sitesStrDict.Add(siteName, siteDict);
             }
             return 0;
         }
@@ -112,8 +114,10 @@ namespace Taq.Shared.Models
                 var siteDict = d.ToObject<Dictionary<string, string>>();
                 var siteName = siteDict["SiteName"];
                 // Skip duplicate keys as possible.
-                if(!oldSitesStrDict.ContainsKey(siteName))
-                    oldSitesStrDict.Add(siteName, siteDict);
+                if (oldSitesStrDict.ContainsKey(siteName))
+                    continue;
+
+                oldSitesStrDict.Add(siteName, siteDict);
             }
 
             // Save new site to the setting.
