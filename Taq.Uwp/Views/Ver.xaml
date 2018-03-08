@@ -25,6 +25,7 @@
                 <TextBlock Style="{StaticResource secHeadSty}">Ver. 6.0.15</TextBlock>
                 <TextBlock Style="{StaticResource txtBlkSty1}" >
                     * 改善閃退問題。<LineBreak />
+                    * 修正顏色頁面顯示異常問題。<LineBreak />
                 </TextBlock>
 
                 <TextBlock Style="{StaticResource secHeadSty}">Ver. 6.0.14</TextBlock>

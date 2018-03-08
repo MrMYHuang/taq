@@ -324,6 +324,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="Package.StoreAssociation.xml" />
+    <None Include="Package.xml" />
     <Content Include="Properties\Default.rd.xml" />
   </ItemGroup>
   <ItemGroup>
@@ -423,10 +424,10 @@
       <Version>4.1.6</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
-      <Version>6.0.5</Version>
+      <Version>6.0.8</Version>
     </PackageReference>
     <PackageReference Include="Newtonsoft.Json">
-      <Version>10.0.3</Version>
+      <Version>11.0.1</Version>
     </PackageReference>
     <PackageReference Include="Prism.StoreApps">
       <Version>2.0.0</Version>
