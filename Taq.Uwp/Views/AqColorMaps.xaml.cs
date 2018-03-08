@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using Taq.Uwp;
 using Taq.Shared.Models;
 using Taq.Shared.ModelViews;
 using Windows.UI.Xaml;
@@ -30,6 +29,7 @@ namespace Taq.Uwp.Views
             app = App.Current as App;
             this.InitializeComponent();
             aqLimitsColl = new ObservableCollection<AqLimits>();
+            var aqLevelCnt = StaticTaqModel.aqiLimits.Count;
             foreach (var aqName in apNames)
             {
                 var aqLimit = new AqLimits
@@ -39,9 +39,10 @@ namespace Taq.Uwp.Views
                     Diffs = new ObservableCollection<double>()
                 };
 
-                aqLimit.Limits.Add(StaticTaqModel.aqLimits[aqName][0]);
-                aqLimit.Diffs.Add(StaticTaqModel.aqLimits[aqName][0]);
-                for (var i = 1; i < 7; i++)
+                // Skip aqLimits[aqName][0], because it is unused -1.
+                aqLimit.Limits.Add(StaticTaqModel.aqLimits[aqName][1]);
+                aqLimit.Diffs.Add(StaticTaqModel.aqLimits[aqName][1]);
+                for (var i = 2; i < aqLevelCnt; i++)
                 {
                     aqLimit.Limits.Add(StaticTaqModel.aqLimits[aqName][i]);
                     aqLimit.Diffs.Add(StaticTaqModel.aqLimits[aqName][i] - StaticTaqModel.aqLimits[aqName][i - 1]);
@@ -49,7 +50,7 @@ namespace Taq.Uwp.Views
                 aqLimitsColl.Add(aqLimit);
 
             }
-            for (var i = 0; i < 7; i++)
+            for (var i = 1; i < aqLevelCnt; i++)
             {
                 var sbs = new StackingColumn100Series();
                 sbs.Interior = new SolidColorBrush(StaticTaqModelView.html2RgbColor(StaticTaqModel.aqiBgColors[i]));

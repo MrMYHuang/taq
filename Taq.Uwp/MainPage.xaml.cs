@@ -56,7 +56,7 @@ namespace Taq.Uwp
             frame.Navigate(typeof(Home), app.tappedSiteName);
             return 0;
         }
-        
+
         async Task<int> initBackTask()
         {
             if (app.vm.m.localSettings.Values["BgUpdatePeriod"] == null)
@@ -162,31 +162,23 @@ namespace Taq.Uwp
                     await app.vm.m.downloadAqData();
                     downloadSuccess = true;
                 }
-            }
-            catch (Exception ex)
-            {
-                app.vm.StatusText = ex.Message;
-            }
-
-            try
-            {
                 await app.vm.m.loadAq2Dict();
+
+                await updateSitesData();
+                await app.vm.backTaskUpdateTiles();
+
+                if (downloadSuccess)
+                {
+                    app.vm.m.sendSubscrSitesNotifications();
+                    app.vm.m.lastUpdateTime = DateTime.Now;
+                    app.vm.StatusText = app.vm.m.getLastUpdateTime() + " " + app.vm.m.resLoader.GetString("updateFinish");
+                }
             }
             catch (Exception ex)
             {
-                app.vm.StatusText = ex.Message;
-                // Ignore.
+                app.vm.StatusText = "Error! " + ex.Message;
             }
 
-            await updateSitesData();
-            await app.vm.backTaskUpdateTiles();
-
-            if (downloadSuccess)
-            {
-                app.vm.m.sendSubscrSitesNotifications();
-                app.vm.m.lastUpdateTime = DateTime.Now;
-                app.vm.StatusText = app.vm.m.getLastUpdateTime() + " " + app.vm.m.resLoader.GetString("updateFinish");
-            }
             return 0;
         }
 
@@ -196,7 +188,7 @@ namespace Taq.Uwp
             {
                 await app.vm.m.loadAq2Dict();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 app.vm.StatusText = app.vm.m.resLoader.GetString("updateFailTryManualUpdate") + ": " + ex.Message;
             }
@@ -221,7 +213,7 @@ namespace Taq.Uwp
                 // Force run loadDict2Sites by setting SelAqId to itself.
                 app.vm.loadDict2Sites(app.vm.m.aqList[app.vm.SelAqId]);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 app.vm.StatusText = app.vm.m.resLoader.GetString("updateFailTryManualUpdate") + ": " + ex.Message;
             }
@@ -231,20 +223,26 @@ namespace Taq.Uwp
         // Used by AqList and AqSiteMap.
         public void aqComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var selAqId = ((ComboBox)sender).SelectedIndex;
-            if (selAqId == -1)
+            try
             {
-                return;
+                var selAqId = ((ComboBox)sender).SelectedIndex;
+                if (selAqId == -1)
+                {
+                    return;
+                }
+                app.vm.SelAqId = selAqId;
+                app.vm.loadDict2Sites(app.vm.m.aqList[app.vm.SelAqId]);
             }
-            app.vm.SelAqId = selAqId;
-            app.vm.loadDict2Sites(app.vm.m.aqList[app.vm.SelAqId]);
+            catch (Exception ex)
+            {
+                app.vm.StatusText = "Error! " + ex.Message;
+            }
         }
 
         // Trivial codes
         private void HamburgerButton_Click(object sender, TappedRoutedEventArgs e)
         {
             MySplitView.IsPaneOpen = !MySplitView.IsPaneOpen;
-
         }
 
         private void HamburgerButton_KeyUp(object sender, KeyRoutedEventArgs e)
@@ -367,7 +365,7 @@ namespace Taq.Uwp
                 MySplitView.IsPaneOpen = false;
             }
         }
-        
+
         private async void refreshButton_Click(object sender, TappedRoutedEventArgs e)
         {
             MySplitView.IsPaneOpen = false;

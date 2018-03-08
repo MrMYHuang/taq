@@ -58,19 +58,26 @@ namespace Taq.Uwp.Views
 
         private async void mainSiteComboBox_SelectionChanged(Object sender, SelectionChangedEventArgs e)
         {
-            var selSite = (SiteViewModel)((ComboBox)sender).SelectedItem;
-            // SelectionChanged is triggered by changing selected item by, e.g., tapping.
-            if (app.vm.m.localSettings.Values["Taq.BackTaskUpdated"] == null || (bool)app.vm.m.localSettings.Values["Taq.BackTaskUpdated"] == false)
+            try
             {
-                await app.vm.m.loadMainSite(selSite.siteName);
-                app.vm.updateAqgv(0);
-                await app.vm.backTaskUpdateTiles();
+                var selSite = (SiteViewModel)((ComboBox)sender).SelectedItem;
+                // SelectionChanged is triggered by changing selected item by, e.g., tapping.
+                if (app.vm.m.localSettings.Values["Taq.BackTaskUpdated"] == null || (bool)app.vm.m.localSettings.Values["Taq.BackTaskUpdated"] == false)
+                {
+                    await app.vm.m.loadMainSite(selSite.siteName);
+                    app.vm.updateAqgv(0);
+                    await app.vm.backTaskUpdateTiles();
+                }
+                // SelectionChanged is triggered by Taq.BackTask updating.
+                // Do nothing but set this:
+                else
+                {
+                    app.vm.m.localSettings.Values["Taq.BackTaskUpdated"] = false;
+                }
             }
-            // SelectionChanged is triggered by Taq.BackTask updating.
-            // Do nothing but set this:
-            else
+            catch (Exception ex)
             {
-                app.vm.m.localSettings.Values["Taq.BackTaskUpdated"] = false;
+                app.vm.StatusText = "Error!" + ex.Message;
             }
         }
         private async void umiButton_Tapped(object sender, TappedRoutedEventArgs e)
@@ -85,7 +92,7 @@ namespace Taq.Uwp.Views
             }
             catch (Exception ex)
             {
-                app.vm.StatusText = ex.Message;
+                app.vm.StatusText = "Error!" + ex.Message;
             }
         }
 
