@@ -56,9 +56,9 @@ namespace Taq.Shared.Models
         // Supported languages.
         public List<string> langList = new List<string> { "zh-TW", "en-US" };
 
-        // AQ name list for MainPage aqComboBox.
+        // AQ name list for AqList and AqSiteMap aqComboBox.
         // Don't replace it by aqLimits.Keys! Not all names are used in aqComboBox.
-        public List<string> aqList = new List<string> { "ShortStatus", "AQI", "PM2.5", "PM2.5_AVG", "PM10", "PM10_AVG", "O3", "O3_8hr", "CO", "CO_8hr", "SO2", "NO2", "NOx", "NO", "WindSpeed", "WindDirec" };
+        public List<string> aqList = new List<string> { "ShortStatus", "PublishTime", "AQI", "PM2.5", "PM2.5_AVG", "PM10", "PM10_AVG", "O3", "O3_8hr", "CO", "CO_8hr", "SO2", "NO2", "NOx", "NO", "WindSpeed", "WindDirec" };
 
         // AQ name list for AqHistories.
         public List<string> aqHistNames = new List<string> { "AQI", "PM2.5", "PM2.5_AVG", "PM10", "PM10_AVG", "O3", "O3_8hr", "CO", "CO_8hr", "SO2", "NO2", "NOx", "NO", "WindSpeed", "WindDirec" };

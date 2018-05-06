@@ -38,7 +38,10 @@
             <TextBlock Style="{StaticResource secHeadSty}">注意事項</TextBlock>
             <TextBlock Style="{StaticResource txtBlkSty1}">
                 * 動態磚預設每15分鐘背景下載空氣品質資料庫一次。可調整。<LineBreak/>
+                * 本app要求帳號登入(如FB, Google)，作為TAQ server流量控制之用。<Hyperlink NavigateUri="https://github.com/MrMYHuang/taqServ">TAQ server原始碼</Hyperlink><LineBreak/>
                 * 空汙的資料來源為環保署。正常情形，TAQ的空汙資料最多晚環保署10分鐘更新。若懷疑數據不正常，請先至<Hyperlink NavigateUri="http://opendata.epa.gov.tw/Data/Details/AQI/">環保署網頁</Hyperlink>確認。<LineBreak/>
+                * 本app所提供之資訊僅作參考，不能作為任何判據，如法律上、學術上、...，否則請勿使用。<LineBreak/>
+                <LineBreak/>
             </TextBlock>
 
             <TextBlock Style="{StaticResource secHeadSty}">問題與回報</TextBlock>

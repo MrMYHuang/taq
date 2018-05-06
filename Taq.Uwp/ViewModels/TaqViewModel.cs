@@ -194,10 +194,13 @@ namespace Taq.Uwp.ViewModels
 
             foreach (var site in sites)
             {
+                var circleText = m.sitesStrDict[site.siteName][aqName];
+                if (aqName == "PublishTime")
+                    circleText = circleText.Substring(11, 5);
                 var aqLevel = m.getAqLevel(site.siteName, aqName);
                 site.aqi = m.getValidAqVal(m.sitesStrDict[site.siteName]["AQI"]);
                 site.CircleColor = StaticTaqModel.aqColors[aqName][aqLevel];
-                site.CircleText = site.siteName + "\n" + m.sitesStrDict[site.siteName][aqName];
+                site.CircleText = site.siteName + "\n" + circleText;
                 site.ListText = m.sitesStrDict[site.siteName][aqName];
                 site.TextColor = StaticTaqModelView.getTextColor(aqLevel);
             }
@@ -289,7 +292,7 @@ namespace Taq.Uwp.ViewModels
                 var id = 0;
                 foreach (var siteName in m.subscrSiteList)
                 {
-                    aqgvList.Add(new AqGridView(loadSite2dAqvm(siteName), id));
+                    aqgvList.Add(new AqGridView(loadSite2Aqvm(siteName), id));
                     id++;
                 }
             }
@@ -324,7 +327,7 @@ namespace Taq.Uwp.ViewModels
 
         public void addSecSiteAndAqView(string siteName)
         {
-            aqgvList.Add(new AqGridView(loadSite2dAqvm(siteName), aqgvList.Count));
+            aqgvList.Add(new AqGridView(loadSite2Aqvm(siteName), aqgvList.Count));
         }
 
         public void delSecSiteAndAqView(string siteName)
@@ -342,8 +345,8 @@ namespace Taq.Uwp.ViewModels
             }
         }
 
-        // Convert site info to AqViewModel for for data bindings.
-        public ObservableCollection<UIElement> loadSite2dAqvm(string siteName)
+        // Convert site info to AqViewModel for data bindings.
+        public ObservableCollection<UIElement> loadSite2Aqvm(string siteName)
         {
             var aqvms = new ObservableCollection<AqViewModel>();
             var aqgvis = new ObservableCollection<UIElement>();

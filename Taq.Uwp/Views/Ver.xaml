@@ -22,6 +22,11 @@
                     * 列表頁作數值排序後會卡住幾秒。<LineBreak />
                 </TextBlock>
 
+                <TextBlock Style="{StaticResource secHeadSty}">Ver. 6.0.16</TextBlock>
+                <TextBlock Style="{StaticResource txtBlkSty1}" >
+                    * 新增發佈日期至地圖頁、列表頁下拉選單。<LineBreak />
+                </TextBlock>
+
                 <TextBlock Style="{StaticResource secHeadSty}">Ver. 6.0.15</TextBlock>
                 <TextBlock Style="{StaticResource txtBlkSty1}" >
                     * 改善閃退問題。<LineBreak />

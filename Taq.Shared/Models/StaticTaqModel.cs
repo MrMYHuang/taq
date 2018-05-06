@@ -21,7 +21,7 @@ namespace Taq.Shared.Models
         // XML AQ names to ordinary AQ names.
         // The order of keys is meaningful!
         // The display order of AQ items in Home.xaml follows this order of keys.
-        // Please check function loadSite2dAqvm for the usage of this variable!
+        // Please check function loadSite2Aqvm for the usage of this variable!
         public static Dictionary<string, string> fieldNames = new Dictionary<string, string>
         {
             { "SiteName", "觀測站" },
