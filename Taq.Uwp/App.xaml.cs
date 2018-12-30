@@ -29,6 +29,7 @@ namespace Taq.Uwp
         public ApplicationDataContainer localSettings;
         public App()
         {
+            Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense(Params.syncfusionLic);
             HockeyClient.Current.Configure(Params.hockeyAppId);
             initLocalSettings();
             // Fox Xbox One gamepad XY focus navigation. Not tested.

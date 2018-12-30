@@ -22,6 +22,7 @@ namespace Taq.Shared.Models
 		// facebook app ID.
         public static string auth0Domain = "YourAuth0Domain";
         public static string auth0ClientId = "YourAuth0ClientId";
-
+        // Syncfusion license.
+        public static string syncfusionLic = "YourLicenseKey";
     }
 }
