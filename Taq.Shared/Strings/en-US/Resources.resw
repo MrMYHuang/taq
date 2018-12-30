@@ -151,7 +151,7 @@
     <value>Auto Positioning</value>
   </data>
   <data name="backTaskTb.Text" xml:space="preserve">
-    <value>Bacground Update</value>
+    <value>Background Update</value>
   </data>
   <data name="bgMainSiteAutoPosToggle.Header" xml:space="preserve">
     <value>Main Site Positioning</value>
