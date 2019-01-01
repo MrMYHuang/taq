@@ -16,8 +16,8 @@ Requirements
 The following lists requirements to build and run all functions of TAQ app:
 
 * Visual Studio 2017 or above is strongly recommanded.
-* Windows 10 SDK 10.0.14393.0 is recommanded.
-* Syncfusion Essential Studio for UWP. The version 14.3.0.52 is recommanded. Free trail download: https://www.syncfusion.com/products/uwp
+* Windows 10 SDK 10.0.14393.0 or above is recommanded.
+* Essential Studio Enterprise Edition. Get a Community license for UWP from: https://www.syncfusion.com/
 * HockeyApp ID. Free sign up at: http://hockeyapp.net
 * Bing Maps service token. Free acquire key at: https://www.bingmapsportal.com/
 * Auth0 domain and client ID. Free sign up at: http://auth0.com
