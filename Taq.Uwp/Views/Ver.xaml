@@ -22,6 +22,11 @@
                     * 列表頁作數值排序後會卡住幾秒。<LineBreak />
                 </TextBlock>
 
+                <TextBlock Style="{StaticResource secHeadSty}">Ver. 7.0.0</TextBlock>
+                <TextBlock Style="{StaticResource txtBlkSty1}" >
+                    * 更新為Auth0 OIDC client。<LineBreak />
+                </TextBlock>
+
                 <TextBlock Style="{StaticResource secHeadSty}">Ver. 6.0.17</TextBlock>
                 <TextBlock Style="{StaticResource txtBlkSty1}" >
                     * 修正錯字。<LineBreak />

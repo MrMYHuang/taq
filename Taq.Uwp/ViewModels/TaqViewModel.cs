@@ -30,7 +30,8 @@ using Windows.Web.Http.Headers;
 using Windows.Web.Http.Filters;
 using Windows.Storage.Streams;
 using Windows.Security.Authentication.Web.Core;
-using Auth0.LoginClient;
+using Auth0.OidcClient;
+using IdentityModel.OidcClient;
 
 namespace Taq.Uwp.ViewModels
 {
@@ -77,8 +78,8 @@ namespace Taq.Uwp.ViewModels
             try
             {
                 StatusText = m.resLoader.GetString("logining");
-                var auth0User = await authLoginAux();
-                await extractFbAuthResData(auth0User);
+                var result = await authLoginAux();
+                await extractFbAuthResData(result);
                 m.localSettings.Values["Loggined"] = true;
                 StatusText = m.resLoader.GetString("loginSuccess");
             }
@@ -94,13 +95,19 @@ namespace Taq.Uwp.ViewModels
             return 0;
         }
 
-        async Task<Auth0User> authLoginAux()
+        async Task<LoginResult> authLoginAux()
         {
-            var auth0 = new Auth0Client(Params.auth0Domain, Params.auth0ClientId);
-            var user = await auth0.LoginAsync();
-            if (user == null)
+            Auth0ClientOptions clientOptions = new Auth0ClientOptions
+            {
+                Domain = Params.auth0Domain,
+                ClientId = Params.auth0ClientId
+            };
+            clientOptions.PostLogoutRedirectUri = clientOptions.RedirectUri;
+            var auth0 = new Auth0Client(clientOptions);
+            var result = await auth0.LoginAsync();
+            if (result == null)
                 throw new Exception("Authentication cancelled!");
-            return user;
+            return result;
         }
 
         public void authLogout()
@@ -108,8 +115,14 @@ namespace Taq.Uwp.ViewModels
             // Clear login infos.
             UserName = "";
             m.localSettings.Values["UserPwd"] = "";
-            var auth0 = new Auth0Client(Params.auth0Domain, Params.auth0ClientId);
-            auth0.Logout();
+            Auth0ClientOptions clientOptions = new Auth0ClientOptions
+            {
+                Domain = Params.auth0Domain,
+                ClientId = Params.auth0ClientId
+            };
+            clientOptions.PostLogoutRedirectUri = clientOptions.RedirectUri;
+            var auth0 = new Auth0Client(clientOptions);
+            auth0.LogoutAsync();
             m.localSettings.Values["Loggined"] = false;
             OnPropertyChanged("Loggined");
         }
@@ -125,10 +138,10 @@ namespace Taq.Uwp.ViewModels
             return t.ToString();
         }
 
-        private async Task extractFbAuthResData(Auth0User u)
+        private async Task extractFbAuthResData(LoginResult r)
         {
-            string access_token = u.Auth0AccessToken;
-            var email = getUserProfile(u.Profile, "email");
+            string access_token = r.AccessToken;
+            var email = r.User.FindFirst(c => c.Type == "email")?.Value;
 
             // Register at TAQ server.
             var jTaqReq = new JObject();
@@ -150,8 +163,8 @@ namespace Taq.Uwp.ViewModels
             {
                 throw new Exception(err);
             }
-            UserName = getUserProfile(u.Profile, "name");
-            m.localSettings.Values["UserId"] = getUserProfile(u.Profile, "user_id");
+            UserName = r.User.FindFirst(c => c.Type == "name")?.Value;
+            m.localSettings.Values["UserId"] = r.User.FindFirst(c => c.Type == "sub")?.Value;
             m.localSettings.Values["UserPwd"] = jTaqRegRes.GetNamedString("pwd");
         }
 
