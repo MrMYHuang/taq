@@ -1,5 +1,4 @@
-﻿using Microsoft.HockeyApp;
-using System;
+﻿using System;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.UI.Xaml;
@@ -12,6 +11,9 @@ using Taq.Shared.Models;
 using Taq.Uwp.ViewModels;
 using Windows.Globalization;
 using System.Text.RegularExpressions;
+using Microsoft.AppCenter;
+using Microsoft.AppCenter.Analytics;
+using Microsoft.AppCenter.Crashes;
 
 namespace Taq.Uwp
 {
@@ -30,7 +32,7 @@ namespace Taq.Uwp
         public App()
         {
             Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense(Params.syncfusionLic);
-            HockeyClient.Current.Configure(Params.hockeyAppId);
+            AppCenter.Start(Params.appCenterSecret, typeof(Analytics), typeof(Crashes));
             initLocalSettings();
             // Fox Xbox One gamepad XY focus navigation. Not tested.
             //this.RequiresPointerMode =

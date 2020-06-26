@@ -9,7 +9,7 @@ namespace Taq.Shared.Models
         public const string aqDbFile = "taqi.json";
         // TAQ server URI.
 #if DEBUG
-        public static string uriHost = "http://localhost:1337/";
+        public static string uriHost = "http://localhost:3000/";
 #else
         public static string uriHost = "https://YourTaqServerIp/";
 #endif
@@ -17,9 +17,9 @@ namespace Taq.Shared.Models
         public static string aqHistTabName = "epatw";
         // Download file name of AQ history.
         public static string aqHistFile = "AqHist.json";
-        public static string hockeyAppId = "YourHockeyAppId";
+        public static string appCenterSecret = "YourAppCenterSecret";
         public static string bingMapToken = "YourBingMapToken";
-		// facebook app ID.
+		// Auth0 app ID.
         public static string auth0Domain = "YourAuth0Domain";
         public static string auth0ClientId = "YourAuth0ClientId";
         // Syncfusion license.

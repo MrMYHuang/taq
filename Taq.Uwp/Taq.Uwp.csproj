@@ -22,7 +22,6 @@
     <AppxBundlePlatforms>x86|x64|arm</AppxBundlePlatforms>
     <PackageCertificateThumbprint>
     </PackageCertificateThumbprint>
-    <HockeyAppResourceId>YourHockeyAppId</HockeyAppResourceId>
     <RuntimeIdentifiers>win10-arm;win10-arm-aot;win10-x86;win10-x86-aot;win10-x64;win10-x64-aot</RuntimeIdentifiers>
     <GenerateAppInstallerFile>False</GenerateAppInstallerFile>
     <AppInstallerUpdateFrequency>0</AppInstallerUpdateFrequency>
@@ -117,9 +116,6 @@
     </PRIResource>
     <None Include="Connected Services\HockeyApp\ConnectedService.json" />
     <None Include="Taq.Uwp_StoreKey.pfx" />
-    <None Include="Taq.Uwp_TemporaryKey.pfx" />
-    <None Include="Taq_StoreKey.pfx" />
-    <None Include="Taq_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -432,8 +428,11 @@
     <PackageReference Include="Auth0.OidcClient.UWP">
       <Version>3.1.2</Version>
     </PackageReference>
-    <PackageReference Include="HockeySDK.UWP">
-      <Version>4.1.6</Version>
+    <PackageReference Include="Microsoft.AppCenter.Analytics">
+      <Version>3.2.2</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.AppCenter.Crashes">
+      <Version>3.2.2</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>6.2.10</Version>

@@ -22,9 +22,14 @@
                     * 列表頁作數值排序後會卡住幾秒。<LineBreak />
                 </TextBlock>
 
+                <TextBlock Style="{StaticResource secHeadSty}">Ver. 7.1.0</TextBlock>
+                <TextBlock Style="{StaticResource txtBlkSty1}" >
+                    * 更新Hockey App為App Center。<LineBreak />
+                </TextBlock>
+
                 <TextBlock Style="{StaticResource secHeadSty}">Ver. 7.0.0</TextBlock>
                 <TextBlock Style="{StaticResource txtBlkSty1}" >
-                    * 更新為Auth0 OIDC client。<LineBreak />
+                    * 更新為Auth0 OIDC client。若狀態列出現"Error! Authentication failed!"訊息，請至設定頁作帳號登出再登入。<LineBreak />
                 </TextBlock>
 
                 <TextBlock Style="{StaticResource secHeadSty}">Ver. 6.0.17</TextBlock>
