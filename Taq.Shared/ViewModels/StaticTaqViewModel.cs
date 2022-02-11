@@ -12,9 +12,9 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 
-namespace Taq.Shared.ModelViews
+namespace Taq.Shared.ViewModels
 {
-    public static class StaticTaqModelView
+    public static class StaticTaqViewModel
     {
         public async static Task<StorageFile> saveUi2Png(string fileName, UIElement ui)
         {

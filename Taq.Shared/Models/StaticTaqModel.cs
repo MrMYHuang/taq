@@ -51,8 +51,8 @@ namespace Taq.Shared.Models
             { "NOx", ""},
             { "NO", ""},
 
-            { "WindSpeed", "風速"},
-            { "WindDirec", "風向"},
+            { "WIND_SPEED", "風速"},
+            { "WIND_DIREC", "風向"},
         };
 
         public static Dictionary<string, string> shortStatusDict = new Dictionary<string, string>
@@ -130,8 +130,8 @@ namespace Taq.Shared.Models
             { "NO2", aqiBgColors},
             { "NOx", dirtyColors},
             { "NO", dirtyColors},
-            { "WindSpeed", defaultColors},
-            { "WindDirec", defaultColors},
+            { "WIND_SPEED", defaultColors},
+            { "WIND_DIREC", defaultColors},
         };
 
         // Combine limit lists into Dictinoary.
@@ -156,8 +156,8 @@ namespace Taq.Shared.Models
             { "NO2", no2Limits},
             { "NOx", defaultLimits},
             { "NO", defaultLimits},
-            { "WindSpeed", defaultLimits},
-            { "WindDirec", defaultLimits},
+            { "WIND_SPEED", defaultLimits},
+            { "WIND_DIREC", defaultLimits},
         };
 
         // (near) center on Taiwan     

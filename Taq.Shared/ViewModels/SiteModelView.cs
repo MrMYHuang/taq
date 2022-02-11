@@ -1,4 +1,4 @@
-﻿namespace Taq.Shared.ModelViews
+﻿namespace Taq.Shared.ViewModels
 {
     public class SiteViewModel : AqViewModel
     {

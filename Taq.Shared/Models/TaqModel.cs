@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 using System.Xml.Linq;
 using Taq.Shared;
 using Taq.Shared.Models;
-using Taq.Shared.ModelViews;
+using Taq.Shared.ViewModels;
 using Taq.Shared.Views;
 using Windows.ApplicationModel.Resources;
 using Windows.Data.Json;
@@ -58,10 +58,10 @@ namespace Taq.Shared.Models
 
         // AQ name list for AqList and AqSiteMap aqComboBox.
         // Don't replace it by aqLimits.Keys! Not all names are used in aqComboBox.
-        public List<string> aqList = new List<string> { "ShortStatus", "PublishTime", "AQI", "PM2.5", "PM2.5_AVG", "PM10", "PM10_AVG", "O3", "O3_8hr", "CO", "CO_8hr", "SO2", "NO2", "NOx", "NO", "WindSpeed", "WindDirec" };
+        public List<string> aqList = new List<string> { "ShortStatus", "PublishTime", "AQI", "PM2.5", "PM2.5_AVG", "PM10", "PM10_AVG", "O3", "O3_8hr", "CO", "CO_8hr", "SO2", "NO2", "NOx", "NO", "WIND_SPEED", "WIND_DIREC" };
 
         // AQ name list for AqHistories.
-        public List<string> aqHistNames = new List<string> { "AQI", "PM2.5", "PM2.5_AVG", "PM10", "PM10_AVG", "O3", "O3_8hr", "CO", "CO_8hr", "SO2", "NO2", "NOx", "NO", "WindSpeed", "WindDirec" };
+        public List<string> aqHistNames = new List<string> { "AQI", "PM2.5", "PM2.5_AVG", "PM10", "PM10_AVG", "O3", "O3_8hr", "CO", "CO_8hr", "SO2", "NO2", "NOx", "NO", "WIND_SPEED", "WIND_DIREC" };
 
         public TaqModel()
         {
@@ -354,7 +354,7 @@ namespace Taq.Shared.Models
             var g = (byte)Convert.ToUInt32(rectColorStr.Substring(2, 2), 16);
             var b = (byte)Convert.ToUInt32(rectColorStr.Substring(4, 2), 16);
             var bgColor = new SolidColorBrush(Color.FromArgb(0xFF, r, g, b));
-            var textColor = StaticTaqModelView.getTextColor(aqLevel);
+            var textColor = StaticTaqViewModel.getTextColor(aqLevel);
 
             // Extract time.
             var dateStr = sitesStrDict[siteName]["PublishTime"].Substring(5, 5).Replace("-", "/");
@@ -399,10 +399,10 @@ namespace Taq.Shared.Models
             largeTile.val9.Text = sitesStrDict[siteName]["SO2"];
             largeTile.border.Background = bgColor;
 
-            await StaticTaqModelView.saveUi2Png(siteName + "SmallTile.png", smallTile);
-            await StaticTaqModelView.saveUi2Png(siteName + "MedTile.png", medTile);
-            await StaticTaqModelView.saveUi2Png(siteName + "WideTile.png", wideTile);
-            await StaticTaqModelView.saveUi2Png(siteName + "LargeTile.png", largeTile);
+            await StaticTaqViewModel.saveUi2Png(siteName + "SmallTile.png", smallTile);
+            await StaticTaqViewModel.saveUi2Png(siteName + "MedTile.png", medTile);
+            await StaticTaqViewModel.saveUi2Png(siteName + "WideTile.png", wideTile);
+            await StaticTaqViewModel.saveUi2Png(siteName + "LargeTile.png", largeTile);
             return 0;
         }
 

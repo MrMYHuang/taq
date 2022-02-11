@@ -1,4 +1,4 @@
-﻿using Taq.Shared.ModelViews;
+﻿using Taq.Shared.ViewModels;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using System.Linq;

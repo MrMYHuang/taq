@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Taq.Shared.ModelViews;
+using Taq.Shared.ViewModels;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
@@ -77,7 +77,7 @@ namespace Taq.Uwp.Views
             }
             catch (Exception ex)
             {
-                app.vm.StatusText = "Error!" + ex.Message;
+                app.vm.StatusText = "Error! " + ex.Message;
             }
         }
         private async void umiButton_Tapped(object sender, TappedRoutedEventArgs e)
@@ -92,7 +92,7 @@ namespace Taq.Uwp.Views
             }
             catch (Exception ex)
             {
-                app.vm.StatusText = "Error!" + ex.Message;
+                app.vm.StatusText = "Error! " + ex.Message;
             }
         }
 

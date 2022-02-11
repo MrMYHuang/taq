@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using System.Xml.Linq;
 using Taq.Uwp.Views;
 using Taq.Shared.Models;
-using Taq.Shared.ModelViews;
+using Taq.Shared.ViewModels;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Background;
 using Windows.Devices.Geolocation;
@@ -215,7 +215,7 @@ namespace Taq.Uwp.ViewModels
                 site.CircleColor = StaticTaqModel.aqColors[aqName][aqLevel];
                 site.CircleText = site.siteName + "\n" + circleText;
                 site.ListText = m.sitesStrDict[site.siteName][aqName];
-                site.TextColor = StaticTaqModelView.getTextColor(aqLevel);
+                site.TextColor = StaticTaqViewModel.getTextColor(aqLevel);
             }
         }
 
@@ -330,7 +330,7 @@ namespace Taq.Uwp.ViewModels
             foreach (var k in StaticTaqModel.fieldNames.Keys)
             {
                 var aqLevel = m.getAqLevel(siteName, k);
-                var textColor = StaticTaqModelView.getTextColor(aqLevel);
+                var textColor = StaticTaqViewModel.getTextColor(aqLevel);
                 aqvms[i].CircleColor = StaticTaqModel.aqColors[k][aqLevel];
                 aqvms[i].CircleText = StaticTaqModel.fieldNames[k] + "\n" + m.sitesStrDict[siteName][k];
                 aqvms[i].TextColor = textColor;
@@ -367,7 +367,7 @@ namespace Taq.Uwp.ViewModels
             foreach (var k in StaticTaqModel.fieldNames.Keys)
             {
                 var aqLevel = m.getAqLevel(siteName, k);
-                var textColor = StaticTaqModelView.getTextColor(aqLevel);
+                var textColor = StaticTaqViewModel.getTextColor(aqLevel);
                 var aqvm = new AqViewModel
                 {
                     CircleColor = StaticTaqModel.aqColors[k][aqLevel], // default border background color
@@ -414,11 +414,11 @@ namespace Taq.Uwp.ViewModels
                         aqgvis.Add(new Grid1(aqvm, "NO", "", "ppb"));
                         break;
 
-                    case "WindSpeed":
+                    case "WIND_SPEED":
                         aqgvis.Add(new Grid1(aqvm, "", "", "m/s"));
                         break;
 
-                    case "WindDirec":
+                    case "WIND_DIREC":
                         aqgvis.Add(new Grid1(aqvm, "", "", "°"));
                         break;
 

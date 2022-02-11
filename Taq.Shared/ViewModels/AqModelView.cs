@@ -1,7 +1,7 @@
 ﻿using Microsoft.Practices.Prism.Mvvm;
 using Windows.UI.Xaml.Media;
 
-namespace Taq.Shared.ModelViews
+namespace Taq.Shared.ViewModels
 {
     public class AqViewModel : BindableBase
     {

@@ -5,7 +5,7 @@
     xmlns:local="using:Taq.Uwp.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:tsm="using:Taq.Shared.ModelViews"
+    xmlns:tsm="using:Taq.Shared.ViewModels"
     mc:Ignorable="d"
     NavigationCacheMode="Enabled">
     <Page.Resources>

@@ -6,7 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Taq.Shared.Models;
-using Taq.Shared.ModelViews;
+using Taq.Shared.ViewModels;
 using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -116,7 +116,7 @@ namespace Taq.Uwp.Views
                 }
                 var aqLevel = StaticTaqModel.getAqLevel(AqHistShared.aqName, aqVal);
                 //aq24HrValColl.Where(hv => hv.Hour == "0").First().Hour = updateDate.Replace("-", "/");
-                aqColors.Add(new SolidColorBrush(StaticTaqModelView.html2RgbColor(StaticTaqModel.aqColors[AqHistShared.aqName][aqLevel])));
+                aqColors.Add(new SolidColorBrush(StaticTaqViewModel.html2RgbColor(StaticTaqModel.aqColors[AqHistShared.aqName][aqLevel])));
             }
             ccm.CustomBrushes = aqColors;
 
@@ -135,7 +135,7 @@ namespace Taq.Uwp.Views
         public object Convert(object value, Type targetType, object parameter, string culture)
         {
             var aqLevel = StaticTaqModel.getAqLevel(AqHistShared.aqName, double.Parse((string)value));
-            return StaticTaqModelView.getTextColor(aqLevel);
+            return StaticTaqViewModel.getTextColor(aqLevel);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string culture)

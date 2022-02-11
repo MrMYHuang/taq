@@ -11,7 +11,7 @@
     <AssemblyName>Taq.Shared</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
-    <TargetPlatformVersion>10.0.18362.0</TargetPlatformVersion>
+    <TargetPlatformVersion>10.0.19041.0</TargetPlatformVersion>
     <TargetPlatformMinVersion>10.0.18362.0</TargetPlatformMinVersion>
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     <FileAlignment>512</FileAlignment>
@@ -116,9 +116,9 @@
     <Compile Include="Models\StaticTaqModel.cs" />
     <Compile Include="Models\TaqJsonModel.cs" />
     <Compile Include="Models\TaqXmlModel.cs" />
-    <Compile Include="ModelViews\AqViewModel.cs" />
-    <Compile Include="ModelViews\SiteViewModel.cs" />
-    <Compile Include="ModelViews\StaticTaqModelView.cs" />
+    <Compile Include="ViewModels\AqModelView.cs" />
+    <Compile Include="ViewModels\SiteModelView.cs" />
+    <Compile Include="ViewModels\StaticTaqViewModel.cs" />
     <Compile Include="Views\SmallTile.xaml.cs">
       <DependentUpon>SmallTile.xaml</DependentUpon>
     </Compile>

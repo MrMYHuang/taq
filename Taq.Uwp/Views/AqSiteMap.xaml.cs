@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Taq.Shared.ModelViews;
+using Taq.Shared.ViewModels;
 using Windows.Devices.Geolocation;
 using Windows.Foundation;
 using Windows.Storage;

@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Taq.Shared.Models;
-using Taq.Shared.ModelViews;
+using Taq.Shared.ViewModels;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Data;
@@ -53,7 +53,7 @@ namespace Taq.Uwp.Views
             for (var i = 1; i < aqLevelCnt; i++)
             {
                 var sbs = new StackingColumn100Series();
-                sbs.Interior = new SolidColorBrush(StaticTaqModelView.html2RgbColor(StaticTaqModel.aqiBgColors[i]));
+                sbs.Interior = new SolidColorBrush(StaticTaqViewModel.html2RgbColor(StaticTaqModel.aqiBgColors[i]));
 
                 sbs.XBindingPath = "Name";
                 sbs.YBindingPath = "Diffs[" + i + "]";

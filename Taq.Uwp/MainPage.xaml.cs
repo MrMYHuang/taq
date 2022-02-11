@@ -10,7 +10,7 @@ using Windows.System;
 using System.Threading.Tasks;
 using Windows.UI.Core;
 using Windows.Devices.Geolocation;
-using Taq.Shared.ModelViews;
+using Taq.Shared.ViewModels;
 using Windows.ApplicationModel.Background;
 using Taq.BackTask;
 using Windows.ApplicationModel.Core;
@@ -110,7 +110,7 @@ namespace Taq.Uwp
             DataRequestDeferral deferral = request.GetDeferral();
             try
             {
-                var saveFile = await StaticTaqModelView.saveUi2Png("screenshot.png", mainPage);
+                var saveFile = await StaticTaqViewModel.saveUi2Png("screenshot.png", mainPage);
 
                 var storageItems = new List<IStorageItem>();
                 storageItems.Add(saveFile);

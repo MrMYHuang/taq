@@ -11,7 +11,7 @@
     <AssemblyName>Taq.Uwp</AssemblyName>
     <DefaultLanguage>en-us</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
-    <TargetPlatformVersion>10.0.18362.0</TargetPlatformVersion>
+    <TargetPlatformVersion>10.0.19041.0</TargetPlatformVersion>
     <TargetPlatformMinVersion>10.0.18362.0</TargetPlatformMinVersion>
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     <FileAlignment>512</FileAlignment>
@@ -102,6 +102,13 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
+    <Content Include="Assets\logos\AppIcon.altform-lightunplated_targetsize-16.png" />
+    <Content Include="Assets\logos\AppIcon.altform-lightunplated_targetsize-24.png" />
+    <Content Include="Assets\logos\AppIcon.altform-lightunplated_targetsize-256.png" />
+    <Content Include="Assets\logos\AppIcon.altform-lightunplated_targetsize-32.png" />
+    <Content Include="Assets\logos\AppIcon.altform-lightunplated_targetsize-48.png" />
+    <Content Include="Assets\logos\AppIcon.altform-unplated_targetsize-32.png" />
+    <Content Include="Assets\logos\AppIcon.targetsize-32.png" />
     <Content Include="Assets\Oldtaqi.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
