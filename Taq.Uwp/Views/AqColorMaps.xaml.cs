@@ -21,7 +21,7 @@ namespace Taq.Uwp.Views
     {
         public App app;
 
-        public static List<string> apNames = new List<string> { "aqi", "PM2.5", "PM10", "O3", "CO", "SO2", "NO2" };
+        public static List<string> apNames = new List<string> { "aqi", "pm2.5", "pm10", "o3", "co", "so2", "no2" };
 
         public ObservableCollection<AqLimits> aqLimitsColl { get; set; }
         public AqColorMaps()

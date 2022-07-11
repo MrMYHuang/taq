@@ -379,46 +379,46 @@ namespace Taq.Uwp.ViewModels
                 // Create UIElement for GridViewItem by k value.
                 switch (k)
                 {
-                    case "PM2.5":
-                    case "PM2.5_AVG":
+                    case "pm2.5":
+                    case "pm2.5_avg":
                         aqgvis.Add(new GridPm2_5(aqvm));
                         break;
-                    case "PM10":
-                    case "PM10_AVG":
+                    case "pm10":
+                    case "pm10_avg":
                         aqgvis.Add(new GridPm10(aqvm));
                         break;
 
-                    case "O3":
-                    case "O3_8hr":
+                    case "o3":
+                    case "o3_8hr":
                         aqgvis.Add(new Grid1(aqvm, "O", "3", "ppb"));
                         break;
 
-                    case "CO":
-                    case "CO_8hr":
+                    case "co":
+                    case "co_8hr":
                         aqgvis.Add(new Grid1(aqvm, "CO", "", "ppm"));
                         break;
 
-                    case "SO2":
+                    case "so2":
                         aqgvis.Add(new Grid1(aqvm, "SO", "2", "ppb"));
                         break;
 
-                    case "NO2":
+                    case "no2":
                         aqgvis.Add(new Grid1(aqvm, "NO", "2", "ppb"));
                         break;
 
-                    case "NOx":
+                    case "nox":
                         aqgvis.Add(new Grid1(aqvm, "NO", "x", "ppb"));
                         break;
 
-                    case "NO":
+                    case "no":
                         aqgvis.Add(new Grid1(aqvm, "NO", "", "ppb"));
                         break;
 
-                    case "WIND_SPEED":
+                    case "wind_speed":
                         aqgvis.Add(new Grid1(aqvm, "", "", "m/s"));
                         break;
 
-                    case "WIND_DIREC":
+                    case "wind_direc":
                         aqgvis.Add(new Grid1(aqvm, "", "", "°"));
                         break;
 

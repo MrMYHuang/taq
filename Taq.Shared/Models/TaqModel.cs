@@ -42,7 +42,6 @@ namespace Taq.Shared.Models
         public HttpClient hc = new HttpClient();
         public Uri source = new Uri(Params.uriHost + "aqJsonDb");
         public XDocument siteGeoXd = new XDocument();
-        public Dictionary<string, GpsPoint> sitesGeoDict = new Dictionary<string, GpsPoint>();
         // Full sites AQ information in Dictionary. Converted from XML.
         public Dictionary<string, Dictionary<string, string>> sitesStrDict = new Dictionary<string, Dictionary<string, string>>();
         // The previous siteStrDict from previous download aqDbFile.
@@ -58,10 +57,10 @@ namespace Taq.Shared.Models
 
         // AQ name list for AqList and AqSiteMap aqComboBox.
         // Don't replace it by aqLimits.Keys! Not all names are used in aqComboBox.
-        public List<string> aqList = new List<string> { "ShortStatus", "publishtime", "aqi", "PM2.5", "PM2.5_AVG", "PM10", "PM10_AVG", "O3", "O3_8hr", "CO", "CO_8hr", "SO2", "NO2", "NOx", "NO", "WIND_SPEED", "WIND_DIREC" };
+        public List<string> aqList = new List<string> { "ShortStatus", "publishtime", "aqi", "pm2.5", "pm2.5_avg", "pm10", "pm10_avg", "o3", "o3_8hr", "co", "co_8hr", "so2", "no2", "nox", "no", "wind_speed", "wind_direc" };
 
         // AQ name list for AqHistories.
-        public List<string> aqHistNames = new List<string> { "aqi", "PM2.5", "PM2.5_AVG", "PM10", "PM10_AVG", "O3", "O3_8hr", "CO", "CO_8hr", "SO2", "NO2", "NOx", "NO", "WIND_SPEED", "WIND_DIREC" };
+        public List<string> aqHistNames = new List<string> { "aqi", "pm2.5", "pm2.5_avg", "pm10", "pm10_avg", "o3", "o3_8hr", "co", "co_8hr", "so2", "no2", "nox", "no", "wind_speed", "wind_direc" };
 
         public TaqModel()
         {
@@ -69,8 +68,6 @@ namespace Taq.Shared.Models
 
             hc.DefaultRequestHeaders.Accept.Add(new HttpMediaTypeWithQualityHeaderValue("application/json"));
             hc.DefaultRequestHeaders.AcceptEncoding.Add(new HttpContentCodingWithQualityHeaderValue("utf-8"));
-
-            loadSiteGeoXml();
         }
 
         public async Task<int> downloadAqData(int timeout = 10000)
@@ -177,13 +174,6 @@ namespace Taq.Shared.Models
             /*
             var resContentStr = await resMsg.Content.ReadAsStringAsync();
             return JsonValue.Parse(resContentStr).GetObject();*/
-        }
-
-        private int loadSiteGeoXml()
-        {
-            //http://opendata.epa.gov.tw/ws/Data/AQXSite/?format=xml
-            siteGeoXd = XDocument.Load("Assets/SiteGeo.xml");
-            return 0;
         }
 
         abstract public Task<int> loadAq2Dict();
@@ -306,7 +296,7 @@ namespace Taq.Shared.Models
         public async Task<ISquare310x310TileNotificationContent> detailedLiveTiles(string siteName)
         {
             var aqiStr = "AQI：" + sitesStrDict[siteName]["aqi"];
-            var pm2_5_Str = "PM 2.5：" + sitesStrDict[siteName]["PM2.5"];
+            var pm2_5_Str = "PM 2.5：" + sitesStrDict[siteName]["pm2.5"];
             var siteStr = "觀測站：" + sitesStrDict[siteName]["sitename"];
             var timeStr = sitesStrDict[siteName]["publishtime"].Substring(11, 5);
             // get the XML content of one of the predefined tile templates, so that, you can customize it
@@ -360,8 +350,8 @@ namespace Taq.Shared.Models
             var dateStr = sitesStrDict[siteName]["publishtime"].Substring(5, 5).Replace("-", "/");
             var timeStr = sitesStrDict[siteName]["publishtime"].Substring(11, 5);
             var aqiStr = sitesStrDict[siteName]["aqi"];
-            var pm2_5_Str = sitesStrDict[siteName]["PM2.5"];
-            var pm10_Str = sitesStrDict[siteName]["PM10"];
+            var pm2_5_Str = sitesStrDict[siteName]["pm2.5"];
+            var pm10_Str = sitesStrDict[siteName]["pm10"];
 
             // Small tile
             var smallTile = new SmallTile(textColor);
@@ -394,9 +384,9 @@ namespace Taq.Shared.Models
             largeTile.val4.Text = aqiStr;
             largeTile.val5.Text = pm2_5_Str;
             largeTile.val6.Text = pm10_Str;
-            largeTile.val7.Text = sitesStrDict[siteName]["O3"];
-            largeTile.val8.Text = sitesStrDict[siteName]["CO"];
-            largeTile.val9.Text = sitesStrDict[siteName]["SO2"];
+            largeTile.val7.Text = sitesStrDict[siteName]["o3"];
+            largeTile.val8.Text = sitesStrDict[siteName]["co"];
+            largeTile.val9.Text = sitesStrDict[siteName]["so2"];
             largeTile.border.Background = bgColor;
 
             await StaticTaqViewModel.saveUi2Png(siteName + "SmallTile.png", smallTile);
@@ -447,7 +437,7 @@ namespace Taq.Shared.Models
         public void sendNotifications(string siteName)
         {
             var warnStateChangeMode = (bool)localSettings.Values["WarnStateChangeMode"];
-            foreach (var aqName in new List<string> { "aqi", "PM2.5" })
+            foreach (var aqName in new List<string> { "aqi", "pm2.5" })
             {
                 var aqi_Limit = (double)localSettings.Values[aqName + "_Limit"];
                 var currAqi = getValidAqVal(sitesStrDict[siteName][aqName]);
