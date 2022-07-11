@@ -58,10 +58,10 @@ namespace Taq.Shared.Models
 
         // AQ name list for AqList and AqSiteMap aqComboBox.
         // Don't replace it by aqLimits.Keys! Not all names are used in aqComboBox.
-        public List<string> aqList = new List<string> { "ShortStatus", "PublishTime", "AQI", "PM2.5", "PM2.5_AVG", "PM10", "PM10_AVG", "O3", "O3_8hr", "CO", "CO_8hr", "SO2", "NO2", "NOx", "NO", "WIND_SPEED", "WIND_DIREC" };
+        public List<string> aqList = new List<string> { "ShortStatus", "publishtime", "aqi", "PM2.5", "PM2.5_AVG", "PM10", "PM10_AVG", "O3", "O3_8hr", "CO", "CO_8hr", "SO2", "NO2", "NOx", "NO", "WIND_SPEED", "WIND_DIREC" };
 
         // AQ name list for AqHistories.
-        public List<string> aqHistNames = new List<string> { "AQI", "PM2.5", "PM2.5_AVG", "PM10", "PM10_AVG", "O3", "O3_8hr", "CO", "CO_8hr", "SO2", "NO2", "NOx", "NO", "WIND_SPEED", "WIND_DIREC" };
+        public List<string> aqHistNames = new List<string> { "aqi", "PM2.5", "PM2.5_AVG", "PM10", "PM10_AVG", "O3", "O3_8hr", "CO", "CO_8hr", "SO2", "NO2", "NOx", "NO", "WIND_SPEED", "WIND_DIREC" };
 
         public TaqModel()
         {
@@ -208,7 +208,7 @@ namespace Taq.Shared.Models
             }
 
             subscrSiteList.Clear();
-            foreach (var s in subscrXd.Descendants("SiteName"))
+            foreach (var s in subscrXd.Descendants("sitename"))
             {
                 subscrSiteList.Add(s.Value);
             }
@@ -305,13 +305,13 @@ namespace Taq.Shared.Models
 
         public async Task<ISquare310x310TileNotificationContent> detailedLiveTiles(string siteName)
         {
-            var aqiStr = "AQI：" + sitesStrDict[siteName]["AQI"];
+            var aqiStr = "AQI：" + sitesStrDict[siteName]["aqi"];
             var pm2_5_Str = "PM 2.5：" + sitesStrDict[siteName]["PM2.5"];
-            var siteStr = "觀測站：" + sitesStrDict[siteName]["SiteName"];
-            var timeStr = sitesStrDict[siteName]["PublishTime"].Substring(11, 5);
+            var siteStr = "觀測站：" + sitesStrDict[siteName]["sitename"];
+            var timeStr = sitesStrDict[siteName]["publishtime"].Substring(11, 5);
             // get the XML content of one of the predefined tile templates, so that, you can customize it
             // Large template
-            var statusStr = StaticTaqModel.fieldNames["Status"] + "：" + sitesStrDict[siteName]["Status"];
+            var statusStr = StaticTaqModel.fieldNames["status"] + "：" + sitesStrDict[siteName]["status"];
             var largeContent = TileContentFactory.CreateTileSquare310x310Text09();
             largeContent.TextHeadingWrap.Text = statusStr;
             largeContent.TextHeading1.Text = siteStr;
@@ -357,9 +357,9 @@ namespace Taq.Shared.Models
             var textColor = StaticTaqViewModel.getTextColor(aqLevel);
 
             // Extract time.
-            var dateStr = sitesStrDict[siteName]["PublishTime"].Substring(5, 5).Replace("-", "/");
-            var timeStr = sitesStrDict[siteName]["PublishTime"].Substring(11, 5);
-            var aqiStr = sitesStrDict[siteName]["AQI"];
+            var dateStr = sitesStrDict[siteName]["publishtime"].Substring(5, 5).Replace("-", "/");
+            var timeStr = sitesStrDict[siteName]["publishtime"].Substring(11, 5);
+            var aqiStr = sitesStrDict[siteName]["aqi"];
             var pm2_5_Str = sitesStrDict[siteName]["PM2.5"];
             var pm10_Str = sitesStrDict[siteName]["PM10"];
 
@@ -447,7 +447,7 @@ namespace Taq.Shared.Models
         public void sendNotifications(string siteName)
         {
             var warnStateChangeMode = (bool)localSettings.Values["WarnStateChangeMode"];
-            foreach (var aqName in new List<string> { "AQI", "PM2.5" })
+            foreach (var aqName in new List<string> { "aqi", "PM2.5" })
             {
                 var aqi_Limit = (double)localSettings.Values[aqName + "_Limit"];
                 var currAqi = getValidAqVal(sitesStrDict[siteName][aqName]);
@@ -529,9 +529,9 @@ namespace Taq.Shared.Models
 
         public double getAqVal(string siteName, string aqName)
         {
-            if (aqName == "Status" || aqName == "ShortStatus")
+            if (aqName == "status" || aqName == "ShortStatus")
             {
-                aqName = "AQI";
+                aqName = "aqi";
             }
             return getValidAqVal(sitesStrDict[siteName][aqName]);
         }

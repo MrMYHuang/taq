@@ -35,11 +35,11 @@ namespace Taq.Shared.Models
 
             sitesStrDict.Clear();
             sitesGeoDict.Clear();
-            foreach (var d in dataX.OrderBy(x => x.Element("County").Value))
+            foreach (var d in dataX.OrderBy(x => x.Element("county").Value))
             {
-                var siteName = d.Descendants("SiteName").First().Value;
+                var siteName = d.Descendants("sitename").First().Value;
                 var geoD = from gd in geoDataX
-                           where gd.Descendants("SiteName").First().Value == siteName
+                           where gd.Descendants("sitename").First().Value == siteName
                            select gd;
 
                 var siteDict = d.Elements().ToDictionary(x => x.Name.LocalName, x => x.Value);
@@ -52,7 +52,7 @@ namespace Taq.Shared.Models
                     twd97Lon = double.Parse(siteDict["TWD97Lon"]),
                 });
                 // Shorten long status strings for map icons.
-                siteDict.Add("ShortStatus", StaticTaqModel.getShortStatus(siteDict["Status"]));
+                siteDict.Add("ShortStatus", StaticTaqModel.getShortStatus(siteDict["status"]));
                 sitesStrDict.Add(siteName, siteDict);
             }
             return 0;
@@ -79,9 +79,9 @@ namespace Taq.Shared.Models
             var oldDataX = from data in loadOldXd.Descendants("Data")
                            select data;
             oldSitesStrDict.Clear();
-            foreach (var d in oldDataX.OrderBy(x => x.Element("County").Value))
+            foreach (var d in oldDataX.OrderBy(x => x.Element("county").Value))
             {
-                var siteName = d.Descendants("SiteName").First().Value;
+                var siteName = d.Descendants("sitename").First().Value;
                 oldSitesStrDict.Add(siteName, d.Elements().ToDictionary(x => x.Name.LocalName, x => x.Value));
             }
 

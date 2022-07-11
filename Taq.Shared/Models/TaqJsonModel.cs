@@ -39,7 +39,7 @@ namespace Taq.Shared.Models
                 jTaqDb = await readJObject(dataJson);
             }
 
-            var data = jTaqDb["result"]["records"];
+            var data = jTaqDb["records"];
             var geoDataX = from gdata in siteGeoXd.Descendants("Data")
                            select gdata;
 
@@ -48,13 +48,13 @@ namespace Taq.Shared.Models
             foreach (var d in data)
             {
                 var siteDict = d.ToObject<Dictionary<string, string>>();
-                var siteName = siteDict["SiteName"];
+                var siteName = siteDict["sitename"];
                 // Skip duplicate keys as possible.
                 if (sitesStrDict.ContainsKey(siteName))
                     continue;
 
                 var geoD = from gd in geoDataX
-                           where gd.Descendants("SiteName").First().Value == siteName
+                           where gd.Descendants("sitename").First().Value == siteName
                            select gd;
 
                 var geoDict = geoD.Elements().ToDictionary(x => x.Name.LocalName, x => x.Value);
@@ -79,7 +79,7 @@ namespace Taq.Shared.Models
                     twd97Lon = double.Parse(siteDict["TWD97Lon"]),
                 });
                 // Shorten long status strings for map icons.
-                siteDict.Add("ShortStatus", StaticTaqModel.getShortStatus(siteDict["Status"]));
+                siteDict.Add("ShortStatus", StaticTaqModel.getShortStatus(siteDict["status"]));
                 if (siteDict["ShortStatus"] == "維護")
                 {
                     foreach (var f in aqHistNames)
@@ -112,7 +112,7 @@ namespace Taq.Shared.Models
             foreach (var d in oldData)
             {
                 var siteDict = d.ToObject<Dictionary<string, string>>();
-                var siteName = siteDict["SiteName"];
+                var siteName = siteDict["sitename"];
                 // Skip duplicate keys as possible.
                 if (oldSitesStrDict.ContainsKey(siteName))
                     continue;

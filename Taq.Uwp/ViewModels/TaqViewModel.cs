@@ -198,7 +198,7 @@ namespace Taq.Uwp.ViewModels
                     sites.Add(new SiteViewModel
                     {
                         siteName = s.Key,
-                        county = s.Value["County"],
+                        county = s.Value["county"],
                         twd97Lat = double.Parse(siteDict["TWD97Lat"]),
                         twd97Lon = double.Parse(siteDict["TWD97Lon"]),
                     });
@@ -208,10 +208,10 @@ namespace Taq.Uwp.ViewModels
             foreach (var site in sites)
             {
                 var circleText = m.sitesStrDict[site.siteName][aqName];
-                if (aqName == "PublishTime")
+                if (aqName == "publishtime")
                     circleText = circleText.Substring(11, 5);
                 var aqLevel = m.getAqLevel(site.siteName, aqName);
-                site.aqi = m.getValidAqVal(m.sitesStrDict[site.siteName]["AQI"]);
+                site.aqi = m.getValidAqVal(m.sitesStrDict[site.siteName]["aqi"]);
                 site.CircleColor = StaticTaqModel.aqColors[aqName][aqLevel];
                 site.CircleText = site.siteName + "\n" + circleText;
                 site.ListText = m.sitesStrDict[site.siteName][aqName];
@@ -233,7 +233,7 @@ namespace Taq.Uwp.ViewModels
 
         public async Task<int> addSubscrSite(string siteName)
         {
-            m.subscrXd.Root.Add(new XElement("SiteName", siteName));
+            m.subscrXd.Root.Add(new XElement("sitename", siteName));
             await m.saveSubscrXd();
             await loadSubscrSiteViewModel();
             return 0;
@@ -243,7 +243,7 @@ namespace Taq.Uwp.ViewModels
         {
             foreach (SiteViewModel item in itemsSelected)
             {
-                m.subscrXd.Descendants("SiteName").Where(s => s.Value == item.siteName).First().Remove();
+                m.subscrXd.Descendants("sitename").Where(s => s.Value == item.siteName).First().Remove();
             }
             await m.saveSubscrXd();
             await loadSubscrSiteViewModel();

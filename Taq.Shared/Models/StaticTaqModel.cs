@@ -24,14 +24,14 @@ namespace Taq.Shared.Models
         // Please check function loadSite2Aqvm for the usage of this variable!
         public static Dictionary<string, string> fieldNames = new Dictionary<string, string>
         {
-            { "SiteName", "觀測站" },
-            { "County", "縣市"},
+            { "sitename", "觀測站" },
+            { "county", "縣市"},
 
-            { "PublishTime", "發佈時間"},
-            { "Pollutant", "污染指標物"},
+            { "publishtime", "發佈時間"},
+            { "pollutant", "污染指標物"},
 
-            { "Status", "狀態"},
-            { "AQI", "空氣品質指標"},
+            { "status", "狀態"},
+            { "aqi", "空氣品質指標"},
 
             { "PM2.5", "即時"},
             { "PM2.5_AVG", "平均"},
@@ -111,12 +111,12 @@ namespace Taq.Shared.Models
         // Combine color lists into Dictinoary.
         public static Dictionary<string, List<string>> aqColors = new Dictionary<string, List<string>>
         {
-            { "PublishTime", defaultColors},
-            { "SiteName", defaultColors },
-            { "County", defaultColors},
-            { "Pollutant", dirtyColors},
-            { "AQI", aqiBgColors},
-            { "Status", aqiBgColors},
+            { "publishtime", defaultColors},
+            { "sitename", defaultColors },
+            { "county", defaultColors},
+            { "pollutant", dirtyColors},
+            { "aqi", aqiBgColors},
+            { "status", aqiBgColors},
             { "ShortStatus", aqiBgColors},
             { "PM2.5", aqiBgColors},
             { "PM2.5_AVG", aqiBgColors},
@@ -137,12 +137,12 @@ namespace Taq.Shared.Models
         // Combine limit lists into Dictinoary.
         public static Dictionary<string, List<double>> aqLimits = new Dictionary<string, List<double>>
         {
-            { "PublishTime", defaultLimits},
-            { "SiteName", defaultLimits },
-            { "County", defaultLimits},
-            { "Pollutant", defaultLimits},
-            { "AQI", aqiLimits},
-            { "Status", aqiLimits},
+            { "publishtime", defaultLimits},
+            { "sitename", defaultLimits },
+            { "county", defaultLimits},
+            { "pollutant", defaultLimits},
+            { "aqi", aqiLimits},
+            { "status", aqiLimits},
             { "ShortStatus", aqiLimits},
             { "PM2.5", pm2_5Limits},
             { "PM2.5_AVG", pm2_5Limits},
