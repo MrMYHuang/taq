@@ -199,8 +199,8 @@ namespace Taq.Uwp.ViewModels
                     {
                         siteName = s.Key,
                         county = s.Value["county"],
-                        twd97Lat = double.Parse(siteDict["TWD97Lat"]),
-                        twd97Lon = double.Parse(siteDict["TWD97Lon"]),
+                        twd97Lat = double.Parse(siteDict["latitude"]),
+                        twd97Lon = double.Parse(siteDict["longitude"]),
                     });
                 }
             }

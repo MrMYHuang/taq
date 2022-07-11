@@ -41,9 +41,9 @@ namespace Taq.Shared.Models
         public ApplicationDataContainer localSettings;
         public HttpClient hc = new HttpClient();
         public Uri source = new Uri(Params.uriHost + "aqJsonDb");
-        public XDocument siteGeoXd = new XDocument();
         // Full sites AQ information in Dictionary. Converted from XML.
         public Dictionary<string, Dictionary<string, string>> sitesStrDict = new Dictionary<string, Dictionary<string, string>>();
+        public Dictionary<string, GpsPoint> sitesGeoDict = new Dictionary<string, GpsPoint>();
         // The previous siteStrDict from previous download aqDbFile.
         public Dictionary<string, Dictionary<string, string>> oldSitesStrDict = new Dictionary<string, Dictionary<string, string>>();
         // Subscribed sites list. subscrSiteList[0] stands for MainSite!

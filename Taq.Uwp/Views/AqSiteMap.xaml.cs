@@ -211,8 +211,8 @@ namespace Taq.Uwp.Views
                 var findSiteName = findSite.First();
                 var p = new Geopoint(new BasicGeoposition
                 {
-                    Latitude = double.Parse(app.vm.m.sitesStrDict[findSiteName]["TWD97Lat"]),
-                    Longitude = double.Parse(app.vm.m.sitesStrDict[findSiteName]["TWD97Lon"])
+                    Latitude = double.Parse(app.vm.m.sitesStrDict[findSiteName]["latitude"]),
+                    Longitude = double.Parse(app.vm.m.sitesStrDict[findSiteName]["longitude"])
                 });
                 await map.TrySetSceneAsync(MapScene.CreateFromLocationAndRadius(p, 1000));
             }

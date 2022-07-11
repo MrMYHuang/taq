@@ -40,8 +40,6 @@ namespace Taq.Shared.Models
             }
 
             var data = jTaqDb["records"];
-            var geoDataX = from gdata in siteGeoXd.Descendants("Data")
-                           select gdata;
 
             sitesStrDict.Clear();
             sitesGeoDict.Clear();
@@ -53,30 +51,10 @@ namespace Taq.Shared.Models
                 if (sitesStrDict.ContainsKey(siteName))
                     continue;
 
-                var geoD = from gd in geoDataX
-                           where gd.Descendants("sitename").First().Value == siteName
-                           select gd;
-
-                var geoDict = geoD.Elements().ToDictionary(x => x.Name.LocalName, x => x.Value);
-                string latStr, lonStr;
-                // No corresponding site geo info in SiteGeo.xml!!!
-                if (geoDict.Count == 0)
-                {
-                    latStr = "0";
-                    lonStr = "0";
-                }
-                else
-                {
-                    latStr = geoDict["TWD97Lat"];
-                    lonStr = geoDict["TWD97Lon"];
-                }
-                siteDict.Add("TWD97Lat", latStr);
-                siteDict.Add("TWD97Lon", lonStr);
-
                 sitesGeoDict.Add(siteName, new GpsPoint
                 {
-                    twd97Lat = double.Parse(siteDict["TWD97Lat"]),
-                    twd97Lon = double.Parse(siteDict["TWD97Lon"]),
+                    twd97Lat = double.Parse(siteDict["latitude"]),
+                    twd97Lon = double.Parse(siteDict["longitude"]),
                 });
                 // Shorten long status strings for map icons.
                 siteDict.Add("ShortStatus", StaticTaqModel.getShortStatus(siteDict["status"]));

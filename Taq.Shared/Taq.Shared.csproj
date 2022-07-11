@@ -115,7 +115,6 @@
     <Compile Include="Models\Params.cs" />
     <Compile Include="Models\StaticTaqModel.cs" />
     <Compile Include="Models\TaqJsonModel.cs" />
-    <Compile Include="Models\TaqXmlModel.cs" />
     <Compile Include="ViewModels\AqModelView.cs" />
     <Compile Include="ViewModels\SiteModelView.cs" />
     <Compile Include="ViewModels\StaticTaqViewModel.cs" />
