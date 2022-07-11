@@ -25,7 +25,7 @@ namespace Taq.Uwp.Views
         {
             get
             {
-                return "mailto:myhDev@live.com?subject=問題回報&body=TAQ版本：" + app.vm.Version;
+                return "mailto:myh@live.com?subject=問題回報&body=TAQ版本：" + app.vm.Version;
             }
         }
 

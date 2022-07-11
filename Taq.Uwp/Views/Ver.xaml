@@ -22,6 +22,11 @@
                     * 列表頁作數值排序後會卡住幾秒。<LineBreak />
                 </TextBlock>
 
+                <TextBlock Style="{StaticResource secHeadSty}">Ver. 9.0.0</TextBlock>
+                <TextBlock Style="{StaticResource txtBlkSty1}" >
+                    * 更新環保署開放資料 API v2。<LineBreak />
+                </TextBlock>
+
                 <TextBlock Style="{StaticResource secHeadSty}">Ver. 8.0.0</TextBlock>
                 <TextBlock Style="{StaticResource txtBlkSty1}" >
                     * 修正因開放資料欄位改變，導致 app 異常的問題。<LineBreak />

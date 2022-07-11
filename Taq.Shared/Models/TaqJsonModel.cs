@@ -85,7 +85,7 @@ namespace Taq.Shared.Models
                 jTaqDb = await readJObject(dataJson);
             }
 
-            var oldData = jTaqDb["result"]["records"];
+            var oldData = jTaqDb["records"];
             oldSitesStrDict.Clear();
             foreach (var d in oldData)
             {
