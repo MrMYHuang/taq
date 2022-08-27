@@ -161,17 +161,17 @@ namespace Taq.Uwp
                     app.vm.StatusText = app.vm.m.resLoader.GetString("downloading");
                     await app.vm.m.downloadAqData();
                     downloadSuccess = true;
-                }
-                await app.vm.m.loadAq2Dict();
+                    await app.vm.m.loadAq2Dict();
 
-                await updateSitesData();
-                await app.vm.backTaskUpdateTiles();
+                    await updateSitesData();
+                    await app.vm.backTaskUpdateTiles();
 
-                if (downloadSuccess)
-                {
-                    app.vm.m.sendSubscrSitesNotifications();
-                    app.vm.m.lastUpdateTime = DateTime.Now;
-                    app.vm.StatusText = app.vm.m.getLastUpdateTime() + " " + app.vm.m.resLoader.GetString("updateFinish");
+                    if (downloadSuccess)
+                    {
+                        app.vm.m.sendSubscrSitesNotifications();
+                        app.vm.m.lastUpdateTime = DateTime.Now;
+                        app.vm.StatusText = app.vm.m.getLastUpdateTime() + " " + app.vm.m.resLoader.GetString("updateFinish");
+                    }
                 }
             }
             catch (Exception ex)

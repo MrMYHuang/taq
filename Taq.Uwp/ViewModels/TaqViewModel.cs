@@ -79,6 +79,10 @@ namespace Taq.Uwp.ViewModels
             {
                 StatusText = m.resLoader.GetString("logining");
                 var result = await authLoginAux();
+                if (result.IsError)
+                {
+                    throw new Exception(result.Error);
+                }
                 await extractFbAuthResData(result);
                 m.localSettings.Values["Loggined"] = true;
                 StatusText = m.resLoader.GetString("loginSuccess");

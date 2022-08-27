@@ -118,6 +118,9 @@
     <PRIResource Include="..\Taq.Shared\Strings\en-US\Resources.resw">
       <Link>Strings\en-US\Resources.resw</Link>
     </PRIResource>
+    <None Include="Assets\Oldtaqi.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Connected Services\HockeyApp\ConnectedService.json" />
     <None Include="Taq.Uwp_StoreKey.pfx" />
   </ItemGroup>

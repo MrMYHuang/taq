@@ -1,5 +1,5 @@
-**/bin/**/*.*
-**/obj/**/*.*
+**/bin/**/*
+**/obj/**/*
 Taq.Uwp/Assets/logo/*
 **/AppPackages/**/*.*
 **/*.lock.json
